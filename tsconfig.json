@@ -15,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngrx-auto-entity": [
+        "dist/ngrx-auto-entity"
+      ],
+      "ngrx-auto-entity/*": [
+        "dist/ngrx-auto-entity/*"
+      ]
+    }
   }
 }

@@ -121,6 +121,46 @@
           }
         }
       }
+    },
+    "ngrx-auto-entity": {
+      "root": "projects/ngrx-auto-entity",
+      "sourceRoot": "projects/ngrx-auto-entity/src",
+      "projectType": "library",
+      "prefix": "ae",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngrx-auto-entity/tsconfig.lib.json",
+            "project": "projects/ngrx-auto-entity/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngrx-auto-entity/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngrx-auto-entity/src/test.ts",
+            "tsConfig": "projects/ngrx-auto-entity/tsconfig.spec.json",
+            "karmaConfig": "projects/ngrx-auto-entity/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngrx-auto-entity/tsconfig.lib.json",
+              "projects/ngrx-auto-entity/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngrx-auto-entity-app"
