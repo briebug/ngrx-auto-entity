@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -9,20 +8,14 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "baseUrl": "./",
     "paths": {
-      "ngrx-auto-entity": [
-        "dist/ngrx-auto-entity"
-      ],
-      "ngrx-auto-entity/*": [
-        "dist/ngrx-auto-entity/*"
-      ]
+      "ngrx-auto-entity": ["dist/ngrx-auto-entity"],
+      "ngrx-auto-entity/*": ["dist/ngrx-auto-entity/*"],
+      "@state/*": ["src/app/state/*"],
+      "@core/*": ["src/app/core/*"]
     }
   }
 }
