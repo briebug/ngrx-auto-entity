@@ -23,7 +23,7 @@ export enum EntityActionTypes {
   DeleteFailure = '[Entity] Generic Delete: Failure'
 }
 
-export interface EntityInfo {
+export interface IEntityInfo {
   modelName: string;
   modelType: { new (): any };
 }
@@ -31,19 +31,19 @@ export interface EntityInfo {
 export class EntityAction implements Action {
   type: string;
   actionType: string;
-  info: EntityInfo;
+  info: IEntityInfo;
 }
 
-const setInfo = function(type: any) {
+const setInfo = (type: any) => {
   return {
     modelType: type,
     modelName: new type().constructor.name
   };
 };
 
-const setType = function(actionType: string, info: EntityInfo) {
-  const name = info.modelName,
-    entity = changeCase.pascalCase(name);
+const setType = (actionType: string, info: IEntityInfo) => {
+  const name = info.modelName;
+  const entity = changeCase.pascalCase(name);
 
   return actionType.replace('Entity', entity);
 };
@@ -52,7 +52,7 @@ const setType = function(actionType: string, info: EntityInfo) {
 export class Load<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Load;
-  info: EntityInfo;
+  info: IEntityInfo;
   keys: any[];
 
   constructor(type: { new (): TModel }, ...keys: any[]) {
@@ -66,7 +66,7 @@ export class Load<TModel> implements EntityAction {
 export class LoadSuccess<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.LoadSuccess;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
@@ -77,7 +77,7 @@ export class LoadSuccess<TModel> implements EntityAction {
 export class LoadFailure<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.LoadFailure;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
     this.info = setInfo(type);
@@ -91,13 +91,9 @@ export class LoadFailure<TModel> implements EntityAction {
 export class LoadMany<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.LoadMany;
-  info: EntityInfo;
+  info: IEntityInfo;
 
-  constructor(
-    type: { new (): TModel },
-    public page: number = 0,
-    public size: number = Number.MAX_SAFE_INTEGER
-  ) {
+  constructor(type: { new (): TModel }, public page: number = 0, public size: number = Number.MAX_SAFE_INTEGER) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -106,7 +102,7 @@ export class LoadMany<TModel> implements EntityAction {
 export class LoadManySuccess<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.LoadManySuccess;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entities: TModel[]) {
     this.info = setInfo(type);
@@ -117,7 +113,7 @@ export class LoadManySuccess<TModel> implements EntityAction {
 export class LoadManyFailure<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.LoadManyFailure;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
     this.info = setInfo(type);
@@ -131,7 +127,7 @@ export class LoadManyFailure<TModel> implements EntityAction {
 export class Create<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Create;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
@@ -142,7 +138,7 @@ export class Create<TModel> implements EntityAction {
 export class CreateSuccess<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.CreateSuccess;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
@@ -153,7 +149,7 @@ export class CreateSuccess<TModel> implements EntityAction {
 export class CreateFailure<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.CreateFailure;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
     this.info = setInfo(type);
@@ -167,7 +163,7 @@ export class CreateFailure<TModel> implements EntityAction {
 export class Update<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Update;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
@@ -178,7 +174,7 @@ export class Update<TModel> implements EntityAction {
 export class UpdateSuccess<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.UpdateSuccess;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
@@ -189,7 +185,7 @@ export class UpdateSuccess<TModel> implements EntityAction {
 export class UpdateFailure<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.UpdateFailure;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
     this.info = setInfo(type);
@@ -203,7 +199,7 @@ export class UpdateFailure<TModel> implements EntityAction {
 export class Delete<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Delete;
-  info: EntityInfo;
+  info: IEntityInfo;
   keys: any[];
 
   constructor(type: { new (): TModel }, ...keys: any[]) {
@@ -216,7 +212,7 @@ export class Delete<TModel> implements EntityAction {
 export class DeleteSuccess<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.DeleteSuccess;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
@@ -227,7 +223,7 @@ export class DeleteSuccess<TModel> implements EntityAction {
 export class DeleteFailure<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.DeleteFailure;
-  info: EntityInfo;
+  info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
     this.info = setInfo(type);
