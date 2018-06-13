@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken, Injector } from '@angular/core';
+import * as changeCase from 'change-case';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { IEntityInfo } from './ngrx-auto-entity.actions';
+import { IAutoEntityService } from './ngrx-auto-entity.service';
 
 export interface IEntityRef<TModel> {
   info: IEntityInfo;
@@ -15,124 +16,167 @@ export interface IEntityError<TModel> {
   err: any;
 }
 
+export interface IAutoEntityService {
+  load(entityInfo: IEntityInfo, keys: any[]): Observable<any>;
+  loadMany(entityInfo: IEntityInfo, page?: number, size?: number): Observable<any[]>;
+  create(entityInfo: IEntityInfo, entity: any): Observable<any>;
+  update(entityInfo: IEntityInfo, entity: any): Observable<any>;
+  replace(entityInfo: IEntityInfo, entity: any): Observable<any>;
+  delete(entityInfo: IEntityInfo, keys: any[]): Observable<any>;
+}
+
 @Injectable()
 export class NgrxAutoEntityService {
-  static urlTemplate = '/api/v1/:entity';
-  static fetchTemplate = `${NgrxAutoEntityService.urlTemplate}/:key0`;
-  static fetchManyTemplate = `${NgrxAutoEntityService.urlTemplate}?:page&:size`;
-  static deleteTemplate = `${NgrxAutoEntityService.urlTemplate}/:key0`;
+  constructor(private injector: Injector) {}
 
-  constructor(private http: HttpClient) {
-    // TODO: Figure out how to make url templates configurable...
-  }
+  load<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
+    const service = this.getService(entityInfo);
 
-  load<TModel>(EntityInfo: IEntityInfo, keys: any[]): Observable<IEntityRef<TModel>> {
-    const urlBase = NgrxAutoEntityService.fetchTemplate.replace(':entity', EntityInfo.modelName);
-    const fullUrl = keys.reduce((url, key, index) => url.replace(':key' + index, key), urlBase);
-
-    return this.http.get<TModel>(fullUrl).pipe(
-      map(entity => ({
-        info: EntityInfo,
-        entity
-      })),
-      catchError(err =>
-        throwError({
-          info: EntityInfo,
+    return service.load(entityInfo, keys).pipe(
+      map(entity => {
+        return {
+          info: entityInfo,
+          entity
+        };
+      }),
+      catchError(err => {
+        return throwError({
+          info: entityInfo,
           err
-        })
-      )
+        });
+      })
     );
   }
 
   loadMany<TModel>(
-    EntityInfo: IEntityInfo,
+    entityInfo: IEntityInfo,
     page = 0,
     size = Number.MAX_SAFE_INTEGER
   ): Observable<IEntityRef<TModel[]>> {
-    let url = NgrxAutoEntityService.fetchManyTemplate.replace(':entity', EntityInfo.modelName);
-    url = url.replace(':page', page === 0 ? '' : page.toString());
-    url = url.replace(':size', size === Number.MAX_SAFE_INTEGER ? '' : size.toString());
+    const service = this.getService(entityInfo);
 
-    return this.http.get<TModel[]>(url).pipe(
+    return service.loadMany(entityInfo, page, size).pipe(
       map(entity => ({
-        info: EntityInfo,
+        info: entityInfo,
         entity
       })),
       catchError(err =>
         throwError({
-          info: EntityInfo,
+          info: entityInfo,
           err
         })
       )
     );
   }
 
-  create<TModel>(EntityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
-    const url = NgrxAutoEntityService.urlTemplate.replace(':entity', EntityInfo.modelName);
+  create<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
+    const service = this.getService(entityInfo);
 
-    return this.http.post<TModel>(url, entity).pipe(
+    return service.create(entityInfo, entity).pipe(
       map(savedEntity => ({
-        info: EntityInfo,
+        info: entityInfo,
         entity: savedEntity
       })),
       catchError(err =>
         throwError({
-          info: EntityInfo,
+          info: entityInfo,
           err
         })
       )
     );
   }
 
-  update<TModel>(EntityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
-    const url = NgrxAutoEntityService.urlTemplate.replace(':entity', EntityInfo.modelName);
+  update<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
+    const service = this.getService(entityInfo);
 
-    return this.http.patch<TModel>(url, entity).pipe(
+    return service.update(entityInfo, entity).pipe(
       map(savedEntity => ({
-        info: EntityInfo,
+        info: entityInfo,
         entity: savedEntity
       })),
       catchError(err =>
         throwError({
-          info: EntityInfo,
+          info: entityInfo,
           err
         })
       )
     );
   }
 
-  replace<TModel>(EntityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
-    const url = NgrxAutoEntityService.urlTemplate.replace(':entity', EntityInfo.modelName);
+  replace<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
+    const service = this.getService(entityInfo);
 
-    return this.http.put<TModel>(url, entity).pipe(
+    return service.replace(entityInfo, entity).pipe(
       map(savedEntity => ({
-        info: EntityInfo,
+        info: entityInfo,
         entity: savedEntity
       })),
       catchError(err =>
         throwError({
-          info: EntityInfo,
+          info: entityInfo,
           err
         })
       )
     );
   }
 
-  delete<TModel>(EntityInfo: IEntityInfo, keys: any[]): Observable<IEntityRef<TModel>> {
-    const urlBase = NgrxAutoEntityService.deleteTemplate.replace(':entity', EntityInfo.modelName);
-    const fullUrl = keys.reduce((url, key, index) => url.replace(':key' + index, key), urlBase);
+  delete<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
+    const service = this.getService(entityInfo);
 
-    return this.http.delete<TModel>(fullUrl).pipe(
+    return service.delete(entityInfo, keys).pipe(
       map(savedEntity => ({
-        info: EntityInfo,
+        info: entityInfo,
         entity: savedEntity
       })),
       catchError(err =>
         throwError({
-          info: EntityInfo,
+          info: entityInfo,
           err
         })
       )
     );
+  }
+
+  private getService(entityInfo: IEntityInfo): IAutoEntityService {
+    try {
+      const service = this.getServiceByName(entityInfo);
+      return service;
+    } catch (err) {
+      try {
+        const service = this.getServiceByToken(entityInfo);
+        return service;
+      } catch (err) {
+        const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
+        console.log(`NgRxAutoEntityService Error: Unable to locate service ${serviceName}`, err);
+        throw err;
+      }
+    }
+  }
+
+  public getServiceByName(entityInfo: IEntityInfo): IAutoEntityService {
+    const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
+
+    try {
+      const service = this.injector.get(serviceName);
+      return service;
+    } catch (err) {
+      console.log(`NgRxAutoEntityService Error: Unable to locate service by name ${serviceName}`, err);
+      throw err;
+    }
+  }
+  public getServiceByToken(entityInfo: IEntityInfo): IAutoEntityService {
+    const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
+    const injectionToken = new InjectionToken<IAutoEntityService>(serviceName);
+
+    try {
+      const service = this.injector.get(injectionToken);
+      return service;
+    } catch (err) {
+      console.log(
+        `NgRxAutoEntityService Error: Unable to locate service by injection token ${entityInfo.modelName}`,
+        err
+      );
+      throw err;
+    }
   }
 }

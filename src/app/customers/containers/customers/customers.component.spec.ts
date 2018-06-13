@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { StoreModule } from '@ngrx/store';
-import { appMetaReducers, appReducer } from '@state/app.reducer';
+
+import { appMetaReducers, appReducer } from 'state/app.reducer';
 import { CustomersComponent } from './customers.component';
 
 describe('CustomersComponent', () => {
