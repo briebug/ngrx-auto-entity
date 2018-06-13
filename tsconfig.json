@@ -12,10 +12,8 @@
     "lib": ["es2017", "dom"],
     "baseUrl": "./",
     "paths": {
-      "ngrx-auto-entity": ["dist/ngrx-auto-entity"],
-      "ngrx-auto-entity/*": ["dist/ngrx-auto-entity/*"],
-      "@state/*": ["src/app/state/*"],
-      "@core/*": ["src/app/core/*"]
+      "state/*": ["src/app/state/*"],
+      "core/*": ["src/app/core/*"]
     }
   }
 }

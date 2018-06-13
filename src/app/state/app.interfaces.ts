@@ -1,6 +1,6 @@
 import { RouterReducerState } from '@ngrx/router-store';
-import { Customer } from '@state/customer/customer.model';
 import { IEntityState } from 'ngrx-auto-entity';
+import { Customer } from 'state/customer/customer.model';
 
 import { IRouterStateUrl } from './shared/utils';
 

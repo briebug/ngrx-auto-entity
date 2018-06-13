@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { buildState } from 'ngrx-auto-entity';
 
-import { Customer } from '@state/customer/customer.model';
+import { Customer } from 'state/customer/customer.model';
 import { ICustomerEntityState } from './../app.interfaces';
 
 const { initialState, selectors } = buildState(Customer);

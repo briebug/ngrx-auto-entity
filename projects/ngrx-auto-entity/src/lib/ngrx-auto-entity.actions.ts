@@ -53,9 +53,9 @@ export class Load<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Load;
   info: IEntityInfo;
-  keys: any[];
+  keys: any;
 
-  constructor(type: { new (): TModel }, ...keys: any[]) {
+  constructor(type: { new (): TModel }, keys: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
 
@@ -202,7 +202,7 @@ export class Delete<TModel> implements EntityAction {
   info: IEntityInfo;
   keys: any[];
 
-  constructor(type: { new (): TModel }, ...keys: any[]) {
+  constructor(type: { new (): TModel }, keys: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
     this.keys = keys;

@@ -3,7 +3,7 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { reactiveEntityMetaReducer } from 'ngrx-auto-entity';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-import { customerReducer } from '@state/customer/customer.reducer';
+import { customerReducer } from 'state/customer/customer.reducer';
 import { environment } from '../../environments/environment';
 import { IAppState } from './app.interfaces';
 
