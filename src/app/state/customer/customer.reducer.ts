@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { buildState } from 'ngrx-auto-entity';
 
 import { Customer } from 'state/customer/customer.model';
-import { ICustomerEntityState } from './../app.interfaces';
+import { ICustomerEntityState } from 'state/customer/customer.state';
 
 const { initialState, selectors } = buildState(Customer);
 
@@ -15,9 +15,6 @@ export const {
 
 export function customerReducer(state: ICustomerEntityState = initialState, action: Action): ICustomerEntityState {
   switch (action.type) {
-    // case foo: {
-    //   return bar;
-    // }
     default: {
       return state;
     }
