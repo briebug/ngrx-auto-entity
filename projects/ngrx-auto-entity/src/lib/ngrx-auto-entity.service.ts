@@ -30,22 +30,29 @@ export class NgrxAutoEntityService {
   constructor(private injector: Injector) {}
 
   load<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
-    const service = this.getService(entityInfo);
+    try {
+      const service = this.getService(entityInfo);
 
-    return service.load(entityInfo, keys).pipe(
-      map(entity => {
-        return {
-          info: entityInfo,
-          entity
-        };
-      }),
-      catchError(err => {
-        return throwError({
-          info: entityInfo,
-          err
-        });
-      })
-    );
+      return service.load(entityInfo, keys).pipe(
+        map(entity => {
+          return {
+            info: entityInfo,
+            entity
+          };
+        }),
+        catchError(err => {
+          return throwError({
+            info: entityInfo,
+            err
+          });
+        })
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
   }
 
   loadMany<TModel>(
@@ -53,91 +60,126 @@ export class NgrxAutoEntityService {
     page = 0,
     size = Number.MAX_SAFE_INTEGER
   ): Observable<IEntityRef<TModel[]>> {
-    const service = this.getService(entityInfo);
+    try {
+      const service = this.getService(entityInfo);
 
-    return service.loadMany(entityInfo, page, size).pipe(
-      map(entity => ({
-        info: entityInfo,
-        entity
-      })),
-      catchError(err =>
-        throwError({
+      return service.loadMany(entityInfo, page, size).pipe(
+        map(entity => ({
           info: entityInfo,
-          err
-        })
-      )
-    );
+          entity
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
   }
 
   create<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
-    const service = this.getService(entityInfo);
+    try {
+      const service = this.getService(entityInfo);
 
-    return service.create(entityInfo, entity).pipe(
-      map(savedEntity => ({
-        info: entityInfo,
-        entity: savedEntity
-      })),
-      catchError(err =>
-        throwError({
+      return service.create(entityInfo, entity).pipe(
+        map(savedEntity => ({
           info: entityInfo,
-          err
-        })
-      )
-    );
+          entity: savedEntity
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
   }
 
   update<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
-    const service = this.getService(entityInfo);
+    try {
+      const service = this.getService(entityInfo);
 
-    return service.update(entityInfo, entity).pipe(
-      map(savedEntity => ({
-        info: entityInfo,
-        entity: savedEntity
-      })),
-      catchError(err =>
-        throwError({
+      return service.update(entityInfo, entity).pipe(
+        map(savedEntity => ({
           info: entityInfo,
-          err
-        })
-      )
-    );
+          entity: savedEntity
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
   }
 
   replace<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
-    const service = this.getService(entityInfo);
+    try {
+      const service = this.getService(entityInfo);
 
-    return service.replace(entityInfo, entity).pipe(
-      map(savedEntity => ({
-        info: entityInfo,
-        entity: savedEntity
-      })),
-      catchError(err =>
-        throwError({
+      return service.replace(entityInfo, entity).pipe(
+        map(savedEntity => ({
           info: entityInfo,
-          err
-        })
-      )
-    );
+          entity: savedEntity
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
   }
 
   delete<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
-    const service = this.getService(entityInfo);
+    try {
+      const service = this.getService(entityInfo);
 
-    return service.delete(entityInfo, keys).pipe(
-      map(savedEntity => ({
-        info: entityInfo,
-        entity: savedEntity
-      })),
-      catchError(err =>
-        throwError({
+      return service.delete(entityInfo, keys).pipe(
+        map(savedEntity => ({
           info: entityInfo,
-          err
-        })
-      )
-    );
+          entity: savedEntity
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
   }
 
-  private getService(entityInfo: IEntityInfo): IAutoEntityService {
+  protected getService(entityInfo: IEntityInfo): IAutoEntityService {
     try {
       const service = this.getServiceByName(entityInfo);
       return service;
@@ -147,24 +189,26 @@ export class NgrxAutoEntityService {
         return service;
       } catch (err) {
         const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
-        console.log(`NgRxAutoEntityService Error: Unable to locate service ${serviceName}`, err);
+        console.log(`NgRxAutoEntityService Error: Unable to locate service ${serviceName}`);
+        console.log(`NgRxAutoEntityService Error Details:`, err);
         throw err;
       }
     }
   }
 
-  public getServiceByName(entityInfo: IEntityInfo): IAutoEntityService {
+  protected getServiceByName(entityInfo: IEntityInfo): IAutoEntityService {
     const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
 
     try {
       const service = this.injector.get(serviceName);
       return service;
     } catch (err) {
-      console.log(`NgRxAutoEntityService Error: Unable to locate service by name ${serviceName}`, err);
+      console.log(`NgRxAutoEntityService Error: Unable to locate service by name ${serviceName}`);
       throw err;
     }
   }
-  public getServiceByToken(entityInfo: IEntityInfo): IAutoEntityService {
+
+  protected getServiceByToken(entityInfo: IEntityInfo): IAutoEntityService {
     const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
     const injectionToken = new InjectionToken<IAutoEntityService>(serviceName);
 
@@ -172,10 +216,7 @@ export class NgrxAutoEntityService {
       const service = this.injector.get(injectionToken);
       return service;
     } catch (err) {
-      console.log(
-        `NgRxAutoEntityService Error: Unable to locate service by injection token ${entityInfo.modelName}`,
-        err
-      );
+      console.log(`NgRxAutoEntityService Error: Unable to locate service by injection token ${serviceName}`);
       throw err;
     }
   }

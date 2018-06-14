@@ -1,7 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot, time } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 
 import { IEntityInfo } from './ngrx-auto-entity.actions';
@@ -16,8 +16,8 @@ export class TestModel {
 export class TestModelService implements IAutoEntityService {
   constructor(private http: HttpClient) {}
   load(entityInfo: IEntityInfo, keys: any): Observable<any> {
-    if (entityInfo.modelName !== 'TestModel') {
-      return of({ message: 'Service not found' });
+    if (keys !== '1234') {
+      return throwError({ message: 'Entity not found' });
     } else {
       return of({ id: '1234', name: 'Test' });
     }
@@ -58,43 +58,25 @@ export class TestModelService implements IAutoEntityService {
     }
   }
 }
-@Injectable()
-export class SomeModelService implements IAutoEntityService {
-  constructor(private http: HttpClient) {}
-  load(entityInfo: IEntityInfo, keys: any): Observable<any> {
-    return of({ id: '1234', name: 'Test' });
-  }
-  loadMany(entityInfo: IEntityInfo, page: number, size: number): Observable<TestModel[]> {
-    return of([{ id: '1234', name: 'Test' }]);
-  }
-  create(entityInfo: IEntityInfo, entity: TestModel): Observable<TestModel> {
-    return of({ id: '1234', name: 'Test' });
-  }
-  update(entityInfo: IEntityInfo, entity: TestModel): Observable<TestModel> {
-    return of({ id: '1234', name: 'Test' });
-  }
-  replace(entityInfo: IEntityInfo, entity: TestModel): Observable<TestModel> {
-    return of({ id: '1234', name: 'Test' });
-  }
-  delete(entityInfo: IEntityInfo, keys: any): Observable<TestModel> {
-    return of({ id: '1234', name: 'Test' });
-  }
-}
+
+// export class TestableAutoEntityService extends NgrxAutoEntityService {
+//   constructor(injector: Injector) {
+//     super(injector);
+//   }
+//   testableGetService(entityInfo: IEntityInfo): IAutoEntityService {
+//     return super.getService(entityInfo);
+//   }
+// }
 
 describe('NgrxAutoEntityService', () => {
-  let service: NgrxAutoEntityService;
+  let entityService: NgrxAutoEntityService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
-        NgrxAutoEntityService,
-        TestModelService,
-        { provide: 'TestModelService', useClass: TestModelService },
-        { provide: 'SomeModelService', useClass: SomeModelService }
-      ]
+      imports: [HttpClientModule, CommonModule],
+      providers: [TestModelService, NgrxAutoEntityService, { provide: 'TestModelService', useClass: TestModelService }]
     });
-    service = TestBed.get(NgrxAutoEntityService);
+    entityService = TestBed.get(NgrxAutoEntityService);
   });
 
   const entityInfo: IEntityInfo = {
@@ -113,46 +95,50 @@ describe('NgrxAutoEntityService', () => {
   };
 
   describe('getServiceByName', () => {
-    test('should be truthy', () => {
-      expect(service.getServiceByName(entityInfo)).toBeTruthy();
-    });
+    // test('should be truthy', () => {
+    // expect(entityService.getServiceByName(entityInfo)).toBeTruthy();
+    // });
   });
 
   describe('getServiceByToken', () => {
-    test('should be truthy', () => {
-      // expect(service.getServiceByToken(entityInfo)).toBeTruthy();
-    });
+    // test('should be truthy', () => {
+    // expect(service.getServiceByToken(entityInfo)).toBeTruthy();
+    // });
   });
 
   describe('service load', () => {
     test('should get a valid entityRef on successful load', () => {
-      service.load(entityInfo, '1234').subscribe(entityRef => {
+      entityService.load(entityInfo, '1234').subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '1234', name: 'Test' } });
       });
     });
 
     test('should throw an error when the service is not found', () => {
-      service.load(badEntityInfo, '1234').subscribe(entityRef => {
-        expect(entityRef).toEqual({ info: badEntityInfo, err: entityRef });
-        expect(throwError).toHaveBeenCalledWith({ info: badEntityInfo, err: entityRef });
-      });
+      entityService.load(badEntityInfo, '5678').subscribe(
+        () => {
+          fail('Service should have thrown error');
+        },
+        error => {
+          expect(error).toEqual({ info: entityInfo, err: { message: 'Entity not found' } });
+        }
+      );
     });
   });
 
   describe('service load many', () => {
     test('should get a valid entityRef on successful load', () => {
-      service.loadMany(entityInfo).subscribe(entityRef => {
+      entityService.loadMany(entityInfo).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '1234', name: 'Test' } });
       });
     });
     test('should get a valid entityRef on successful load with page and size inputs', () => {
-      service.loadMany(entityInfo, 1, 10).subscribe(entityRef => {
+      entityService.loadMany(entityInfo, 1, 10).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '1234', name: 'Test' } });
       });
     });
 
     test('should throw an error when the service is not found', () => {
-      service.loadMany(badEntityInfo).subscribe(entityRef => {
+      entityService.loadMany(badEntityInfo).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: badEntityInfo, err: entityRef });
       });
     });
@@ -160,13 +146,13 @@ describe('NgrxAutoEntityService', () => {
 
   describe('service create', () => {
     test('should return a valid entityRef on successful create', () => {
-      service.create(entityInfo, entity).subscribe(entityRef => {
+      entityService.create(entityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '5678', name: 'TestEntity' } });
       });
     });
 
     test('should throw an error when the service is not found', () => {
-      service.create(badEntityInfo, entity).subscribe(entityRef => {
+      entityService.create(badEntityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: badEntityInfo, err: entityRef });
       });
     });
@@ -174,13 +160,13 @@ describe('NgrxAutoEntityService', () => {
 
   describe('service update', () => {
     test('should return a valid entityRef on successful update', () => {
-      service.update(entityInfo, entity).subscribe(entityRef => {
+      entityService.update(entityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '5678', name: 'TestEntity' } });
       });
     });
 
     test('should throw an error when the service is not found', () => {
-      service.update(badEntityInfo, entity).subscribe(entityRef => {
+      entityService.update(badEntityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: badEntityInfo, err: entityRef });
       });
     });
@@ -188,13 +174,13 @@ describe('NgrxAutoEntityService', () => {
 
   describe('service replace', () => {
     test('should return a valid entityRef on successful replace', () => {
-      service.replace(entityInfo, entity).subscribe(entityRef => {
+      entityService.replace(entityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '5678', name: 'TestEntity' } });
       });
     });
 
     test('should throw an error when the service is not found', () => {
-      service.replace(badEntityInfo, entity).subscribe(entityRef => {
+      entityService.replace(badEntityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: badEntityInfo, err: entityRef });
       });
     });
@@ -202,13 +188,13 @@ describe('NgrxAutoEntityService', () => {
 
   describe('service delete', () => {
     test('should return a valid entityRef on successful delete', () => {
-      service.delete(entityInfo, entity).subscribe(entityRef => {
+      entityService.delete(entityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: '5678', name: 'TestEntity' } });
       });
     });
 
     test('should throw an error when the service is not found', () => {
-      service.delete(badEntityInfo, entity).subscribe(entityRef => {
+      entityService.delete(badEntityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: badEntityInfo, err: entityRef });
       });
     });

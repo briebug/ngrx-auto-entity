@@ -35,7 +35,6 @@
     "@ngrx/store": "^6.0.1",
     "change-case": "^3.0.2",
     "core-js": "^2.5.4",
-    "jest-marbles": "^1.2.0",
     "ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
@@ -103,11 +102,12 @@
       "!<rootDir>/jestGlobalMocks.ts"
     ],
     "moduleNameMapper": {
+      "^ngrx-auto-entity/(.*)": "<rootDir>/projects/ngrx-auto-entity/$1",
       "^state/(.*)": "<rootDir>/src/app/state/$1",
       "^core/(.*)": "<rootDir>/src/app/core/$1"
     },
     "modulePathIgnorePatterns": [
-      "dist/*"
+      "<rootDir>/dist"
     ]
   }
 }
