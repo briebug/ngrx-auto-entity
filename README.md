@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/briebug/ngrx-auto-entity/tree/develop.svg?style=svg&circle-token=d1d500027a81dda34d4ad75ae5fee38dd8953487)](https://circleci.com/gh/briebug/ngrx-auto-entity/tree/develop)
+
 # NgrxAutoEntityApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
