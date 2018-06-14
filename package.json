@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve\" \"npm run json-server\"",
-    "serve": "ng serve",
+    "serve": "ng serve --proxy-config proxy.conf.js",
     "build": "ng build",
     "build:ci": "ng build --prod --aot --no-progress",
     "test": "jest",
@@ -37,7 +37,6 @@
     "core-js": "^2.5.4",
     "jest-marbles": "^1.2.0",
     "ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
-    "ngrx-store-freeze": "^0.2.4",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
   },
