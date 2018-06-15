@@ -189,8 +189,8 @@ export class NgrxAutoEntityService {
         return service;
       } catch (err) {
         const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
-        console.log(`NgRxAutoEntityService Error: Unable to locate service ${serviceName}`);
-        console.log(`NgRxAutoEntityService Error Details:`, err);
+        console.error(`NgRxAutoEntityService Error: Unable to locate service ${serviceName}`);
+        console.error(`NgRxAutoEntityService Error Details:`, err);
         throw err;
       }
     }
@@ -203,7 +203,7 @@ export class NgrxAutoEntityService {
       const service = this.injector.get(serviceName);
       return service;
     } catch (err) {
-      console.log(`NgRxAutoEntityService Error: Unable to locate service by name ${serviceName}`);
+      console.error(`NgRxAutoEntityService Error: Unable to locate service by name ${serviceName}`);
       throw err;
     }
   }
@@ -216,7 +216,7 @@ export class NgrxAutoEntityService {
       const service = this.injector.get(injectionToken);
       return service;
     } catch (err) {
-      console.log(`NgRxAutoEntityService Error: Unable to locate service by injection token ${serviceName}`);
+      console.error(`NgRxAutoEntityService Error: Unable to locate service by injection token ${serviceName}`);
       throw err;
     }
   }
