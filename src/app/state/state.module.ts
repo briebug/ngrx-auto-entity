@@ -5,6 +5,8 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { EntityOperators } from 'ngrx-auto-entity';
+import { CustomerEffects } from 'state/customer/customer.effects';
 import { environment } from '../../environments/environment';
 import { appMetaReducers, appReducer } from './app.reducer';
 import { CustomRouterStateSerializer } from './shared/utils';
@@ -15,10 +17,11 @@ import { CustomRouterStateSerializer } from './shared/utils';
     StoreRouterConnectingModule,
     StoreModule.forRoot(appReducer, { metaReducers: appMetaReducers }),
     // ReactiveEntitiesModule.forRoot(),
-    EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    EffectsModule.forRoot([CustomerEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production })
   ],
-  declarations: []
+  declarations: [],
+  providers: [EntityOperators]
 })
 export class StateModule {
   static forRoot(): ModuleWithProviders {

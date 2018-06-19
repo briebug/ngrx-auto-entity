@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { buildState } from 'ngrx-auto-entity';
 
-import { Account } from 'state/account/account.model';
+import { Account } from 'models/account.model';
 import { IAccountEntityState } from 'state/account/account.state';
 
 const { initialState, selectors } = buildState(Account);

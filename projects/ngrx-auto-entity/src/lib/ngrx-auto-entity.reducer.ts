@@ -1,10 +1,12 @@
 import { ActionReducer } from '@ngrx/store';
+import { camelCase } from 'change-case';
+import { clone } from 'ramda';
 
 import { EntityAction, EntityActionTypes } from './ngrx-auto-entity.actions';
 
 export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action) => {
-    switch (action.type) {
+    switch (action['actionType']) {
       case EntityActionTypes.LoadSuccess: {
         const stateName = (action as EntityAction).info.modelName;
         const entityState = state[stateName];
@@ -12,9 +14,13 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
         return { ...state, [stateName]: entityState };
       }
       case EntityActionTypes.LoadManySuccess: {
-        const stateName = (action as EntityAction).info.modelName;
-        const entityState = state[stateName];
-        // TODO: Merge in array of objects into appropriate entity state
+        const stateName = camelCase((action as EntityAction).info.modelName);
+        const entityState = clone(state[stateName]);
+        entityState.entities = action['entities'].reduce((acc, entity) => {
+          acc[entity.id] = entity;
+          entityState.ids.push(entity.id);
+          return acc;
+        }, entityState.entities);
         return { ...state, [stateName]: entityState };
       }
       case EntityActionTypes.CreateSuccess: {

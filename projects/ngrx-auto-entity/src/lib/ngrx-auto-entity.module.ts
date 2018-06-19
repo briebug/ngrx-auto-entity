@@ -2,9 +2,5 @@ import { NgModule } from '@angular/core';
 
 import { NgrxAutoEntityService } from './ngrx-auto-entity.service';
 
-@NgModule({
-  imports: [],
-  declarations: [],
-  providers: [NgrxAutoEntityService]
-})
+@NgModule({ providers: [NgrxAutoEntityService] })
 export class NgrxAutoEntityModule {}
