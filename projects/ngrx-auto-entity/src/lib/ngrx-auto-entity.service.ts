@@ -181,42 +181,16 @@ export class NgrxAutoEntityService {
 
   protected getService(entityInfo: IEntityInfo): IAutoEntityService {
     try {
-      const service = this.getServiceByName(entityInfo);
+      const service = this.injector.get(entityInfo.modelType);
       return service;
     } catch (err) {
-      try {
-        const service = this.getServiceByToken(entityInfo);
-        return service;
-      } catch (err) {
-        const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
-        console.error(`NgRxAutoEntityService Error: Unable to locate service ${serviceName}`);
-        console.error(`NgRxAutoEntityService Error Details:`, err);
-        throw err;
-      }
-    }
-  }
-
-  protected getServiceByName(entityInfo: IEntityInfo): IAutoEntityService {
-    const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
-
-    try {
-      const service = this.injector.get(serviceName);
-      return service;
-    } catch (err) {
-      console.error(`NgRxAutoEntityService Error: Unable to locate service by name ${serviceName}`);
-      throw err;
-    }
-  }
-
-  protected getServiceByToken(entityInfo: IEntityInfo): IAutoEntityService {
-    const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
-    const injectionToken = new InjectionToken<IAutoEntityService>(serviceName);
-
-    try {
-      const service = this.injector.get(injectionToken);
-      return service;
-    } catch (err) {
-      console.error(`NgRxAutoEntityService Error: Unable to locate service by injection token ${serviceName}`);
+      const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
+      console.error(
+        `NgRxAutoEntityService Error: Unable to locate service ${serviceName} using model name of ${
+          entityInfo.modelName
+        }`
+      );
+      console.error(`NgRxAutoEntityService Error Details:`, err);
       throw err;
     }
   }

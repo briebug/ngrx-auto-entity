@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve\" \"npm run json-server\"",
-    "serve": "ng serve --proxy-config proxy.conf.js",
+    "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
+    "serve": "ng serve --source-map",
+    "serve-proxy": "ng serve --source-map --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:ci": "ng build --prod --aot --no-progress",
     "test": "jest",
@@ -14,7 +15,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "precommit": "lint-staged",
-    "json-server": "json-server --watch data/db.json",
+    "json-server": "json-server --watch data/db.json --routes data/routes.json",
     "link": "ng build ngrx-auto-entity && npm link dist/ngrx-auto-entity",
     "link:ci": "ng build ngrx-auto-entity && sudo npm link dist/ngrx-auto-entity",
     "postinstall": "if test \"$NODE_ENV\" = \"ci\" ; then npm run link:ci ; else npm run link ; fi"
@@ -36,6 +37,7 @@
     "change-case": "^3.0.2",
     "core-js": "^2.5.4",
     "ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
+    "ramda": "^0.25.0",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
   },
@@ -48,6 +50,7 @@
     "@ngrx/store-devtools": "^6.0.1",
     "@types/jest": "^23.0.2",
     "@types/node": "~8.9.4",
+    "@types/ramda": "github:types/npm-ramda#dist",
     "codelyzer": "~4.2.1",
     "concurrently": "^3.5.1",
     "faker": "^4.1.0",
@@ -104,7 +107,8 @@
     "moduleNameMapper": {
       "^ngrx-auto-entity/(.*)": "<rootDir>/projects/ngrx-auto-entity/$1",
       "^state/(.*)": "<rootDir>/src/app/state/$1",
-      "^core/(.*)": "<rootDir>/src/app/core/$1"
+      "^core/(.*)": "<rootDir>/src/app/core/$1",
+      "^models/(.*)": "<rootDir>/src/app/models/$1"
     },
     "modulePathIgnorePatterns": [
       "<rootDir>/dist"

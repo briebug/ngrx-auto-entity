@@ -14,7 +14,8 @@
     "paths": {
       "ngrx-auto-entity/*": ["<rootDir>/projects/ngrx-auto-entity/*"],
       "state/*": ["src/app/state/*"],
-      "core/*": ["src/app/core/*"]
+      "core/*": ["src/app/core/*"],
+      "models/*": ["src/app/models/*"]
     }
   }
 }
