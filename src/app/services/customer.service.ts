@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAutoEntityService, IEntityInfo } from 'ngrx-auto-entity';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Customer } from 'models/customer.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class CustomerService implements IAutoEntityService {
+export class CustomerService implements IAutoEntityService<Customer> {
   private static readonly PATH = '/customers';
   private readonly url: string;
 
@@ -24,19 +24,19 @@ export class CustomerService implements IAutoEntityService {
     return this.http.get<Customer[]>(`${this.url}`);
   }
 
-  create(entityInfo: IEntityInfo, entity: any): Observable<Customer> {
+  create(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
     return this.http.post<Customer>(`${this.url}`, entity);
   }
 
-  update(entityInfo: IEntityInfo, entity: any): Observable<Customer> {
+  update(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
     return this.http.patch<Customer>(`${this.url}`, entity);
   }
 
-  replace(entityInfo: IEntityInfo, entity: any): Observable<Customer> {
+  replace(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
     return this.http.put<Customer>(`${this.url}`, entity);
   }
 
-  delete(entityInfo: IEntityInfo, entity: any): Observable<{}> {
-    return this.http.delete(`${this.url}/${entity.id}`).pipe(map(() => entity));
+  delete(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
+    return this.http.delete<Customer>(`${this.url}/${entity.id}`).pipe(map(() => entity));
   }
 }

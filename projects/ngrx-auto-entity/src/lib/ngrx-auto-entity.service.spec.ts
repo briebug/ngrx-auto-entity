@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of, throwError } from 'rxjs';
-
 import { IEntityInfo } from './ngrx-auto-entity.actions';
 import { IAutoEntityService, NgrxAutoEntityService } from './ngrx-auto-entity.service';
 
@@ -13,7 +12,7 @@ export class TestModel {
 }
 
 @Injectable()
-export class TestModelService implements IAutoEntityService {
+export class TestModelService implements IAutoEntityService<TestModel> {
   constructor(private http: HttpClient) {}
   load(entityInfo: IEntityInfo, keys: any): Observable<any> {
     if (keys !== '1234') {

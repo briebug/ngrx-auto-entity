@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import * as changeCase from 'change-case';
+import { camelCase } from 'change-case';
 
 export interface IEntityDictionary<TModel> {
   [key: string]: TModel;
@@ -30,7 +30,7 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   type: ITModelClass<TModel>,
   initialState?: any
 ): IModelState<TParentState, TState, TModel> => {
-  const modelName = changeCase.camelCase(new type().constructor.name);
+  const modelName = camelCase(new type().constructor.name);
 
   const getState = (state: TParentState): TState => state[modelName];
 
@@ -56,7 +56,7 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
   selectParentState: MemoizedSelector<object, TParentState>,
   initialState?: any
 ): IModelState<TParentState, TState, TModel> => {
-  const modelName = changeCase.camelCase(new type().constructor.name);
+  const modelName = camelCase(new type().constructor.name);
 
   const selectState = createSelector(selectParentState, (state: TParentState) => state[modelName]);
 
