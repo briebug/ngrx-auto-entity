@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import * as changeCase from 'change-case';
+import { pascalCase } from 'change-case';
 
 export enum EntityActionTypes {
   Load = '[Entity] Generic Load',
@@ -43,7 +43,7 @@ const setInfo = (type: any) => {
 
 const setType = (actionType: string, info: IEntityInfo) => {
   const name = info.modelName;
-  const entity = changeCase.pascalCase(name);
+  const entity = pascalCase(name);
 
   return actionType.replace('Entity', entity);
 };
@@ -53,13 +53,10 @@ export class Load<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Load;
   info: IEntityInfo;
-  keys: any;
 
-  constructor(type: { new (): TModel }, keys: any) {
+  constructor(type: { new (): TModel }, public keys: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
-
-    this.keys = keys;
   }
 }
 

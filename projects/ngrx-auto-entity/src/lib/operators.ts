@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { pascalCase } from 'change-case';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
 import {
   Create,
   CreateFailure,
@@ -30,7 +30,15 @@ export class EntityOperators {
       source.pipe(
         switchMap(action => this.entityService.load(action.info, action.keys)),
         map((ref: IEntityRef<TModel>) => new LoadSuccess<TModel>(ref.info.modelType, ref.entity)),
-        catchError((error: IEntityError<TModel>) => of(new LoadFailure<TModel>(error.info.modelType, error.err)))
+        catchError((error: IEntityError<TModel>) => {
+          if (error.err instanceof TypeError) {
+            const serviceName = `${pascalCase(error.info.modelName)}Service`;
+            console.error(`NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`, error.err);
+          } else {
+            console.error(error.err);
+          }
+          return of(new LoadFailure<TModel>(error.info.modelType, error.err));
+        })
       );
   }
 
@@ -39,7 +47,18 @@ export class EntityOperators {
       source.pipe(
         switchMap((action: LoadMany<TModel>) => this.entityService.loadMany(action.info, action.page, action.size)),
         map((ref: IEntityRef<TModel[]>) => new LoadManySuccess<TModel>(ref.info.modelType, ref.entity)),
-        catchError((error: any) => of(new LoadManyFailure<TModel>(error.info.modelType, error.err)))
+        catchError((error: IEntityError<TModel>) => {
+          if (error.err instanceof TypeError) {
+            const serviceName = `${pascalCase(error.info.modelName)}Service`;
+            console.error(
+              `NgRxAutoEntityService Error: Unable to locate loadMany method in the ${serviceName}`,
+              error.err
+            );
+          } else {
+            console.error(error.err);
+          }
+          return of(new LoadManyFailure<TModel>(error.info.modelType, error.err));
+        })
       );
   }
 
@@ -48,7 +67,18 @@ export class EntityOperators {
       source.pipe(
         switchMap((action: Create<TModel>) => this.entityService.create<TModel>(action.info, action.entity)),
         map((ref: IEntityRef<TModel>) => new CreateSuccess<TModel>(ref.info.modelType, ref.entity)),
-        catchError((error: IEntityError<TModel>) => of(new CreateFailure<TModel>(error.info.modelType, error.err)))
+        catchError((error: IEntityError<TModel>) => {
+          if (error.err instanceof TypeError) {
+            const serviceName = `${pascalCase(error.info.modelName)}Service`;
+            console.error(
+              `NgRxAutoEntityService Error: Unable to locate create method in the ${serviceName}`,
+              error.err
+            );
+          } else {
+            console.error(error.err);
+          }
+          return of(new CreateFailure<TModel>(error.info.modelType, error.err));
+        })
       );
   }
 
@@ -57,7 +87,18 @@ export class EntityOperators {
       source.pipe(
         switchMap((action: Update<TModel>) => this.entityService.update<TModel>(action.info, action.entity)),
         map((ref: IEntityRef<TModel>) => new UpdateSuccess<TModel>(ref.info.modelType, ref.entity)),
-        catchError((error: IEntityError<TModel>) => of(new UpdateFailure<TModel>(error.info.modelType, error.err)))
+        catchError((error: IEntityError<TModel>) => {
+          if (error.err instanceof TypeError) {
+            const serviceName = `${pascalCase(error.info.modelName)}Service`;
+            console.error(
+              `NgRxAutoEntityService Error: Unable to locate update method in the ${serviceName}`,
+              error.err
+            );
+          } else {
+            console.error(error.err);
+          }
+          return of(new UpdateFailure<TModel>(error.info.modelType, error.err));
+        })
       );
   }
 
@@ -66,7 +107,18 @@ export class EntityOperators {
       source.pipe(
         switchMap(action => this.entityService.delete(action.info, action.entity)),
         map((ref: IEntityRef<TModel>) => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity)),
-        catchError((error: IEntityError<TModel>) => of(new DeleteFailure<TModel>(error.info.modelType, error.err)))
+        catchError((error: IEntityError<TModel>) => {
+          if (error.err instanceof TypeError) {
+            const serviceName = `${pascalCase(error.info.modelName)}Service`;
+            console.error(
+              `NgRxAutoEntityService Error: Unable to locate delete method in the ${serviceName}`,
+              error.err
+            );
+          } else {
+            console.error(error.err);
+          }
+          return of(new DeleteFailure<TModel>(error.info.modelType, error.err));
+        })
       );
   }
 }

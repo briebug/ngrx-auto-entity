@@ -1,8 +1,7 @@
-import { Injectable, InjectionToken, Injector } from '@angular/core';
-import * as changeCase from 'change-case';
+import { Injectable, Injector } from '@angular/core';
+import { pascalCase } from 'change-case';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-
 import { IEntityInfo } from './ngrx-auto-entity.actions';
 import { IAutoEntityService } from './ngrx-auto-entity.service';
 
@@ -16,13 +15,13 @@ export interface IEntityError<TModel> {
   err: any;
 }
 
-export interface IAutoEntityService {
-  load(entityInfo: IEntityInfo, keys: any[]): Observable<any>;
-  loadMany(entityInfo: IEntityInfo, page?: number, size?: number): Observable<any[]>;
-  create(entityInfo: IEntityInfo, entity: any): Observable<any>;
-  update(entityInfo: IEntityInfo, entity: any): Observable<any>;
-  replace(entityInfo: IEntityInfo, entity: any): Observable<any>;
-  delete(entityInfo: IEntityInfo, entity: any): Observable<any>;
+export interface IAutoEntityService<TModel> {
+  load(entityInfo: IEntityInfo, keys: any[]): Observable<TModel>;
+  loadMany(entityInfo: IEntityInfo, page?: number, size?: number): Observable<TModel[]>;
+  create(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
+  update(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
+  replace(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
+  delete(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
 }
 
 @Injectable()
@@ -31,7 +30,7 @@ export class NgrxAutoEntityService {
 
   load<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
     try {
-      const service = this.getService(entityInfo);
+      const service = this.getService<TModel>(entityInfo);
 
       return service.load(entityInfo, keys).pipe(
         map(entity => ({
@@ -59,7 +58,7 @@ export class NgrxAutoEntityService {
     size = Number.MAX_SAFE_INTEGER
   ): Observable<IEntityRef<TModel[]>> {
     try {
-      const service = this.getService(entityInfo);
+      const service = this.getService<TModel>(entityInfo);
 
       return service.loadMany(entityInfo, page, size).pipe(
         map(entity => ({
@@ -83,7 +82,7 @@ export class NgrxAutoEntityService {
 
   create<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
     try {
-      const service = this.getService(entityInfo);
+      const service = this.getService<TModel>(entityInfo);
 
       return service.create(entityInfo, entity).pipe(
         map(savedEntity => ({
@@ -107,7 +106,7 @@ export class NgrxAutoEntityService {
 
   update<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
     try {
-      const service = this.getService(entityInfo);
+      const service = this.getService<TModel>(entityInfo);
 
       return service.update(entityInfo, entity).pipe(
         map(savedEntity => ({
@@ -131,7 +130,7 @@ export class NgrxAutoEntityService {
 
   replace<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
     try {
-      const service = this.getService(entityInfo);
+      const service = this.getService<TModel>(entityInfo);
 
       return service.replace(entityInfo, entity).pipe(
         map(savedEntity => ({
@@ -155,7 +154,7 @@ export class NgrxAutoEntityService {
 
   delete<TModel>(entityInfo: IEntityInfo, entity: any): Observable<IEntityRef<TModel>> {
     try {
-      const service = this.getService(entityInfo);
+      const service = this.getService<TModel>(entityInfo);
 
       return service.delete(entityInfo, entity).pipe(
         map(deletedEntity => ({
@@ -177,12 +176,12 @@ export class NgrxAutoEntityService {
     }
   }
 
-  protected getService(entityInfo: IEntityInfo): IAutoEntityService {
+  protected getService<TModel>(entityInfo: IEntityInfo): IAutoEntityService<TModel> {
     try {
       const service = this.injector.get(entityInfo.modelType);
       return service;
     } catch (err) {
-      const serviceName = `${changeCase.pascalCase(entityInfo.modelName)}Service`;
+      const serviceName = `${pascalCase(entityInfo.modelName)}Service`;
       console.error(
         `NgRxAutoEntityService Error: Unable to locate service ${serviceName} using model name of ${
           entityInfo.modelName

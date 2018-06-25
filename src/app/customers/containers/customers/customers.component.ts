@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Customer } from 'models/customer.model';
 import { Delete, LoadMany } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
-
-import { Customer } from 'models/customer.model';
+import { IAppState } from 'state/app.interfaces';
 import { selectAllCustomers } from 'state/customer/customer.reducer';
-
-interface IAppState {
-  customer: Customer;
-}
 
 @Component({
   selector: 'app-customers',
