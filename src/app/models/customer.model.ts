@@ -1,5 +1,7 @@
+import { Key } from 'ngrx-auto-entity';
+
 export class Customer {
-  id: number;
+  @Key id: number;
   name: string;
   catchPhrase: string;
 }

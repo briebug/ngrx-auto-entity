@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAutoEntityService, IEntityInfo } from 'ngrx-auto-entity';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Customer } from 'models/customer.model';
 import { environment } from '../../environments/environment';
@@ -15,8 +16,8 @@ export class CustomerService implements IAutoEntityService {
     this.url = `${environment.API_BASE_URL}${CustomerService.PATH}`;
   }
 
-  load(entityInfo: IEntityInfo, keys: any[]): Observable<Customer> {
-    return this.http.get<Customer>(`${this.url}${this.nestedPath(keys)}`);
+  load(entityInfo: IEntityInfo, keys: any): Observable<Customer> {
+    return this.http.get<Customer>(`${this.url}/${keys}`);
   }
 
   loadMany(entityInfo: IEntityInfo, page?: number, size?: number): Observable<Customer[]> {
@@ -35,11 +36,7 @@ export class CustomerService implements IAutoEntityService {
     return this.http.put<Customer>(`${this.url}`, entity);
   }
 
-  delete(entityInfo: IEntityInfo, keys: any[]): Observable<{}> {
-    return this.http.delete(`${this.url}${this.nestedPath(keys)}`);
-  }
-
-  private nestedPath(keys: any[]): string {
-    return `/${keys.join('/')}`;
+  delete(entityInfo: IEntityInfo, entity: any): Observable<{}> {
+    return this.http.delete(`${this.url}/${entity.id}`).pipe(map(() => entity));
   }
 }
