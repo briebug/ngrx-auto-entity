@@ -74,7 +74,7 @@ describe('NgrxAutoEntityService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, CommonModule],
-      providers: [TestModelService, NgrxAutoEntityService, { provide: 'TestModelService', useClass: TestModelService }]
+      providers: [{ provide: TestModel, useClass: TestModelService }, NgrxAutoEntityService]
     });
     entityService = TestBed.get(NgrxAutoEntityService);
   });

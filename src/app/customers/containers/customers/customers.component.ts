@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { LoadMany } from 'ngrx-auto-entity';
+import { Delete, LoadMany } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 
 import { Customer } from 'models/customer.model';
@@ -23,5 +23,9 @@ export class CustomersComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new LoadMany(Customer));
     this.customers$ = this.store.pipe(select(selectAllCustomers));
+  }
+
+  onDelete(customer: Customer) {
+    this.store.dispatch(new Delete(Customer, customer));
   }
 }

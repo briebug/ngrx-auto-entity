@@ -64,7 +64,7 @@ export class EntityOperators {
   delete<TModel>() {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
-        switchMap(action => this.entityService.delete(action.info, action.keys)),
+        switchMap(action => this.entityService.delete(action.info, action.entity)),
         map((ref: IEntityRef<TModel>) => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity)),
         catchError((error: IEntityError<TModel>) => of(new DeleteFailure<TModel>(error.info.modelType, error.err)))
       );

@@ -200,12 +200,10 @@ export class Delete<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Delete;
   info: IEntityInfo;
-  keys: any[];
 
-  constructor(type: { new (): TModel }, keys: any) {
+  constructor(type: { new (): TModel }, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
-    this.keys = keys;
   }
 }
 

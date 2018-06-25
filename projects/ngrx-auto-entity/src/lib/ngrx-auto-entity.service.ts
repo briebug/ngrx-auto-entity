@@ -22,7 +22,7 @@ export interface IAutoEntityService {
   create(entityInfo: IEntityInfo, entity: any): Observable<any>;
   update(entityInfo: IEntityInfo, entity: any): Observable<any>;
   replace(entityInfo: IEntityInfo, entity: any): Observable<any>;
-  delete(entityInfo: IEntityInfo, keys: any[]): Observable<any>;
+  delete(entityInfo: IEntityInfo, entity: any): Observable<any>;
 }
 
 @Injectable()
@@ -34,18 +34,16 @@ export class NgrxAutoEntityService {
       const service = this.getService(entityInfo);
 
       return service.load(entityInfo, keys).pipe(
-        map(entity => {
-          return {
-            info: entityInfo,
-            entity
-          };
-        }),
-        catchError(err => {
-          return throwError({
+        map(entity => ({
+          info: entityInfo,
+          entity
+        })),
+        catchError(err =>
+          throwError({
             info: entityInfo,
             err
-          });
-        })
+          })
+        )
       );
     } catch (err) {
       return throwError({
@@ -155,14 +153,14 @@ export class NgrxAutoEntityService {
     }
   }
 
-  delete<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
+  delete<TModel>(entityInfo: IEntityInfo, entity: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService(entityInfo);
 
-      return service.delete(entityInfo, keys).pipe(
-        map(savedEntity => ({
+      return service.delete(entityInfo, entity).pipe(
+        map(deletedEntity => ({
           info: entityInfo,
-          entity: savedEntity
+          entity: deletedEntity
         })),
         catchError(err =>
           throwError({
