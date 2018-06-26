@@ -1,28 +1,28 @@
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Delete, EntityOperators, Load, LoadMany } from 'ngrx-auto-entity';
+import { Delete, EntityActionTypes, EntityOperators, Load, LoadMany, ofEntityType } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 
-import { Injectable } from '@angular/core';
 import { Customer } from 'models/customer.model';
 
 @Injectable()
 export class CustomerEffects {
   @Effect()
   load$: Observable<Action> = this.actions$.pipe(
-    ofType<Load<Customer>>('[Customer] Generic Load'),
+    ofEntityType<Customer, Load<Customer>>(Customer, EntityActionTypes.Load),
     this.ops.load()
   );
 
   @Effect()
   loadMany$ = this.actions$.pipe(
-    ofType<LoadMany<Customer>>('[Customer] Generic Load Many'),
+    ofEntityType<Customer, LoadMany<Customer>>(Customer, EntityActionTypes.LoadMany),
     this.ops.loadMany()
   );
 
   @Effect()
   delete$ = this.actions$.pipe(
-    ofType<Delete<Customer>>('[Customer] Generic Delete'),
+    ofEntityType<Customer, Delete<Customer>>(Customer, EntityActionTypes.Delete),
     this.ops.delete()
   );
 
