@@ -1,10 +1,17 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { camelCase } from 'change-case';
 
+/**
+ * Structure for how entities are stored within the `entities` state property:
+ * a single object with the key being each entity's @Key value and the value being the entity itself
+ */
 export interface IEntityDictionary<TModel> {
   [key: string]: TModel;
 }
 
+/**
+ * Structure for how entities are stored along with the array of their keys
+ */
 export interface IEntityState<TModel> {
   entities: IEntityDictionary<TModel>;
   ids: any[];
@@ -22,10 +29,19 @@ export interface ISelectorMap<TParentState, TModel> {
   selectTotal: MemoizedSelector<object | TParentState, number>;
 }
 
+/**
+ * The basic structure of a class for an entity
+ */
 export interface ITModelClass<TModel> {
   new (): TModel;
 }
 
+/**
+ * Builds the initial Ngrx state for an entity
+ *
+ * @param type the entity class
+ * @param initialState the (optional) initial state
+ */
 export const buildState = <TState extends IEntityState<TModel>, TParentState, TModel>(
   type: ITModelClass<TModel>,
   initialState?: any
@@ -51,6 +67,13 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   };
 };
 
+/**
+ * Builds the Ngrx state for an entity that is part of a feature module
+ *
+ * @param type the entity class
+ * @param selectParentState a selector for the entity's parent state
+ * @param initialState the (optional) initial feature state
+ */
 export const buildFeatureState = <TState extends IEntityState<TModel>, TParentState, TModel>(
   type: ITModelClass<TModel>,
   selectParentState: MemoizedSelector<object, TParentState>,
