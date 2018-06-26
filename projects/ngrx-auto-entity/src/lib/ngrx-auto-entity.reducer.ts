@@ -13,6 +13,11 @@ function keyName(action: EntityAction): string {
   return action.info.modelType.prototype[NAE_ID];
 }
 
+/**
+ * Provides standard reducer functions to support entity store structure
+ *
+ * @param reducer
+ */
 export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action) => {
     switch (action['actionType']) {

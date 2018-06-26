@@ -23,11 +23,17 @@ export enum EntityActionTypes {
   DeleteFailure = '[Entity] Generic Delete: Failure'
 }
 
+/**
+ * Entity class
+ */
 export interface IEntityInfo {
   modelName: string;
   modelType: { new (): any };
 }
 
+/**
+ * Structure for all of this library's actions
+ */
 export class EntityAction implements Action {
   type: string;
   actionType: string;
@@ -48,7 +54,9 @@ const setType = (actionType: string, info: IEntityInfo) => {
   return actionType.replace('Entity', entity);
 };
 
-// region Fetch
+/**
+ * Loads a single instance of an entity, corresponding to HTTP GET /entity/:id operation
+ */
 export class Load<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Load;
@@ -82,9 +90,9 @@ export class LoadFailure<TModel> implements EntityAction {
   }
 }
 
-// endregion
-
-// region Fetch Many
+/**
+ * Loads many entities, corresponding to HTTP GET /entity operation
+ */
 export class LoadMany<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.LoadMany;
@@ -118,9 +126,9 @@ export class LoadManyFailure<TModel> implements EntityAction {
   }
 }
 
-// endregion
-
-// region Create
+/**
+ * Creates a single entity, corresponding to HTTP POST operation
+ */
 export class Create<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Create;
@@ -154,9 +162,12 @@ export class CreateFailure<TModel> implements EntityAction {
   }
 }
 
-// endregion
-
-// region Update
+/**
+ * Updates a single entity, corresponding to HTTP PUT or PATCH operation.
+ *
+ * PUT: Replace the entity with the one supplied in the request
+ * PATCH: Update just the supplied attributes of the entity
+ */
 export class Update<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Update;
@@ -190,9 +201,9 @@ export class UpdateFailure<TModel> implements EntityAction {
   }
 }
 
-// endregion
-
-// region Delete
+/**
+ * Deletes a single entity, corresponding to HTTP DELETE operation
+ */
 export class Delete<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.Delete;
@@ -225,4 +236,3 @@ export class DeleteFailure<TModel> implements EntityAction {
     this.type = setType(this.actionType, this.info);
   }
 }
-// endregion

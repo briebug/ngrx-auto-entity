@@ -21,6 +21,9 @@ import {
 } from './ngrx-auto-entity.actions';
 import { IEntityError, IEntityRef, NgrxAutoEntityService } from './ngrx-auto-entity.service';
 
+/**
+ * Rxjs operators that are intended to be called by client-defined Effects class
+ */
 @Injectable()
 export class EntityOperators {
   constructor(private entityService: NgrxAutoEntityService) {}

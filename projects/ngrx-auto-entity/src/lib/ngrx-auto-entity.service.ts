@@ -24,6 +24,10 @@ export interface IAutoEntityService<TModel> {
   delete(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
 }
 
+/**
+ * Looks up client-provided entity service class using Angular's injector and this package's naming
+ * conventions.  Then calls client's service and provides success/failure handling.
+ */
 @Injectable()
 export class NgrxAutoEntityService {
   constructor(private injector: Injector) {}
