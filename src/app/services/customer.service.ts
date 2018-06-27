@@ -9,8 +9,8 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CustomerService implements IAutoEntityService<Customer> {
-  private static readonly PATH = '/customers';
-  private readonly url: string;
+  static readonly PATH = '/customers';
+  readonly url: string;
 
   constructor(private http: HttpClient) {
     this.url = `${environment.API_BASE_URL}${CustomerService.PATH}`;
