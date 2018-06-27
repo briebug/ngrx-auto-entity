@@ -38,12 +38,12 @@ describe('CustomerService', () => {
 
   describe('#load', () => {
     test('should return an Observable<Customer>', () => {
-      service.load(entityInfo, 1).subscribe(customer => {
+      service.load(entityInfo, dummyCustomers[0].id).subscribe(customer => {
         expect(customer).toEqual(dummyCustomers[0]);
       });
 
       const req = httpMock.expectOne(`${service.url}/${dummyCustomers[0].id}`);
-      expect(req.request.url).toBe(`/api/customers/1`);
+      expect(req.request.url).toBe(`${service.url}/${dummyCustomers[0].id}`);
       expect(req.request.method).toBe('GET');
       req.flush(dummyCustomers);
     });
@@ -57,7 +57,7 @@ describe('CustomerService', () => {
       });
 
       const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`/api/customers`);
+      expect(req.request.url).toBe(service.url);
       expect(req.request.method).toBe('GET');
       req.flush(dummyCustomers);
     });
@@ -76,7 +76,7 @@ describe('CustomerService', () => {
       });
 
       const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`/api/customers`);
+      expect(req.request.url).toBe(`${service.url}`);
       expect(req.request.method).toBe('POST');
       req.flush(dummyCustomers);
     });
@@ -95,7 +95,7 @@ describe('CustomerService', () => {
       });
 
       const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`/api/customers`);
+      expect(req.request.url).toBe(`${service.url}`);
       expect(req.request.method).toBe('PATCH');
       req.flush(dummyCustomers);
     });
@@ -114,7 +114,7 @@ describe('CustomerService', () => {
       });
 
       const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`/api/customers`);
+      expect(req.request.url).toBe(`${service.url}`);
       expect(req.request.method).toBe('PUT');
       req.flush(dummyCustomers);
     });
@@ -133,7 +133,7 @@ describe('CustomerService', () => {
       });
 
       const req = httpMock.expectOne(`${service.url}/${hulk.id}`);
-      expect(req.request.url).toBe(`/api/customers/2`);
+      expect(req.request.url).toBe(`${service.url}/${hulk.id}`);
       expect(req.request.method).toBe('DELETE');
       req.flush(dummyCustomers);
     });
