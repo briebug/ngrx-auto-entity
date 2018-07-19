@@ -44,7 +44,10 @@ export class CustomerFormComponent implements OnChanges, OnDestroy {
 
     this.formGroup.valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe(value => {
       this.customerChange.emit({
-        customer: value,
+        customer: {
+          ...this.customer,
+          ...value
+        },
         valid: this.formGroup.valid
       });
     });

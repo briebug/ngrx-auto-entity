@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Customer } from 'models/customer.model';
 import { IAutoEntityService, IEntityInfo } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { Customer } from 'models/customer.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -29,7 +28,7 @@ export class CustomerService implements IAutoEntityService<Customer> {
   }
 
   update(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
-    return this.http.patch<Customer>(`${this.url}`, entity);
+    return this.http.patch<Customer>(`${this.url}/${entity.id}`, entity);
   }
 
   replace(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {

@@ -65,8 +65,4 @@ export class CustomerComponent implements OnInit {
 
     this.store.dispatch(new Update(Customer, this.updatedCustomer));
   }
-
-  private loadCustomerById(id: string) {
-    this.hasCustomerWithIdInState(id).pipe(first());
-  }
 }

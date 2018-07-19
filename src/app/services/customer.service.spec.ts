@@ -1,6 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
-
 import { Customer } from 'models/customer.model';
 import { IEntityInfo } from 'projects/ngrx-auto-entity/src/lib';
 import { CustomerService } from './customer.service';
@@ -94,8 +93,8 @@ describe('CustomerService', () => {
         expect(customer).toEqual(updatedHulk);
       });
 
-      const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`${service.url}`);
+      const req = httpMock.expectOne(`${service.url}/${updatedHulk.id}`);
+      expect(req.request.url).toBe(`${service.url}/${updatedHulk.id}`);
       expect(req.request.method).toBe('PATCH');
       req.flush(dummyCustomers);
     });

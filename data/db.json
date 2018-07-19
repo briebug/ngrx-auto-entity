@@ -1,13 +1,8 @@
 {
   "customers": [
     {
-      "id": 1,
-      "name": "Schulist - Lind",
-      "catchPhrase": "Mandatory high-level forecast"
-    },
-    {
       "id": 2,
-      "name": "Herman Inc",
+      "name": "Herman Inc.",
       "catchPhrase": "Open-architected well-modulated hub"
     },
     {
@@ -24,11 +19,6 @@
       "id": 5,
       "name": "Abbott, Jakubowski and Schumm",
       "catchPhrase": "Total local intranet"
-    },
-    {
-      "id": 6,
-      "name": "Hand LLC",
-      "catchPhrase": "Compatible solution-oriented portal"
     },
     {
       "id": 7,

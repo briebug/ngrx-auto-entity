@@ -9,6 +9,7 @@ import {
   MatMenuModule,
   MatPaginatorModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatTableModule,
   MatToolbarModule
 } from '@angular/material';
@@ -24,6 +25,7 @@ import {
     MatMenuModule,
     MatPaginatorModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatTableModule,
     MatToolbarModule
   ]
