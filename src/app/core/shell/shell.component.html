@@ -1,0 +1,27 @@
+<mat-sidenav-container class="container" fxFlex>
+  <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [(opened)]="opened">
+    <nav>
+      <mat-list>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/home" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+          <span>Home</span>
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/customers" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+          <span>Customers</span>
+        </a>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{title}}</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

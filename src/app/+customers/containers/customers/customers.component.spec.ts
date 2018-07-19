@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-
 import { appMetaReducers, appReducer } from 'state/app.reducer';
-import { CustomerListComponent } from '../../components/customer-list/customer-list.component';
+import { MaterialModule } from '../../../material.module';
+import { CustomersTableComponent } from '../../components/customers-table/customers-table.component';
 import { CustomersComponent } from './customers.component';
 
 describe('CustomersComponent', () => {
@@ -11,8 +13,13 @@ describe('CustomersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot(appReducer, { metaReducers: appMetaReducers })],
-      declarations: [CustomersComponent, CustomerListComponent]
+      imports: [
+        MaterialModule,
+        NoopAnimationsModule,
+        RouterTestingModule,
+        StoreModule.forRoot(appReducer, { metaReducers: appMetaReducers })
+      ],
+      declarations: [CustomersComponent, CustomersTableComponent]
     }).compileComponents();
   }));
 
