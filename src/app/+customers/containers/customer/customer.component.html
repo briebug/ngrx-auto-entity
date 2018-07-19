@@ -1,0 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="center stretch" class="customers">
+  <div fxFlex.xs="90%" fxFlex.sm="80%" fxFlex.md="70%" fxFlex.lg="65%" fxFlex.xl="60%">
+    <h2>Customer</h2>
+    <app-customer-form [customer]="customer | async" (customerChange)="onCustomerChange($event)"></app-customer-form>
+    <div class="actions" fxLayout="row" fxLayoutAlign="end center">
+      <button mat-button color="secondary" routerLink="/customers">Cancel</button>
+      <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!valid">Save</button>
+    </div>
+  </div>
+</div>

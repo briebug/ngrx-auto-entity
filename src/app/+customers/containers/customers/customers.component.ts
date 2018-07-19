@@ -28,7 +28,7 @@ export class CustomersComponent implements OnInit {
   }
 
   onEdit(customer: Customer) {
-    this.store.dispatch(new SelectCustomer(customer));
+    this.store.dispatch(new SelectCustomer({ id: customer.id }));
     this.router.navigate(['customers', customer.id]);
   }
 }

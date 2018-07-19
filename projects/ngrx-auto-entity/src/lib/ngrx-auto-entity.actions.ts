@@ -239,6 +239,23 @@ export class DeleteFailure<TModel> implements EntityAction {
   }
 }
 
+export type EntityActions<TModel> =
+  | Load<TModel>
+  | LoadFailure<TModel>
+  | LoadSuccess<TModel>
+  | LoadMany<TModel>
+  | LoadManyFailure<TModel>
+  | LoadManySuccess<TModel>
+  | Create<TModel>
+  | CreateFailure<TModel>
+  | CreateSuccess<TModel>
+  | Update<TModel>
+  | UpdateFailure<TModel>
+  | UpdateSuccess<TModel>
+  | Delete<TModel>
+  | DeleteFailure<TModel>
+  | DeleteSuccess<TModel>;
+
 /**
  * Operator to filter actions by an entity and action type or multiple action types.
  *
