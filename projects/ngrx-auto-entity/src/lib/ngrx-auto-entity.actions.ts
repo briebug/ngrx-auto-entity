@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 import { pascalCase } from 'change-case';
+import { OperatorFunction } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 export enum EntityActionTypes {
   Load = '[Entity] Generic Load',
@@ -40,14 +42,14 @@ export class EntityAction implements Action {
   info: IEntityInfo;
 }
 
-const setInfo = (type: any) => {
+const setInfo = (type: any): IEntityInfo => {
   return {
     modelType: type,
     modelName: new type().constructor.name
   };
 };
 
-const setType = (actionType: string, info: IEntityInfo) => {
+const setType = (actionType: string, info: IEntityInfo): string => {
   const name = info.modelName;
   const entity = pascalCase(name);
 
@@ -235,4 +237,43 @@ export class DeleteFailure<TModel> implements EntityAction {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
+}
+
+/**
+ * Operator to filter actions by an entity and action type or multiple action types.
+ *
+ * @param entity The entity class
+ * @param allowedActionTypes One or more action type string constants
+ */
+export function ofEntityType<TModel, T extends EntityAction>(
+  entity: { new (): TModel },
+  ...allowedActionTypes: EntityActionTypes[]
+): OperatorFunction<Action, T> {
+  return filter(
+    (action: EntityAction): action is T => {
+      if (
+        action instanceof Load ||
+        action instanceof LoadSuccess ||
+        action instanceof LoadFailure ||
+        action instanceof LoadMany ||
+        action instanceof LoadManySuccess ||
+        action instanceof LoadManyFailure ||
+        action instanceof Create ||
+        action instanceof CreateSuccess ||
+        action instanceof CreateFailure ||
+        action instanceof Update ||
+        action instanceof UpdateSuccess ||
+        action instanceof UpdateFailure ||
+        action instanceof Delete ||
+        action instanceof DeleteSuccess ||
+        action instanceof DeleteFailure
+      ) {
+        return (
+          action.info.modelType === entity &&
+          allowedActionTypes.some(type => setType(type, action.info) === action.type)
+        );
+      }
+      return false;
+    }
+  );
 }
