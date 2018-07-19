@@ -1,0 +1,34 @@
+@import '~@angular/material/theming';
+
+:host {
+  display: flex;
+  flex: 1;
+  background-color: mat-color($mat-grey, 800);
+
+  .container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  mat-sidenav {
+    min-width: 200px;
+    background: mat-color($mat-grey, 900);
+
+    .mat-list {
+      padding-top: 0;
+    }
+
+    .mat-list-item {
+      text-decoration: none;
+      color: mat-color($mat-blue-grey, 200);
+
+      &:hover {
+        color: mat-color($mat-blue-grey, 50);
+        background: mat-color($mat-grey, 800);
+      }
+    }
+  }
+}

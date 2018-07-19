@@ -19,7 +19,10 @@ Object.defineProperty(window, 'getComputedStyle', {
   value: () => {
     return {
       display: 'none',
-      appearance: ['-webkit-appearance']
+      appearance: ['-webkit-appearance'],
+      getPropertyValue: prop => {
+        return '';
+      }
     };
   }
 });
@@ -34,4 +37,12 @@ Object.defineProperty(document.body.style, 'transform', {
       configurable: true
     };
   }
+});
+
+Object.defineProperty(window, 'matchMedia', {
+  value: () => ({
+    matches: false,
+    addListener: function() {},
+    removeListener: function() {}
+  })
 });
