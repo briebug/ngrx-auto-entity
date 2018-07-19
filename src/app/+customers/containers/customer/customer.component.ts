@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { Load, Update } from 'ngrx-auto-entity';
+import { Create, Load, Update } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { State } from 'state/app.interfaces';
@@ -63,6 +63,14 @@ export class CustomerComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(new Update(Customer, this.updatedCustomer));
+    if (this.updatedCustomer.id === undefined) {
+      this.store.dispatch(new Create(Customer, this.updatedCustomer));
+    } else {
+      this.store.dispatch(new Update(Customer, this.updatedCustomer));
+    }
+  }
+
+  private loadCustomerById(id: string) {
+    this.hasCustomerWithIdInState(id).pipe(first());
   }
 }

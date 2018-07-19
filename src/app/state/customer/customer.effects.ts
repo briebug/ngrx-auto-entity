@@ -11,6 +11,19 @@ import { Go } from './../router/router.actions';
 @Injectable()
 export class CustomerEffects {
   @Effect()
+  create$: Observable<Action> = this.actions$.pipe(
+    ofEntityType(Customer, EntityActionTypes.Create),
+    this.ops.create()
+  );
+
+  @Effect()
+  createSuccess$: Observable<Action> = this.actions$.pipe(
+    ofEntityType(Customer, EntityActionTypes.CreateSuccess),
+    tap(() => this.matSnackBar.open('Customer Created', 'Success', { duration: 2000 })),
+    map(() => new Go({ path: ['customers'] }))
+  );
+
+  @Effect()
   load$: Observable<Action> = this.actions$.pipe(
     ofEntityType<Customer, Load<Customer>>(Customer, EntityActionTypes.Load),
     this.ops.load()

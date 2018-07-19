@@ -18,15 +18,16 @@ function keyName(action: EntityAction): string {
  */
 export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action: EntityActions<any>) => {
+    let stateName: string;
+    let entityState: any;
+
+    if (Object.values(EntityActionTypes).includes(action.actionType)) {
+      stateName = stateNameFromAction(action);
+      entityState = state[stateName];
+    }
+
     switch (action.actionType) {
-      case EntityActionTypes.LoadSuccess: {
-        // get feature state property name
-        const stateName = stateNameFromAction(action);
-
-        // get feature state
-        // todo: avoid any
-        const entityState = state[stateName];
-
+      case EntityActionTypes.CreateSuccess: {
         // get entity
         const entity = (action as LoadSuccess<any>).entity;
 
@@ -40,10 +41,32 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
           [stateName]: {
             ...entityState,
             entities: {
-              ...entityState.entities,
+              ...(entityState.entities || {}),
               [key]: entity
             },
-            ids: [...entityState.ids, key]
+            ids: [...(entityState.ids || []), key]
+          }
+        };
+      }
+
+      case EntityActionTypes.LoadSuccess: {
+        // get entity
+        const entity = (action as LoadSuccess<any>).entity;
+
+        // get key
+        // todo: support composite keys
+        const key = entity[keyName(action)];
+
+        // return new state
+        return {
+          ...state,
+          [stateName]: {
+            ...entityState,
+            entities: {
+              ...(entityState.entities || {}),
+              [key]: entity
+            },
+            ids: [...(entityState.ids || []), key]
           }
         };
       }
@@ -63,13 +86,6 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
             ids: action['entities'].map(entity => entity[keyName(action)])
           }
         };
-      }
-
-      case EntityActionTypes.CreateSuccess: {
-        const stateName = action.info.modelName;
-        const entityState = state[stateName];
-        // TODO: Add new object into appropriate entity state
-        return { ...state, [stateName]: entityState };
       }
 
       case EntityActionTypes.UpdateSuccess: {
