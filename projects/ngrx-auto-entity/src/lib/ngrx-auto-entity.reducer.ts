@@ -53,7 +53,13 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
         return {
           ...state,
           [stateName]: {
-            entities: action['entities'].reduce((entities, entity) => ({ ...entities, [keyName(action)]: entity }), {}),
+            entities: action['entities'].reduce(
+              (entities, entity) => ({
+                ...entities,
+                [entity[keyName(action)]]: entity
+              }),
+              {}
+            ),
             ids: action['entities'].map(entity => entity[keyName(action)])
           }
         };
@@ -99,15 +105,17 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
         const stateName = stateNameFromAction(action);
         const key = keyName(action);
         const keyValue = action['entity'][key];
+        const entityState = state[stateName];
 
+        // Better to NOT delete the entity key, but set it to undefined,
+        // to avoid re-generating the underlying runtime class (TODO: find and add link to V8 jit and runtime)
         return {
           ...state,
           [stateName]: {
+            ...entityState,
             entities: {
-              ...state[stateName],
-              // Better to NOT delete the entity key, but set it to undefined,
-              // to avoid re-generating the underlying runtime class (TODO: find and add link to V8 jit and runtime)
-              [key]: undefined
+              ...entityState.entities,
+              [keyValue]: undefined
             },
             ids: state[stateName].ids.filter(eid => eid !== keyValue)
           }

@@ -13,9 +13,6 @@ export class CustomerEffects {
   @Effect()
   load$: Observable<Action> = this.actions$.pipe(
     ofEntityType<Customer, Load<Customer>>(Customer, EntityActionTypes.Load),
-    tap(action => {
-      console.log(action);
-    }),
     this.ops.load()
   );
 
