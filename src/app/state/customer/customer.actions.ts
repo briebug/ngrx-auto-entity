@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { Customer } from './../../models/customer.model';
 
 export enum CustomerActionType {
   SelectCustomer = '[Customer] Select customer'
@@ -8,7 +7,7 @@ export enum CustomerActionType {
 export class SelectCustomer implements Action {
   readonly type = CustomerActionType.SelectCustomer;
 
-  constructor(public customer: Customer) {}
+  constructor(public payload: { id: number }) {}
 }
 
 export type CustomerAction = SelectCustomer;

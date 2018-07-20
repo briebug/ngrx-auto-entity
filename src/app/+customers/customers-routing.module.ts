@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CustomerComponent } from './containers/customer/customer.component';
 import { CustomersComponent } from './containers/customers/customers.component';
 
 const routes: Routes = [
@@ -13,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: CustomersComponent
+    component: CustomerComponent
   }
 ];
 

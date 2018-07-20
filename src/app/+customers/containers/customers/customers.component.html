@@ -1,4 +1,4 @@
-<div class="customers" fxLayout="column" fxLayoutAlign="start stretch">
+<div fxLayout="column" fxLayoutAlign="start stretch" class="customers">
   <h2>Customers</h2>
   <app-customers-table [customers]="customers$ | async" (delete)="onDelete($event)" (edit)="onEdit($event)"></app-customers-table>
 </div>
