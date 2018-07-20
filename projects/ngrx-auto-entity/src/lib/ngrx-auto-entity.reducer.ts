@@ -1,6 +1,5 @@
 import { ActionReducer } from '@ngrx/store';
 import { camelCase } from 'change-case';
-import { clone } from 'ramda';
 import { EntityAction, EntityActions, EntityActionTypes, LoadSuccess } from './ngrx-auto-entity.actions';
 import { NAE_ID } from './ngrx-auto-entity.decorators';
 
@@ -51,14 +50,13 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
 
       case EntityActionTypes.LoadManySuccess: {
         const stateName = stateNameFromAction(action);
-        const entityState = clone(state[stateName]);
-        entityState.entities = action['entities'].reduce((acc, entity) => {
-          const keyValue = entity[keyName(action)];
-          acc[keyValue] = entity;
-          entityState.ids.push(keyValue);
-          return acc;
-        }, entityState.entities);
-        return { ...state, [stateName]: entityState };
+        return {
+          ...state,
+          [stateName]: {
+            entities: action['entities'].reduce((entities, entity) => ({ ...entities, [keyName(action)]: entity }), {}),
+            ids: action['entities'].map(entity => entity[keyName(action)])
+          }
+        };
       }
 
       case EntityActionTypes.CreateSuccess: {
@@ -77,12 +75,21 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
 
       case EntityActionTypes.DeleteSuccess: {
         const stateName = stateNameFromAction(action);
-        const entityState = clone(state[stateName]);
         const key = keyName(action);
         const keyValue = action['entity'][key];
-        delete entityState.entities[keyValue];
-        entityState.ids = entityState.ids.filter(eid => eid !== keyValue);
-        return { ...state, [stateName]: entityState };
+
+        return {
+          ...state,
+          [stateName]: {
+            entities: {
+              ...state[stateName],
+              // Better to NOT delete the entity key, but set it to undefined,
+              // to avoid re-generating the underlying runtime class (TODO: find and add link to V8 jit and runtime)
+              [key]: undefined
+            },
+            ids: state[stateName].ids.filter(eid => eid !== keyValue)
+          }
+        };
       }
     }
 
