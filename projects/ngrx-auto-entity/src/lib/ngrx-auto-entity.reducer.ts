@@ -1,6 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 import { camelCase } from 'change-case';
-import { EntityAction, EntityActions, EntityActionTypes, LoadSuccess } from './ngrx-auto-entity.actions';
+import { EntityAction, EntityActions, EntityActionTypes, LoadSuccess, UpdateSuccess } from './ngrx-auto-entity.actions';
 import { NAE_ID } from './ngrx-auto-entity.decorators';
 
 function stateNameFromAction(action: EntityAction): string {
@@ -75,7 +75,7 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
         const entityState = state[stateName];
 
         // get entity
-        const entity = (action as LoadSuccess<any>).entity;
+        const entity = (action as UpdateSuccess<any>).entity;
 
         // get key
         // todo: support composite keys
