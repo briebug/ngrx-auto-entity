@@ -1,6 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 import { camelCase } from 'change-case';
-import { EntityAction, EntityActions, EntityActionTypes, LoadSuccess } from './ngrx-auto-entity.actions';
+import { EntityAction, EntityActions, EntityActionTypes, LoadSuccess, UpdateSuccess } from './ngrx-auto-entity.actions';
 import { NAE_ID } from './ngrx-auto-entity.decorators';
 
 function stateNameFromAction(action: EntityAction): string {
@@ -67,10 +67,32 @@ export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionRe
       }
 
       case EntityActionTypes.UpdateSuccess: {
-        const stateName = action.info.modelName;
+        // get feature state property name
+        const stateName = stateNameFromAction(action);
+
+        // get feature state
+        // todo: avoid any
         const entityState = state[stateName];
-        // TODO: Update existing object in entity state
-        return { ...state, [stateName]: entityState };
+
+        // get entity
+        const entity = (action as UpdateSuccess<any>).entity;
+
+        // get key
+        // todo: support composite keys
+        const key = entity[keyName(action)];
+
+        // return new state
+        return {
+          ...state,
+          [stateName]: {
+            ...entityState,
+            entities: {
+              ...entityState.entities,
+              [key]: entity
+            },
+            ids: [...entityState.ids]
+          }
+        };
       }
 
       case EntityActionTypes.DeleteSuccess: {

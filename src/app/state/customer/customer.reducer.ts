@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { buildState } from 'ngrx-auto-entity';
+import { buildState, EntityActionTypes } from 'ngrx-auto-entity';
 import { ICustomerEntityState } from 'state/customer/customer.state';
-import { CustomerAction, CustomerActionType } from './customer.actions';
+import { CustomerActions, CustomerActionType, SelectCustomer } from './customer.actions';
 
 const { initialState, selectors } = buildState(Customer);
 
@@ -23,15 +23,28 @@ export const selectSelectedCustomer = createSelector(
   (entities, selectedCustomerId) => entities && entities[selectedCustomerId]
 );
 
+export const selectCustomerIsLoading = createSelector(selectCustomerFeature, state => state.loading);
+
 export function customerReducer(
   state: ICustomerEntityState = initialState,
-  action: CustomerAction
+  action: CustomerActions
 ): ICustomerEntityState {
   switch (action.type) {
     case CustomerActionType.SelectCustomer:
+      const a = action;
       return {
         ...state,
-        selectedCustomerId: action.payload.id
+        selectedCustomerId: (action as SelectCustomer).payload.id
+      };
+    case EntityActionTypes.Update:
+      return {
+        ...state,
+        loading: true
+      };
+    case EntityActionTypes.UpdateSuccess:
+      return {
+        ...state,
+        loading: false
       };
     default: {
       return state;

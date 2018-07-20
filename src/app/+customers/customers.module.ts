@@ -10,7 +10,7 @@ import { CustomersComponent } from './containers/customers/customers.component';
 import { CustomersRoutingModule } from './customers-routing.module';
 
 @NgModule({
-  imports: [CommonModule, CustomersRoutingModule, FlexLayoutModule, FormsModule, ReactiveFormsModule, MaterialModule],
+  imports: [CommonModule, CustomersRoutingModule, FlexLayoutModule, FormsModule, MaterialModule, ReactiveFormsModule],
   declarations: [CustomerComponent, CustomerFormComponent, CustomersComponent, CustomersTableComponent]
 })
 export class CustomersModule {}
