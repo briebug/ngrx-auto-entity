@@ -41,7 +41,6 @@
     "change-case": "^3.0.2",
     "core-js": "^2.5.4",
     "ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
-    "ramda": "^0.25.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
@@ -55,7 +54,6 @@
     "@ngrx/store-devtools": "^6.0.1",
     "@types/jest": "^23.1.2",
     "@types/node": "~8.9.4",
-    "@types/ramda": "0.25.24",
     "codelyzer": "~4.2.1",
     "concurrently": "^3.6.0",
     "faker": "^4.1.0",
