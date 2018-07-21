@@ -20,6 +20,7 @@ export interface IEntityState<TModel> {
 export interface IModelState<TParentState, TState, TModel> {
   initialState: TState;
   selectors: ISelectorMap<TParentState, TModel>;
+  entityState: ((state: TParentState) => TState) | (MemoizedSelector<object, any>);
 }
 
 export interface ISelectorMap<TParentState, TModel> {
@@ -63,7 +64,8 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
       selectEntities: createSelector(getState, (state: TState) => state.entities),
       selectIds: createSelector(getState, (state: TState) => state.ids),
       selectTotal: createSelector(getState, (state: TState) => state.ids.length)
-    }
+    },
+    entityState: getState
   };
 };
 
@@ -97,6 +99,7 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
       selectEntities: createSelector(selectState, state => state.entities),
       selectIds: createSelector(selectState, state => state.ids),
       selectTotal: createSelector(selectState, state => state.ids.length)
-    }
+    },
+    entityState: selectState
   };
 };

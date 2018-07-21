@@ -1,10 +1,10 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
 import { buildState, EntityActionTypes } from 'ngrx-auto-entity';
 import { ICustomerEntityState } from 'state/customer/customer.state';
 import { CustomerActions, CustomerActionType, SelectCustomer } from './customer.actions';
 
-const { initialState, selectors } = buildState(Customer);
+const { initialState, selectors, entityState } = buildState(Customer);
 
 export const {
   selectAll: selectAllCustomers,
@@ -13,9 +13,7 @@ export const {
   selectTotal: selectTotalCustomers
 } = selectors;
 
-const selectCustomerFeature = createFeatureSelector<ICustomerEntityState>('customer');
-
-export const selectSelectedCustomerId = createSelector(selectCustomerFeature, state => state.selectedCustomerId);
+export const selectSelectedCustomerId = createSelector(entityState, state => state.selectedCustomerId);
 
 export const selectSelectedCustomer = createSelector(
   selectCustomerEntities,
@@ -23,7 +21,7 @@ export const selectSelectedCustomer = createSelector(
   (entities, selectedCustomerId) => entities && entities[selectedCustomerId]
 );
 
-export const selectCustomerIsLoading = createSelector(selectCustomerFeature, state => state.loading);
+export const selectCustomerIsLoading = createSelector(entityState, state => state.loading);
 
 export function customerReducer(
   state: ICustomerEntityState = initialState,

@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
 import { Delete, LoadMany } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { IAppState } from 'state/app.interfaces';
 import { selectAllCustomers } from 'state/customer/customer.reducer';
 import { SelectCustomer } from '../../../state/customer/customer.actions';
