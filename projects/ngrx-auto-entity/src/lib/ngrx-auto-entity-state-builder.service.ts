@@ -64,8 +64,8 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
       selectEntities: createSelector(getState, (state: TState) => state.entities),
       selectIds: createSelector(getState, (state: TState) => state.ids),
       selectTotal: createSelector(getState, (state: TState) => state.ids.length)
-    },
-    entityState: getState
+    } as ISelectorMap<TParentState, TModel>,
+    entityState: getState as (state: TParentState) => TState
   };
 };
 
@@ -99,7 +99,7 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
       selectEntities: createSelector(selectState, state => state.entities),
       selectIds: createSelector(selectState, state => state.ids),
       selectTotal: createSelector(selectState, state => state.ids.length)
-    },
-    entityState: selectState
+    } as ISelectorMap<TParentState, TModel>,
+    entityState: selectState as MemoizedSelector<object, any>
   };
 };
