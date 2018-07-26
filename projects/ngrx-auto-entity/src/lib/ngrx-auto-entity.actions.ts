@@ -64,7 +64,7 @@ export class Load<TModel> implements EntityAction {
   actionType = EntityActionTypes.Load;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public keys: any) {
+  constructor(type: { new (): TModel }, public keys: any, public relationKeys?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -100,7 +100,12 @@ export class LoadMany<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadMany;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public page: number = 0, public size: number = Number.MAX_SAFE_INTEGER) {
+  constructor(
+    type: { new (): TModel },
+    public relationKeys?: any,
+    public page: number = 0,
+    public size: number = Number.MAX_SAFE_INTEGER
+  ) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -136,7 +141,7 @@ export class Create<TModel> implements EntityAction {
   actionType = EntityActionTypes.Create;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: { new (): TModel }, public entity: TModel, public relationKeys?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -175,7 +180,7 @@ export class Update<TModel> implements EntityAction {
   actionType = EntityActionTypes.Update;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: { new (): TModel }, public entity: TModel, public relationKeys?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -211,7 +216,7 @@ export class Delete<TModel> implements EntityAction {
   actionType = EntityActionTypes.Delete;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: { new (): TModel }, public entity: TModel, public relationKeys?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }

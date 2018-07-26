@@ -23,7 +23,7 @@ function keyName(action: EntityAction): string {
  *
  * @param reducer
  */
-export function reactiveEntityMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+export function autoEntityMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action: EntityActions<any>) => {
     let stateName: string;
     let entityState: any;

@@ -1,6 +1,6 @@
 import { routerReducer } from '@ngrx/router-store';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { reactiveEntityMetaReducer } from 'ngrx-auto-entity';
+import { autoEntityMetaReducer } from 'ngrx-auto-entity';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { accountReducer } from 'state/account/account.reducer';
@@ -15,5 +15,5 @@ export const appReducer: ActionReducerMap<IAppState> = {
 };
 
 export const appMetaReducers: Array<MetaReducer<IAppState>> = !environment.production
-  ? [reactiveEntityMetaReducer, storeFreeze]
-  : [reactiveEntityMetaReducer];
+  ? [autoEntityMetaReducer, storeFreeze]
+  : [autoEntityMetaReducer];

@@ -16,12 +16,12 @@ export interface IEntityError<TModel> {
 }
 
 export interface IAutoEntityService<TModel> {
-  load(entityInfo: IEntityInfo, keys: any[]): Observable<TModel>;
-  loadMany(entityInfo: IEntityInfo, page?: number, size?: number): Observable<TModel[]>;
-  create(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
-  update(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
-  replace(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
-  delete(entityInfo: IEntityInfo, entity: TModel): Observable<TModel>;
+  load(entityInfo: IEntityInfo, keys: any, relationKeys?: any): Observable<TModel>;
+  loadMany(entityInfo: IEntityInfo, relationKeys?: any, page?: number, size?: number): Observable<TModel[]>;
+  create(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  update(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  replace(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  delete(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
 }
 
 /**
@@ -32,11 +32,11 @@ export interface IAutoEntityService<TModel> {
 export class NgrxAutoEntityService {
   constructor(private injector: Injector) {}
 
-  load<TModel>(entityInfo: IEntityInfo, keys: any): Observable<IEntityRef<TModel>> {
+  load<TModel>(entityInfo: IEntityInfo, keys: any, relationKeys?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      return service.load(entityInfo, keys).pipe(
+      return service.load(entityInfo, keys, relationKeys).pipe(
         map(entity => ({
           info: entityInfo,
           entity
@@ -58,13 +58,14 @@ export class NgrxAutoEntityService {
 
   loadMany<TModel>(
     entityInfo: IEntityInfo,
+    relationKeys?: any,
     page = 0,
     size = Number.MAX_SAFE_INTEGER
   ): Observable<IEntityRef<TModel[]>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      return service.loadMany(entityInfo, page, size).pipe(
+      return service.loadMany(entityInfo, relationKeys, page, size).pipe(
         map(entity => ({
           info: entityInfo,
           entity
@@ -84,11 +85,11 @@ export class NgrxAutoEntityService {
     }
   }
 
-  create<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
+  create<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      return service.create(entityInfo, entity).pipe(
+      return service.create(entityInfo, entity, relationKeys).pipe(
         map(savedEntity => ({
           info: entityInfo,
           entity: savedEntity
@@ -108,11 +109,11 @@ export class NgrxAutoEntityService {
     }
   }
 
-  update<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
+  update<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      return service.update(entityInfo, entity).pipe(
+      return service.update(entityInfo, entity, relationKeys).pipe(
         map(savedEntity => ({
           info: entityInfo,
           entity: savedEntity
@@ -132,11 +133,11 @@ export class NgrxAutoEntityService {
     }
   }
 
-  replace<TModel>(entityInfo: IEntityInfo, entity: TModel): Observable<IEntityRef<TModel>> {
+  replace<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      return service.replace(entityInfo, entity).pipe(
+      return service.replace(entityInfo, entity, relationKeys).pipe(
         map(savedEntity => ({
           info: entityInfo,
           entity: savedEntity
@@ -156,11 +157,11 @@ export class NgrxAutoEntityService {
     }
   }
 
-  delete<TModel>(entityInfo: IEntityInfo, entity: any): Observable<IEntityRef<TModel>> {
+  delete<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      return service.delete(entityInfo, entity).pipe(
+      return service.delete(entityInfo, entity, relationKeys).pipe(
         map(deletedEntity => ({
           info: entityInfo,
           entity: deletedEntity
