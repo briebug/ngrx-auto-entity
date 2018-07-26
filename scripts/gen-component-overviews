@@ -1,0 +1,94 @@
+#!/usr/bin/env node
+
+/**
+ * Generates the component overview documentation component templates.
+ * This script traverses components in `modules/src` and looks
+ * for an *.md file that matches the parent directory name. The markdown
+ * is converted and inserted into the documentation component matching
+ * `demo-app/+{name}-docs/{name}-overview.component.html.
+ */
+
+const fs = require('fs');
+const path = require('path');
+const MarkdownParser = require('markdown-it');
+
+const SRC_DIR = path.resolve(__dirname, '../modules/src');
+const DEMO_SRC_DIR = path.resolve(__dirname, '../demo-app/app');
+const HTML_PREFIX = '<!-- This file is auto-generated. Do not modify. -->\n<demo-doc-section>\n';
+const HTML_SUFFIX = '\n</demo-doc-section>';
+
+const parser = new MarkdownParser({
+  html: true
+});
+
+function escapeAngular(html) {
+  html = html || '';
+  return html.replace(/([\{\}])/g, '{{ \'$1\' }}');
+}
+
+function fileExists(filepath) {
+  try { return fs.statSync(filepath).isFile(); } catch(e) { return false; }
+}
+
+function hasMdFile(dirpath) {
+  const filepath = getMdFilepath(dirpath);
+  return fileExists(filepath);
+}
+
+function getMdFilepath(dirpath) {
+  const basename = path.basename(dirpath);
+  const filename = `${basename}.md`;
+  const filepath = path.join(dirpath, filename);
+  return filepath;
+}
+
+function hasComponentTemplateFile(dirpath) {
+  const componentTemplateFilepath = getComponentTemplateFilepath(dirpath);
+  return fileExists(componentTemplateFilepath);
+}
+
+function getComponentTemplateFilepath(dirpath) {
+  const basename = path.basename(dirpath);
+  const moduleDirName = `+component-docs/${basename}-docs`;
+  const componentTemplateFilename = `${basename}-overview.component.html`;
+  const componentTemplateFilepath = path.join(DEMO_SRC_DIR, moduleDirName, componentTemplateFilename);
+  return componentTemplateFilepath;
+}
+
+function readSrcDir(srcDir) {
+  return fs.readdirSync(srcDir)
+    .map((dir) => path.join(SRC_DIR, dir));
+}
+
+function prefixHtml(html) {
+  return `${HTML_PREFIX}${html}`;
+}
+
+function suffixHtml(html) {
+  return `${html}${HTML_SUFFIX}`;
+}
+
+function main() {
+  readSrcDir(SRC_DIR)
+    .filter(hasMdFile)
+    .filter(hasComponentTemplateFile)
+    .map((dirpath) => {
+      const basename = path.basename(dirpath);
+      const filepath = getMdFilepath(dirpath);
+      return { dirpath, basename, filepath };
+    })
+    .map((o) => {
+      const markdown = fs.readFileSync(o.filepath, 'utf8');
+      const html = suffixHtml(prefixHtml(escapeAngular(parser.render(markdown))));
+      return { html, ...o };
+    })
+    .map((o) => {
+      const componentTemplateFilepath = getComponentTemplateFilepath(o.dirpath);
+      return { componentTemplateFilepath, ...o };
+    })
+    .map((o) => {
+      fs.writeFileSync(o.componentTemplateFilepath, o.html, { encoding: 'utf8' });
+    });
+}
+
+main();

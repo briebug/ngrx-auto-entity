@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const conventionalChangelog = require('conventional-changelog');
+
+const CHANGELOG_PATH = path.resolve(__dirname, '../../CHANGELOG.md');
+
+async function generateChangelog() {
+  // Read the existing changelog
+  const oldChangelog = fs.readFileSync(CHANGELOG_PATH);
+
+  // Write the new changelog
+  const stream = fs.createWriteStream(CHANGELOG_PATH);
+
+  const streamEnd = new Promise((resolve, reject) => {
+    stream.on('close', () => resolve());
+    stream.on('error', reject);
+  });
+
+  conventionalChangelog({
+    preset: 'angular',
+    pkg: {
+      path: path.resolve(__dirname, '../../modules/package.json')
+    },
+    append: true
+  }).pipe(stream);
+
+  await streamEnd;
+
+  // Append the old changelog
+  fs.appendFileSync(CHANGELOG_PATH, oldChangelog);
+}
+
+module.exports = generateChangelog;
+
+if (require.main === module) {
+  function main() {
+    generateChangelog().then(() => process.exit(0));
+  }
+
+  main();
+}

@@ -1,6 +1,6 @@
 {
   "name": "ngrx-auto-entity-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
@@ -14,6 +14,7 @@
     "test:ci": "jest --ci --runInBand --testResultsProcessor='jest-junit'",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "release": "node scripts/ci/release",
     "precommit": "lint-staged && pretty-quick --staged",
     "json-server": "json-server --watch data/db.json --routes data/routes.json",
     "link": "ng build ngrx-auto-entity && npm link dist/ngrx-auto-entity",
@@ -56,6 +57,7 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
     "concurrently": "^3.6.0",
+    "conventional-changelog": "^2.0.1",
     "faker": "^4.1.0",
     "husky": "^0.14.3",
     "jasmine-marbles": "^0.3.1",
@@ -64,6 +66,7 @@
     "jest-preset-angular": "^5.2.3",
     "json-server": "^0.14.0",
     "lint-staged": "^7.2.0",
+    "minimist": "^1.2.0",
     "ng-packagr": "^3.0.3",
     "ngrx-store-freeze": "^0.2.4",
     "prettier": "^1.13.6",

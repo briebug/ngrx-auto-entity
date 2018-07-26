@@ -1,11 +1,22 @@
 {
-  "name": "ngrx-auto-entity",
+  "name": "@briebug/ngrx-auto-entity",
   "description": "An automatic entity action library for NgRX",
   "repository": {
     "type": "git",
     "url": "https://github.com/briebug/ngrx-auto-entity.git"
   },
   "version": "0.0.1",
+  "keywords": [
+    "ngrx",
+    "ngrx entity",
+    "ngrx auto",
+    "ngrx auto entity"
+  ],
+  "author": "Briebug",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "change-case": "^3.0.2"
   },

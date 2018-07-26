@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const exec = require('../tools/exec');
+const bumpVersion = require('./bump-version');
+const generateChangelog = require('./generate-changelog');
+
+const defaults = {
+  version: 'patch'
+};
+
+async function release(options) {
+  const newVersion = bumpVersion(options.version);
+
+  await generateChangelog();
+}
+
+if (require.main === module) {
+  function main(argv) {
+    const options = { ...defaults, ...argv };
+    release(options).then(() => process.exit(0));
+  }
+
+  main(require('minimist')(process.argv.slice(2)));
+}

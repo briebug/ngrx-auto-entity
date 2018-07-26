@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const exec = require('../tools/exec');
+
+const APP_DIR = path.resolve(__dirname, '../../');
+const PROJECT_DIR = path.resolve(__dirname, '../../projects/ngrx-auto-entity');
+
+const defaults = {
+  version: 'patch'
+};
+
+function bumpVersion(version) {
+  exec(`cd ${APP_DIR} && npm version ${version}`)
+    .toString()
+    .trim();
+  return exec(`cd ${PROJECT_DIR} && npm version ${version}`)
+    .toString()
+    .trim();
+}
+
+module.exports = bumpVersion;
+
+if (require.main === module) {
+  function main(argv) {
+    const options = { ...defaults, ...argv };
+    bumpVersion(options.version);
+  }
+
+  main(require('minimist')(process.argv.slice(2)));
+}

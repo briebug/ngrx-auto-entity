@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+const path = require('path');
+const fs = require('fs');
+
+const scssBundle = require('scss-bundle');
+
+const SRC_DIR = path.resolve(__dirname, '../modules/src');
+const DIST_DIR = path.resolve(__dirname, '../dist/lib');
+const SRC_CORE_STYLES = path.join(SRC_DIR, 'core/_core.scss');
+const DIST_CORE_STYLES = path.join(DIST_DIR, '_core.scss');
+
+const CORE_SCSS_GLOB = path.join(SRC_CORE_STYLES, '**/*.scss');
+
+function main() {
+    new scssBundle.Bundler().Bundle(SRC_CORE_STYLES, [CORE_SCSS_GLOB]).then(result => {
+        fs.writeFileSync(DIST_CORE_STYLES, result.bundledContent, { encoding: 'utf8' });
+    });
+}
+
+main();
