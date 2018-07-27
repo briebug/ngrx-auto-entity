@@ -19,7 +19,7 @@ export class CustomerService implements IAutoEntityService<Customer> {
     return this.http.get<Customer>(`${this.url}/${keys}`);
   }
 
-  loadMany(entityInfo: IEntityInfo, page?: number, size?: number): Observable<Customer[]> {
+  loadMany(entityInfo: IEntityInfo): Observable<Customer[]> {
     return this.http.get<Customer[]>(`${this.url}`);
   }
 
