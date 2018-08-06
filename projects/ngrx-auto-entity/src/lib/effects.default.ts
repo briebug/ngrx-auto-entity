@@ -1,9 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { EntityActionTypes, EntityOperators } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
-import { ofEntityAction } from './actions';
+import {
+  CreateFailure,
+  CreateSuccess,
+  DeleteFailure,
+  DeleteSuccess,
+  EntityActionTypes,
+  LoadAllFailure,
+  LoadAllSuccess,
+  LoadFailure,
+  LoadPageFailure,
+  LoadPageSuccess,
+  LoadRangeFailure,
+  LoadRangeSuccess,
+  LoadSuccess,
+  ofEntityAction,
+  UpdateFailure,
+  UpdateSuccess
+} from './actions';
+import { EntityOperators } from './operators';
 
 @Injectable()
 export class DefaultEffects {
