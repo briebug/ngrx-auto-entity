@@ -2,9 +2,9 @@ import { Injectable, Injector } from '@angular/core';
 import { pascalCase } from 'change-case';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { IEntityInfo } from './actions';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
-import { IEntityInfo } from './ngrx-auto-entity.actions';
-import { IAutoEntityService } from './ngrx-auto-entity.service';
+import { IAutoEntityService } from './service';
 
 export interface IEntityRef<TModel> {
   info: IEntityInfo;

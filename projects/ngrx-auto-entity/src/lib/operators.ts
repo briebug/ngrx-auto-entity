@@ -24,14 +24,8 @@ import {
   Update,
   UpdateFailure,
   UpdateSuccess
-} from './ngrx-auto-entity.actions';
-import {
-  IEntityError,
-  IEntityPageRef,
-  IEntityRangeRef,
-  IEntityRef,
-  NgrxAutoEntityService
-} from './ngrx-auto-entity.service';
+} from './actions';
+import { IEntityError, IEntityPageRef, IEntityRangeRef, IEntityRef, NgrxAutoEntityService } from './service';
 
 /**
  * Rxjs operators that are intended to be called by client-defined Effects class

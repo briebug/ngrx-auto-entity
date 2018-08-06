@@ -2,11 +2,11 @@
  * Public API Surface of ngrx-auto-entity
  */
 
-export * from './lib/ngrx-auto-entity-state-builder.service';
-export * from './lib/ngrx-auto-entity.actions';
-export * from './lib/ngrx-auto-entity.decorators';
-export * from './lib/ngrx-auto-entity.module';
-export * from './lib/ngrx-auto-entity.reducer';
-export * from './lib/ngrx-auto-entity.service';
+export * from './lib/util';
+export * from './lib/actions';
+export * from './lib/decorators';
+export * from './lib/module';
+export * from './lib/reducer';
+export * from './lib/service';
 export * from './lib/operators';
 export * from './lib/models';
