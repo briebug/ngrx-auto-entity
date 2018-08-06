@@ -23,7 +23,7 @@ import {
 import { EntityOperators } from './operators';
 
 @Injectable()
-export class DefaultEffects {
+export class EntityEffects {
   @Effect()
   load$: Observable<Action> = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Load),
