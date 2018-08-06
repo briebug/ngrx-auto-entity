@@ -5,6 +5,8 @@ import {
   EntityAction,
   EntityActions,
   EntityActionTypes,
+  LoadPageSuccess,
+  LoadRangeSuccess,
   LoadSuccess,
   UpdateSuccess
 } from './ngrx-auto-entity.actions';
@@ -70,7 +72,7 @@ export function autoEntityMetaReducer(reducer: ActionReducer<any>): ActionReduce
         };
       }
 
-      case EntityActionTypes.LoadManySuccess: {
+      case EntityActionTypes.LoadAllSuccess: {
         const loadedEntities = action['entities'];
         return {
           ...state,
@@ -83,6 +85,44 @@ export function autoEntityMetaReducer(reducer: ActionReducer<any>): ActionReduce
               {}
             ),
             ids: loadedEntities.map(entity => entity[keyName(action)])
+          }
+        };
+      }
+
+      case EntityActionTypes.LoadPageSuccess: {
+        const loadedEntities = action['entities'];
+        return {
+          ...state,
+          [stateName]: {
+            entities: loadedEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [entity[keyName(action)]]: entity
+              }),
+              {}
+            ),
+            ids: loadedEntities.map(entity => entity[keyName(action)]),
+            currentPage: (action as LoadPageSuccess<any>).pageInfo.page,
+            totalCount: (action as LoadPageSuccess<any>).pageInfo.totalCount
+          }
+        };
+      }
+
+      case EntityActionTypes.LoadRangeSuccess: {
+        const loadedEntities = action['entities'];
+        return {
+          ...state,
+          [stateName]: {
+            entities: loadedEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [entity[keyName(action)]]: entity
+              }),
+              {}
+            ),
+            ids: loadedEntities.map(entity => entity[keyName(action)]),
+            currentRange: (action as LoadRangeSuccess<any>).rangeInfo.range,
+            totalCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount
           }
         };
       }

@@ -1,8 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Customer } from 'models/customer.model';
-import { IAutoEntityService, IEntityInfo } from 'ngrx-auto-entity';
-import { Observable } from 'rxjs';
+import {
+  IAutoEntityService,
+  IEntityInfo,
+  IEntityWithPageInfo,
+  IEntityWithRangeInfo,
+  Page,
+  Range
+} from 'ngrx-auto-entity';
+import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -19,8 +26,16 @@ export class CustomerService implements IAutoEntityService<Customer> {
     return this.http.get<Customer>(`${this.url}/${keys}`);
   }
 
-  loadMany(entityInfo: IEntityInfo): Observable<Customer[]> {
+  loadAll(entityInfo: IEntityInfo): Observable<Customer[]> {
     return this.http.get<Customer[]>(`${this.url}`);
+  }
+
+  loadPage(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityWithPageInfo<Customer>> {
+    return throwError({ message: 'Not implemented' });
+  }
+
+  loadRange(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityWithRangeInfo<Customer>> {
+    return throwError({ message: 'Not implemented' });
   }
 
   create(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {

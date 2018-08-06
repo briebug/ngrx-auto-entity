@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { pascalCase } from 'change-case';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { IPageInfo, IRangeInfo, Page, Range } from './models';
 import { IEntityInfo } from './ngrx-auto-entity.actions';
 import { IAutoEntityService } from './ngrx-auto-entity.service';
 
@@ -15,12 +16,39 @@ export interface IEntityError<TModel> {
   err: any;
 }
 
+export interface IEntityPageRef<TModel> extends IEntityRef<TModel[]> {
+  pageInfo: IPageInfo;
+}
+
+export interface IEntityRangeRef<TModel> extends IEntityRef<TModel[]> {
+  rangeInfo: IRangeInfo;
+}
+
+export interface IEntityWithPageInfo<TModel> {
+  entities: TModel[];
+  pageInfo: IPageInfo;
+}
+
+export interface IEntityWithRangeInfo<TModel> {
+  entities: TModel[];
+  rangeInfo: IRangeInfo;
+}
+
 export interface IAutoEntityService<TModel> {
   load(entityInfo: IEntityInfo, keys: any, relationKeys?: any): Observable<TModel>;
-  loadMany(entityInfo: IEntityInfo, relationKeys?: any, page?: number, size?: number): Observable<TModel[]>;
+
+  loadAll(entityInfo: IEntityInfo, relationKeys?: any): Observable<TModel[]>;
+
+  loadPage(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityWithPageInfo<TModel>>;
+
+  loadRange(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityWithRangeInfo<TModel>>;
+
   create(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+
   update(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+
   replace(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+
   delete(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
 }
 
@@ -56,19 +84,61 @@ export class NgrxAutoEntityService {
     }
   }
 
-  loadMany<TModel>(
-    entityInfo: IEntityInfo,
-    relationKeys?: any,
-    page = 0,
-    size = Number.MAX_SAFE_INTEGER
-  ): Observable<IEntityRef<TModel[]>> {
+  loadAll<TModel>(entityInfo: IEntityInfo, relationKeys?: any): Observable<IEntityRef<TModel[]>> {
     try {
       const service = this.getService<TModel>(entityInfo);
-
-      return service.loadMany(entityInfo, relationKeys, page, size).pipe(
-        map(entity => ({
+      return service.loadAll(entityInfo, relationKeys).pipe(
+        map((entities: TModel[]) => ({
           info: entityInfo,
-          entity
+          entity: entities
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
+  loadPage<TModel>(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityPageRef<TModel>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+      return service.loadPage(entityInfo, page, relationKeys).pipe(
+        map((result: IEntityWithPageInfo<TModel>) => ({
+          info: entityInfo,
+          pageInfo: result.pageInfo,
+          entity: result.entities
+        })),
+        catchError(err =>
+          throwError({
+            info: entityInfo,
+            err
+          })
+        )
+      );
+    } catch (err) {
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
+  loadRange<TModel>(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityRangeRef<TModel>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+      return service.loadRange(entityInfo, range, relationKeys).pipe(
+        map((result: IEntityWithRangeInfo<TModel>) => ({
+          info: entityInfo,
+          rangeInfo: result.rangeInfo,
+          entity: result.entities
         })),
         catchError(err =>
           throwError({

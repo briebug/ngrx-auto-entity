@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { Delete, LoadMany } from 'ngrx-auto-entity';
+import { Delete, LoadAll } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { IAppState } from 'state/app.interfaces';
+import { SelectCustomer } from 'state/customer/customer.actions';
 import { selectAllCustomers } from 'state/customer/customer.reducer';
-import { SelectCustomer } from '../../../state/customer/customer.actions';
 
 @Component({
   selector: 'app-customers',
@@ -20,7 +19,7 @@ export class CustomersComponent implements OnInit {
   constructor(private router: Router, private store: Store<IAppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadMany(Customer));
+    this.store.dispatch(new LoadAll(Customer));
     this.customers$ = this.store.pipe(select(selectAllCustomers));
   }
 

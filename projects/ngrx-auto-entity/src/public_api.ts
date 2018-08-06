@@ -9,3 +9,4 @@ export * from './lib/ngrx-auto-entity.module';
 export * from './lib/ngrx-auto-entity.reducer';
 export * from './lib/ngrx-auto-entity.service';
 export * from './lib/operators';
+export * from './lib/models';

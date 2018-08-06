@@ -1,5 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { camelCase } from 'change-case';
+import { Range } from './models';
 
 /**
  * Structure for how entities are stored within the `entities` state property:
@@ -15,6 +16,9 @@ export interface IEntityDictionary<TModel> {
 export interface IEntityState<TModel> {
   entities: IEntityDictionary<TModel>;
   ids: any[];
+  currentPage?: number;
+  currentRange?: Range;
+  totalCount?: number;
 }
 
 export interface IModelState<TParentState, TState, TModel> {

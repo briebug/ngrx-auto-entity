@@ -2,15 +2,24 @@ import { Action } from '@ngrx/store';
 import { pascalCase } from 'change-case';
 import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { IPageInfo, IRangeInfo, Page, Range } from './models';
 
 export enum EntityActionTypes {
   Load = '[Entity] Generic Load',
   LoadSuccess = '[Entity] Generic Load: Success',
   LoadFailure = '[Entity] Generic Load: Failure',
 
-  LoadMany = '[Entity] Generic Load Many',
-  LoadManySuccess = '[Entity] Generic Load Many: Success',
-  LoadManyFailure = '[Entity] Generic Load Many: Failure',
+  LoadAll = '[Entity] Generic Load All',
+  LoadAllSuccess = '[Entity] Generic Load All: Success',
+  LoadAllFailure = '[Entity] Generic Load All: Failure',
+
+  LoadPage = '[Entity] Generic Load Page',
+  LoadPageSuccess = '[Entity] Generic Load Page: Success',
+  LoadPageFailure = '[Entity] Generic Load Page: Failure',
+
+  LoadRange = '[Entity] Generic Load Range',
+  LoadRangeSuccess = '[Entity] Generic Load Range: Success',
+  LoadRangeFailure = '[Entity] Generic Load Range: Failure',
 
   Create = '[Entity] Generic Create',
   CreateSuccess = '[Entity] Generic Create: Success',
@@ -93,27 +102,22 @@ export class LoadFailure<TModel> implements EntityAction {
 }
 
 /**
- * Loads many entities, corresponding to HTTP GET /entity operation
+ * Loads all instance of an entity, corresponding to HTTP GET /entity operation
  */
-export class LoadMany<TModel> implements EntityAction {
+export class LoadAll<TModel> implements EntityAction {
   type: string;
-  actionType = EntityActionTypes.LoadMany;
+  actionType = EntityActionTypes.LoadAll;
   info: IEntityInfo;
 
-  constructor(
-    type: { new (): TModel },
-    public relationKeys?: any,
-    public page: number = 0,
-    public size: number = Number.MAX_SAFE_INTEGER
-  ) {
+  constructor(type: { new (): TModel }, public relationKeys?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
 }
 
-export class LoadManySuccess<TModel> implements EntityAction {
+export class LoadAllSuccess<TModel> implements EntityAction {
   type: string;
-  actionType = EntityActionTypes.LoadManySuccess;
+  actionType = EntityActionTypes.LoadAllSuccess;
   info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entities: TModel[]) {
@@ -122,9 +126,81 @@ export class LoadManySuccess<TModel> implements EntityAction {
   }
 }
 
-export class LoadManyFailure<TModel> implements EntityAction {
+export class LoadAllFailure<TModel> implements EntityAction {
   type: string;
-  actionType = EntityActionTypes.LoadManyFailure;
+  actionType = EntityActionTypes.LoadAllFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Loads a single page of entities, corresponding to HTTP GET /entity?page&size operation
+ */
+export class LoadPage<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadPage;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public page: Page, public relationKeys?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class LoadPageSuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadPageSuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[], public pageInfo: IPageInfo) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class LoadPageFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadPageFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Loads a range of entities, corresponding to HTTP GET /entity?start&end|first&last|skip&take operation
+ */
+export class LoadRange<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadRange;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public range: Range, public relationKeys?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class LoadRangeSuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadRangeSuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[], public rangeInfo: IRangeInfo) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class LoadRangeFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadRangeFailure;
   info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
@@ -248,9 +324,15 @@ export type EntityActions<TModel> =
   | Load<TModel>
   | LoadFailure<TModel>
   | LoadSuccess<TModel>
-  | LoadMany<TModel>
-  | LoadManyFailure<TModel>
-  | LoadManySuccess<TModel>
+  | LoadAll<TModel>
+  | LoadAllFailure<TModel>
+  | LoadAllSuccess<TModel>
+  | LoadPage<TModel>
+  | LoadPageFailure<TModel>
+  | LoadPageSuccess<TModel>
+  | LoadRange<TModel>
+  | LoadRangeFailure<TModel>
+  | LoadRangeSuccess<TModel>
   | Create<TModel>
   | CreateFailure<TModel>
   | CreateSuccess<TModel>
@@ -277,9 +359,15 @@ export function ofEntityType<TModel, T extends EntityAction>(
         action instanceof Load ||
         action instanceof LoadSuccess ||
         action instanceof LoadFailure ||
-        action instanceof LoadMany ||
-        action instanceof LoadManySuccess ||
-        action instanceof LoadManyFailure ||
+        action instanceof LoadAll ||
+        action instanceof LoadAllSuccess ||
+        action instanceof LoadAllFailure ||
+        action instanceof LoadPage ||
+        action instanceof LoadPageSuccess ||
+        action instanceof LoadPageFailure ||
+        action instanceof LoadRange ||
+        action instanceof LoadRangeSuccess ||
+        action instanceof LoadRangeFailure ||
         action instanceof Create ||
         action instanceof CreateSuccess ||
         action instanceof CreateFailure ||
