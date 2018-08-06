@@ -344,6 +344,43 @@ export type EntityActions<TModel> =
   | DeleteSuccess<TModel>;
 
 /**
+ * Operator to filter actions by an entity action type or multiple action types.
+ *
+ * @param allowedActionTypes One or more action type string constants
+ */
+export function ofEntityAction<T extends EntityAction>(
+  ...allowedActionTypes: EntityActionTypes[]
+): OperatorFunction<Action, T> {
+  return filter(
+    (action: EntityAction): action is T => {
+      return action instanceof Load ||
+        action instanceof LoadSuccess ||
+        action instanceof LoadFailure ||
+        action instanceof LoadAll ||
+        action instanceof LoadAllSuccess ||
+        action instanceof LoadAllFailure ||
+        action instanceof LoadPage ||
+        action instanceof LoadPageSuccess ||
+        action instanceof LoadPageFailure ||
+        action instanceof LoadRange ||
+        action instanceof LoadRangeSuccess ||
+        action instanceof LoadRangeFailure ||
+        action instanceof Create ||
+        action instanceof CreateSuccess ||
+        action instanceof CreateFailure ||
+        action instanceof Update ||
+        action instanceof UpdateSuccess ||
+        action instanceof UpdateFailure ||
+        action instanceof Delete ||
+        action instanceof DeleteSuccess ||
+        action instanceof DeleteFailure
+        ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
+        : false;
+    }
+  );
+}
+
+/**
  * Operator to filter actions by an entity and action type or multiple action types.
  *
  * @param entity The entity class
