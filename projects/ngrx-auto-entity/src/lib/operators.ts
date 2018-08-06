@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { pascalCase } from 'change-case';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 import {
   Create,
   CreateFailure,
@@ -37,7 +37,7 @@ export class EntityOperators {
   load<TModel>() {
     return (source: Observable<Load<TModel>>) =>
       source.pipe(
-        switchMap(action =>
+        exhaustMap(action =>
           this.entityService.load(action.info, action.keys, action.relationKeys).pipe(
             map((ref: IEntityRef<TModel>) => new LoadSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
@@ -60,7 +60,7 @@ export class EntityOperators {
   loadAll<TModel>() {
     return (source: Observable<LoadAll<TModel>>) =>
       source.pipe(
-        switchMap(action =>
+        exhaustMap(action =>
           this.entityService.loadAll(action.info, action.relationKeys).pipe(
             map((ref: IEntityRef<TModel[]>) => new LoadAllSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
@@ -83,7 +83,7 @@ export class EntityOperators {
   loadPage<TModel>() {
     return (source: Observable<LoadPage<TModel>>) =>
       source.pipe(
-        switchMap((action: LoadPage<TModel>) =>
+        exhaustMap((action: LoadPage<TModel>) =>
           this.entityService.loadPage(action.info, action.page, action.relationKeys).pipe(
             map(
               (ref: IEntityPageRef<TModel>) => new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo)
@@ -108,7 +108,7 @@ export class EntityOperators {
   loadRange<TModel>() {
     return (source: Observable<LoadRange<TModel>>) =>
       source.pipe(
-        switchMap((action: LoadRange<TModel>) =>
+        exhaustMap((action: LoadRange<TModel>) =>
           this.entityService.loadRange(action.info, action.range, action.relationKeys).pipe(
             map(
               (ref: IEntityRangeRef<TModel>) =>
@@ -134,7 +134,7 @@ export class EntityOperators {
   create<TModel>() {
     return (source: Observable<Create<TModel>>) =>
       source.pipe(
-        switchMap((action: Create<TModel>) =>
+        exhaustMap((action: Create<TModel>) =>
           this.entityService.create<TModel>(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => new CreateSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
@@ -157,7 +157,7 @@ export class EntityOperators {
   update<TModel>() {
     return (source: Observable<Update<TModel>>) =>
       source.pipe(
-        switchMap((action: Update<TModel>) =>
+        exhaustMap((action: Update<TModel>) =>
           this.entityService.update<TModel>(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => new UpdateSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
@@ -180,7 +180,7 @@ export class EntityOperators {
   delete<TModel>() {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
-        switchMap(action =>
+        exhaustMap(action =>
           this.entityService.delete(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
