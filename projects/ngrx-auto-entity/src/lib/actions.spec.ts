@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { EntityActionTypes, Load, ofEntityType } from './ngrx-auto-entity.actions';
-import { Key } from './ngrx-auto-entity.decorators';
+import { EntityActionTypes, Load, ofEntityType } from './actions';
+import { Key } from './decorators';
 
 class TestEntity {
   @Key id: number;
@@ -11,7 +11,7 @@ class TestEntity {
   lastName: 'Love';
 }
 
-describe('NgrxAutoEntityActions', () => {
+describe('NgRX Auto-Entity: Actions', () => {
   let actions: Observable<any>;
 
   beforeEach(() => {

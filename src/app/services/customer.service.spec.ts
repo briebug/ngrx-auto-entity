@@ -48,9 +48,9 @@ describe('CustomerService', () => {
     });
   });
 
-  describe('#loadMany', () => {
+  describe('#loadAll', () => {
     test('should return an Observable<Customer[]>', () => {
-      service.loadMany(entityInfo).subscribe(customers => {
+      service.loadAll(entityInfo).subscribe(customers => {
         expect(customers.length).toBe(1);
         expect(customers).toEqual(dummyCustomers);
       });
