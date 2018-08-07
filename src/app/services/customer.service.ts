@@ -30,11 +30,11 @@ export class CustomerService implements IAutoEntityService<Customer> {
     return this.http.get<Customer[]>(`${this.url}`);
   }
 
-  loadPage(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityWithPageInfo<Customer>> {
+  loadPage(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityWithPageInfo<Customer>> {
     return throwError({ message: 'Not implemented' });
   }
 
-  loadRange(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityWithRangeInfo<Customer>> {
+  loadRange(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityWithRangeInfo<Customer>> {
     return throwError({ message: 'Not implemented' });
   }
 

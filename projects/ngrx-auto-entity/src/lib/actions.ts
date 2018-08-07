@@ -73,7 +73,7 @@ export class Load<TModel> implements EntityAction {
   actionType = EntityActionTypes.Load;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public keys: any, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public keys: any, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -109,7 +109,7 @@ export class LoadAll<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadAll;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -145,7 +145,7 @@ export class LoadPage<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadPage;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public page: Page, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public page: Page, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -181,7 +181,7 @@ export class LoadRange<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadRange;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public range: Range, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public range: Range, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -217,7 +217,7 @@ export class Create<TModel> implements EntityAction {
   actionType = EntityActionTypes.Create;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -256,7 +256,7 @@ export class Update<TModel> implements EntityAction {
   actionType = EntityActionTypes.Update;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -292,7 +292,7 @@ export class Delete<TModel> implements EntityAction {
   actionType = EntityActionTypes.Delete;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public relationKeys?: any) {
+  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }

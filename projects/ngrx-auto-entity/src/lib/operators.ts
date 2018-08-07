@@ -38,7 +38,7 @@ export class EntityOperators {
     return (source: Observable<Load<TModel>>) =>
       source.pipe(
         exhaustMap(action =>
-          this.entityService.load(action.info, action.keys, action.relationKeys).pipe(
+          this.entityService.load(action.info, action.keys, action.criteria).pipe(
             map((ref: IEntityRef<TModel>) => new LoadSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
               if (error.err instanceof TypeError) {
@@ -61,7 +61,7 @@ export class EntityOperators {
     return (source: Observable<LoadAll<TModel>>) =>
       source.pipe(
         exhaustMap(action =>
-          this.entityService.loadAll(action.info, action.relationKeys).pipe(
+          this.entityService.loadAll(action.info, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => new LoadAllSuccess<TModel>(ref.info.modelType, ref.entity)),
             catchError((error: IEntityError<TModel>) => {
               if (error.err instanceof TypeError) {
@@ -84,7 +84,7 @@ export class EntityOperators {
     return (source: Observable<LoadPage<TModel>>) =>
       source.pipe(
         exhaustMap((action: LoadPage<TModel>) =>
-          this.entityService.loadPage(action.info, action.page, action.relationKeys).pipe(
+          this.entityService.loadPage(action.info, action.page, action.criteria).pipe(
             map(
               (ref: IEntityPageRef<TModel>) => new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo)
             ),
@@ -109,7 +109,7 @@ export class EntityOperators {
     return (source: Observable<LoadRange<TModel>>) =>
       source.pipe(
         exhaustMap((action: LoadRange<TModel>) =>
-          this.entityService.loadRange(action.info, action.range, action.relationKeys).pipe(
+          this.entityService.loadRange(action.info, action.range, action.criteria).pipe(
             map(
               (ref: IEntityRangeRef<TModel>) =>
                 new LoadRangeSuccess<TModel>(ref.info.modelType, ref.entity, ref.rangeInfo)

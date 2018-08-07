@@ -5,7 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # NgRX Auto-Entity
 
 Automatic entities for @ngrx! With this library, you can take the boiler off your plate, and
-get back to business.
+get back to business!
 
 ## What is it?
 
@@ -15,9 +15,9 @@ NgRX itself. This library is not a replacement for or alternative to NgRX. It wo
 standard paradigm that NgRX has set forth, making use of actions, reducers & effects like any
 other NgRX application.
 
-What Auto-Entity does do, is provide a set of ready-made, generic actions for handling all of
+What Auto-Entity does do is provide a set of ready-made, generic actions for handling all of
 the standard CRUD operations for entities, so you neither have to write nor generate any of that
-code yourself. Auto-Entity presents a flexible framework that you may use in it's entirety for
+code yourself. Auto-Entity presents a flexible framework that you may use in its entirety for
 all of your entity needs, or use piecemeal as necessary in order to achieve your specific goals.
 
 While it is not required and Auto-Entity is an entirely independent library that solely depends
@@ -34,7 +34,7 @@ Install @briebug/ngrx-auto-entity from npm:
 # Setup
 
 While Auto-Entity aims to provide a minimal boilerplate platform for handling entities, it does
-require some minimal setup. As with any Angular module, it must be imported into your application:
+require some basic setup. As with any Angular module, it must be imported into your application:
 
 ```typescript
 import { NgModule } from '@angular/core';
@@ -82,6 +82,14 @@ Note the use of the `@Key` decorator here. This identifies which property of the
 represents the uniquely identifying key. Auto-Entity will utilize this knowledge later
 on to achieve some of the "magic" of automatically managing entity state for you.
 
+#### Composite Keys
+
+While composite key support for more advanced applications is on our roadmap, at the current
+time composite keys are not directly supported. As one of our goals is to maintain internl
+compatibility with @ngrx/entity where possible, we are thinking hard on how to support
+composite keys (i.e. apply `@Key` to multiple properties on a model) while maintaining
+the standard internal state structure of entity map/id array.
+
 ### Services
 
 The model class must then have a companion service created to handle all of the standard
@@ -89,21 +97,21 @@ CRUD operations. This service must implement the `IAutoEntityService<TModel>` in
 
 ```typescript
 export interface IAutoEntityService<TModel> {
-  load?(entityInfo: IEntityInfo, keys: any, relationKeys?: any): Observable<TModel>;
+  load?(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<TModel>;
 
-  loadAll?(entityInfo: IEntityInfo, relationKeys?: any): Observable<TModel[]>;
+  loadAll?(entityInfo: IEntityInfo, criteria?: any): Observable<TModel[]>;
 
-  loadPage?(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityWithPageInfo<TModel>>;
+  loadPage?(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityWithPageInfo<TModel>>;
 
-  loadRange?(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityWithRangeInfo<TModel>>;
+  loadRange?(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityWithRangeInfo<TModel>>;
 
-  create?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  create?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
-  update?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  update?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
-  replace?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  replace?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
-  delete?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  delete?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 }
 ```
 
@@ -185,13 +193,13 @@ are supported.
 
 // TODO: Add examples of range retrieval operations
 
-#### Relationship Keys
+#### Custom Criteria
 
 Finally, to support any arbitrary means of data retrieval, including hierarchical data structures
-and lookup as well as third party data services, we provide an optional `relationKeys` property
+and lookup as well as third-party data services, we provide an optional `criteria` property
 for all initiating (i.e. non-success, non-failure: Load<TModel>, Create<TModel>, etc.) actions.
-This property is an arbitrary key, array or map of keys, that can be used to reference parent
-or foreign keys in any way the developer requires.
+This property is an arbitrary key, array or map of keys, that can be used to pass along custom
+lookup or search criteria, reference parent or foreign keys, etc. in any way the developer requires.
 
 As a basic example, consider a set of orders looked up by their parent customer. You may have
 a REST API endpoint like so:
@@ -202,7 +210,7 @@ And perhaps also:
 
 `/api/v1/orders?startDate&endDate`
 
-There are three potential relationship keys here: The customerId, the startDate and the endDate.
+There are three potential criteria here: The _customerId_, the _startDate_ and the _endDate_.
 
 All orders..."by customer" and "within a given date range", may be looked up like so:
 
@@ -210,21 +218,19 @@ All orders..."by customer" and "within a given date range", may be looked up lik
 this.store.dispatch(new LoadAll(Order, { customerId: 101, startDate: '2018-08-01', endDate: '2018-08-31' }));
 ```
 
-The Orders service is then provided any relation keys included in the original dispatch:
+The Orders service is then provided any criteria included in the original dispatch:
 
 ```typescript
 @Injectable()
 export class OrderService implements IAutoEntityService<Order> {
   // ...
 
-  loadAll(entityInfo: IEntityInfo, relationKeys: any): Observable<Order[]> {
+  loadAll(entityInfo: IEntityInfo, criteria: any): Observable<Order[]> {
     const url =
-      relationKeys && relationKeys.customerId
-        ? `/customers/${relationKeys.customerId}/orders?startDate=${relationKeys.startDate}&endDate=${
-            relationKeys.endDate
-          }`
-        : relationKeys && (relationKeys.startDate || relationKeys.endDate)
-          ? '/orders?startDate=${relationKeys.startDate}&endDate=${relationKeys.endDate}'
+      criteria && criteria.customerId
+        ? `/customers/${criteria.customerId}/orders?startDate=${criteria.startDate}&endDate=${criteria.endDate}`
+        : criteria && (criteria.startDate || criteria.endDate)
+          ? `/orders?startDate=${criteria.startDate}&endDate=${criteria.endDate}`
           : '/orders';
     return this.http.get<Order[]>(url);
   }
@@ -260,12 +266,12 @@ export class EntityService implements IAutoEntityService<any> {
     return this.http.post<any[]>(url, entity);
   }
 
-  update(entityInfo: IEntityInfo, entity: any, relationKeys: any): Observable<any[]> {
+  update(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
     const url = `/api/v1/${entityInfo.modelName}/${entity.id}`;
     return this.http.patch<any[]>(url, entity);
   }
 
-  replace(entityInfo: IEntityInfo, entity: any, relationKeys: any): Observable<any[]> {
+  replace(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
     const url = `/api/v1/${entityInfo.modelName}/${entity.id}`;
     return this.http.put<any[]>(url);
   }
@@ -318,7 +324,7 @@ import { NgrxAutoEntityModule } from 'ngrx-auto-entity';
 
 import { AppComponent } from './app.component';
 
-import { Customer, Order, Account } from 'models';
+import { Customer, Order, OrderLine, Account } from 'models';
 import { EntityService } from 'services/entity.service';
 
 @NgModule({
@@ -334,6 +340,10 @@ import { EntityService } from 'services/entity.service';
 })
 export class AppModule {}
 ```
+
+Since the actual class for the entity model is also provided, this offers further opportunity
+to extend and customize your service behavior. You may add static properties to your classes
+that could be used within your entity services to direct how they behave, provide config, etc.
 
 ## Per-entity State
 
@@ -581,7 +591,7 @@ export class StateModule {
 
 This will register all of the necessary effects to handle initial service calls, as well
 as dispatch success or failure actions in response to those service calls. With standard
-effects, important errors caused by failed service calls will be surfaces to the browser
+effects, important errors caused by failed service calls will be surfaced to the browser
 console in a developer-friendly manner.
 
 ### Advanced Effects
@@ -678,7 +688,7 @@ When handling an effect on your own, we provide an `ofEntityType` operator. This
 akin to the standard ngrx `ofType` operator, only extended to support filtering by both an
 action as well as a specific entity model. In the case of our example, the `Customer` model.
 
-The next line after the `ofEntityType` call is a little more unusual. Since our entity opperator
+The next line after the `ofEntityType` call is a little more unusual. Since our entity operator
 effects rely on Angular services, they must be included in an Angular class so the standard
 injector will function properly.
 
@@ -689,7 +699,7 @@ through a REST API, a custom effect like the above is an ideal opportunity:
   @Effect()
   update$ = this.actions$.pipe(
     ofEntityType(Customer, EntityActionTypes.Update),
-    filter(() => !sessionStorage.getItem('currentUsername')), // Don't update if user is not known
+    filter(() => !!sessionStorage.getItem('currentUsername')), // Don't update if user is not known
     map((action: Update<Customer>) => ({ // Merge in updating user info
       ...action,
       entity: {

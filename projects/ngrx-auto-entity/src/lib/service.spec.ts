@@ -24,7 +24,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     return throwError({ message: 'Entity not found' });
   }
 
-  loadAll(entityInfo: IEntityInfo, relationKeys?: any): Observable<TestModel[]> {
+  loadAll(entityInfo: IEntityInfo, criteria?: any): Observable<TestModel[]> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     } else {
@@ -32,7 +32,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     }
   }
 
-  loadPage(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityWithPageInfo<TestModel>> {
+  loadPage(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityWithPageInfo<TestModel>> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     } else if (page.page === 1) {
@@ -61,7 +61,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     }
   }
 
-  loadRange(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityWithRangeInfo<TestModel>> {
+  loadRange(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityWithRangeInfo<TestModel>> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     }
@@ -92,7 +92,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     });
   }
 
-  create(entityInfo: IEntityInfo, entity: TestModel, relationKeys?: any): Observable<TestModel> {
+  create(entityInfo: IEntityInfo, entity: TestModel, criteria?: any): Observable<TestModel> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     } else {
@@ -100,7 +100,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     }
   }
 
-  update(entityInfo: IEntityInfo, entity: TestModel, relationKeys?: any): Observable<TestModel> {
+  update(entityInfo: IEntityInfo, entity: TestModel, criteria?: any): Observable<TestModel> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     } else {
@@ -108,7 +108,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     }
   }
 
-  replace(entityInfo: IEntityInfo, entity: TestModel, relationKeys?: any): Observable<TestModel> {
+  replace(entityInfo: IEntityInfo, entity: TestModel, criteria?: any): Observable<TestModel> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     } else {
@@ -116,7 +116,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     }
   }
 
-  delete(entityInfo: IEntityInfo, entity: TestModel, relationKeys?: any): Observable<TestModel> {
+  delete(entityInfo: IEntityInfo, entity: TestModel, criteria?: any): Observable<TestModel> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
     } else {
