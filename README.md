@@ -144,12 +144,135 @@ export class CustomerService implements IAutoEntityService<Customer> {
     return this.http.patch<Customer>(`${this.url}/${entity.id}`, entity);
   }
 
-  replace(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
-    return this.http.put<Customer>(`${this.url}`, entity);
-  }
-
   delete(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
     return this.http.delete<Customer>(`${this.url}/${entity.id}`).pipe(map(() => entity));
+  }
+}
+```
+
+### Advanced Services
+
+Auto-Entity provides a fairly broad range of standard service operations that can be implemented. While
+all operations are optional in the IAutoEntityService<TModel> interface, you must implement all
+operations that are necessary for the actions you intend to use. If you only intend to use Load, then
+you are only required to implement the load() method.
+
+#### Update vs. Replace
+
+In addition to your basic retrieval and CUD operations, we also support a few additional methods. In
+an attempt to support current HTTP standards, we have both an `update` as well as a `replace` method
+in the service interface. While historically `update` has effectively been synonymous with PUT in all
+cases, actual standards-based PUT semantics imply that a PUT replaces the object. The new PATCH is
+intended to be used when an update may be partial or explicitly directed.
+
+#### Pages & Ranges
+
+We also provide built-in support for paged data as well as ranged retrievals. Paged data is data that
+is only loaded from the server one page at a time, rather than an entire collection pre-loaded
+into the browser first, then paging and other operations performed locally within the browser. This
+is not only common but also often quite necessary when dealing with larger data sets. Since entire
+large data sets may not be fully loaded into memory, use of paged loads will always replace any
+previously loaded state for any prior page with the information for the newly loaded page. Make sure
+you account for these semantics in your implementations.
+
+// TODO: Add examples of paging operations
+
+Ranged retrievals support things like retrieval by non-key ranges, infinite scrolling, etc. Unlike
+paged loads, ranged retrievals support adding additional entities to existing entities already in
+state. Ranged retrieval may be done with first/last, start/end, or skip/take semantics. For the
+former two, the values may currently be number, string, or date. For the latter, only numbers
+are supported.
+
+// TODO: Add examples of range retrieval operations
+
+#### Relationship Keys
+
+Finally, to support any arbitrary means of data retrieval, including hierarchical data structures
+and lookup as well as third party data services, we provide an optional `relationKeys` property
+for all initiating (i.e. non-success, non-failure: Load<TModel>, Create<TModel>, etc.) actions.
+This property is an arbitrary key, array or map of keys, that can be used to reference parent
+or foreign keys in any way the developer requires.
+
+As a basic example, consider a set of orders looked up by their parent customer. You may have
+a REST API endpoint like so:
+
+`/api/v1/customers/:customerId/orders?startDate&endDate`
+
+And perhaps also:
+
+`/api/v1/orders?startDate&endDate`
+
+There are three potential relationship keys here: The customerId, the startDate and the endDate.
+
+All orders..."by customer" and "within a given date range", may be looked up like so:
+
+```typescript
+this.store.dispatch(new LoadAll(Order, { customerId: 101, startDate: '2018-08-01', endDate: '2018-08-31' }));
+```
+
+The Orders service is then provided any relation keys included in the original dispatch:
+
+```typescript
+@Injectable()
+export class OrderService implements IAutoEntityService<Order> {
+  // ...
+
+  loadAll(entityInfo: IEntityInfo, relationKeys: any): Observable<Order[]> {
+    const url =
+      relationKeys && relationKeys.customerId
+        ? `/customers/${relationKeys.customerId}/orders?startDate=${relationKeys.startDate}&endDate=${
+            relationKeys.endDate
+          }`
+        : relationKeys && (relationKeys.startDate || relationKeys.endDate)
+          ? '/orders?startDate=${relationKeys.startDate}&endDate=${relationKeys.endDate}'
+          : '/orders';
+    return this.http.get<Order[]>(url);
+  }
+
+  // ...
+}
+```
+
+#### Shared Services
+
+If you have a simple API you consume for your application, it may not be necessary to implement
+unique services for each entity. If you follow a strict convention for every model, you may be
+able to use a single service. We provide `IEntityInfo` in the entityInfo parameter of each
+service method. This contains the `modelName` as a string and the actual `modelType` class reference.
+
+The model information may be used to dynamically build URLs in a single service implementation:
+
+```typescript
+@Injectable()
+export class EntityService implements IAutoEntityService<any> {
+  load(entityInfo: IEntityInfo, id: any): Observable<any[]> {
+    const url = `/api/v1/${entityInfo.modelName}/${id}`;
+    return this.http.get<any[]>(url);
+  }
+
+  loadAll(entityInfo: IEntityInfo): Observable<any[]> {
+    const url = `/api/v1/${entityInfo.modelName}`;
+    return this.http.get<any[]>(url);
+  }
+
+  create(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
+    const url = `/api/v1/${entityInfo.modelName}/${key}`;
+    return this.http.post<any[]>(url, entity);
+  }
+
+  update(entityInfo: IEntityInfo, entity: any, relationKeys: any): Observable<any[]> {
+    const url = `/api/v1/${entityInfo.modelName}/${entity.id}`;
+    return this.http.patch<any[]>(url, entity);
+  }
+
+  replace(entityInfo: IEntityInfo, entity: any, relationKeys: any): Observable<any[]> {
+    const url = `/api/v1/${entityInfo.modelName}/${entity.id}`;
+    return this.http.put<any[]>(url);
+  }
+
+  delete(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
+    const url = `/api/v1/${entityInfo.modelName}/${entity.id}`;
+    return this.http.delete<any[]>(url);
   }
 }
 ```
@@ -183,6 +306,34 @@ For Auto-Entity models and services, you must map the model, in our example here
 `provider`, to the service, in our example here `CustomerService`, via `useClass`. As all actions are
 initiated with knowledge of only the model, this mapping allows Auto-Entity to find and retrieve an
 instance of the appropriate service at runtime for any given model.
+
+#### Shared Service Providers
+
+If you are utilizing a shared service, simply register each model with the same useClass:
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgrxAutoEntityModule } from 'ngrx-auto-entity';
+
+import { AppComponent } from './app.component';
+
+import { Customer, Order, Account } from 'models';
+import { EntityService } from 'services/entity.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, NgrxAutoEntityModule],
+  providers: [
+    { provide: Customer, useClass: EntityService },
+    { provide: Order, useClass: EntityService },
+    { provide: OrderLine, useClass: EntityService },
+    { provide: Account, useClass: EntityService }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
 
 ## Per-entity State
 
@@ -428,6 +579,11 @@ export class StateModule {
 }
 ```
 
+This will register all of the necessary effects to handle initial service calls, as well
+as dispatch success or failure actions in response to those service calls. With standard
+effects, important errors caused by failed service calls will be surfaces to the browser
+console in a developer-friendly manner.
+
 ### Advanced Effects
 
 In the event that you require more control over the side effects for your entities, we
@@ -448,8 +604,8 @@ register the effect for each side effect as necessary:
 - LoadRangeEffect (GET/many)
 - CUDEffects: All CUD -CURD- effects
 - CreateEffect (POST)
-- UpdateEffect (PUT)
-- -ReplaceEffect- (PATCH): Not yet implemented
+- UpdateEffect (PATCH)
+- -ReplaceEffect- (PUT): Not yet implemented
 - DeleteEffect (DELETE)
 
 Simply register the effects class(es) you wish to have Auto-Entity handle for you. Any
@@ -469,9 +625,7 @@ import { CustomerEffects } from 'state/customer/customer.effects';
     // ...
     EffectsModule.forRoot([LoadEffects, CustomerEffects])
     // ...
-  ],
-  declarations: [],
-  providers: [EntityOperators]
+  ]
 })
 export class StateModule {
   // ...
@@ -492,9 +646,7 @@ import { CustomerEffects } from 'state/customer/customer.effects';
     // ...
     EffectsModule.forRoot([LoadAllEffect, CreateEffect, UpdateEffect, CustomerEffects])
     // ...
-  ],
-  declarations: [],
-  providers: [EntityOperators]
+  ]
 })
 export class StateModule {
   // ...
@@ -537,11 +689,12 @@ through a REST API, a custom effect like the above is an ideal opportunity:
   @Effect()
   update$ = this.actions$.pipe(
     ofEntityType(Customer, EntityActionTypes.Update),
-    map((action: Update<Customer>) => ({
+    filter(() => !sessionStorage.getItem('currentUsername')), // Don't update if user is not known
+    map((action: Update<Customer>) => ({ // Merge in updating user info
       ...action,
       entity: {
         ...action.entity,
-        updatedBy: localStorage.getItem('currentUsername'),
+        updatedBy: sessionStorage.getItem('currentUsername'),
         updatedAt: moment().format()
       }
     })),
@@ -552,6 +705,7 @@ through a REST API, a custom effect like the above is an ideal opportunity:
 ```
 
 For fully custom effects, the only change that must be made is to replace `ofType` with `ofEntityType`.
+Otherwise, effect implementation would follow standard practices.
 
 If you need the ability to create effects that handle all Auto-Entity actions of a given type, you may
 use the `ofEntityAction`, which allows you to filter by just Auto-Entity actions without the
