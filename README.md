@@ -228,11 +228,19 @@ export class OrderService implements IAutoEntityService<Order> {
   loadAll(entityInfo: IEntityInfo, criteria: any): Observable<Order[]> {
     const url =
       criteria && criteria.customerId
-        ? `/customers/${criteria.customerId}/orders?startDate=${criteria.startDate}&endDate=${criteria.endDate}`
-        : criteria && (criteria.startDate || criteria.endDate)
-          ? `/orders?startDate=${criteria.startDate}&endDate=${criteria.endDate}`
-          : '/orders';
-    return this.http.get<Order[]>(url);
+        ? `/customers/${criteria.customerId}/orders` // Get only customer order if requested
+        : '/orders'; // Otherwise get all orders for all customers
+
+    const params = criteria
+      ? new HttpParams({
+          fromObject: {
+            ...criteria, // Bind the rest of the criteria to http parameters for query string
+            customerId: undefined // Remove this from the params, we don't want it in the query string
+          }
+        })
+      : null;
+
+    return this.http.get<Order[]>(url, { params });
   }
 
   // ...
@@ -262,7 +270,7 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   create(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
-    const url = `/api/v1/${entityInfo.modelName}/${key}`;
+    const url = `/api/v1/${entityInfo.modelName}`;
     return this.http.post<any[]>(url, entity);
   }
 
@@ -273,7 +281,7 @@ export class EntityService implements IAutoEntityService<any> {
 
   replace(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
     const url = `/api/v1/${entityInfo.modelName}/${entity.id}`;
-    return this.http.put<any[]>(url);
+    return this.http.put<any[]>(url, entity);
   }
 
   delete(entityInfo: IEntityInfo, entity: any): Observable<any[]> {
