@@ -150,9 +150,13 @@ you properly register your providers in your module:
   // ...
 ```
 
-Make sure all models are _**classes**_, and make sure your services implement the required
-methods from the `IAutoEntityService<TModel>` interface. See full usage documentation
-for more information on implementing models and services.
+Providers must be the model class, an the services must be provided with `useClass`. While
+this may seem unusul, this is important to make sure Auto-Entity is able to automatically
+map the models associated with each action to the appropriate service calls.
+
+Make sure all models are _**classes**_ (not interfaces!), and make sure your services
+implement the required methods from the `IAutoEntityService<TModel>` interface. See
+full usage documentation for more information on implementing models and services.
 
 # Further Reading
 
