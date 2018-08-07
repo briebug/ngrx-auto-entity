@@ -1,6 +1,6 @@
 # NgRX Auto-Entity
 
-Automatic entities for @ngrx! With this library, you can take the boiler off your plate, and
+Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the boiler off your plate, and
 get back to business!
 
 # Quick Start
@@ -157,3 +157,5 @@ for more information on implementing models and services.
 # Further Reading
 
 If you require more information, you may continue reading the [full usage documentation](USAGE.md).
+
+Hop on over to the [NgRX documentation](https://github.com/ngrx/platform) for additional reading if you are just getting going with the popular state management library for Agular.

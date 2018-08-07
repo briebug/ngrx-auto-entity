@@ -1,6 +1,6 @@
 # NgRX Auto-Entity
 
-Automatic entities for @ngrx! With this library, you can take the boiler off your plate, and
+Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the boiler off your plate, and
 get back to business!
 
 ## What is it?
