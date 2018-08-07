@@ -293,9 +293,10 @@ export class EntityService implements IAutoEntityService<any> {
 
 ### Providers
 
-The final step in supporting the auto-magical of Auto-Entity is properly registering the providers for
-each entity. As Angular already integrates an injector with basic provider vs. implementation mapping,
-we simply leverage that to support runtime lookup of the appropriate service for any given entity:
+The final setup required to support the auto-magical nature of Auto-Entity is properly
+registering the providers for each entity. As Angular already integrates an injector
+with basic provider vs. implementation mapping, we simply leverage that to support
+runtime lookup of the appropriate service for any given entity:
 
 ```typescript
 import { NgModule } from '@angular/core';
@@ -425,10 +426,10 @@ import { buildState } from 'ngrx-auto-entity';
 const { initialState, selectors } = buildState(Customer);
 
 export const {
-  selectAll: selectAllCustomers,
-  selectEntities: selectCustomerEntities,
-  selectIds: selectCustomerIds,
-  selectTotal: selectTotalCustomers
+  selectAll: allCustomers,
+  selectEntities: customerEntities,
+  selectIds: customerIds,
+  selectTotal: totalCustomers
 } = selectors;
 
 // ...
@@ -449,21 +450,21 @@ import { CustomerActions, CustomerActionType, SelectCustomer } from './customer.
 const { initialState, selectors, entityState } = buildState(Customer);
 
 export const {
-  selectAll: selectAllCustomers,
-  selectEntities: selectCustomerEntities,
-  selectIds: selectCustomerIds,
-  selectTotal: selectTotalCustomers
+  selectAll: allCustomers,
+  selectEntities: customerEntities,
+  selectIds: customerIds,
+  selectTotal: totalCustomers
 } = selectors;
 
-export const selectSelectedCustomerId = createSelector(entityState, state => state.selectedCustomerId);
+export const selectedCustomerId = createSelector(entityState, state => state.selectedCustomerId);
 
-export const selectSelectedCustomer = createSelector(
-  selectCustomerEntities,
-  selectSelectedCustomerId,
+export const selectedCustomer = createSelector(
+  customerEntities,
+  selectedCustomerId,
   (entities, selectedCustomerId) => entities && entities[selectedCustomerId]
 );
 
-export const selectCustomerIsLoading = createSelector(entityState, state => state.loading);
+export const customerIsLoading = createSelector(entityState, state => state.loading);
 
 export function customerReducer(
   state: ICustomerEntityState = initialState,
@@ -728,3 +729,150 @@ Otherwise, effect implementation would follow standard practices.
 If you need the ability to create effects that handle all Auto-Entity actions of a given type, you may
 use the `ofEntityAction`, which allows you to filter by just Auto-Entity actions without the
 additional model type requirement.
+
+# Using the Actions
+
+Now that everything is set up, which if you are creating a simpler application, should only
+require a few minutes of your time, it's time to get down to business. The main use case
+for any action is to dispatch them.
+
+While dispatching actions is fairly strait forward and pretty standard, there are some
+very slight differences in how Auto-Entity actions are dispatched. The most notable
+trait is the way the model is passed as an argument to the action. While possibly a
+little quirky, this is actually fundamental to how Auto-Entity is able to automatically
+figure out how to actually make the right service calls. By passing in the **class**,
+you are providing all the necessary information about the model to the library, at runtime.
+
+## The Basics: Load and LoadAll
+
+For a simple load by primary key, use the `Load<TModel>` action. You must pass both the
+model, as well as a key for the entity. Exactly what you pass for the key is up to you,
+the developer. You can simply pass the key as a value, or pass the key as a property of
+an object. You could even pass a function. In the end, it is your own service code that
+will actually be using whatever you pass for the key.
+
+```typescript
+this.store.dispatch(new Load(Customer, 101));
+this.store.dispatch(new Load(Customer, { id: 101 }));
+this.store.dispatch(new Load(Customer, () => this.customerId));
+```
+
+If you require additional criteria in order to look up the desired entities, you may
+provide that with the optional criteria parameter. To borrow from a prior example, using
+the `LoadAll<TModel>` action:
+
+```typescript
+this.store.dispatch(new LoadAll(Order, { customerId: 101 }));
+```
+
+## Paged & Range Loads
+
+If you are working with large data sets and cannot preload all of the entities into
+browser memory, we provide two alternative ways of loading data sets. You can either
+use `LoadPage<TModel>` or `LoadRange<TModel>`.
+
+### Paged Data
+
+Loading a page requires some additional information, notably the page to load and the
+size of each page. As with all initiating actions, you can optionally include custom
+criteria:
+
+```typescript
+this.store.dispatch(new LoadPage(Order, { page: 1, size: 25 }));
+this.store.dispatch(new LoadPage(Order, { page: 1, size: 25 }, { customerId: 101 }));
+```
+
+Paging data involves specific semantics to how the state is handled. Any time a page
+is loaded, any data previously stored in that entities state (entities/ids) will be
+cleared, and replaced with the new page. This is by design, to maintain memory efficiency
+when working with very large data sets. Make sure you account for this when implementing
+your code, and if you need to edit an entity, make sure you either save it before loading
+another page, provide warnings to the user about loading a different page with unsaved
+changes, etc.
+
+### Range Data
+
+If the paging behavior described here is undesired, then ranging may be more appropriate
+for your application. The primary use case for ranged loads is infinite scrolling. You
+may load the first 20 records, then the next 20, then the next 20, and keep adding to
+the previously loaded entities stored in state. With careful use, ranged loads may also
+be used to keep previously loaded data in stage when loading subsequent pages.
+
+```typescript
+this.store.dispatch(new LoadRange(OrderLine, { skip: 10, take: 10 }));
+this.store.dispatch(new LoadRange(OrderLine, { skip: page * size, take: size }));
+this.store.dispatch(new LoadRange(Order, { start: '2018-08-01', end: '2018-08-07' }));
+this.store.dispatch(new LoadRange(Item, { first: 'G%', last: 'J%' }, { dateAddedToCatalog: '2018-07-31' }));
+```
+
+Note the last couple examples of LoadRange above. The first makes use of alternate
+range criteria, in this case start and end dates, the second makes use of first and
+last characters. Also note that additional custom criteria may always be used with
+paged or ranged loads.
+
+### Range Types
+
+Ranges can be passed in one of three forms: start/end, first/last, or skip/take. The
+first two allow numbers, strings, or Dates to be used. The latter, skip/take, requires
+numbers for both. Arbitrary Range models are not supported here, so make sure you
+use one of these three structures.
+
+#### Service Support for Page and Range
+
+Properly handling paged or range data requires some additional work in your services.
+We will go more into those details later on in this documentation.
+
+## Creating, Updating/Replacing and Deleting
+
+In addition to all of the options for loading data, Auto-Entity also provides the
+necessary actions for creating, updating & replacing, and of course deleting entities.
+These actions are pretty strait forward, but still use the same pass-the-model approach
+of the load actions.
+
+### Create an Entity
+
+To create a new entity, dispatch the `Create<TModel>` action. You must provide the
+model class of the entity you wish to create, as well as the instance of the model
+you wish to create. Optionally, you may provide custom criteria,
+which may be used to identify parent or foreign key relationships not directly stored
+on the model, or utilized only within an API URL, etc.
+
+```typescript
+this.store.dispatch(new Create(Customer, this.customer));
+this.store.dispatch(new Create(Order, this.order, { customerId: this.customer.id }));
+this.store.dispatch(
+  new Create(OrderLine, this.orderItem, {
+    itemId: this.item.id,
+    orderId: this.order.id
+  })
+);
+```
+
+### Update & Replace Entities
+
+Supporting modern HTTP and REST standards, we provide both `Update<TModel>` as well as
+`Replace<TModel>` actions. These support both PUT semantics, which imply that the entity
+being "put" must be **replaced** entirely, as well as PATCH semantics which implies that
+the entity may be updated in part, either as a data merger of the **updated** entity with
+existing data, or via the execution of individual update actions to augment the existing
+data (i.e. a MongoDB update with $set, etc.)
+
+```typescript
+this.store.dispatch(new Replace(Customer, this.customer));
+this.store.dispatch(new Update(Customer, this.customerChanges));
+this.store.dispatch(new Update(Order, this.order, { customerId: this.customer.id }));
+```
+
+As always, custom criteria is supported if any additional information must be passed
+to the service.
+
+### Deleting Entities
+
+Finally, we support deletes. Deletes are pretty simple, requiring only the entity and
+optionally any custom criteria:
+
+```typescript
+this.store.dispatch(new Delete(OrderItem, this.orderItem, { orderId: this.order.id }));
+```
+
+##
