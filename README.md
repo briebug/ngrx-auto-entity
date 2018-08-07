@@ -29,7 +29,7 @@ custom reducers.
 
 Install @briebug/ngrx-auto-entity from npm:
 
-`npm install @briebug/ngrx-auto-entity or yarn add @briebug/ngrx-auto-entity`
+`npm install @briebug/ngrx-auto-entity` or `yarn add @briebug/ngrx-auto-entity`
 
 # Setup
 
@@ -352,26 +352,207 @@ each entity is still managed the same way with regards to root state/reducerMap,
 adding Auto-Entity to an application that already uses @ngrx/entity, or just plain old NgRX without
 any other entity framework.
 
-## Development server
+### State and Reducer Map
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+As a final step, do not forget to register your state:
 
-## Code scaffolding
+```typescript
+import { ICustomerEntityState } from 'state/customer/customer.state';
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+export interface IAppState {
+  customer: ICustomerEntityState;
+}
 
-## Build
+export type State = IAppState;
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+And map your reducer to your state:
 
-## Running unit tests
+```typescript
+import { ActionReducerMap } from '@ngrx/store';
 
-Run `ng test` to execute the unit tests via [Jest](https://facebook.github.io/jest/).
+import { customerReducer } from 'state/customer/customer.reducer';
+import { IAppState } from './app.interfaces';
 
-## Running end-to-end tests
+export const appReducer: ActionReducerMap<IAppState> = {
+  customer: customerReducer
+};
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Auto-Entity requires one final piece of registration to ensure that all standard reductions
+for automatic entities are properly handled. The `autoEntityMetaReducer` must be added to your
+meta reducers. Make sure you include it for production as well:
 
-## Further help
+```typescript
+import { MetaReducer } from '@ngrx/store';
+import { autoEntityMetaReducer } from 'ngrx-auto-entity';
+import { storeFreeze } from 'ngrx-store-freeze';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+import { environment } from '../../environments/environment';
+import { IAppState } from './app.interfaces';
+
+// ...
+
+export const appMetaReducers: Array<MetaReducer<IAppState>> = !environment.production
+  ? [autoEntityMetaReducer, storeFreeze]
+  : [autoEntityMetaReducer];
+```
+
+This meta reducer handles all standard reduction for all success actions for automatic
+entities. It will store the entity state in the same internal structure as @ngrx/entity,
+with all identities (as defined by the @Key decorator, described above in the model section)
+stored in an `ids` array, and each identity mapped to each full entity in an `entities` map.
+
+## Effects
+
+Not to be left out, effects are the final bit of magic required for Auto-Entity to handle
+your entity actions for you. If you do not require any custom functionality, then the final
+configuration required to get you rolling would be to add the `EntityEffects` class to your
+state entities:
+
+```typescript
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { EntityEffects, EntityOperators } from 'ngrx-auto-entity';
+import { CustomerEffects } from 'state/customer/customer.effects';
+
+@NgModule({
+  imports: [
+    // ...
+    EffectsModule.forRoot([EntityEffects, CustomerEffects])
+    // ...
+  ]
+})
+export class StateModule {
+  // ...
+}
+```
+
+### Advanced Effects
+
+In the event that you require more control over the side effects for your entities, we
+offer a variety of ways of dealing with effects in Auto-Entity. In most cases, you
+should be able to register the standard EntityEffects, and leave it at that. If you need
+to handle certain side effects yourself, we provide a flexible set of pre-made effects
+classes, as well as a handy set of rxjs operators in `EntityOperators`, so that you may handle
+entity effects yourself.
+
+There are several standard effects classes included with Auto-Entity. You may register
+only the load effects, only the CUD (create, update, delete) effects, or individually
+register the effect for each side effect as necessary:
+
+- LoadEffects: All load effects
+- LoadEffect (GET/single)
+- LoadAllEffect (GET/all)
+- LoadPageEffect (GET/many)
+- LoadRangeEffect (GET/many)
+- CUDEffects: All CUD -CURD- effects
+- CreateEffect (POST)
+- UpdateEffect (PUT)
+- -ReplaceEffect- (PATCH): Not yet implemented
+- DeleteEffect (DELETE)
+
+Simply register the effects class(es) you wish to have Auto-Entity handle for you. Any
+remaining effects you may handle yourself, either 100% custom, or integrating with our
+ready-made entity operators in your own effects pipes.
+
+To handle all CUD operations yourself:
+
+```typescript
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { LoadEffects, EntityOperators } from 'ngrx-auto-entity';
+import { CustomerEffects } from 'state/customer/customer.effects';
+
+@NgModule({
+  imports: [
+    // ...
+    EffectsModule.forRoot([LoadEffects, CustomerEffects])
+    // ...
+  ],
+  declarations: [],
+  providers: [EntityOperators]
+})
+export class StateModule {
+  // ...
+}
+```
+
+To handle deletions and single loads yourself, and let LoadAll, Create and Update be handled
+automatically, ignoring page and range effects:
+
+```typescript
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { LoadAllEffect, CreateEffect, UpdateEffect, EntityOperators } from 'ngrx-auto-entity';
+import { CustomerEffects } from 'state/customer/customer.effects';
+
+@NgModule({
+  imports: [
+    // ...
+    EffectsModule.forRoot([LoadAllEffect, CreateEffect, UpdateEffect, CustomerEffects])
+    // ...
+  ],
+  declarations: [],
+  providers: [EntityOperators]
+})
+export class StateModule {
+  // ...
+}
+```
+
+Note that if you need more piecemeal control over effects for each entity, try using separate
+modules for each entity or group of entities that require different handling of effects, and
+utilize the feature state functionality of NgRx.
+
+### Custom Effects
+
+If you require the utmost control over your effects, you may handle the necessary actions yourself
+in your own effects classes. You can either implement the necessary functionality 100% yourself,
+or leverage the `EntityOperators` to allow Auto-Entity to handle service lookup and call as well
+as dispatch of success or failure for you.
+
+```typescript
+  @Effect()
+  update$ = this.actions$.pipe(
+    ofEntityType(Customer, EntityActionTypes.Update),
+    this.ops.update()
+  );
+
+  constructor(actions: Actions, ops: EntityOperators) {}
+```
+
+When handling an effect on your own, we provide an `ofEntityType` operator. This is very much
+akin to the standard ngrx `ofType` operator, only extended to support filtering by both an
+action as well as a specific entity model. In the case of our example, the `Customer` model.
+
+The next line after the `ofEntityType` call is a little more unusual. Since our entity opperator
+effects rely on Angular services, they must be included in an Angular class so the standard
+injector will function properly.
+
+If you require the ability to pre-format or inject content on a model, for example, before it is updated
+through a REST API, a custom effect like the above is an ideal opportunity:
+
+```typescript
+  @Effect()
+  update$ = this.actions$.pipe(
+    ofEntityType(Customer, EntityActionTypes.Update),
+    map((action: Update<Customer>) => ({
+      ...action,
+      entity: {
+        ...action.entity,
+        updatedBy: localStorage.getItem('currentUsername'),
+        updatedAt: moment().format()
+      }
+    })),
+    this.ops.update()
+  );
+
+  constructor(actions: Actions, ops: EntityOperators) {}
+```
+
+For fully custom effects, the only change that must be made is to replace `ofType` with `ofEntityType`.
+
+If you need the ability to create effects that handle all Auto-Entity actions of a given type, you may
+use the `ofEntityAction`, which allows you to filter by just Auto-Entity actions without the
+additional model type requirement.
