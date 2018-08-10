@@ -140,7 +140,7 @@ export const appMetaReducers: Array<MetaReducer<IAppOrFeatureState>> = !environm
 
 You are now ready to get rolling! You will need to create your models and your
 services, however for a simple application you are now fully set up. Just make sure
-you properly register your providers in your module:
+you properly register your providers in your app or feature module:
 
 ```typescript
   // ...
