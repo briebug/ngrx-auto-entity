@@ -35,6 +35,10 @@ Install @briebug/ngrx-auto-entity from npm:
 
 `npm install @briebug/ngrx-auto-entity` or `yarn add @briebug/ngrx-auto-entity`
 
+If you have not already, install the required peer dependencies as well:
+
+`npm install @ngrx/{effects,store,store-devtools} ngrx-store-freeze` or `yarn add @ngrx/{effects,store,store-devtools} ngrx-store-freeze`
+
 ## Quick Start
 
 If you want to get rolling as quickly and simply as possible, you may jump to the [quick start guide](QUICKSTART.md).

@@ -27,6 +27,10 @@ Install @briebug/ngrx-auto-entity from npm:
 
 `npm install @briebug/ngrx-auto-entity` or `yarn add @briebug/ngrx-auto-entity`
 
+If you have not already, install the required peer dependencies as well:
+
+`npm install @ngrx/{effects,store,store-devtools} ngrx-store-freeze` or `yarn add @ngrx/{effects,store,store-devtools} ngrx-store-freeze`
+
 # Setup
 
 While Auto-Entity aims to provide a minimal boilerplate platform for handling entities, it does
@@ -117,11 +121,12 @@ each entity:
 ```typescript
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Customer } from 'models/customer.model';
 import { IAutoEntityService, IEntityInfo } from 'ngrx-auto-entity';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+
+import { Customer } from 'models/customer.model';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class CustomerService implements IAutoEntityService<Customer> {
@@ -153,6 +158,11 @@ export class CustomerService implements IAutoEntityService<Customer> {
   }
 }
 ```
+
+Entity services are flexible, and may communicate with any API, third party service,
+or even local data storage. Whatever may be necessary for your application. We
+require only that services return rxjs `Observable`, which are very flexible
+and may be created from promises or raw data if or mapped from other observables necessary.
 
 ### Advanced Services
 

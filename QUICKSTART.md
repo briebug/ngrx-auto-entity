@@ -1,7 +1,7 @@
 # NgRX Auto-Entity
 
-Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the boiler off your plate, and
-get back to business!
+Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library,
+you can take the boiler off your plate, and get back to business!
 
 # Quick Start
 
@@ -14,6 +14,10 @@ to get rolling as quickly as possible, this guide should get you going fast!
 Install @briebug/ngrx-auto-entity from npm:
 
 `npm install @briebug/ngrx-auto-entity` or `yarn add @briebug/ngrx-auto-entity`
+
+If you have not already, install the required peer dependencies as well:
+
+`npm install @ngrx/{effects,store,store-devtools} ngrx-store-freeze` or `yarn add @ngrx/{effects,store,store-devtools} ngrx-store-freeze`
 
 ## Setup
 
@@ -62,7 +66,7 @@ export const appMetaReducers: Array<MetaReducer<IAppState>> = !environment.produ
   : [autoEntityMetaReducer];
 ```
 
-### 3: App State
+### 3: App or Feature State
 
 Add default `EntityEffects` to your effects in your state module and reference
 your meta reducers in the store:
@@ -95,7 +99,7 @@ only need a basic reducer and standard selectors:
 import { Customer } from 'models';
 import { buildState, EntityActions, IEntityState } from '@briebug/ngrx-auto-entity';
 
-const { initialState, selectors } = buildState(Customer);
+const { initialState, selectors } = buildState(Customer); // Use buildFeatureState for features!
 
 export const {
   selectAll: allCustomers,
@@ -109,7 +113,7 @@ export function customerReducer(state = initialState, action: EntityActions<Cust
 }
 ```
 
-And make sure you register the state and reducer in your main state code:
+And make sure you register the state and reducer in your app or feature state code:
 
 ```typescript
 import { routerReducer } from '@ngrx/router-store';
@@ -119,15 +123,15 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { customerReducer } from 'state/customer/customer.reducer';
 import { environment } from 'environments/environment';
 
-export interface IAppState {
+export interface IAppOrFeatureState {
   customer: IEntityState<Customer>;
 }
 
-export const appReducer: ActionReducerMap<IAppState> = {
+export const appReducer: ActionReducerMap<IAppOrFeatureState> = {
   customer: customerReducer
 };
 
-export const appMetaReducers: Array<MetaReducer<IAppState>> = !environment.production
+export const appMetaReducers: Array<MetaReducer<IAppOrFeatureState>> = !environment.production
   ? [autoEntityMetaReducer, storeFreeze]
   : [autoEntityMetaReducer];
 ```
@@ -150,13 +154,72 @@ you properly register your providers in your module:
   // ...
 ```
 
-Providers must be the model class, an the services must be provided with `useClass`. While
+Providers must be the **model class**, an the services must be provided with `useClass`. While
 this may seem unusul, this is important to make sure Auto-Entity is able to automatically
 map the models associated with each action to the appropriate service calls.
 
 Make sure all models are _**classes**_ (not interfaces!), and make sure your services
-implement the required methods from the `IAutoEntityService<TModel>` interface. See
-full usage documentation for more information on implementing models and services.
+implement the required methods from the `IAutoEntityService<TModel>` interface. See full
+usage documentation for more information on implementing models and services.
+
+An example entity model:
+
+```typescript
+export class Customer {
+  id?: number;
+  name: string;
+  email: string;
+  // ...
+}
+```
+
+And example entity service that uses HttpClient to consume a REST API:
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { IAutoEntityService, IEntityInfo } from 'ngrx-auto-entity';
+import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { Customer } from 'models/customer.model';
+import { environment } from 'environments/environment';
+
+@Injectable()
+export class CustomerService implements IAutoEntityService<Customer> {
+  static readonly PATH = '/customers';
+  readonly url: string;
+
+  constructor(private http: HttpClient) {
+    this.url = `${environment.API_BASE_URL}${CustomerService.PATH}`;
+  }
+
+  load(entityInfo: IEntityInfo, id: any): Observable<Customer> {
+    return this.http.get<Customer>(`${this.url}/${id}`);
+  }
+
+  loadAll(entityInfo: IEntityInfo): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.url}`);
+  }
+
+  create(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
+    return this.http.post<Customer>(`${this.url}`, entity);
+  }
+
+  update(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
+    return this.http.patch<Customer>(`${this.url}/${entity.id}`, entity);
+  }
+
+  delete(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
+    return this.http.delete<Customer>(`${this.url}/${entity.id}`).pipe(map(() => entity));
+  }
+}
+```
+
+Entity services are flexible, and may communicate with any API, third party service,
+or even local data storage. Whatever may be necessary for your application. We
+require only that services return rxjs `Observable`, which are very flexible
+and may be created from promises or raw data if or mapped from other observables necessary.
 
 # Further Reading
 
