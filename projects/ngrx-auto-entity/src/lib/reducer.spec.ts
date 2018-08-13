@@ -164,7 +164,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           currentPage: 1,
-          totalCount: 10
+          totalPageableCount: 10
         }
       });
     });
@@ -201,7 +201,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [4, 5, 6],
           currentPage: 2,
-          totalCount: 10
+          totalPageableCount: 10
         }
       });
     });
@@ -232,7 +232,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           currentRange: { first: 1, last: 3 },
-          totalCount: 10
+          totalPageableCount: 10
         }
       });
     });
@@ -272,7 +272,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3, 4, 5, 6],
           currentRange: { first: 4, last: 6 }, // TODO: This is actually incorrect! Figure out how to merge current range info
-          totalCount: 10
+          totalPageableCount: 10
         }
       });
     });

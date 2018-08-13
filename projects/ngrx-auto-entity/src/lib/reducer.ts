@@ -97,7 +97,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ),
           ids: loadedEntities.map(entity => entity[keyName(action)]),
           currentPage: (action as LoadPageSuccess<any>).pageInfo.page,
-          totalCount: (action as LoadPageSuccess<any>).pageInfo.totalCount
+          totalPageableCount: (action as LoadPageSuccess<any>).pageInfo.totalCount
         }
       };
     }
@@ -119,7 +119,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           },
           ids: [...(entityState.ids || []), ...loadedEntities.map(entity => entity[keyName(action)])],
           currentRange: (action as LoadRangeSuccess<any>).rangeInfo.range,
-          totalCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount
+          totalPageableCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount
         }
       };
     }
