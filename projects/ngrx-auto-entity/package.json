@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/briebug/ngrx-auto-entity.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "dependencies": {
     "change-case": "^3.0.2"
   },

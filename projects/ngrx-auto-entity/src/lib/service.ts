@@ -35,21 +35,21 @@ export interface IEntityWithRangeInfo<TModel> {
 }
 
 export interface IAutoEntityService<TModel> {
-  load?(entityInfo: IEntityInfo, keys: any, relationKeys?: any): Observable<TModel>;
+  load?(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<TModel>;
 
-  loadAll?(entityInfo: IEntityInfo, relationKeys?: any): Observable<TModel[]>;
+  loadAll?(entityInfo: IEntityInfo, criteria?: any): Observable<TModel[]>;
 
-  loadPage?(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityWithPageInfo<TModel>>;
+  loadPage?(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityWithPageInfo<TModel>>;
 
-  loadRange?(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityWithRangeInfo<TModel>>;
+  loadRange?(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityWithRangeInfo<TModel>>;
 
-  create?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  create?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
-  update?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  update?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
-  replace?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  replace?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
-  delete?(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<TModel>;
+  delete?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 }
 
 /**
@@ -60,7 +60,7 @@ export interface IAutoEntityService<TModel> {
 export class NgrxAutoEntityService {
   constructor(private injector: Injector) {}
 
-  load<TModel>(entityInfo: IEntityInfo, keys: any, relationKeys?: any): Observable<IEntityRef<TModel>> {
+  load<TModel>(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -72,7 +72,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "load" is not a function' });
       }
 
-      return service.load(entityInfo, keys, relationKeys).pipe(
+      return service.load(entityInfo, keys, criteria).pipe(
         map(entity => ({
           info: entityInfo,
           entity
@@ -92,7 +92,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  loadAll<TModel>(entityInfo: IEntityInfo, relationKeys?: any): Observable<IEntityRef<TModel[]>> {
+  loadAll<TModel>(entityInfo: IEntityInfo, criteria?: any): Observable<IEntityRef<TModel[]>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -104,7 +104,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "loadAll" is not a function' });
       }
 
-      return service.loadAll(entityInfo, relationKeys).pipe(
+      return service.loadAll(entityInfo, criteria).pipe(
         map((entities: TModel[]) => ({
           info: entityInfo,
           entity: entities
@@ -124,7 +124,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  loadPage<TModel>(entityInfo: IEntityInfo, page: Page, relationKeys?: any): Observable<IEntityPageRef<TModel>> {
+  loadPage<TModel>(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityPageRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -136,7 +136,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "loadPage" is not a function' });
       }
 
-      return service.loadPage(entityInfo, page, relationKeys).pipe(
+      return service.loadPage(entityInfo, page, criteria).pipe(
         map((result: IEntityWithPageInfo<TModel>) => ({
           info: entityInfo,
           pageInfo: result.pageInfo,
@@ -157,7 +157,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  loadRange<TModel>(entityInfo: IEntityInfo, range: Range, relationKeys?: any): Observable<IEntityRangeRef<TModel>> {
+  loadRange<TModel>(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityRangeRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -169,7 +169,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "loadRange" is not a function' });
       }
 
-      return service.loadRange(entityInfo, range, relationKeys).pipe(
+      return service.loadRange(entityInfo, range, criteria).pipe(
         map((result: IEntityWithRangeInfo<TModel>) => ({
           info: entityInfo,
           rangeInfo: result.rangeInfo,
@@ -190,7 +190,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  create<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
+  create<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -202,7 +202,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "update" is not a function' });
       }
 
-      return service.create(entityInfo, entity, relationKeys).pipe(
+      return service.create(entityInfo, entity, criteria).pipe(
         map(savedEntity => ({
           info: entityInfo,
           entity: savedEntity
@@ -222,7 +222,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  update<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
+  update<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -234,7 +234,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "update" is not a function' });
       }
 
-      return service.update(entityInfo, entity, relationKeys).pipe(
+      return service.update(entityInfo, entity, criteria).pipe(
         map(savedEntity => ({
           info: entityInfo,
           entity: savedEntity
@@ -254,7 +254,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  replace<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
+  replace<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -266,7 +266,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "replace" is not a function' });
       }
 
-      return service.replace(entityInfo, entity, relationKeys).pipe(
+      return service.replace(entityInfo, entity, criteria).pipe(
         map(savedEntity => ({
           info: entityInfo,
           entity: savedEntity
@@ -286,7 +286,7 @@ export class NgrxAutoEntityService {
     }
   }
 
-  delete<TModel>(entityInfo: IEntityInfo, entity: TModel, relationKeys?: any): Observable<IEntityRef<TModel>> {
+  delete<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
 
@@ -298,7 +298,7 @@ export class NgrxAutoEntityService {
         return throwError({ info: entityInfo, message: 'Entity service "delete" is not a function' });
       }
 
-      return service.delete(entityInfo, entity, relationKeys).pipe(
+      return service.delete(entityInfo, entity, criteria).pipe(
         map(deletedEntity => ({
           info: entityInfo,
           entity: deletedEntity
