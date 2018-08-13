@@ -18,7 +18,7 @@ export interface IEntityState<TModel> {
   ids: any[];
   currentPage?: number;
   currentRange?: Range;
-  totalCount?: number;
+  totalPageableCount?: number;
 }
 
 export interface IModelState<TParentState, TState, TModel> {
@@ -32,6 +32,9 @@ export interface ISelectorMap<TParentState, TModel> {
   selectEntities: MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
   selectAll: MemoizedSelector<object | TParentState, TModel[]>;
   selectTotal: MemoizedSelector<object | TParentState, number>;
+  selectCurrentPage: MemoizedSelector<object | TParentState, number>;
+  selectCurrentRange: MemoizedSelector<object | TParentState, Range>;
+  selectTotalPageable: MemoizedSelector<object | TParentState, number>;
 }
 
 /**
@@ -65,9 +68,12 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
     } as TState,
     selectors: {
       selectAll: createSelector(getState, (state: TState): TModel[] => state.ids.map(id => state.entities[id])),
-      selectEntities: createSelector(getState, (state: TState) => state.entities),
-      selectIds: createSelector(getState, (state: TState) => state.ids),
-      selectTotal: createSelector(getState, (state: TState) => state.ids.length)
+      selectEntities: createSelector(getState, (state: TState): IEntityDictionary<TModel> => state.entities),
+      selectIds: createSelector(getState, (state: TState): any[] => state.ids),
+      selectTotal: createSelector(getState, (state: TState): number => state.ids.length),
+      selectCurrentPage: createSelector(getState, (state: TState): number => state.currentPage),
+      selectCurrentRange: createSelector(getState, (state: TState): Range => state.currentRange),
+      selectTotalPageable: createSelector(getState, (state: TState): number => state.totalPageableCount)
     } as ISelectorMap<TParentState, TModel>,
     entityState: getState as (state: TParentState) => TState
   };
@@ -99,10 +105,13 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
       }
     } as TState,
     selectors: {
-      selectAll: createSelector(selectState, state => state.ids.map(id => state.entities[id])),
-      selectEntities: createSelector(selectState, state => state.entities),
-      selectIds: createSelector(selectState, state => state.ids),
-      selectTotal: createSelector(selectState, state => state.ids.length)
+      selectAll: createSelector(selectState, (state: TState): TModel[] => state.ids.map(id => state.entities[id])),
+      selectEntities: createSelector(selectState, (state: TState): IEntityDictionary<TModel> => state.entities),
+      selectIds: createSelector(selectState, (state: TState): any[] => state.ids),
+      selectTotal: createSelector(selectState, (state: TState): number => state.ids.length),
+      selectCurrentPage: createSelector(selectState, (state: TState): number => state.currentPage),
+      selectCurrentRange: createSelector(selectState, (state: TState): Range => state.currentRange),
+      selectTotalPageable: createSelector(selectState, (state: TState): number => state.totalPageableCount)
     } as ISelectorMap<TParentState, TModel>,
     entityState: selectState as MemoizedSelector<object, any>
   };
