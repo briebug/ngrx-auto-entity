@@ -1,6 +1,6 @@
+import { buildState, EntityActionTypes } from '@briebug/ngrx-auto-entity';
 import { createSelector } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { buildState, EntityActionTypes } from 'ngrx-auto-entity';
 import { ICustomerEntityState } from 'state/customer/customer.state';
 import { CustomerActions, CustomerActionType, SelectCustomer } from './customer.actions';
 

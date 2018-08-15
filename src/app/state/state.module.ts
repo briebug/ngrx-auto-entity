@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { EntityEffects } from '@briebug/ngrx-auto-entity';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EntityEffects } from 'ngrx-auto-entity';
 import { CustomerEffects } from 'state/customer/customer.effects';
 import { environment } from '../../environments/environment';
 import { appMetaReducers, appReducer } from './app.reducer';
