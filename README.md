@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # NgRX Auto-Entity
 
-Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the boiler off your plate, and
+Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the weight off your plate, and
 get back to business!
 
 **NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
@@ -57,6 +57,8 @@ If you wish to learn more about how Auto-Entity works, you may jump to the [full
 - [ ] Built-in entity selection support
 - [ ] Composite keys
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
+- [ ] Filtering of entities meta reducer handles
+- [ ] Filtering of entities effects handle
 
 # Contributors
 
