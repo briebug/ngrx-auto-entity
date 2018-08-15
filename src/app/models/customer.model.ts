@@ -1,4 +1,4 @@
-import { Key } from 'ngrx-auto-entity';
+import { Key } from '@briebug/ngrx-auto-entity';
 
 export class Customer {
   @Key id: number;

@@ -1,6 +1,6 @@
+import { EntityActions } from '@briebug/ngrx-auto-entity';
 import { Action } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { EntityActions } from 'ngrx-auto-entity';
 
 export enum CustomerActionType {
   SelectCustomer = '[Customer] Select customer'

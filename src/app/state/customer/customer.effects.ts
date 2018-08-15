@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
+import { Delete, EntityActionTypes, EntityOperators, ofEntityType, Update } from '@briebug/ngrx-auto-entity';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { Delete, EntityActionTypes, EntityOperators, ofEntityType, Update } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Go } from './../router/router.actions';

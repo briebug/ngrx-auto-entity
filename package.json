@@ -35,12 +35,12 @@
     "@angular/platform-browser": "^6.0.6",
     "@angular/platform-browser-dynamic": "^6.0.6",
     "@angular/router": "^6.0.6",
+    "@briebug/ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
     "@ngrx/effects": "^6.0.1",
     "@ngrx/router-store": "^6.0.1",
     "@ngrx/store": "^6.0.1",
     "change-case": "^3.0.2",
     "core-js": "^2.5.4",
-    "ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"

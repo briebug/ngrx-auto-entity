@@ -1,4 +1,4 @@
-import { IEntityState } from 'ngrx-auto-entity';
+import { IEntityState } from '@briebug/ngrx-auto-entity';
 
 import { Customer } from 'models/customer.model';
 

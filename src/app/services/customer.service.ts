@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Customer } from 'models/customer.model';
 import {
   IAutoEntityService,
   IEntityInfo,
@@ -8,7 +7,8 @@ import {
   IEntityWithRangeInfo,
   Page,
   Range
-} from 'ngrx-auto-entity';
+} from '@briebug/ngrx-auto-entity';
+import { Customer } from 'models/customer.model';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';

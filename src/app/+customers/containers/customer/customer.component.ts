@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Create, Load, Update } from '@briebug/ngrx-auto-entity';
 import { select, Store } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { Create, Load, Update } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { State } from 'state/app.interfaces';

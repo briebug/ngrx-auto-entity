@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Delete, LoadAll } from '@briebug/ngrx-auto-entity';
 import { select, Store } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
-import { Delete, LoadAll } from 'ngrx-auto-entity';
 import { Observable } from 'rxjs';
 import { IAppState } from 'state/app.interfaces';
 import { SelectCustomer } from 'state/customer/customer.actions';

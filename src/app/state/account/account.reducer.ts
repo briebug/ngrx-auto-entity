@@ -1,5 +1,5 @@
+import { buildState } from '@briebug/ngrx-auto-entity';
 import { Action } from '@ngrx/store';
-import { buildState } from 'ngrx-auto-entity';
 
 import { Account } from 'models/account.model';
 import { IAccountEntityState } from 'state/account/account.state';
