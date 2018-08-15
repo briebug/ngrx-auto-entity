@@ -1,2 +1,2 @@
-export * from './page-info';
-export * from './range-info';
+export { Page, IPage, IPageInfo } from './page-info';
+export { RangeValue, Range, IStartEndRange, ISkipTakeRange, IRangeInfo, IFirstLastRange } from './range-info';

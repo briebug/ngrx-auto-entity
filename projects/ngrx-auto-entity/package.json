@@ -1,11 +1,21 @@
 {
-  "name": "ngrx-auto-entity",
+  "name": "@briebug/ngrx-auto-entity",
   "description": "An automatic entity action library for NgRX",
+  "keywords": [
+    "ngrx",
+    "state",
+    "entity",
+    "auto-entity",
+    "automatic entities",
+    "action",
+    "effect"
+  ],
+  "homepage": "https://github.com/briebug/ngrx-auto-entity#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/briebug/ngrx-auto-entity.git"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
     "change-case": "^3.0.2"
   },
