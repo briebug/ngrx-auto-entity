@@ -73,18 +73,22 @@ export class NgrxAutoEntityService {
       }
 
       return service.load(entityInfo, keys, criteria).pipe(
-        map(entity => ({
-          info: entityInfo,
-          entity
-        })),
-        catchError(err =>
-          throwError({
+        map(entity => {
+          return {
+            info: entityInfo,
+            entity
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: load');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -105,18 +109,22 @@ export class NgrxAutoEntityService {
       }
 
       return service.loadAll(entityInfo, criteria).pipe(
-        map((entities: TModel[]) => ({
-          info: entityInfo,
-          entity: entities
-        })),
-        catchError(err =>
-          throwError({
+        map((entities: TModel[]) => {
+          return {
+            info: entityInfo,
+            entity: entities
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: loadAll');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -137,19 +145,23 @@ export class NgrxAutoEntityService {
       }
 
       return service.loadPage(entityInfo, page, criteria).pipe(
-        map((result: IEntityWithPageInfo<TModel>) => ({
-          info: entityInfo,
-          pageInfo: result.pageInfo,
-          entity: result.entities
-        })),
-        catchError(err =>
-          throwError({
+        map((result: IEntityWithPageInfo<TModel>) => {
+          return {
+            info: entityInfo,
+            pageInfo: result.pageInfo,
+            entity: result.entities
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: loadPage');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -170,19 +182,23 @@ export class NgrxAutoEntityService {
       }
 
       return service.loadRange(entityInfo, range, criteria).pipe(
-        map((result: IEntityWithRangeInfo<TModel>) => ({
-          info: entityInfo,
-          rangeInfo: result.rangeInfo,
-          entity: result.entities
-        })),
-        catchError(err =>
-          throwError({
+        map((result: IEntityWithRangeInfo<TModel>) => {
+          return {
+            info: entityInfo,
+            rangeInfo: result.rangeInfo,
+            entity: result.entities
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: loadRange');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -203,18 +219,22 @@ export class NgrxAutoEntityService {
       }
 
       return service.create(entityInfo, entity, criteria).pipe(
-        map(savedEntity => ({
-          info: entityInfo,
-          entity: savedEntity
-        })),
-        catchError(err =>
-          throwError({
+        map(savedEntity => {
+          return {
+            info: entityInfo,
+            entity: savedEntity
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: create');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -235,18 +255,22 @@ export class NgrxAutoEntityService {
       }
 
       return service.update(entityInfo, entity, criteria).pipe(
-        map(savedEntity => ({
-          info: entityInfo,
-          entity: savedEntity
-        })),
-        catchError(err =>
-          throwError({
+        map(savedEntity => {
+          return {
+            info: entityInfo,
+            entity: savedEntity
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: update');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -267,18 +291,22 @@ export class NgrxAutoEntityService {
       }
 
       return service.replace(entityInfo, entity, criteria).pipe(
-        map(savedEntity => ({
-          info: entityInfo,
-          entity: savedEntity
-        })),
-        catchError(err =>
-          throwError({
+        map(savedEntity => {
+          return {
+            info: entityInfo,
+            entity: savedEntity
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: replace()');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
@@ -299,18 +327,22 @@ export class NgrxAutoEntityService {
       }
 
       return service.delete(entityInfo, entity, criteria).pipe(
-        map(deletedEntity => ({
-          info: entityInfo,
-          entity: deletedEntity
-        })),
-        catchError(err =>
-          throwError({
+        map(deletedEntity => {
+          return {
+            info: entityInfo,
+            entity: deletedEntity
+          };
+        }),
+        catchError(err => {
+          return throwError({
             info: entityInfo,
             err
-          })
-        )
+          });
+        })
       );
     } catch (err) {
+      console.error('[NGRX-AE] Service error: delete()');
+      console.error(err);
       return throwError({
         info: entityInfo,
         err
