@@ -1,4 +1,5 @@
 {
+  "version": "0.0.5",
   "name": "@briebug/ngrx-auto-entity",
   "description": "An automatic entity action library for NgRX",
   "keywords": [
@@ -15,7 +16,6 @@
     "type": "git",
     "url": "https://github.com/briebug/ngrx-auto-entity.git"
   },
-  "version": "0.0.4",
   "dependencies": {
     "change-case": "^3.0.2"
   },
