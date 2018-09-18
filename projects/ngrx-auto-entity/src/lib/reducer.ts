@@ -10,14 +10,10 @@ import {
   LoadSuccess,
   UpdateSuccess
 } from './actions';
-import { NAE_ID } from './decorators';
+import { getKeyName } from './decorators';
 
 export function stateNameFromAction(action: EntityAction): string {
   return camelCase(action.info.modelName);
-}
-
-export function keyName(action: EntityAction): string {
-  return action.info.modelType.prototype[NAE_ID];
 }
 
 export function autoEntityReducer(reducer: ActionReducer<any>, state, action: EntityActions<any>) {
@@ -42,7 +38,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       console.log('[NGRX-AE] CreateSuccess action reducing...');
       const entity = (action as CreateSuccess<any>).entity;
       // todo: support composite keys
-      const key = entity[keyName(action)];
+      const key = entity[getKeyName(action)];
       const reduced = {
         ...state,
         [stateName]: {
@@ -70,7 +66,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       console.log('[NGRX-AE] LoadSuccess action reducing...');
       const entity = (action as LoadSuccess<any>).entity;
       // todo: support composite keys
-      const key = entity[keyName(action)];
+      const key = entity[getKeyName(action)];
       const reduced = {
         ...state,
         [stateName]: {
@@ -103,11 +99,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           entities: loadedEntities.reduce(
             (entities, entity) => ({
               ...entities,
-              [entity[keyName(action)]]: entity
+              [entity[getKeyName(action)]]: entity
             }),
             {}
           ),
-          ids: loadedEntities.map(entity => entity[keyName(action)])
+          ids: loadedEntities.map(entity => entity[getKeyName(action)])
         }
       };
       console.log('[NGRX-AE] LoadAllSuccess action reduced');
@@ -131,11 +127,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           entities: loadedEntities.reduce(
             (entities, entity) => ({
               ...entities,
-              [entity[keyName(action)]]: entity
+              [entity[getKeyName(action)]]: entity
             }),
             {}
           ),
-          ids: loadedEntities.map(entity => entity[keyName(action)]),
+          ids: loadedEntities.map(entity => entity[getKeyName(action)]),
           currentPage: (action as LoadPageSuccess<any>).pageInfo.page,
           totalPageableCount: (action as LoadPageSuccess<any>).pageInfo.totalCount
         }
@@ -163,12 +159,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             ...loadedEntities.reduce(
               (entities, entity) => ({
                 ...entities,
-                [entity[keyName(action)]]: entity
+                [entity[getKeyName(action)]]: entity
               }),
               {}
             )
           },
-          ids: [...(entityState.ids || []), ...loadedEntities.map(entity => entity[keyName(action)])],
+          ids: [...(entityState.ids || []), ...loadedEntities.map(entity => entity[getKeyName(action)])],
           currentRange: (action as LoadRangeSuccess<any>).rangeInfo.range,
           totalPageableCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount
         }
@@ -189,7 +185,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       console.log('[NGRX-AE] UpdateSuccess action reducing...');
       const entity = (action as UpdateSuccess<any>).entity;
       // todo: support composite keys
-      const key = entity[keyName(action)];
+      const key = entity[getKeyName(action)];
 
       const reduced = {
         ...state,
@@ -216,7 +212,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
     case EntityActionTypes.DeleteSuccess: {
       console.log('[NGRX-AE] DeleteSuccess action reducing...');
-      const key = keyName(action);
+      const key = getKeyName(action);
       const keyValue = action['entity'][key];
 
       // Better to NOT delete the entity key, but set it to undefined,

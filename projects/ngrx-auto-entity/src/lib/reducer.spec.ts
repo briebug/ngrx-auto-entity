@@ -9,7 +9,7 @@ import {
   UpdateSuccess
 } from './actions';
 import { Key } from './decorators';
-import { autoEntityMetaReducer, autoEntityReducer, keyName, stateNameFromAction } from './reducer';
+import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
 
 class TestEntity {
   @Key identity: number;
@@ -25,13 +25,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
     });
   });
 
-  describe('keyName', () => {
-    it(`should find and return the name of the key property`, () => {
-      const action = new Load(TestEntity, 1);
-      const name = keyName(action);
-      expect(name).toBe('identity');
-    });
-  });
+  // describe('keyName', () => {
+  //   it(`should find and return the name of the key property`, () => {
+  //     const action = new Load(TestEntity, 1);
+  //     const name = keyName(action);
+  //     expect(name).toBe('identity');
+  //   });
+  // });
 
   describe('autoEntityMetaReducer', () => {
     it(`should return the autoEntityReducer`, () => {

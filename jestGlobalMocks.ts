@@ -42,7 +42,7 @@ Object.defineProperty(document.body.style, 'transform', {
 Object.defineProperty(window, 'matchMedia', {
   value: () => ({
     matches: false,
-    addListener: function() {},
-    removeListener: function() {}
+    addListener() {},
+    removeListener() {}
   })
 });
