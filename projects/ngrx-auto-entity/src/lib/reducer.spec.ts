@@ -98,12 +98,14 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
       expect(newState).toEqual({
         testEntity: {
+          currentPage: 1,
           entities: {
             1: { identity: 1 },
             2: { identity: 2 },
             3: { identity: 3 }
           },
-          ids: [1, 2, 3]
+          ids: [1, 2, 3],
+          totalPageableCount: 3
         }
       });
     });
@@ -128,12 +130,14 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
       expect(newState).toEqual({
         testEntity: {
+          currentPage: 1,
           entities: {
             4: { identity: 4 },
             5: { identity: 5 },
             6: { identity: 6 }
           },
-          ids: [4, 5, 6]
+          ids: [4, 5, 6],
+          totalPageableCount: 3
         }
       });
     });
