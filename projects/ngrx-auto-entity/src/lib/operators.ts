@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { pascalCase } from 'change-case';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
   Create,
   CreateFailure,
@@ -37,7 +37,7 @@ export class EntityOperators {
   load<TModel>() {
     return (source: Observable<Load<TModel>>) =>
       source.pipe(
-        switchMap(action => {
+        mergeMap(action => {
           console.log('[NGRX-AE] Load effect');
           return this.entityService.load(action.info, action.keys, action.criteria).pipe(
             map((ref: IEntityRef<TModel>) => {
@@ -63,7 +63,7 @@ export class EntityOperators {
   loadAll<TModel>() {
     return (source: Observable<LoadAll<TModel>>) =>
       source.pipe(
-        switchMap(action => {
+        mergeMap(action => {
           console.log('[NGRX-AE] Load all effect');
           return this.entityService.loadAll(action.info, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
@@ -89,7 +89,7 @@ export class EntityOperators {
   loadPage<TModel>() {
     return (source: Observable<LoadPage<TModel>>) =>
       source.pipe(
-        switchMap((action: LoadPage<TModel>) => {
+        mergeMap((action: LoadPage<TModel>) => {
           console.log('[NGRX-AE] Load page effect');
           return this.entityService.loadPage(action.info, action.page, action.criteria).pipe(
             map((ref: IEntityPageRef<TModel>) => {
@@ -115,7 +115,7 @@ export class EntityOperators {
   loadRange<TModel>() {
     return (source: Observable<LoadRange<TModel>>) =>
       source.pipe(
-        switchMap((action: LoadRange<TModel>) => {
+        mergeMap((action: LoadRange<TModel>) => {
           console.log('[NGRX-AE] Load range effect');
           return this.entityService.loadRange(action.info, action.range, action.criteria).pipe(
             map((ref: IEntityRangeRef<TModel>) => {
@@ -141,7 +141,7 @@ export class EntityOperators {
   create<TModel>() {
     return (source: Observable<Create<TModel>>) =>
       source.pipe(
-        switchMap((action: Create<TModel>) => {
+        mergeMap((action: Create<TModel>) => {
           console.log('[NGRX-AE] Create effect');
           return this.entityService.create<TModel>(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => {
@@ -167,7 +167,7 @@ export class EntityOperators {
   update<TModel>() {
     return (source: Observable<Update<TModel>>) =>
       source.pipe(
-        switchMap((action: Update<TModel>) => {
+        mergeMap((action: Update<TModel>) => {
           console.log('[NGRX-AE] Update effect');
           return this.entityService.update<TModel>(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => {
@@ -193,7 +193,7 @@ export class EntityOperators {
   delete<TModel>() {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
-        switchMap(action => {
+        mergeMap(action => {
           console.log('[NGRX-AE] Delete effect');
           return this.entityService.delete(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => {
