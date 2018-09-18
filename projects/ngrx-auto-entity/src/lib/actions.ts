@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { pascalCase } from 'change-case';
 import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { checkKeyName } from './decorators';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
 
 export enum EntityActionTypes {
@@ -52,9 +53,11 @@ export class EntityAction implements Action {
 }
 
 const setInfo = (type: any): IEntityInfo => {
+  const instance = new type();
+  checkKeyName(type, instance.constructor.name);
   return {
     modelType: type,
-    modelName: new type().constructor.name
+    modelName: instance.constructor.name
   };
 };
 

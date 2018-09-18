@@ -54,9 +54,9 @@ export {
   LoadSuccess
 } from './lib/actions';
 
-export { Key, NAE_ID } from './lib/decorators';
+export { Key, NAE_ID, getKeyName, checkKeyName } from './lib/decorators';
 export { EntityOperators } from './lib/operators';
-export { keyName, autoEntityReducer, autoEntityMetaReducer, stateNameFromAction } from './lib/reducer';
+export { autoEntityReducer, autoEntityMetaReducer, stateNameFromAction } from './lib/reducer';
 
 export {
   NgrxAutoEntityService,
