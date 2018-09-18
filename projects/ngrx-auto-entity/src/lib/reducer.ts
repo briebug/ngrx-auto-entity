@@ -2,6 +2,7 @@ import { ActionReducer } from '@ngrx/store';
 import { camelCase } from 'change-case';
 import {
   CreateSuccess,
+  DeleteSuccess,
   EntityAction,
   EntityActions,
   EntityActionTypes,
@@ -10,7 +11,7 @@ import {
   LoadSuccess,
   UpdateSuccess
 } from './actions';
-import { getKeyName } from './decorators';
+import { getKey } from './decorators';
 
 export function stateNameFromAction(action: EntityAction): string {
   return camelCase(action.info.modelName);
@@ -38,7 +39,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       console.log('[NGRX-AE] CreateSuccess action reducing...');
       const entity = (action as CreateSuccess<any>).entity;
       // todo: support composite keys
-      const key = entity[getKeyName(action)];
+      const key = getKey(action, entity);
       const reduced = {
         ...state,
         [stateName]: {
@@ -66,7 +67,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       console.log('[NGRX-AE] LoadSuccess action reducing...');
       const entity = (action as LoadSuccess<any>).entity;
       // todo: support composite keys
-      const key = entity[getKeyName(action)];
+      const key = getKey(action, entity);
       const reduced = {
         ...state,
         [stateName]: {
@@ -99,11 +100,13 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           entities: loadedEntities.reduce(
             (entities, entity) => ({
               ...entities,
-              [entity[getKeyName(action)]]: entity
+              [getKey(action, entity)]: entity
             }),
             {}
           ),
-          ids: loadedEntities.map(entity => entity[getKeyName(action)])
+          ids: loadedEntities.map(entity => getKey(action, entity)),
+          currentPage: 1,
+          totalPageableCount: loadedEntities.length
         }
       };
       console.log('[NGRX-AE] LoadAllSuccess action reduced');
@@ -127,11 +130,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           entities: loadedEntities.reduce(
             (entities, entity) => ({
               ...entities,
-              [entity[getKeyName(action)]]: entity
+              [getKey(action, entity)]: entity
             }),
             {}
           ),
-          ids: loadedEntities.map(entity => entity[getKeyName(action)]),
+          ids: loadedEntities.map(entity => getKey(action, entity)),
           currentPage: (action as LoadPageSuccess<any>).pageInfo.page,
           totalPageableCount: (action as LoadPageSuccess<any>).pageInfo.totalCount
         }
@@ -159,12 +162,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             ...loadedEntities.reduce(
               (entities, entity) => ({
                 ...entities,
-                [entity[getKeyName(action)]]: entity
+                [getKey(action, entity)]: entity
               }),
               {}
             )
           },
-          ids: [...(entityState.ids || []), ...loadedEntities.map(entity => entity[getKeyName(action)])],
+          ids: [...(entityState.ids || []), ...loadedEntities.map(entity => getKey(action, entity))],
           currentRange: (action as LoadRangeSuccess<any>).rangeInfo.range,
           totalPageableCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount
         }
@@ -185,7 +188,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       console.log('[NGRX-AE] UpdateSuccess action reducing...');
       const entity = (action as UpdateSuccess<any>).entity;
       // todo: support composite keys
-      const key = entity[getKeyName(action)];
+      const key = getKey(action, entity);
 
       const reduced = {
         ...state,
@@ -212,8 +215,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
     case EntityActionTypes.DeleteSuccess: {
       console.log('[NGRX-AE] DeleteSuccess action reducing...');
-      const key = getKeyName(action);
-      const keyValue = action['entity'][key];
+      const entity = (action as DeleteSuccess<any>).entity;
+      const key = getKey(action, entity);
 
       // Better to NOT delete the entity key, but set it to undefined,
       // to avoid re-generating the underlying runtime class (TODO: find and add link to V8 jit and runtime)
@@ -223,9 +226,9 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ...entityState,
           entities: {
             ...entityState.entities,
-            [keyValue]: undefined
+            [key]: undefined
           },
-          ids: state[stateName].ids.filter(eid => eid !== keyValue)
+          ids: state[stateName].ids.filter(eid => eid !== key)
         }
       };
       console.log('[NGRX-AE] DeleteSuccess action reduced');

@@ -55,7 +55,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the [full
 - [x] Default effects
 - [ ] Built-in loading indicator support
 - [ ] Built-in entity selection support
-- [ ] Composite keys
+- [x] Composite keys
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
 - [ ] Filtering of entities effects handle
