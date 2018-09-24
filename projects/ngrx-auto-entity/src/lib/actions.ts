@@ -30,9 +30,19 @@ export enum EntityActionTypes {
   UpdateSuccess = '[Entity] Generic Update: Success',
   UpdateFailure = '[Entity] Generic Update: Failure',
 
+  Replace = '[Entity] Generic Replace',
+  ReplaceSuccess = '[Entity] Generic Replace: Success',
+  ReplaceFailure = '[Entity] Generic Replace: Failure',
+
   Delete = '[Entity] Generic Delete',
   DeleteSuccess = '[Entity] Generic Delete: Success',
-  DeleteFailure = '[Entity] Generic Delete: Failure'
+  DeleteFailure = '[Entity] Generic Delete: Failure',
+
+  Select = '[Entity] Generic Select',
+  SelectByKey = '[Entity] Generic Select by Key',
+  Selected = '[Entity] Generic Selection',
+  Deselect = '[Entity] Generic Deselect',
+  Deselected = '[Entity] Generic Deselection'
 }
 
 /**
@@ -249,9 +259,8 @@ export class CreateFailure<TModel> implements EntityAction {
 }
 
 /**
- * Updates a single entity, corresponding to HTTP PUT or PATCH operation.
+ * Updates a single entity, corresponding to HTTP PATCH operation.
  *
- * PUT: Replace the entity with the one supplied in the request
  * PATCH: Update just the supplied attributes of the entity
  */
 export class Update<TModel> implements EntityAction {
@@ -279,6 +288,44 @@ export class UpdateSuccess<TModel> implements EntityAction {
 export class UpdateFailure<TModel> implements EntityAction {
   type: string;
   actionType = EntityActionTypes.UpdateFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Replaces a single entity, corresponding to HTTP PUT operation.
+ *
+ * PUT: Replace the entity with the one supplied in the request
+ */
+export class Replace<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Replace;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class ReplaceSuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.ReplaceSuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entity: TModel) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class ReplaceFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.ReplaceFailure;
   info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public error: any) {
@@ -323,6 +370,76 @@ export class DeleteFailure<TModel> implements EntityAction {
   }
 }
 
+/**
+ * Selects a single entity in the store by the entity model
+ */
+export class Select<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Select;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entity: TModel) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Selects a single entity in the store by the entity key
+ */
+export class SelectByKey<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Select;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entityKey: string | number) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Indicates the selection of a single entity in the store
+ */
+export class Selected<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Selected;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entity: TModel) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * De-selects a single entity in the store
+ */
+export class Deselect<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Deselect;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Indicates the de-selection of a single entity in the store
+ */
+export class Deselected<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Deselected;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
 export type EntityActions<TModel> =
   | Load<TModel>
   | LoadFailure<TModel>
@@ -342,9 +459,17 @@ export type EntityActions<TModel> =
   | Update<TModel>
   | UpdateFailure<TModel>
   | UpdateSuccess<TModel>
+  | Replace<TModel>
+  | ReplaceFailure<TModel>
+  | ReplaceSuccess<TModel>
   | Delete<TModel>
   | DeleteFailure<TModel>
-  | DeleteSuccess<TModel>;
+  | DeleteSuccess<TModel>
+  | Select<TModel>
+  | SelectByKey<TModel>
+  | Selected<TModel>
+  | Deselect<TModel>
+  | Deselected<TModel>;
 
 /**
  * Operator to filter actions by an entity action type or multiple action types.
@@ -374,9 +499,17 @@ export function ofEntityAction<T extends EntityAction>(
         action instanceof Update ||
         action instanceof UpdateSuccess ||
         action instanceof UpdateFailure ||
+        action instanceof Replace ||
+        action instanceof ReplaceSuccess ||
+        action instanceof ReplaceFailure ||
         action instanceof Delete ||
         action instanceof DeleteSuccess ||
-        action instanceof DeleteFailure
+        action instanceof DeleteFailure ||
+        action instanceof Select ||
+        action instanceof SelectByKey ||
+        action instanceof Selected ||
+        action instanceof Deselect ||
+        action instanceof Deselected
         ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
         : false;
     }
@@ -414,9 +547,17 @@ export function ofEntityType<TModel, T extends EntityAction>(
         action instanceof Update ||
         action instanceof UpdateSuccess ||
         action instanceof UpdateFailure ||
+        action instanceof Replace ||
+        action instanceof ReplaceSuccess ||
+        action instanceof ReplaceFailure ||
         action instanceof Delete ||
         action instanceof DeleteSuccess ||
-        action instanceof DeleteFailure
+        action instanceof DeleteFailure ||
+        action instanceof Select ||
+        action instanceof SelectByKey ||
+        action instanceof Selected ||
+        action instanceof Deselect ||
+        action instanceof Deselected
       ) {
         return (
           action.info.modelType === entity &&
