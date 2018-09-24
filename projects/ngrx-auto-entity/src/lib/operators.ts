@@ -21,6 +21,9 @@ import {
   LoadRangeFailure,
   LoadRangeSuccess,
   LoadSuccess,
+  Replace,
+  ReplaceFailure,
+  ReplaceSuccess,
   Update,
   UpdateFailure,
   UpdateSuccess
@@ -47,7 +50,7 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,
                   error.err
                 );
               } else {
@@ -73,7 +76,7 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate loadAll method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadAll method in the ${serviceName}`,
                   error.err
                 );
               } else {
@@ -99,7 +102,7 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate loadPage method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadPage method in the ${serviceName}`,
                   error.err
                 );
               } else {
@@ -125,7 +128,7 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate loadRange method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadRange method in the ${serviceName}`,
                   error.err
                 );
               } else {
@@ -151,7 +154,7 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate create method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate create method in the ${serviceName}`,
                   error.err
                 );
               } else {
@@ -177,13 +180,39 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate update method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate update method in the ${serviceName}`,
                   error.err
                 );
               } else {
                 console.error(error.err);
               }
               return of(new UpdateFailure<TModel>(error.info.modelType, error.err));
+            })
+          );
+        })
+      );
+  }
+
+  replace<TModel>() {
+    return (source: Observable<Replace<TModel>>) =>
+      source.pipe(
+        mergeMap((action: Replace<TModel>) => {
+          console.log('[NGRX-AE] Replace effect');
+          return this.entityService.replace<TModel>(action.info, action.entity).pipe(
+            map((ref: IEntityRef<TModel>) => {
+              return new ReplaceSuccess<TModel>(ref.info.modelType, ref.entity);
+            }),
+            catchError((error: IEntityError<TModel>) => {
+              if (error.err instanceof TypeError) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate replace method in the ${serviceName}`,
+                  error.err
+                );
+              } else {
+                console.error(error.err);
+              }
+              return of(new ReplaceFailure<TModel>(error.info.modelType, error.err));
             })
           );
         })
@@ -203,7 +232,7 @@ export class EntityOperators {
               if (error.err instanceof TypeError) {
                 const serviceName = `${pascalCase(error.info.modelName)}Service`;
                 console.error(
-                  `[NGRX-AE] NgRxAutoEntityService Error: Unable to locate delete method in the ${serviceName}`,
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate delete method in the ${serviceName}`,
                   error.err
                 );
               } else {

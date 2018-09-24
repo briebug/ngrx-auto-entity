@@ -51,7 +51,15 @@ export {
   LoadRange,
   LoadRangeFailure,
   LoadRangeSuccess,
-  LoadSuccess
+  LoadSuccess,
+  Replace,
+  ReplaceFailure,
+  ReplaceSuccess,
+  Select,
+  SelectByKey,
+  Selected,
+  Deselect,
+  Deselected
 } from './lib/actions';
 
 export { Key, getKey, getKeyNames, checkKeyName } from './lib/decorators';

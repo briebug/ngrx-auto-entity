@@ -87,7 +87,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: load');
+      console.error('[NGRX-AE] ! Service error: load');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -123,7 +123,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: loadAll');
+      console.error('[NGRX-AE] ! Service error: loadAll');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -160,7 +160,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: loadPage');
+      console.error('[NGRX-AE] ! Service error: loadPage');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -197,7 +197,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: loadRange');
+      console.error('[NGRX-AE] ! Service error: loadRange');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -233,7 +233,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: create');
+      console.error('[NGRX-AE] ! Service error: create');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -269,7 +269,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: update');
+      console.error('[NGRX-AE] ! Service error: update');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -305,7 +305,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: replace()');
+      console.error('[NGRX-AE] ! Service error: replace()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -341,7 +341,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] Service error: delete()');
+      console.error('[NGRX-AE] ! Service error: delete()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -357,11 +357,11 @@ export class NgrxAutoEntityService {
     } catch (err) {
       const serviceName = `${pascalCase(entityInfo.modelName)}Service`;
       console.error(
-        `NgRxAutoEntityService Error: Unable to locate service ${serviceName} using model name of ${
+        `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate service ${serviceName} using model name of ${
           entityInfo.modelName
         }`
       );
-      console.error(`NgRxAutoEntityService Error Details:`, err);
+      console.error(`[NGRX-AE] ! NgRxAutoEntityService Error Details:`, err);
       throw err;
     }
   }

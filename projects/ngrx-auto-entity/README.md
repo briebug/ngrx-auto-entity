@@ -53,9 +53,12 @@ If you wish to learn more about how Auto-Entity works, you may jump to the [full
 - [x] Automatic service mapping & lookup
 - [x] Custom criteria
 - [x] Default effects
-- [ ] Built-in loading indicator support
-- [ ] Built-in entity selection support
 - [x] Composite keys
+- [x] Get entity key support on entities
+- [x] Built-in loading indicator tracking
+- [x] Built-in saving indicator tracking
+- [x] Built-in deleting indicator tracking
+- [x] Built-in entity selection support
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
 - [ ] Filtering of entities effects handle

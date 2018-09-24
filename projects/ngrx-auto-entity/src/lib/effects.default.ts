@@ -17,6 +17,8 @@ import {
   LoadRangeSuccess,
   LoadSuccess,
   ofEntityAction,
+  ReplaceFailure,
+  ReplaceSuccess,
   UpdateFailure,
   UpdateSuccess
 } from './actions';
@@ -60,11 +62,11 @@ export class EntityEffects {
     this.ops.update()
   );
 
-  // @Effect()
-  // replace$ = this.actions$.pipe(
-  //   ofEntityAction(EntityActionTypes.Replace),
-  //   this.ops.update()
-  // );
+  @Effect()
+  replace$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Replace),
+    this.ops.replace()
+  );
 
   @Effect()
   delete$ = this.actions$.pipe(
@@ -165,6 +167,17 @@ export class UpdateEffect {
   update$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Update),
     this.ops.update()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
+export class ReplaceEffect {
+  @Effect()
+  replace$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Replace),
+    this.ops.replace()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
