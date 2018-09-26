@@ -13,7 +13,8 @@ export interface IEntityRef<TModel> {
 
 export interface IEntityError<TModel> {
   info: IEntityInfo;
-  err: any;
+  message?: string;
+  err?: any;
 }
 
 export interface IEntityPageRef<TModel> extends IEntityRef<TModel[]> {

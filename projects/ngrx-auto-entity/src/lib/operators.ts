@@ -53,8 +53,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new LoadFailure<TModel>(error.info.modelType, error.err));
             })
@@ -79,8 +90,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadAll method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new LoadAllFailure<TModel>(error.info.modelType, error.err));
             })
@@ -105,8 +127,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadPage method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new LoadPageFailure<TModel>(error.info.modelType, error.err));
             })
@@ -131,8 +164,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadRange method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new LoadRangeFailure<TModel>(error.info.modelType, error.err));
             })
@@ -157,8 +201,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate create method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new CreateFailure<TModel>(error.info.modelType, error.err));
             })
@@ -183,8 +238,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate update method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new UpdateFailure<TModel>(error.info.modelType, error.err));
             })
@@ -209,8 +275,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate replace method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new ReplaceFailure<TModel>(error.info.modelType, error.err));
             })
@@ -235,8 +312,19 @@ export class EntityOperators {
                   `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate delete method in the ${serviceName}`,
                   error.err
                 );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
               } else {
-                console.error(error.err);
+                console.error(error);
               }
               return of(new DeleteFailure<TModel>(error.info.modelType, error.err));
             })
