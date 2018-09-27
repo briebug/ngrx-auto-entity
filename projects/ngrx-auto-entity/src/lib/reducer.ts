@@ -151,6 +151,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const reduced = {
         ...state,
         [stateName]: {
+          ...entityState,
           entities: loadedEntities.reduce(
             (entities, entity) => ({
               ...entities,
@@ -198,6 +199,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const reduced = {
         ...state,
         [stateName]: {
+          ...entityState,
           entities: loadedEntities.reduce(
             (entities, entity) => ({
               ...entities,
@@ -245,6 +247,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const reduced = {
         ...state,
         [stateName]: {
+          ...entityState,
           entities: {
             ...(entityState.entities || {}),
             ...loadedEntities.reduce(
