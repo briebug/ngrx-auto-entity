@@ -180,7 +180,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           currentPage: 1,
-          totalCount: 10
+          totalPageableCount: 10
         }
       };
       const rootReducer = jest.fn();
@@ -250,7 +250,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           currentRange: { first: 1, last: 3 },
-          totalCount: 10
+          totalPageableCount: 10
         }
       };
       const rootReducer = jest.fn();
