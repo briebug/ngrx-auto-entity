@@ -58,7 +58,6 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     case EntityActionTypes.CreateSuccess: {
       console.log('[NGRX-AE] CreateSuccess action reducing...');
       const entity = (action as CreateSuccess<any>).entity;
-      // todo: support composite keys
       const key = getKey(action, entity);
       const reduced = {
         ...state,
@@ -103,7 +102,6 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     case EntityActionTypes.LoadSuccess: {
       console.log('[NGRX-AE] LoadSuccess action reducing...');
       const entity = (action as LoadSuccess<any>).entity;
-      // todo: support composite keys
       const key = getKey(action, entity);
       const reduced = {
         ...state,
@@ -113,7 +111,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             ...(entityState.entities || {}),
             [key]: entity
           },
-          ids: [...(entityState.ids || []), key],
+          ids: [...(entityState.ids || []).filter(k => k !== key), key],
           isLoading: false
         }
       };
