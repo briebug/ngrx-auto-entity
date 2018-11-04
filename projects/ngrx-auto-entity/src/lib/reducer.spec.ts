@@ -6,6 +6,7 @@ import {
   LoadPageSuccess,
   LoadRangeSuccess,
   LoadSuccess,
+  UpdateManySuccess,
   UpdateSuccess
 } from './actions';
 import { Key } from './decorators';
@@ -321,6 +322,37 @@ describe('NgRX Auto-Entity: Reducer', () => {
             1: { identity: 1, name: 'after' }
           },
           ids: [1],
+          isSaving: false
+        }
+      });
+    });
+
+    it(`should reduce UpdateManySuccess and update existing entities in state`, () => {
+      const state = {
+        testEntity: {
+          entities: {
+            1: { identity: 1, name: 'before1' },
+            2: { identity: 2, name: 'before2' },
+            3: { identity: 3, name: 'before3' }
+          },
+          ids: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(
+        state,
+        new UpdateManySuccess(TestEntity, [{ identity: 1, name: 'after1' }, { identity: 3, name: 'after3' }])
+      );
+
+      expect(newState).toEqual({
+        testEntity: {
+          entities: {
+            1: { identity: 1, name: 'after1' },
+            2: { identity: 2, name: 'before2' },
+            3: { identity: 3, name: 'after3' }
+          },
+          ids: [1, 2, 3],
           isSaving: false
         }
       });

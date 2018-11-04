@@ -26,6 +26,9 @@ import {
   ReplaceSuccess,
   Update,
   UpdateFailure,
+  UpdateMany,
+  UpdateManyFailure,
+  UpdateManySuccess,
   UpdateSuccess
 } from './actions';
 import { IEntityError, IEntityPageRef, IEntityRangeRef, IEntityRef, NgrxAutoEntityService } from './service';
@@ -227,7 +230,7 @@ export class EntityOperators {
       source.pipe(
         mergeMap((action: Update<TModel>) => {
           console.log('[NGRX-AE] Update effect');
-          return this.entityService.update<TModel>(action.info, action.entity).pipe(
+          return this.entityService.update<TModel>(action.info, action.entity, action.criteria).pipe(
             map((ref: IEntityRef<TModel>) => {
               return new UpdateSuccess<TModel>(ref.info.modelType, ref.entity);
             }),
@@ -253,6 +256,43 @@ export class EntityOperators {
                 console.error(error);
               }
               return of(new UpdateFailure<TModel>(error.info.modelType, error.err));
+            })
+          );
+        })
+      );
+  }
+
+  updateMany<TModel>() {
+    return (source: Observable<UpdateMany<TModel>>) =>
+      source.pipe(
+        mergeMap((action: UpdateMany<TModel>) => {
+          console.log('[NGRX-AE] Update effect');
+          return this.entityService.updateMany<TModel>(action.info, action.entities, action.criteria).pipe(
+            map((ref: IEntityRef<TModel[]>) => {
+              return new UpdateManySuccess<TModel>(ref.info.modelType, ref.entity);
+            }),
+            catchError((error: IEntityError<TModel>) => {
+              if (error.err instanceof TypeError) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate updateMany method in the ${serviceName}`,
+                  error.err
+                );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
+              } else {
+                console.error(error);
+              }
+              return of(new UpdateManyFailure<TModel>(error.info.modelType, error.err));
             })
           );
         })

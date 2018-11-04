@@ -12,6 +12,7 @@ import {
   ReplaceSuccess,
   Select,
   SelectByKey,
+  UpdateManySuccess,
   UpdateSuccess
 } from './actions';
 import { getKey } from './decorators';
@@ -303,11 +304,59 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             ...entityState.entities,
             [key]: entity
           },
-          ids: [...entityState.ids],
           isSaving: false
         }
       };
       console.log('[NGRX-AE] UpdateSuccess action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.UpdateMany: {
+      console.log('[NGRX-AE] UpdateMany action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isSaving: true
+        }
+      };
+      console.log('[NGRX-AE] UpdateMany action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.UpdateManyFailure: {
+      console.log('[NGRX-AE] UpdateManyFailure action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isSaving: false
+        }
+      };
+      console.log('[NGRX-AE] UpdateManyFailure action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.UpdateManySuccess: {
+      console.log('[NGRX-AE] UpdateManySuccess action reducing...');
+      const updatedEntities = (action as UpdateManySuccess<any>).entities;
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          entities: {
+            ...(entityState.entities || {}),
+            ...updatedEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [getKey(action, entity)]: entity
+              }),
+              {}
+            )
+          },
+          isSaving: false
+        }
+      };
+      console.log('[NGRX-AE] UpdateManySuccess action reduced');
       return reduced;
     }
 

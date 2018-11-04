@@ -20,6 +20,8 @@ import {
   ReplaceFailure,
   ReplaceSuccess,
   UpdateFailure,
+  UpdateManyFailure,
+  UpdateManySuccess,
   UpdateSuccess
 } from './actions';
 import { EntityOperators } from './operators';
@@ -60,6 +62,12 @@ export class EntityEffects {
   update$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Update),
     this.ops.update()
+  );
+
+  @Effect()
+  updateMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.UpdateMany),
+    this.ops.updateMany()
   );
 
   @Effect()
@@ -173,6 +181,17 @@ export class UpdateEffect {
 }
 
 @Injectable()
+export class UpdateManyEffect {
+  @Effect()
+  updateMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.UpdateMany),
+    this.ops.updateMany()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
 export class ReplaceEffect {
   @Effect()
   replace$ = this.actions$.pipe(
@@ -206,6 +225,18 @@ export class CUDEffects {
   update$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Update),
     this.ops.update()
+  );
+
+  @Effect()
+  updateMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.UpdateMany),
+    this.ops.updateMany()
+  );
+
+  @Effect()
+  replace$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Replace),
+    this.ops.replace()
   );
 
   @Effect()

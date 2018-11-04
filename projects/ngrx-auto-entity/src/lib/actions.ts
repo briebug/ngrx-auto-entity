@@ -30,6 +30,10 @@ export enum EntityActionTypes {
   UpdateSuccess = '[Entity] Generic Update: Success',
   UpdateFailure = '[Entity] Generic Update: Failure',
 
+  UpdateMany = '[Entity] Generic Update Many',
+  UpdateManySuccess = '[Entity] Generic Update Many: Success',
+  UpdateManyFailure = '[Entity] Generic Update Many: Failure',
+
   Replace = '[Entity] Generic Replace',
   ReplaceSuccess = '[Entity] Generic Replace: Success',
   ReplaceFailure = '[Entity] Generic Replace: Failure',
@@ -297,6 +301,44 @@ export class UpdateFailure<TModel> implements EntityAction {
 }
 
 /**
+ * Updates many entities, corresponding to HTTP PATCH operation.
+ *
+ * PATCH: Update just the supplied attributes of the entities
+ */
+export class UpdateMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.UpdateMany;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class UpdateManySuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.UpdateManySuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class UpdateManyFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.UpdateManyFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
  * Replaces a single entity, corresponding to HTTP PUT operation.
  *
  * PUT: Replace the entity with the one supplied in the request
@@ -459,6 +501,9 @@ export type EntityActions<TModel> =
   | Update<TModel>
   | UpdateFailure<TModel>
   | UpdateSuccess<TModel>
+  | UpdateMany<TModel>
+  | UpdateManyFailure<TModel>
+  | UpdateManySuccess<TModel>
   | Replace<TModel>
   | ReplaceFailure<TModel>
   | ReplaceSuccess<TModel>
@@ -499,6 +544,9 @@ export function ofEntityAction<T extends EntityAction>(
         action instanceof Update ||
         action instanceof UpdateSuccess ||
         action instanceof UpdateFailure ||
+        action instanceof UpdateMany ||
+        action instanceof UpdateManySuccess ||
+        action instanceof UpdateManyFailure ||
         action instanceof Replace ||
         action instanceof ReplaceSuccess ||
         action instanceof ReplaceFailure ||
@@ -547,6 +595,9 @@ export function ofEntityType<TModel, T extends EntityAction>(
         action instanceof Update ||
         action instanceof UpdateSuccess ||
         action instanceof UpdateFailure ||
+        action instanceof UpdateMany ||
+        action instanceof UpdateManySuccess ||
+        action instanceof UpdateManyFailure ||
         action instanceof Replace ||
         action instanceof ReplaceSuccess ||
         action instanceof ReplaceFailure ||
