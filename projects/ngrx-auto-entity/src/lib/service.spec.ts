@@ -108,6 +108,14 @@ export class TestModelService implements IAutoEntityService<TestModel> {
     }
   }
 
+  updateMany(entityInfo: IEntityInfo, entities: TestModel[], criteria?: any): Observable<TestModel[]> {
+    if (entityInfo.modelName !== 'TestModel') {
+      return throwError({ message: 'Service not found' });
+    } else {
+      return of(entities);
+    }
+  }
+
   replace(entityInfo: IEntityInfo, entity: TestModel, criteria?: any): Observable<TestModel> {
     if (entityInfo.modelName !== 'TestModel') {
       return throwError({ message: 'Service not found' });
@@ -340,6 +348,29 @@ describe('NgRX Auto-Entity: Service', () => {
     test('should return a valid entityRef on successful update', done => {
       entityService.update(entityInfo, entity).subscribe(entityRef => {
         expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
+        done();
+      });
+    });
+
+    test('should throw an error when the service is not found', done => {
+      entityService
+        .update(badEntityInfo, entity)
+        .pipe(
+          catchError(err => {
+            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+            return of(err);
+          })
+        )
+        .subscribe(() => {
+          done();
+        });
+    });
+  });
+
+  describe('updateMany', () => {
+    test('should return a valid entityRef on successful update', done => {
+      entityService.updateMany(entityInfo, [entity]).subscribe(entityRef => {
+        expect(entityRef).toEqual({ info: entityInfo, entity: [{ id: 5678, name: 'TestEntity' }] });
         done();
       });
     });

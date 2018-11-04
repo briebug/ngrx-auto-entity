@@ -25,9 +25,12 @@ export {
 } from './lib/models';
 
 export {
+  Update,
   UpdateSuccess,
   UpdateFailure,
-  Update,
+  UpdateMany,
+  UpdateManySuccess,
+  UpdateManyFailure,
   ofEntityType,
   ofEntityAction,
   EntityActions,

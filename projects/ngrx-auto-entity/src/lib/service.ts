@@ -48,6 +48,8 @@ export interface IAutoEntityService<TModel> {
 
   update?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
+  updateMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
+
   replace?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
   delete?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
@@ -260,6 +262,42 @@ export class NgrxAutoEntityService {
           return {
             info: entityInfo,
             entity: savedEntity
+          };
+        }),
+        catchError(err => {
+          return throwError({
+            info: entityInfo,
+            err
+          });
+        })
+      );
+    } catch (err) {
+      console.error('[NGRX-AE] ! Service error: update');
+      console.error(err);
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
+  updateMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+
+      if (!service.update) {
+        return throwError({ info: entityInfo, message: 'Entity service "update" is not implemented' });
+      }
+
+      if (typeof service.update !== 'function') {
+        return throwError({ info: entityInfo, message: 'Entity service "update" is not a function' });
+      }
+
+      return service.updateMany(entityInfo, entities, criteria).pipe(
+        map(savedEntities => {
+          return {
+            info: entityInfo,
+            entity: savedEntities
           };
         }),
         catchError(err => {
