@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { camelCase } from 'change-case';
-import { Range } from './models';
+import { Page, Range } from './models';
 
 /**
  * Structure for how entities are stored within the `entities` state property:
@@ -17,12 +17,15 @@ export interface IEntityState<TModel> {
   entities: IEntityDictionary<TModel>;
   ids: any[];
   currentEntityKey?: string | number;
-  currentPage?: number;
+  currentPage?: Page;
   currentRange?: Range;
   totalPageableCount?: number;
   isLoading?: boolean;
   isSaving?: boolean;
   isDeleting?: boolean;
+  loadedAt?: Date;
+  savedAt?: Date;
+  deletedAt?: Date;
 }
 
 export interface IModelState<TParentState, TState, TModel> {
@@ -37,12 +40,16 @@ export interface ISelectorMap<TParentState, TModel> {
   selectAll: MemoizedSelector<object | TParentState, TModel[]>;
   selectTotal: MemoizedSelector<object | TParentState, number>;
   selectCurrentEntity: MemoizedSelector<object | TParentState, TModel>;
-  selectCurrentPage: MemoizedSelector<object | TParentState, number>;
+  selectCurrentEntityKey: MemoizedSelector<object | TParentState, any>;
+  selectCurrentPage: MemoizedSelector<object | TParentState, Page>;
   selectCurrentRange: MemoizedSelector<object | TParentState, Range>;
   selectTotalPageable: MemoizedSelector<object | TParentState, number>;
   selectIsLoading: MemoizedSelector<object | TParentState, boolean>;
   selectIsSaving: MemoizedSelector<object | TParentState, boolean>;
   selectIsDeleting: MemoizedSelector<object | TParentState, boolean>;
+  selectLoadedAt: MemoizedSelector<object | TParentState, Date>;
+  selectSavedAt: MemoizedSelector<object | TParentState, Date>;
+  selectDeletedAt: MemoizedSelector<object | TParentState, Date>;
 }
 
 /**
@@ -80,12 +87,16 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
       selectIds: createSelector(getState, (state: TState): any[] => state.ids),
       selectTotal: createSelector(getState, (state: TState): number => state.ids.length),
       selectCurrentEntity: createSelector(getState, (state: TState): TModel => state.entities[state.currentEntityKey]),
-      selectCurrentPage: createSelector(getState, (state: TState): number => state.currentPage),
+      selectCurrentEntityKey: createSelector(getState, (state: TState): any => state.currentEntityKey),
+      selectCurrentPage: createSelector(getState, (state: TState): Page => state.currentPage),
       selectCurrentRange: createSelector(getState, (state: TState): Range => state.currentRange),
       selectTotalPageable: createSelector(getState, (state: TState): number => state.totalPageableCount),
       selectIsLoading: createSelector(getState, (state: TState): boolean => !!state.isLoading),
       selectIsSaving: createSelector(getState, (state: TState): boolean => !!state.isSaving),
-      selectIsDeleting: createSelector(getState, (state: TState): boolean => !!state.isDeleting)
+      selectIsDeleting: createSelector(getState, (state: TState): boolean => !!state.isDeleting),
+      selectLoadedAt: createSelector(getState, (state: TState): Date => state.loadedAt),
+      selectSavedAt: createSelector(getState, (state: TState): Date => state.savedAt),
+      selectDeletedAt: createSelector(getState, (state: TState): Date => state.deletedAt)
     } as ISelectorMap<TParentState, TModel>,
     entityState: getState as (state: TParentState) => TState
   };
@@ -125,12 +136,16 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
         selectState,
         (state: TState): TModel => state.entities[state.currentEntityKey]
       ),
-      selectCurrentPage: createSelector(selectState, (state: TState): number => state.currentPage),
+      selectCurrentEntityKey: createSelector(selectState, (state: TState): any => state.currentEntityKey),
+      selectCurrentPage: createSelector(selectState, (state: TState): Page => state.currentPage),
       selectCurrentRange: createSelector(selectState, (state: TState): Range => state.currentRange),
       selectTotalPageable: createSelector(selectState, (state: TState): number => state.totalPageableCount),
       selectIsLoading: createSelector(selectState, (state: TState): boolean => !!state.isLoading),
       selectIsSaving: createSelector(selectState, (state: TState): boolean => !!state.isSaving),
-      selectIsDeleting: createSelector(selectState, (state: TState): boolean => !!state.isDeleting)
+      selectIsDeleting: createSelector(selectState, (state: TState): boolean => !!state.isDeleting),
+      selectLoadedAt: createSelector(selectState, (state: TState): Date => state.loadedAt),
+      selectSavedAt: createSelector(selectState, (state: TState): Date => state.savedAt),
+      selectDeletedAt: createSelector(selectState, (state: TState): Date => state.deletedAt)
     } as ISelectorMap<TParentState, TModel>,
     entityState: selectState as MemoizedSelector<object, any>
   };

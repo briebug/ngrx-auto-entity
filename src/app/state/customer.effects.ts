@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { Customer } from 'models/customer.model';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Go } from './../router/router.actions';
+import { Go } from './router/router.actions';
 
 @Injectable()
 export class CustomerEffects {
@@ -17,9 +17,7 @@ export class CustomerEffects {
     map(() => new Go({ path: ['customers'] }))
   );
 
-  @Effect({
-    dispatch: false
-  })
+  @Effect({ dispatch: false })
   deleteSuccessSnackBar$ = this.actions$.pipe(
     ofEntityType<Customer, Delete<Customer>>(Customer, EntityActionTypes.DeleteSuccess),
     tap(() => this.matSnackBar.open('Customer Deleted', 'Success', { duration: 2000 }))

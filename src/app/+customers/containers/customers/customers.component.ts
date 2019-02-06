@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Delete, LoadAll } from '@briebug/ngrx-auto-entity';
+import { Delete, LoadAll, Select } from '@briebug/ngrx-auto-entity';
 import { select, Store } from '@ngrx/store';
-import { Customer } from 'models/customer.model';
 import { Observable } from 'rxjs';
+
+import { Customer } from 'models/customer.model';
 import { IAppState } from 'state/app.interfaces';
-import { SelectCustomer } from 'state/customer/customer.actions';
-import { selectAllCustomers } from 'state/customer/customer.reducer';
+import { allCustomers } from 'state/customer.state';
 
 @Component({
   selector: 'app-customers',
@@ -20,7 +20,7 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new LoadAll(Customer));
-    this.customers$ = this.store.pipe(select(selectAllCustomers));
+    this.customers$ = this.store.pipe(select(allCustomers));
   }
 
   onDelete(customer: Customer) {
@@ -28,7 +28,7 @@ export class CustomersComponent implements OnInit {
   }
 
   onEdit(customer: Customer) {
-    this.store.dispatch(new SelectCustomer({ id: customer.id }));
+    this.store.dispatch(new Select(Customer, customer));
     this.router.navigate(['customers', customer.id]);
   }
 }

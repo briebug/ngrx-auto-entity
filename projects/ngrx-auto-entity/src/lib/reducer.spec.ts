@@ -1,3 +1,5 @@
+import 'jest-extended';
+
 import {
   CreateSuccess,
   DeleteSuccess,
@@ -49,7 +51,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
         testEntity: {
           entities: { 1: { identity: 1 } },
           ids: [1],
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -72,7 +75,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             2: { identity: 2 }
           },
           ids: [1, 2],
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -101,7 +105,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           totalPageableCount: 3,
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -134,7 +139,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [4, 5, 6],
           totalPageableCount: 3,
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -151,7 +157,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
       const newState = metaReducer(
         state,
         new LoadPageSuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }], {
-          page: 1,
+          page: {
+            page: 1,
+            size: 3
+          },
           totalCount: 10
         })
       );
@@ -164,9 +173,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
             3: { identity: 3 }
           },
           ids: [1, 2, 3],
-          currentPage: 1,
+          currentPage: { page: 1, size: 3 },
           totalPageableCount: 10,
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -189,7 +199,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
       const newState = metaReducer(
         state,
         new LoadPageSuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }], {
-          page: 2,
+          page: {
+            page: 2,
+            size: 3
+          },
           totalCount: 10
         })
       );
@@ -202,9 +215,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
             6: { identity: 6 }
           },
           ids: [4, 5, 6],
-          currentPage: 2,
+          currentPage: { page: 2, size: 3 },
           totalPageableCount: 10,
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -236,7 +250,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
           ids: [1, 2, 3],
           currentRange: { first: 1, last: 3 },
           totalPageableCount: 10,
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -277,7 +292,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
           ids: [1, 2, 3, 4, 5, 6],
           currentRange: { first: 4, last: 6 }, // TODO: This is actually incorrect! Figure out how to merge current range info
           totalPageableCount: 10,
-          isLoading: false
+          isLoading: false,
+          loadedAt: expect.toBeDate()
         }
       });
     });
@@ -300,7 +316,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             2: { identity: 2 }
           },
           ids: [1, 2],
-          isSaving: false
+          isSaving: false,
+          createdAt: expect.toBeDate()
         }
       });
     });
@@ -322,7 +339,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             1: { identity: 1, name: 'after' }
           },
           ids: [1],
-          isSaving: false
+          isSaving: false,
+          savedAt: expect.toBeDate()
         }
       });
     });
@@ -353,7 +371,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             3: { identity: 3, name: 'after3' }
           },
           ids: [1, 2, 3],
-          isSaving: false
+          isSaving: false,
+          savedAt: expect.toBeDate()
         }
       });
     });
@@ -373,7 +392,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
         testEntity: {
           entities: {},
           ids: [],
-          isDeleting: false
+          isDeleting: false,
+          deletedAt: expect.toBeDate()
         }
       });
     });

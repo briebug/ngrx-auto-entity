@@ -69,7 +69,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             [key]: entity
           },
           ids: [...(entityState.ids || []), key],
-          isSaving: false
+          isSaving: false,
+          createdAt: new Date()
         }
       };
       console.log('[NGRX-AE] CreateSuccess action reduced');
@@ -113,7 +114,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             [key]: entity
           },
           ids: [...(entityState.ids || []).filter(k => k !== key), key],
-          isLoading: false
+          isLoading: false,
+          loadedAt: new Date()
         }
       };
       console.log('[NGRX-AE] LoadSuccess action reduced');
@@ -160,6 +162,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ),
           ids: loadedEntities.map(entity => getKey(action, entity)),
           isLoading: false,
+          loadedAt: new Date(),
           currentPage: 1,
           totalPageableCount: loadedEntities.length
         }
@@ -209,7 +212,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ids: loadedEntities.map(entity => getKey(action, entity)),
           currentPage: (action as LoadPageSuccess<any>).pageInfo.page,
           totalPageableCount: (action as LoadPageSuccess<any>).pageInfo.totalCount,
-          isLoading: false
+          isLoading: false,
+          loadedAt: new Date()
         }
       };
       console.log('[NGRX-AE] LoadPageSuccess action reduced');
@@ -260,7 +264,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ids: [...(entityState.ids || []), ...loadedEntities.map(entity => getKey(action, entity))],
           currentRange: (action as LoadRangeSuccess<any>).rangeInfo.range,
           totalPageableCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount,
-          isLoading: false
+          isLoading: false,
+          loadedAt: new Date()
         }
       };
       console.log('[NGRX-AE] LoadRangeSuccess action reduced');
@@ -304,7 +309,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             ...entityState.entities,
             [key]: entity
           },
-          isSaving: false
+          isSaving: false,
+          savedAt: new Date()
         }
       };
       console.log('[NGRX-AE] UpdateSuccess action reduced');
@@ -353,7 +359,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
               {}
             )
           },
-          isSaving: false
+          isSaving: false,
+          savedAt: new Date()
         }
       };
       console.log('[NGRX-AE] UpdateManySuccess action reduced');
@@ -398,7 +405,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             [key]: entity
           },
           ids: [...entityState.ids],
-          isSaving: false
+          isSaving: false,
+          savedAt: new Date()
         }
       };
       console.log('[NGRX-AE] ReplaceSuccess action reduced');
@@ -445,7 +453,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
             [key]: undefined
           },
           ids: entityState.ids.filter(eid => eid !== key),
-          isDeleting: false
+          isDeleting: false,
+          deletedAt: new Date()
         }
       };
       console.log('[NGRX-AE] DeleteSuccess action reduced');

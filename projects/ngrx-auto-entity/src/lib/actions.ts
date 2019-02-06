@@ -10,6 +10,10 @@ export enum EntityActionTypes {
   LoadSuccess = '[Entity] Generic Load: Success',
   LoadFailure = '[Entity] Generic Load: Failure',
 
+  LoadMany = '[Entity] Generic Load Many',
+  LoadManySuccess = '[Entity] Generic Load Many: Success',
+  LoadManyFailure = '[Entity] Generic Load Many: Failure',
+
   LoadAll = '[Entity] Generic Load All',
   LoadAllSuccess = '[Entity] Generic Load All: Success',
   LoadAllFailure = '[Entity] Generic Load All: Failure',
@@ -26,6 +30,10 @@ export enum EntityActionTypes {
   CreateSuccess = '[Entity] Generic Create: Success',
   CreateFailure = '[Entity] Generic Create: Failure',
 
+  CreateMany = '[Entity] Generic Create Many',
+  CreateManySuccess = '[Entity] Generic Create Many: Success',
+  CreateManyFailure = '[Entity] Generic Create Many: Failure',
+
   Update = '[Entity] Generic Update',
   UpdateSuccess = '[Entity] Generic Update: Success',
   UpdateFailure = '[Entity] Generic Update: Failure',
@@ -38,9 +46,19 @@ export enum EntityActionTypes {
   ReplaceSuccess = '[Entity] Generic Replace: Success',
   ReplaceFailure = '[Entity] Generic Replace: Failure',
 
+  ReplaceMany = '[Entity] Generic Replace Many',
+  ReplaceManySuccess = '[Entity] Generic Replace Many: Success',
+  ReplaceManyFailure = '[Entity] Generic Replace Many: Failure',
+
   Delete = '[Entity] Generic Delete',
   DeleteSuccess = '[Entity] Generic Delete: Success',
   DeleteFailure = '[Entity] Generic Delete: Failure',
+
+  DeleteMany = '[Entity] Generic Delete Many',
+  DeleteManySuccess = '[Entity] Generic Delete Many: Success',
+  DeleteManyFailure = '[Entity] Generic Delete Many: Failure',
+
+  Clear = '[Entity] Generic Clear',
 
   Select = '[Entity] Generic Select',
   SelectByKey = '[Entity] Generic Select by Key',
@@ -119,7 +137,43 @@ export class LoadFailure<TModel> implements EntityAction {
 }
 
 /**
- * Loads all instance of an entity, corresponding to HTTP GET /entity operation
+ * Loads many instances of an entity (updating existing state), corresponding to HTTP GET /entity operation
+ */
+export class LoadMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadMany;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public criteria?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class LoadManySuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadManySuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class LoadManyFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.LoadManyFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Loads all instance of an entity (replacing existing state), corresponding to HTTP GET /entity operation
  */
 export class LoadAll<TModel> implements EntityAction {
   type: string;
@@ -263,6 +317,42 @@ export class CreateFailure<TModel> implements EntityAction {
 }
 
 /**
+ * Creates many entities, corresponding to HTTP POST operation
+ */
+export class CreateMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.CreateMany;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class CreateManySuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.CreateManySuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class CreateManyFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.CreateManyFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
  * Updates a single entity, corresponding to HTTP PATCH operation.
  *
  * PATCH: Update just the supplied attributes of the entity
@@ -377,6 +467,44 @@ export class ReplaceFailure<TModel> implements EntityAction {
 }
 
 /**
+ * Replaces many entities, corresponding to HTTP PUT operation.
+ *
+ * PUT: Replace the entities with the ones supplied in the request
+ */
+export class ReplaceMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.ReplaceMany;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class ReplaceManySuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.ReplaceManySuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class ReplaceManyFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.ReplaceManyFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
  * Deletes a single entity, corresponding to HTTP DELETE operation
  */
 export class Delete<TModel> implements EntityAction {
@@ -413,6 +541,56 @@ export class DeleteFailure<TModel> implements EntityAction {
 }
 
 /**
+ * Deletes many entities, corresponding to HTTP DELETE operation
+ */
+export class DeleteMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeleteMany;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class DeleteManySuccess<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeleteManySuccess;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+export class DeleteManyFailure<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeleteManyFailure;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }, public error: any) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Clears all entities for this model from state
+ */
+export class Clear<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.Clear;
+  info: IEntityInfo;
+
+  constructor(type: { new (): TModel }) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
  * Selects a single entity in the store by the entity model
  */
 export class Select<TModel> implements EntityAction {
@@ -431,7 +609,7 @@ export class Select<TModel> implements EntityAction {
  */
 export class SelectByKey<TModel> implements EntityAction {
   type: string;
-  actionType = EntityActionTypes.Select;
+  actionType = EntityActionTypes.SelectByKey;
   info: IEntityInfo;
 
   constructor(type: { new (): TModel }, public entityKey: string | number) {
@@ -486,6 +664,9 @@ export type EntityActions<TModel> =
   | Load<TModel>
   | LoadFailure<TModel>
   | LoadSuccess<TModel>
+  | LoadMany<TModel>
+  | LoadManyFailure<TModel>
+  | LoadManySuccess<TModel>
   | LoadAll<TModel>
   | LoadAllFailure<TModel>
   | LoadAllSuccess<TModel>
@@ -498,6 +679,9 @@ export type EntityActions<TModel> =
   | Create<TModel>
   | CreateFailure<TModel>
   | CreateSuccess<TModel>
+  | CreateMany<TModel>
+  | CreateManyFailure<TModel>
+  | CreateManySuccess<TModel>
   | Update<TModel>
   | UpdateFailure<TModel>
   | UpdateSuccess<TModel>
@@ -507,9 +691,16 @@ export type EntityActions<TModel> =
   | Replace<TModel>
   | ReplaceFailure<TModel>
   | ReplaceSuccess<TModel>
+  | ReplaceMany<TModel>
+  | ReplaceManyFailure<TModel>
+  | ReplaceManySuccess<TModel>
   | Delete<TModel>
   | DeleteFailure<TModel>
   | DeleteSuccess<TModel>
+  | DeleteMany<TModel>
+  | DeleteManyFailure<TModel>
+  | DeleteManySuccess<TModel>
+  | Clear<TModel>
   | Select<TModel>
   | SelectByKey<TModel>
   | Selected<TModel>
@@ -529,6 +720,9 @@ export function ofEntityAction<T extends EntityAction>(
       return action instanceof Load ||
         action instanceof LoadSuccess ||
         action instanceof LoadFailure ||
+        action instanceof LoadMany ||
+        action instanceof LoadManySuccess ||
+        action instanceof LoadManyFailure ||
         action instanceof LoadAll ||
         action instanceof LoadAllSuccess ||
         action instanceof LoadAllFailure ||
@@ -541,6 +735,9 @@ export function ofEntityAction<T extends EntityAction>(
         action instanceof Create ||
         action instanceof CreateSuccess ||
         action instanceof CreateFailure ||
+        action instanceof CreateMany ||
+        action instanceof CreateManySuccess ||
+        action instanceof CreateManyFailure ||
         action instanceof Update ||
         action instanceof UpdateSuccess ||
         action instanceof UpdateFailure ||
@@ -550,9 +747,16 @@ export function ofEntityAction<T extends EntityAction>(
         action instanceof Replace ||
         action instanceof ReplaceSuccess ||
         action instanceof ReplaceFailure ||
+        action instanceof ReplaceMany ||
+        action instanceof ReplaceManySuccess ||
+        action instanceof ReplaceManyFailure ||
         action instanceof Delete ||
         action instanceof DeleteSuccess ||
         action instanceof DeleteFailure ||
+        action instanceof DeleteMany ||
+        action instanceof DeleteManySuccess ||
+        action instanceof DeleteManyFailure ||
+        action instanceof Clear ||
         action instanceof Select ||
         action instanceof SelectByKey ||
         action instanceof Selected ||
@@ -580,6 +784,9 @@ export function ofEntityType<TModel, T extends EntityAction>(
         action instanceof Load ||
         action instanceof LoadSuccess ||
         action instanceof LoadFailure ||
+        action instanceof LoadMany ||
+        action instanceof LoadManySuccess ||
+        action instanceof LoadManyFailure ||
         action instanceof LoadAll ||
         action instanceof LoadAllSuccess ||
         action instanceof LoadAllFailure ||
@@ -592,6 +799,9 @@ export function ofEntityType<TModel, T extends EntityAction>(
         action instanceof Create ||
         action instanceof CreateSuccess ||
         action instanceof CreateFailure ||
+        action instanceof CreateMany ||
+        action instanceof CreateManySuccess ||
+        action instanceof CreateManyFailure ||
         action instanceof Update ||
         action instanceof UpdateSuccess ||
         action instanceof UpdateFailure ||
@@ -601,9 +811,16 @@ export function ofEntityType<TModel, T extends EntityAction>(
         action instanceof Replace ||
         action instanceof ReplaceSuccess ||
         action instanceof ReplaceFailure ||
+        action instanceof ReplaceMany ||
+        action instanceof ReplaceManySuccess ||
+        action instanceof ReplaceManyFailure ||
         action instanceof Delete ||
         action instanceof DeleteSuccess ||
         action instanceof DeleteFailure ||
+        action instanceof DeleteMany ||
+        action instanceof DeleteManySuccess ||
+        action instanceof DeleteManyFailure ||
+        action instanceof Clear ||
         action instanceof Select ||
         action instanceof SelectByKey ||
         action instanceof Selected ||
