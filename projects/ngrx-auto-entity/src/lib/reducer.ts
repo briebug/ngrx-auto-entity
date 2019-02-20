@@ -1,7 +1,9 @@
 import { ActionReducer } from '@ngrx/store';
 import { camelCase } from 'change-case';
 import {
+  CreateManySuccess,
   CreateSuccess,
+  DeleteManySuccess,
   DeleteSuccess,
   EntityAction,
   EntityActions,
@@ -9,6 +11,7 @@ import {
   LoadPageSuccess,
   LoadRangeSuccess,
   LoadSuccess,
+  ReplaceManySuccess,
   ReplaceSuccess,
   Select,
   SelectByKey,
@@ -32,7 +35,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
 
   switch (action.actionType) {
     case EntityActionTypes.Create: {
-      console.log('[NGRX-AE] Create action reducing...');
+      // console.debug('[NGRX-AE] Create action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -40,12 +43,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: true
         }
       };
-      console.log('[NGRX-AE] Create acton reduced');
+      // console.debug('[NGRX-AE] Create acton reduced');
 
       return reduced;
     }
     case EntityActionTypes.CreateFailure: {
-      console.log('[NGRX-AE] CreateFailure action reducing...');
+      // console.debug('[NGRX-AE] CreateFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -53,11 +56,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: false
         }
       };
-      console.log('[NGRX-AE] CreateFailure action reduced');
+      // console.debug('[NGRX-AE] CreateFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.CreateSuccess: {
-      console.log('[NGRX-AE] CreateSuccess action reducing...');
+      // console.debug('[NGRX-AE] CreateSuccess action reducing...');
       const entity = (action as CreateSuccess<any>).entity;
       const key = getKey(action, entity);
       const reduced = {
@@ -73,12 +76,63 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           createdAt: new Date()
         }
       };
-      console.log('[NGRX-AE] CreateSuccess action reduced');
+      // console.debug('[NGRX-AE] CreateSuccess action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.CreateMany: {
+      // console.debug('[NGRX-AE] CreateMany action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isSaving: true
+        }
+      };
+      // console.debug('[NGRX-AE] CreateMany acton reduced');
+
+      return reduced;
+    }
+    case EntityActionTypes.CreateManyFailure: {
+      // console.debug('[NGRX-AE] CreateManyFailure action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isSaving: false
+        }
+      };
+      // console.debug('[NGRX-AE] CreateManyFailure action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.CreateManySuccess: {
+      // console.debug('[NGRX-AE] CreateManySuccess action reducing...');
+      const createdEntities = (action as CreateManySuccess<any>).entities;
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          entities: {
+            ...(entityState.entities || {}),
+            ...createdEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [getKey(action, entity)]: entity
+              }),
+              {}
+            )
+          },
+          ids: [...(entityState.ids || []), ...createdEntities.map(entity => getKey(action, entity))],
+          isSaving: false,
+          createdAt: new Date()
+        }
+      };
+      // console.debug('[NGRX-AE] CreateManySuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.Load: {
-      console.log('[NGRX-AE] Load action reducing...');
+      // console.debug('[NGRX-AE] Load action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -86,11 +140,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: true
         }
       };
-      console.log('[NGRX-AE] Load action reduced');
+      // console.debug('[NGRX-AE] Load action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadFailure: {
-      console.log('[NGRX-AE] LoadFailure action reducing...');
+      // console.debug('[NGRX-AE] LoadFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -98,11 +152,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: false
         }
       };
-      console.log('[NGRX-AE] Load action reduced');
+      // console.debug('[NGRX-AE] Load action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadSuccess: {
-      console.log('[NGRX-AE] LoadSuccess action reducing...');
+      // console.debug('[NGRX-AE] LoadSuccess action reducing...');
       const entity = (action as LoadSuccess<any>).entity;
       const key = getKey(action, entity);
       const reduced = {
@@ -118,12 +172,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           loadedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] LoadSuccess action reduced');
+      // console.debug('[NGRX-AE] LoadSuccess action reduced');
       return reduced;
     }
 
-    case EntityActionTypes.LoadAll: {
-      console.log('[NGRX-AE] LoadAll action reducing...');
+    case EntityActionTypes.LoadMany: {
+      // console.debug('[NGRX-AE] LoadMany action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -131,11 +185,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: true
         }
       };
-      console.log('[NGRX-AE] LoadAll action reduced');
+      // console.debug('[NGRX-AE] LoadMany action reduced');
       return reduced;
     }
-    case EntityActionTypes.LoadAllFailure: {
-      console.log('[NGRX-AE] LoadAllFailure action reducing...');
+    case EntityActionTypes.LoadManyFailure: {
+      // console.debug('[NGRX-AE] LoadManyFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -143,11 +197,66 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: false
         }
       };
-      console.log('[NGRX-AE] LoadAllFailure action reduced');
+      // console.debug('[NGRX-AE] LoadManyFailure action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.LoadManySuccess: {
+      // console.debug('[NGRX-AE] LoadManySuccess action reducing...');
+      const loadedEntities = action['entities'];
+
+      const loadedIds = loadedEntities.map(entity => getKey(action, entity));
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          entities: {
+            ...(entityState.entities || {}),
+            ...loadedEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [getKey(action, entity)]: entity
+              }),
+              {}
+            )
+          },
+          ids: [
+            ...(entityState.ids || []),
+            ...loadedIds.filter(lid => !(entityState.ids || []).some(sid => lid === sid))
+          ],
+          isLoading: false,
+          loadedAt: new Date()
+        }
+      };
+      // console.debug('[NGRX-AE] LoadManySuccess action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.LoadAll: {
+      // console.debug('[NGRX-AE] LoadAll action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isLoading: true
+        }
+      };
+      // console.debug('[NGRX-AE] LoadAll action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.LoadAllFailure: {
+      // console.debug('[NGRX-AE] LoadAllFailure action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isLoading: false
+        }
+      };
+      // console.debug('[NGRX-AE] LoadAllFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadAllSuccess: {
-      console.log('[NGRX-AE] LoadAllSuccess action reducing...');
+      // console.debug('[NGRX-AE] LoadAllSuccess action reducing...');
       const loadedEntities = action['entities'];
       const reduced = {
         ...state,
@@ -167,12 +276,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           totalPageableCount: loadedEntities.length
         }
       };
-      console.log('[NGRX-AE] LoadAllSuccess action reduced');
+      // console.debug('[NGRX-AE] LoadAllSuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.LoadPage: {
-      console.log('[NGRX-AE] LoadPage action reducing...');
+      // console.debug('[NGRX-AE] LoadPage action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -180,11 +289,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: true
         }
       };
-      console.log('[NGRX-AE] LoadPage action reduced');
+      // console.debug('[NGRX-AE] LoadPage action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadPageFailure: {
-      console.log('[NGRX-AE] LoadPageFailure action reducing...');
+      // console.debug('[NGRX-AE] LoadPageFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -192,11 +301,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: false
         }
       };
-      console.log('[NGRX-AE] LoadPageFailure action reduced');
+      // console.debug('[NGRX-AE] LoadPageFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadPageSuccess: {
-      console.log('[NGRX-AE] LoadPageSuccess action reducing...');
+      // console.debug('[NGRX-AE] LoadPageSuccess action reducing...');
       const loadedEntities = action['entities'];
       const reduced = {
         ...state,
@@ -216,12 +325,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           loadedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] LoadPageSuccess action reduced');
+      // console.debug('[NGRX-AE] LoadPageSuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.LoadRange: {
-      console.log('[NGRX-AE] LoadRange action reducing...');
+      // console.debug('[NGRX-AE] LoadRange action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -229,11 +338,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: true
         }
       };
-      console.log('[NGRX-AE] LoadRange action reduced');
+      // console.debug('[NGRX-AE] LoadRange action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadRangeFailure: {
-      console.log('[NGRX-AE] LoadRangeFailure action reducing...');
+      // console.debug('[NGRX-AE] LoadRangeFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -241,11 +350,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isLoading: false
         }
       };
-      console.log('[NGRX-AE] LoadRangeFailure action reduced');
+      // console.debug('[NGRX-AE] LoadRangeFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.LoadRangeSuccess: {
-      console.log('[NGRX-AE] LoadRangeSuccess action reducing...');
+      // console.debug('[NGRX-AE] LoadRangeSuccess action reducing...');
       const loadedEntities = action['entities'];
       const reduced = {
         ...state,
@@ -268,12 +377,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           loadedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] LoadRangeSuccess action reduced');
+      // console.debug('[NGRX-AE] LoadRangeSuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.Update: {
-      console.log('[NGRX-AE] Update action reducing...');
+      // console.debug('[NGRX-AE] Update action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -281,11 +390,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: true
         }
       };
-      console.log('[NGRX-AE] Update action reduced');
+      // console.debug('[NGRX-AE] Update action reduced');
       return reduced;
     }
     case EntityActionTypes.UpdateFailure: {
-      console.log('[NGRX-AE] UpdateFailure action reducing...');
+      // console.debug('[NGRX-AE] UpdateFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -293,11 +402,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: false
         }
       };
-      console.log('[NGRX-AE] UpdateFailure action reduced');
+      // console.debug('[NGRX-AE] UpdateFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.UpdateSuccess: {
-      console.log('[NGRX-AE] UpdateSuccess action reducing...');
+      // console.debug('[NGRX-AE] UpdateSuccess action reducing...');
       const entity = (action as UpdateSuccess<any>).entity;
       const key = getKey(action, entity);
 
@@ -313,12 +422,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           savedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] UpdateSuccess action reduced');
+      // console.debug('[NGRX-AE] UpdateSuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.UpdateMany: {
-      console.log('[NGRX-AE] UpdateMany action reducing...');
+      // console.debug('[NGRX-AE] UpdateMany action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -326,11 +435,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: true
         }
       };
-      console.log('[NGRX-AE] UpdateMany action reduced');
+      // console.debug('[NGRX-AE] UpdateMany action reduced');
       return reduced;
     }
     case EntityActionTypes.UpdateManyFailure: {
-      console.log('[NGRX-AE] UpdateManyFailure action reducing...');
+      // console.debug('[NGRX-AE] UpdateManyFailure action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -338,11 +447,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: false
         }
       };
-      console.log('[NGRX-AE] UpdateManyFailure action reduced');
+      // console.debug('[NGRX-AE] UpdateManyFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.UpdateManySuccess: {
-      console.log('[NGRX-AE] UpdateManySuccess action reducing...');
+      // console.debug('[NGRX-AE] UpdateManySuccess action reducing...');
       const updatedEntities = (action as UpdateManySuccess<any>).entities;
 
       const reduced = {
@@ -363,12 +472,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           savedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] UpdateManySuccess action reduced');
+      // console.debug('[NGRX-AE] UpdateManySuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.Replace: {
-      console.log('[NGRX-AE] Replace action reduced');
+      // console.debug('[NGRX-AE] Replace action reduced');
       const reduced = {
         ...state,
         [stateName]: {
@@ -376,11 +485,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: true
         }
       };
-      console.log('[NGRX-AE] UpdateFailure action reduced');
+      // console.debug('[NGRX-AE] UpdateFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.ReplaceFailure: {
-      console.log('[NGRX-AE] ReplaceFailure action reduced');
+      // console.debug('[NGRX-AE] ReplaceFailure action reduced');
       const reduced = {
         ...state,
         [stateName]: {
@@ -388,11 +497,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isSaving: false
         }
       };
-      console.log('[NGRX-AE] ReplaceFailure action reduced');
+      // console.debug('[NGRX-AE] ReplaceFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.ReplaceSuccess: {
-      console.log('[NGRX-AE] ReplaceSuccess action reducing...');
+      // console.debug('[NGRX-AE] ReplaceSuccess action reducing...');
       const entity = (action as ReplaceSuccess<any>).entity;
       const key = getKey(action, entity);
 
@@ -409,12 +518,62 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           savedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] ReplaceSuccess action reduced');
+      // console.debug('[NGRX-AE] ReplaceSuccess action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.ReplaceMany: {
+      // console.debug('[NGRX-AE] ReplaceMany action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isSaving: true
+        }
+      };
+      // console.debug('[NGRX-AE] ReplaceMany action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.ReplaceManyFailure: {
+      // console.debug('[NGRX-AE] ReplaceManyFailure action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isSaving: false
+        }
+      };
+      // console.debug('[NGRX-AE] ReplaceManyFailure action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.ReplaceManySuccess: {
+      // console.debug('[NGRX-AE] ReplaceManySuccess action reducing...');
+      const replacedEntities = (action as ReplaceManySuccess<any>).entities;
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          entities: {
+            ...(entityState.entities || {}),
+            ...replacedEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [getKey(action, entity)]: entity
+              }),
+              {}
+            )
+          },
+          isSaving: false,
+          savedAt: new Date()
+        }
+      };
+      // console.debug('[NGRX-AE] ReplaceManySuccess action reduced');
       return reduced;
     }
 
     case EntityActionTypes.Delete: {
-      console.log('[NGRX-AE] Delete action reducing...');
+      // console.debug('[NGRX-AE] Delete action reducing...');
       const reduced = {
         ...state,
         [stateName]: {
@@ -422,11 +581,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isDeleting: true
         }
       };
-      console.log('[NGRX-AE] Delete action reduced');
+      // console.debug('[NGRX-AE] Delete action reduced');
       return reduced;
     }
     case EntityActionTypes.DeleteFailure: {
-      console.log('[NGRX-AE] DeleteFailure action reduced');
+      // console.debug('[NGRX-AE] DeleteFailure action reduced');
       const reduced = {
         ...state,
         [stateName]: {
@@ -434,11 +593,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           isDeleting: false
         }
       };
-      console.log('[NGRX-AE] DeleteFailure action reduced');
+      // console.debug('[NGRX-AE] DeleteFailure action reduced');
       return reduced;
     }
     case EntityActionTypes.DeleteSuccess: {
-      console.log('[NGRX-AE] DeleteSuccess action reducing...');
+      // console.debug('[NGRX-AE] DeleteSuccess action reducing...');
       const entity = (action as DeleteSuccess<any>).entity;
       const key = getKey(action, entity);
 
@@ -457,12 +616,77 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           deletedAt: new Date()
         }
       };
-      console.log('[NGRX-AE] DeleteSuccess action reduced');
+      // console.debug('[NGRX-AE] DeleteSuccess action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.DeleteMany: {
+      // console.debug('[NGRX-AE] DeleteMany action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isDeleting: true
+        }
+      };
+      // console.debug('[NGRX-AE] ReplaceMany action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.DeleteManyFailure: {
+      // console.debug('[NGRX-AE] DeleteManyFailure action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          isDeleting: false
+        }
+      };
+      // console.debug('[NGRX-AE] DeleteManyFailure action reduced');
+      return reduced;
+    }
+    case EntityActionTypes.DeleteManySuccess: {
+      // console.debug('[NGRX-AE] DeleteManySuccess action reducing...');
+      const deletedEntities = (action as DeleteManySuccess<any>).entities;
+      const deletedIds = deletedEntities.map(entity => getKey(action, entity));
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          entities: {
+            ...(entityState.entities || {}),
+            ...deletedEntities.reduce(
+              (entities, entity) => ({
+                ...entities,
+                [getKey(action, entity)]: undefined
+              }),
+              {}
+            )
+          },
+          ids: [...entityState.ids.filter(sid => !deletedIds.some(did => did === sid))],
+          isDeleting: false,
+          deletedAt: new Date()
+        }
+      };
+      // console.debug('[NGRX-AE] DeletedManySuccess action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.Clear: {
+      // console.debug('[NGRX-AE] Clear action reducing...');
+      const reduced = {
+        ...state,
+        [stateName]: {
+          entities: {},
+          ids: []
+        }
+      };
+      // console.debug('[NGRX-AE] Clear action reduced');
       return reduced;
     }
 
     case EntityActionTypes.Select: {
-      console.log('[NGRX-AE] Select action reducing...');
+      // console.debug('[NGRX-AE] Select action reducing...');
       const entity = (action as Select<any>).entity;
       const key = getKey(action, entity);
 
@@ -473,12 +697,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           currentEntityKey: key
         }
       };
-      console.log('[NGRX-AE] Select action reduced');
+      // console.debug('[NGRX-AE] Select action reduced');
       return reduced;
     }
 
     case EntityActionTypes.SelectByKey: {
-      console.log('[NGRX-AE] Select by Key action reducing...');
+      // console.debug('[NGRX-AE] Select by Key action reducing...');
       const key = (action as SelectByKey<any>).entityKey;
 
       const reduced = {
@@ -488,12 +712,12 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           currentEntityKey: key
         }
       };
-      console.log('[NGRX-AE] Select by Key action reduced');
+      // console.debug('[NGRX-AE] Select by Key action reduced');
       return reduced;
     }
 
     case EntityActionTypes.Deselect: {
-      console.log('[NGRX-AE] Deselect action reducing...');
+      // console.debug('[NGRX-AE] Deselect action reducing...');
 
       const reduced = {
         ...state,
@@ -502,7 +726,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           currentEntityKey: undefined
         }
       };
-      console.log('[NGRX-AE] Deselect action reduced');
+      // console.debug('[NGRX-AE] Deselect action reduced');
       return reduced;
     }
   }

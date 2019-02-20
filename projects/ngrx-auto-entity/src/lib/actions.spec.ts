@@ -296,7 +296,10 @@ describe('NgRX Auto-Entity: Actions', () => {
         }
       ]);
       expect(load.pageInfo).toEqual({
-        page: 1,
+        page: {
+          page: 1,
+          size: 2
+        },
         totalCount: 10
       });
     });
