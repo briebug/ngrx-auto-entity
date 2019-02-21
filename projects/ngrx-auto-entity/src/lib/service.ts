@@ -37,22 +37,22 @@ export interface IEntityWithRangeInfo<TModel> {
 
 export interface IAutoEntityService<TModel> {
   load?(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<TModel>;
-
+  loadMany?(entityInfo: IEntityInfo, criteria?: any): Observable<TModel[]>;
   loadAll?(entityInfo: IEntityInfo, criteria?: any): Observable<TModel[]>;
-
   loadPage?(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityWithPageInfo<TModel>>;
-
   loadRange?(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityWithRangeInfo<TModel>>;
 
   create?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
+  createMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
 
   update?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
-
   updateMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
 
   replace?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
+  replaceMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
 
   delete?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
+  deleteMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
 }
 
 /**

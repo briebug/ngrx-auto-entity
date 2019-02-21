@@ -37,6 +37,11 @@ export function getKeyNames(action: EntityAction): string[] {
   return keys;
 }
 
+export function getKeyNamesFromModel<TModel>(type: { new (): TModel }): string[] {
+  const keys = type.prototype[NAE_KEYS];
+  return keys;
+}
+
 function _getKey(entity: any, keyNames: string[]): string | number {
   if (keyNames.length === 1) {
     return entity[keyNames[0]];
@@ -49,5 +54,10 @@ function _getKey(entity: any, keyNames: string[]): string | number {
 
 export function getKey(action: EntityAction, entity: any): any {
   const keyNames = getKeyNames(action);
+  return _getKey(entity, keyNames);
+}
+
+export function getKeyFromModel<TModel>(type: { new (): TModel }, entity: TModel): any {
+  const keyNames = getKeyNamesFromModel(type);
   return _getKey(entity, keyNames);
 }

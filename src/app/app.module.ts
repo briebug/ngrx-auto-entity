@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './containers/home/home.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { CoreModule } from './core/core.module';
+import { MaterialModule } from './material.module';
 import { CustomerService } from './services/customer.service';
 import { StateModule } from './state/state.module';
 
@@ -21,7 +22,8 @@ import { StateModule } from './state/state.module';
     CoreModule.forRoot(),
     HttpClientModule,
     NgrxAutoEntityModule,
-    StateModule.forRoot()
+    StateModule.forRoot(),
+    MaterialModule
   ],
   providers: [{ provide: Customer, useClass: CustomerService }],
   bootstrap: [AppComponent]

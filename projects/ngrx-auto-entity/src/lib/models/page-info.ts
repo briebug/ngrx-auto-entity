@@ -6,6 +6,6 @@ export interface IPage {
 export type Page = IPage;
 
 export interface IPageInfo {
-  page: number;
+  page: Page;
   totalCount: number;
 }

@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
+import { IEntityInfo } from '@briebug/ngrx-auto-entity';
 import { Customer } from 'models/customer.model';
-import { IEntityInfo } from 'projects/ngrx-auto-entity/src/lib';
 import { CustomerService } from './customer.service';
 
 describe('CustomerService', () => {

@@ -8,23 +8,14 @@ import { Customer } from 'models/customer.model';
   styleUrls: ['./customers-table.component.scss']
 })
 export class CustomersTableComponent implements OnChanges, OnInit {
-  /** The table columns to display */
-  columnsToDisplay = ['name', 'actions'];
-
-  /** The array of customers */
   @Input() customers: Customer[];
-
-  /** Table datasource */
-  dataSource = new MatTableDataSource();
-
-  /** Customer delete event */
   @Output() delete = new EventEmitter<Customer>();
-
-  /** Customer edit event */
   @Output() edit = new EventEmitter<Customer>();
 
-  /** The paginator */
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  columnsToDisplay = ['name', 'actions'];
+  dataSource = new MatTableDataSource();
 
   constructor() {}
 
