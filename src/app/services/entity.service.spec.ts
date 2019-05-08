@@ -2,20 +2,21 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { IEntityInfo } from '@briebug/ngrx-auto-entity';
 import { Customer } from 'models/customer.model';
-import { CustomerService } from './customer.service';
+import { environment } from '../../environments/environment';
+import { EntityService } from './entity.service';
 
 describe('CustomerService', () => {
   let injector: TestBed;
-  let service: CustomerService;
+  let service: EntityService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CustomerService]
+      providers: [EntityService]
     });
     injector = getTestBed();
-    service = injector.get(CustomerService);
+    service = injector.get(EntityService);
     httpMock = injector.get(HttpTestingController);
   });
 
@@ -41,8 +42,8 @@ describe('CustomerService', () => {
         expect(customer).toEqual(dummyCustomers[0]);
       });
 
-      const req = httpMock.expectOne(`${service.url}/${dummyCustomers[0].id}`);
-      expect(req.request.url).toBe(`${service.url}/${dummyCustomers[0].id}`);
+      const req = httpMock.expectOne(`${environment.API_BASE_URL}/customer/${dummyCustomers[0].id}`);
+      expect(req.request.url).toBe(`${environment.API_BASE_URL}/customer/${dummyCustomers[0].id}`);
       expect(req.request.method).toBe('GET');
       req.flush(dummyCustomers);
     });
@@ -55,8 +56,8 @@ describe('CustomerService', () => {
         expect(customers).toEqual(dummyCustomers);
       });
 
-      const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(service.url);
+      const req = httpMock.expectOne(`${environment.API_BASE_URL}/customer`);
+      expect(req.request.url).toBe(`${environment.API_BASE_URL}/customer`);
       expect(req.request.method).toBe('GET');
       req.flush(dummyCustomers);
     });
@@ -74,8 +75,8 @@ describe('CustomerService', () => {
         expect(customer).toEqual(newCustomer);
       });
 
-      const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`${service.url}`);
+      const req = httpMock.expectOne(`${environment.API_BASE_URL}/customer`);
+      expect(req.request.url).toBe(`${environment.API_BASE_URL}/customer`);
       expect(req.request.method).toBe('POST');
       req.flush(dummyCustomers);
     });
@@ -93,8 +94,8 @@ describe('CustomerService', () => {
         expect(customer).toEqual(updatedHulk);
       });
 
-      const req = httpMock.expectOne(`${service.url}/${updatedHulk.id}`);
-      expect(req.request.url).toBe(`${service.url}/${updatedHulk.id}`);
+      const req = httpMock.expectOne(`${environment.API_BASE_URL}/customer/${updatedHulk.id}`);
+      expect(req.request.url).toBe(`${environment.API_BASE_URL}/customer/${updatedHulk.id}`);
       expect(req.request.method).toBe('PATCH');
       req.flush(dummyCustomers);
     });
@@ -112,8 +113,8 @@ describe('CustomerService', () => {
         expect(customer).toEqual(replacedHulk);
       });
 
-      const req = httpMock.expectOne(`${service.url}`);
-      expect(req.request.url).toBe(`${service.url}`);
+      const req = httpMock.expectOne(`${environment.API_BASE_URL}/customer`);
+      expect(req.request.url).toBe(`${environment.API_BASE_URL}/customer`);
       expect(req.request.method).toBe('PUT');
       req.flush(dummyCustomers);
     });
@@ -131,8 +132,8 @@ describe('CustomerService', () => {
         expect(customer).toEqual(hulk);
       });
 
-      const req = httpMock.expectOne(`${service.url}/${hulk.id}`);
-      expect(req.request.url).toBe(`${service.url}/${hulk.id}`);
+      const req = httpMock.expectOne(`${environment.API_BASE_URL}/customer/${hulk.id}`);
+      expect(req.request.url).toBe(`${environment.API_BASE_URL}/customer/${hulk.id}`);
       expect(req.request.method).toBe('DELETE');
       req.flush(dummyCustomers);
     });

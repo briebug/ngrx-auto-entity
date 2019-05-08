@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Delete, LoadAll, Select } from '@briebug/ngrx-auto-entity';
-import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { CustomerFacade } from 'facades/CustomerFacade';
 import { Customer } from 'models/customer.model';
-import { IAppState } from 'state/app.interfaces';
-import { allCustomers } from 'state/customer.state';
 
 @Component({
   selector: 'app-customers',
@@ -16,19 +13,19 @@ import { allCustomers } from 'state/customer.state';
 export class CustomersComponent implements OnInit {
   customers$: Observable<Customer[]>;
 
-  constructor(private router: Router, private store: Store<IAppState>) {}
+  constructor(private router: Router, private customerFacade: CustomerFacade) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadAll(Customer));
-    this.customers$ = this.store.pipe(select(allCustomers));
+    this.customerFacade.loadAll();
+    this.customers$ = this.customerFacade.all;
   }
 
   onDelete(customer: Customer) {
-    this.store.dispatch(new Delete(Customer, customer));
+    this.customerFacade.delete(customer);
   }
 
   onEdit(customer: Customer) {
-    this.store.dispatch(new Select(Customer, customer));
+    this.customerFacade.select(customer);
     this.router.navigate(['customers', customer.id]);
   }
 }

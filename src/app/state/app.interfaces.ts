@@ -10,4 +10,4 @@ export interface IAppState {
   account: IEntityState<Account>;
 }
 
-export type State = IAppState;
+export type AppState = IAppState;
