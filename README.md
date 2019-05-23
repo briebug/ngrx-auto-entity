@@ -4,8 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # NgRX Auto-Entity
 
-Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the weight off your plate, and
-get back to business!
+Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
 
 **NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
 enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
@@ -21,11 +20,13 @@ other NgRX application.
 
 What Auto-Entity does do is provide a set of ready-made, generic actions for handling all of
 the standard CRUD operations for entities, so you neither have to write nor generate any of that
-code yourself. Auto-Entity presents a flexible framework that you may use in its entirety for
-all of your entity needs, or use piecemeal as necessary in order to achieve your specific goals.
+code yourself. Auto-Entity generates **pre-fabricated facades** around NgRx and the store/state, providing
+a cohesive, logical and simplified API into your state. Auto-Entity presents a flexible framework
+that you may use in its entirety for all of your entity needs, or use piecemeal as necessary in
+order to achieve your specific goals.
 
 While it is not required and Auto-Entity is an entirely independent library that solely depends
-on Angular 6 and NgRX 6, Auto-Entity manages state in a manner that is compatible with @ngrx/entity
+on Angular and NgRX, Auto-Entity manages state in a manner that is compatible with @ngrx/entity
 as well, in the event you wish to utilize some of the utilities from that library in your own
 custom reducers.
 
@@ -41,11 +42,15 @@ If you have not already, install the required peer dependencies as well:
 
 ## Quick Start
 
-If you want to get rolling as quickly and simply as possible, you may jump to the [quick start guide](QUICKSTART.md).
+If you want to get rolling as quickly and simply as possible, you may jump to the
+[quick start guide](https://briebug.gitbook.io/ngrx-auto-entity/quick-start).
+(Note: Documentation still in progress!)
 
 ## Full Usage Documentation
 
-If you wish to learn more about how Auto-Entity works, you may jump to the [full usage documentation](USAGE.md).
+If you wish to learn more about how Auto-Entity works, you may jump to the
+[full usage documentation](https://briebug.gitbook.io/ngrx-auto-entity/advanced-usage).
+(Note: Documentation still in progress!)
 
 # Roadmap
 
@@ -59,12 +64,16 @@ If you wish to learn more about how Auto-Entity works, you may jump to the [full
 - [x] Built-in saving indicator tracking
 - [x] Built-in deleting indicator tracking
 - [x] Built-in entity selection support
+- [x] Pre-fabricated facade generation
+- [x] Generated stub reducers
+- [ ] Enhanced IEntityInfo interface with naming utilities
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
 - [ ] Filtering of entities effects handle
 
 # Contributors
 
+- [Jesse Sanders](https://github.com/jessesanders): Evil Mastermind!
 - [Jon Rista](https://github.com/jrista): Design & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation

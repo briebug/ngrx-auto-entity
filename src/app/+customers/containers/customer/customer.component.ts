@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Create, Load, SelectByKey, Update } from '@briebug/ngrx-auto-entity';
-import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { CustomerFacade } from 'facades/CustomerFacade';
 import { Customer } from 'models/customer.model';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
-import { State } from 'state/app.interfaces';
-import { currentCustomer, customerIds } from 'state/customer.state';
 
 @Component({
   selector: 'app-customer',
@@ -20,31 +17,28 @@ export class CustomerComponent implements OnInit {
 
   private updatedCustomer: Customer;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store<State>) {}
+  constructor(private activatedRoute: ActivatedRoute, private customerFacade: CustomerFacade) {}
 
   ngOnInit() {
     this.customer = this.activatedRoute.paramMap.pipe(
       filter(params => params.has('id')),
       map(params => +params.get('id')),
       tap(id => {
-        this.store.dispatch(new SelectByKey(Customer, id));
+        this.customerFacade.selectByKey(id);
         this.hasCustomerWithIdInState(id)
           .pipe(first())
           .subscribe(exists => {
             if (!exists) {
-              this.store.dispatch(new Load(Customer, id));
+              this.customerFacade.load(id);
             }
           });
       }),
-      switchMap(() => this.store.pipe(select(currentCustomer)))
+      switchMap(() => this.customerFacade.current)
     );
   }
 
   hasCustomerWithIdInState(id: number): Observable<boolean> {
-    return this.store.pipe(
-      select(customerIds),
-      map(ids => ids.indexOf(id) > -1)
-    );
+    return this.customerFacade.ids.pipe(map((ids: number[]) => ids.indexOf(id) > -1));
   }
 
   onCustomerChange(payload: { customer: Customer; valid: boolean }) {
@@ -60,9 +54,9 @@ export class CustomerComponent implements OnInit {
     }
 
     if (this.updatedCustomer.id == null) {
-      this.store.dispatch(new Create(Customer, this.updatedCustomer));
+      this.customerFacade.create(this.updatedCustomer);
     } else {
-      this.store.dispatch(new Update(Customer, this.updatedCustomer));
+      this.customerFacade.update(this.updatedCustomer);
     }
   }
 

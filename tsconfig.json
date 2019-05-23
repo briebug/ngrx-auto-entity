@@ -15,7 +15,8 @@
       "@briebug/ngrx-auto-entity": ["dist/ngrx-auto-entity"],
       "state/*": ["src/app/state/*"],
       "core/*": ["src/app/core/*"],
-      "models/*": ["src/app/models/*"]
+      "models/*": ["src/app/models/*"],
+      "facades/*": ["src/app/facades/*"]
     }
   }
 }

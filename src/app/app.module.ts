@@ -10,7 +10,7 @@ import { HomeComponent } from './containers/home/home.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { CoreModule } from './core/core.module';
 import { MaterialModule } from './material.module';
-import { CustomerService } from './services/customer.service';
+import { EntityService } from './services/entity.service';
 import { StateModule } from './state/state.module';
 
 @NgModule({
@@ -25,7 +25,7 @@ import { StateModule } from './state/state.module';
     StateModule.forRoot(),
     MaterialModule
   ],
-  providers: [{ provide: Customer, useClass: CustomerService }],
+  providers: [{ provide: Customer, useClass: EntityService }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,3 +1,12 @@
+<a name="0.1.0"></a>
+
+# [0.1.0](https://github.com/briebug/ngrx-auto-entity/compare/0.0.15...0.1.0) Alpha (2019-05-23)
+
+### Features
+
+- **util:** Added pre-fabricated facades to buildState utilities
+- **util:** Added pre-fabricated reducer to buildState utilities
+
 <a name="0.0.15"></a>
 
 # [0.0.15](https://github.com/briebug/ngrx-auto-entity/compare/0.0.13...0.0.15) Alpha (2019-02-20)
