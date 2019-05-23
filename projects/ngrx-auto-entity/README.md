@@ -4,8 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # NgRX Auto-Entity
 
-Automatic entities for [@ngrx](https://github.com/ngrx/platform)! With this library, you can take the
-weight off your plate, and get back to business!
+Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
 
 **NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
 enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
@@ -21,7 +20,7 @@ other NgRX application.
 
 What Auto-Entity does do is provide a set of ready-made, generic actions for handling all of
 the standard CRUD operations for entities, so you neither have to write nor generate any of that
-code yourself. Auto-Entity generates pre-fabricated facades around NgRx and the store/state, providing
+code yourself. Auto-Entity generates **pre-fabricated facades** around NgRx and the store/state, providing
 a cohesive, logical and simplified API into your state. Auto-Entity presents a flexible framework
 that you may use in its entirety for all of your entity needs, or use piecemeal as necessary in
 order to achieve your specific goals.
@@ -67,6 +66,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [x] Built-in entity selection support
 - [x] Pre-fabricated facade generation
 - [x] Generated stub reducers
+- [ ] Enhanced IEntityInfo interface with naming utilities
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
 - [ ] Filtering of entities effects handle
