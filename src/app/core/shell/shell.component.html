@@ -11,6 +11,10 @@
           <span>Customers</span>
         </a>
         <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/products" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+          <span>Products</span>
+        </a>
+        <mat-divider></mat-divider>
       </mat-list>
     </nav>
   </mat-sidenav>

@@ -1,0 +1,7 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" class="products">
+  <h2>Products</h2>
+  <div class="actions" fxLayout="row" fxLayoutAlign="end">
+    <a mat-stroked-button routerLink="add" color="primary">Add Product</a>
+  </div>
+  <app-products-table [products]="products$ | async" (delete)="onDelete($event)" (edit)="onEdit($event)"></app-products-table>
+</div>
