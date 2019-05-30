@@ -291,7 +291,7 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
     }
   };
 
-  const reducer = function(state = initialState): IEntityState<TModel> {
+  const reducer = (state = initialState): IEntityState<TModel> => {
     // tslint:disable-line
     return state;
   };
@@ -482,7 +482,7 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
     }
   };
 
-  const reducer = function(state = initialState): IEntityState<TModel> {
+  const reducer = (state = initialState): IEntityState<TModel> => {
     // tslint:disable-line
     return state;
   };
