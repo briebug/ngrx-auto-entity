@@ -20,10 +20,10 @@
     "change-case": "^3.0.2"
   },
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
-    "@ngrx/effects": "^6.0.0",
-    "@ngrx/store": "^6.0.0",
-    "rxjs": "^6.0.0"
+    "@angular/common": "^6.x",
+    "@angular/core": "^6.x",
+    "@ngrx/effects": "^6.x",
+    "@ngrx/store": "^6.x",
+    "rxjs": "^6.x"
   }
 }

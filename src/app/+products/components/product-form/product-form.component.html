@@ -4,17 +4,31 @@
       <mat-form-field class="product-input">
         <input matInput type="text" placeholder="Product Name" formControlName="name">
       </mat-form-field>
-
-      <mat-form-field class="product-input">
-        <input matInput type="number" placeholder="Product Price" formControlName="price">
-      </mat-form-field>
-
-      <mat-form-field class="product-input">
-        <input matInput type="text" placeholder="Product Details" formControlName="details">
-      </mat-form-field>
-
       <mat-error *ngIf="formGroup.get('name').hasError('required')">
         Name is required
+      </mat-error>
+
+      <mat-form-field class="short-product-input">
+        <input matInput type="number" placeholder="Product Price" formControlName="price">
+      </mat-form-field>
+      <mat-error *ngIf="formGroup.get('name').hasError('required')">
+        Price is required
+      </mat-error>
+
+      <mat-form-field class="end-short-product-input end">
+        <input matInput type="text" placeholder="Product Details" formControlName="details">
+      </mat-form-field>
+      <mat-error *ngIf="formGroup.get('name').hasError('required')">
+        Details are required
+      </mat-error>
+
+      <mat-form-field class="very-short-product-input">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="dateAdded">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-error *ngIf="formGroup.get('name').hasError('required')">
+        Date is required
       </mat-error>
     </form>
   </mat-card-content>

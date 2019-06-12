@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { CustomerFacade } from 'facades/CustomerFacade';
+import { CustomerFacade } from 'facades/customer.facade';
 import { Customer } from 'models/customer.model';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 
@@ -58,9 +58,5 @@ export class CustomerComponent implements OnInit {
     } else {
       this.customerFacade.update(this.updatedCustomer);
     }
-  }
-
-  private loadCustomerById(id: number) {
-    this.hasCustomerWithIdInState(id).pipe(first());
   }
 }

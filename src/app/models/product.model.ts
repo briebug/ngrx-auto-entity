@@ -6,4 +6,5 @@ export class Product {
   price: string;
   color: string;
   details: string;
+  dateAdded: string;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Delete, EntityActionTypes, EntityOperators, ofEntityType, Update } from '@briebug/ngrx-auto-entity';
+import { EntityActionTypes, EntityOperators, ofEntityType } from '@briebug/ngrx-auto-entity';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Product } from 'models/product.model';
@@ -19,13 +19,13 @@ export class ProductEffects {
 
   @Effect({ dispatch: false })
   deleteSuccessSnackBar$ = this.actions$.pipe(
-    ofEntityType<Product, Delete<Product>>(Product, EntityActionTypes.DeleteSuccess),
+    ofEntityType(Product, EntityActionTypes.DeleteSuccess),
     tap(() => this.matSnackBar.open('Product Deleted', 'Success', { duration: 2000 }))
   );
 
   @Effect()
   updateSuccessSnackBar$ = this.actions$.pipe(
-    ofEntityType<Product, Update<Product>>(Product, EntityActionTypes.UpdateSuccess),
+    ofEntityType(Product, EntityActionTypes.UpdateSuccess),
     tap(() => this.matSnackBar.open('Product Updated', 'Success', { duration: 2000 })),
     map(() => new Go({ path: ['products'] }))
   );

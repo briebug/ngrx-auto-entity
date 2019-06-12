@@ -39,7 +39,9 @@ export class CustomerFormComponent implements OnChanges, OnDestroy {
 
   private buildForm() {
     this.formGroup = this.formBuilder.group({
-      name: ['', Validators.required]
+      name: [null, Validators.required],
+      catchPhrase: [null, Validators.required],
+      isActive: [true]
     });
 
     this.formGroup.valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe(value => {

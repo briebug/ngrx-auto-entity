@@ -19,6 +19,7 @@ module.exports = () => {
       id,
       name: faker.company.companyName(),
       catchPhrase: faker.company.catchPhrase(),
+      isActive: faker.random.number() % 4 !== 0,
       address: {
         street1: faker.address.streetName(),
         city: faker.address.city(),
@@ -43,7 +44,8 @@ module.exports = () => {
       name: faker.commerce.productName(),
       price: faker.commerce.price(),
       color: faker.commerce.color(),
-      details: faker.commerce.productAdjective()
+      details: faker.commerce.productAdjective(),
+      dateAdded: faker.random.number() % 3 ? faker.date.past() : faker.date.recent()
     });
   }
 
@@ -55,11 +57,17 @@ module.exports = () => {
       accountId: account.id,
       customerId: account.customerId,
       dateOfOrder:
-        order < 25 && order % 2 === 0 ? faker.date.past() : order < 75 ? faker.date.recent() : faker.date.future()
+        order < 10 && order % 2 === 0 ? faker.date.past() : order < 35 ? faker.date.recent() : faker.date.future(),
+      status: order < 10 ? 'archived' : order < 35 ? (faker.random.number() % 3 ? 'open' : 'completed') : 'pending'
     });
 
     for (let orderItem = 0; orderItem < getRandomInt(10) + 2; orderItem++) {
       const product = data.products[getRandomInt(data.products.length)];
+
+      if (data.orderItems.find(item => item.productId === product.id)) {
+        orderItem--;
+        continue;
+      }
 
       data.orderItems.push({
         orderId: id,
