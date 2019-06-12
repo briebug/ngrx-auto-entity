@@ -14,7 +14,7 @@ export class ProductsTableComponent implements OnChanges, OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay = ['name', 'details', 'price', 'actions'];
+  columnsToDisplay = ['id', 'name', 'details', 'price', 'dateAdded', 'actions'];
   dataSource = new MatTableDataSource();
 
   constructor() {}

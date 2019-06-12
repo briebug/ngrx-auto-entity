@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CustomersListComponent } from '../components/customers-list/customers-list.component';
+import { TopCustomersComponent } from '../containers/top-customers/top-customers.component';
 import { MaterialModule } from './../material.module';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 import { CustomersTableComponent } from './components/customers-table/customers-table.component';

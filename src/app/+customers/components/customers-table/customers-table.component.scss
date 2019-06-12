@@ -12,3 +12,20 @@ mat-row:hover {
 .mat-column-actions {
   flex: 0 0 40px;
 }
+
+a.dark-link {
+  color: black;
+  &:visited {
+    color: dimgrey;
+  }
+}
+
+.green-chip {
+  background-color: #78cd00;
+  color: white;
+}
+
+.red-chip {
+  background-color: #ff3726;
+  color: white;
+}

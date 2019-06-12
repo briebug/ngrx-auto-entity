@@ -41,7 +41,8 @@ export class ProductFormComponent implements OnChanges, OnDestroy {
     this.formGroup = this.formBuilder.group({
       name: ['', Validators.required],
       details: ['', Validators.required],
-      price: [0, Validators.required]
+      price: [0, Validators.required],
+      dateAdded: [new Date(), Validators.required]
     });
 
     this.formGroup.valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe(value => {

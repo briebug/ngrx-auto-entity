@@ -14,7 +14,7 @@ export class CustomersTableComponent implements OnChanges, OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay = ['name', 'actions'];
+  columnsToDisplay = ['name', 'isActive', 'actions'];
   dataSource = new MatTableDataSource();
 
   constructor() {}

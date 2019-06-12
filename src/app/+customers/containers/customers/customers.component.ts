@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { CustomerFacade } from 'facades/CustomerFacade';
+import { CustomerFacade } from 'facades/customer.facade';
 import { Customer } from 'models/customer.model';
 
 @Component({

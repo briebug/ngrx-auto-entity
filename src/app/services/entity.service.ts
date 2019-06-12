@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAutoEntityService, IEntityInfo } from '@briebug/ngrx-auto-entity';
-import { Customer } from 'models/customer.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -10,32 +9,32 @@ import { environment } from '../../environments/environment';
 export class EntityService implements IAutoEntityService<any> {
   constructor(private http: HttpClient) {}
 
-  load(entityInfo: IEntityInfo, keys: any): Observable<Customer> {
-    return this.http.get<Customer>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${keys}`);
+  load(entityInfo: IEntityInfo, keys: any): Observable<any> {
+    return this.http.get<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${keys}`);
   }
 
-  loadAll(entityInfo: IEntityInfo): Observable<Customer[]> {
-    return this.http.get<Customer[]>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`);
+  loadAll(entityInfo: IEntityInfo): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`);
   }
 
-  create(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
-    return this.http.post<Customer>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
+  create(entityInfo: IEntityInfo, entity: any): Observable<any> {
+    return this.http.post<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
   }
 
-  update(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
-    return this.http.patch<Customer>(
+  update(entityInfo: IEntityInfo, entity: any): Observable<any> {
+    return this.http.patch<any>(
       `${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`,
       entity
     );
   }
 
-  replace(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
-    return this.http.put<Customer>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
+  replace(entityInfo: IEntityInfo, entity: any): Observable<any> {
+    return this.http.put<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
   }
 
-  delete(entityInfo: IEntityInfo, entity: Customer): Observable<Customer> {
+  delete(entityInfo: IEntityInfo, entity: any): Observable<any> {
     return this.http
-      .delete<Customer>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`)
+      .delete<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`)
       .pipe(map(() => entity));
   }
 }

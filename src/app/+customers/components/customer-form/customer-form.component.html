@@ -7,6 +7,13 @@
       <mat-error *ngIf="formGroup.get('name').hasError('required')">
         Name is required
       </mat-error>
+      <mat-form-field class="customer-input">
+        <input matInput type="text" placeholder="Catch Phrase" formControlName="catchPhrase">
+      </mat-form-field>
+      <mat-error *ngIf="formGroup.get('catchPhrase').hasError('required')">
+        Catch Phrase is required
+      </mat-error>
+      <mat-checkbox formControlName="isActive">Active</mat-checkbox>
     </form>
   </mat-card-content>
 </mat-card>

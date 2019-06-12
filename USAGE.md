@@ -548,7 +548,7 @@ And map your reducer to your state:
 import { ActionReducerMap } from '@ngrx/store';
 
 import { customerReducer } from 'state/customer/customer.reducer';
-import { IAppState } from './app.interfaces';
+import { IAppState } from './app.state';
 
 export const appReducer: ActionReducerMap<IAppState> = {
   customer: customerReducer
@@ -565,7 +565,7 @@ import { autoEntityMetaReducer } from 'ngrx-auto-entity';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../environments/environment';
-import { IAppState } from './app.interfaces';
+import { IAppState } from './app.state';
 
 // ...
 

@@ -1,0 +1,18 @@
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let product">
+      <a [routerLink]="['/products', product.id]">{{product.name}}</a>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+    <mat-cell *matCellDef="let product"> {{product.price}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="dateAdded">
+    <mat-header-cell *matHeaderCellDef> Date Added </mat-header-cell>
+    <mat-cell *matCellDef="let product"> {{product.dateAdded | date:'longDate' }} </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let product; columns: columnsToDisplay"></mat-row>
+</mat-table>

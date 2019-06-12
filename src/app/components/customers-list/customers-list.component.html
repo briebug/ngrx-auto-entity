@@ -1,0 +1,3 @@
+<mat-list>
+  <a mat-list-item [routerLink]="['/customers', customer.id]" *ngFor="let customer of customers">{{customer.name}}</a>
+</mat-list>

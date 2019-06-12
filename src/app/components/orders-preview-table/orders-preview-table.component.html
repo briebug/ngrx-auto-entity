@@ -1,0 +1,18 @@
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="customer">
+    <mat-header-cell *matHeaderCellDef> Customer </mat-header-cell>
+    <mat-cell *matCellDef="let order">
+      <a [routerLink]="['/orders', order.id]">{{order.customer}}</a>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="dateOfOrder">
+    <mat-header-cell *matHeaderCellDef> Date of Order </mat-header-cell>
+    <mat-cell *matCellDef="let order"> {{order.dateOfOrder}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+    <mat-cell *matCellDef="let order"> {{order.status }} </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let order; columns: columnsToDisplay"></mat-row>
+</mat-table>

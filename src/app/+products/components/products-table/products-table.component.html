@@ -4,6 +4,14 @@
 
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-chip-list>
+          <mat-chip>{{product.id}}</mat-chip>
+        </mat-chip-list>
+      </mat-cell>
+    </ng-container>
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
       <mat-cell *matCellDef="let product"> {{product.name}} </mat-cell>
@@ -15,6 +23,10 @@
     <ng-container matColumnDef="price">
       <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
       <mat-cell *matCellDef="let product"> {{product.price}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="dateAdded">
+      <mat-header-cell *matHeaderCellDef> Date Added </mat-header-cell>
+      <mat-cell *matCellDef="let product"> {{product.dateAdded | date:'yyyy-MM-dd hh:mm a'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -31,5 +43,5 @@
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
     <mat-row *matRowDef="let product; columns: columnsToDisplay"></mat-row>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>
