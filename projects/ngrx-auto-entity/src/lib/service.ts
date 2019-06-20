@@ -126,7 +126,43 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] ! Service error: loadAll');
+      console.error('[NGRX-AE] ! Service error: loadAll()');
+      console.error(err);
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
+  loadMany<TModel>(entityInfo: IEntityInfo, criteria?: any): Observable<IEntityRef<TModel[]>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+
+      if (!service.loadMany) {
+        return throwError({ info: entityInfo, message: 'Entity service "loadMany" is not implemented' });
+      }
+
+      if (typeof service.loadMany !== 'function') {
+        return throwError({ info: entityInfo, message: 'Entity service "loadMany" is not a function' });
+      }
+
+      return service.loadMany(entityInfo, criteria).pipe(
+        map((entities: TModel[]) => {
+          return {
+            info: entityInfo,
+            entity: entities
+          };
+        }),
+        catchError(err => {
+          return throwError({
+            info: entityInfo,
+            err
+          });
+        })
+      );
+    } catch (err) {
+      console.error('[NGRX-AE] ! Service error: loadMany()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -163,7 +199,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] ! Service error: loadPage');
+      console.error('[NGRX-AE] ! Service error: loadPage()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -200,7 +236,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] ! Service error: loadRange');
+      console.error('[NGRX-AE] ! Service error: loadRange()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -236,7 +272,43 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] ! Service error: create');
+      console.error('[NGRX-AE] ! Service error: create()');
+      console.error(err);
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
+  createMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+
+      if (!service.createMany) {
+        return throwError({ info: entityInfo, message: 'Entity service "createMany" is not implemented' });
+      }
+
+      if (typeof service.createMany !== 'function') {
+        return throwError({ info: entityInfo, message: 'Entity service "createMany" is not a function' });
+      }
+
+      return service.createMany(entityInfo, entities, criteria).pipe(
+        map(savedEntities => {
+          return {
+            info: entityInfo,
+            entity: savedEntities
+          };
+        }),
+        catchError(err => {
+          return throwError({
+            info: entityInfo,
+            err
+          });
+        })
+      );
+    } catch (err) {
+      console.error('[NGRX-AE] ! Service error: createMany()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -285,12 +357,12 @@ export class NgrxAutoEntityService {
     try {
       const service = this.getService<TModel>(entityInfo);
 
-      if (!service.update) {
-        return throwError({ info: entityInfo, message: 'Entity service "update" is not implemented' });
+      if (!service.updateMany) {
+        return throwError({ info: entityInfo, message: 'Entity service "updateMany" is not implemented' });
       }
 
-      if (typeof service.update !== 'function') {
-        return throwError({ info: entityInfo, message: 'Entity service "update" is not a function' });
+      if (typeof service.updateMany !== 'function') {
+        return throwError({ info: entityInfo, message: 'Entity service "updateMany" is not a function' });
       }
 
       return service.updateMany(entityInfo, entities, criteria).pipe(
@@ -308,7 +380,7 @@ export class NgrxAutoEntityService {
         })
       );
     } catch (err) {
-      console.error('[NGRX-AE] ! Service error: update');
+      console.error('[NGRX-AE] ! Service error: updateMany()');
       console.error(err);
       return throwError({
         info: entityInfo,
@@ -353,6 +425,42 @@ export class NgrxAutoEntityService {
     }
   }
 
+  replaceMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+
+      if (!service.replaceMany) {
+        return throwError({ info: entityInfo, message: 'Entity service "replaceMany" is not implemented' });
+      }
+
+      if (typeof service.replaceMany !== 'function') {
+        return throwError({ info: entityInfo, message: 'Entity service "replaceMany" is not a function' });
+      }
+
+      return service.replaceMany(entityInfo, entities, criteria).pipe(
+        map(savedEntities => {
+          return {
+            info: entityInfo,
+            entity: savedEntities
+          };
+        }),
+        catchError(err => {
+          return throwError({
+            info: entityInfo,
+            err
+          });
+        })
+      );
+    } catch (err) {
+      console.error('[NGRX-AE] ! Service error: replaceMany()');
+      console.error(err);
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
   delete<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     try {
       const service = this.getService<TModel>(entityInfo);
@@ -389,6 +497,42 @@ export class NgrxAutoEntityService {
     }
   }
 
+  deleteMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+    try {
+      const service = this.getService<TModel>(entityInfo);
+
+      if (!service.deleteMany) {
+        return throwError({ info: entityInfo, message: 'Entity service "deleteMany" is not implemented' });
+      }
+
+      if (typeof service.deleteMany !== 'function') {
+        return throwError({ info: entityInfo, message: 'Entity service "deleteMany" is not a function' });
+      }
+
+      return service.deleteMany(entityInfo, entities, criteria).pipe(
+        map(deletedEntities => {
+          return {
+            info: entityInfo,
+            entity: deletedEntities
+          };
+        }),
+        catchError(err => {
+          return throwError({
+            info: entityInfo,
+            err
+          });
+        })
+      );
+    } catch (err) {
+      console.error('[NGRX-AE] ! Service error: deleteMany()');
+      console.error(err);
+      return throwError({
+        info: entityInfo,
+        err
+      });
+    }
+  }
+
   protected getService<TModel>(entityInfo: IEntityInfo): IAutoEntityService<TModel> {
     try {
       const service = this.injector.get(entityInfo.modelType);
@@ -396,9 +540,7 @@ export class NgrxAutoEntityService {
     } catch (err) {
       const serviceName = `${pascalCase(entityInfo.modelName)}Service`;
       console.error(
-        `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate service ${serviceName} using model name of ${
-          entityInfo.modelName
-        }`
+        `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate service ${serviceName} using model name of ${entityInfo.modelName}`
       );
       console.error(`[NGRX-AE] ! NgRxAutoEntityService Error Details:`, err);
       throw err;

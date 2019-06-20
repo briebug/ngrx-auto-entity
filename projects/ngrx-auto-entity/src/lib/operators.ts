@@ -5,15 +5,24 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
   Create,
   CreateFailure,
+  CreateMany,
+  CreateManyFailure,
+  CreateManySuccess,
   CreateSuccess,
   Delete,
   DeleteFailure,
+  DeleteMany,
+  DeleteManyFailure,
+  DeleteManySuccess,
   DeleteSuccess,
   Load,
   LoadAll,
   LoadAllFailure,
   LoadAllSuccess,
   LoadFailure,
+  LoadMany,
+  LoadManyFailure,
+  LoadManySuccess,
   LoadPage,
   LoadPageFailure,
   LoadPageSuccess,
@@ -23,6 +32,9 @@ import {
   LoadSuccess,
   Replace,
   ReplaceFailure,
+  ReplaceMany,
+  ReplaceManyFailure,
+  ReplaceManySuccess,
   ReplaceSuccess,
   Update,
   UpdateFailure,
@@ -108,6 +120,43 @@ export class EntityOperators {
                 console.error(error);
               }
               return of(new LoadAllFailure<TModel>(error.info.modelType, error.err));
+            })
+          );
+        })
+      );
+  }
+
+  loadMany<TModel>() {
+    return (source: Observable<LoadMany<TModel>>) =>
+      source.pipe(
+        mergeMap((action: LoadMany<TModel>) => {
+          console.log('[NGRX-AE] Load many effect');
+          return this.entityService.loadMany(action.info, action.criteria).pipe(
+            map((ref: IEntityRef<TModel[]>) => {
+              return new LoadManySuccess<TModel>(ref.info.modelType, ref.entity);
+            }),
+            catchError((error: IEntityError<TModel>) => {
+              if (error.err instanceof TypeError) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate loadMany method in the ${serviceName}`,
+                  error.err
+                );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
+              } else {
+                console.error(error);
+              }
+              return of(new LoadManyFailure<TModel>(error.info.modelType, error.err));
             })
           );
         })
@@ -225,6 +274,43 @@ export class EntityOperators {
       );
   }
 
+  createMany<TModel>() {
+    return (source: Observable<CreateMany<TModel>>) =>
+      source.pipe(
+        mergeMap((action: CreateMany<TModel>) => {
+          console.log('[NGRX-AE] Create Many effect');
+          return this.entityService.createMany<TModel>(action.info, action.entities, action.criteria).pipe(
+            map((ref: IEntityRef<TModel[]>) => {
+              return new CreateManySuccess<TModel>(ref.info.modelType, ref.entity);
+            }),
+            catchError((error: IEntityError<TModel>) => {
+              if (error.err instanceof TypeError) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate createMany method in the ${serviceName}`,
+                  error.err
+                );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
+              } else {
+                console.error(error);
+              }
+              return of(new CreateManyFailure<TModel>(error.info.modelType, error.err));
+            })
+          );
+        })
+      );
+  }
+
   update<TModel>() {
     return (source: Observable<Update<TModel>>) =>
       source.pipe(
@@ -336,6 +422,43 @@ export class EntityOperators {
       );
   }
 
+  replaceMany<TModel>() {
+    return (source: Observable<ReplaceMany<TModel>>) =>
+      source.pipe(
+        mergeMap((action: ReplaceMany<TModel>) => {
+          console.log('[NGRX-AE] Replace Many effect');
+          return this.entityService.replaceMany<TModel>(action.info, action.entities, action.criteria).pipe(
+            map((ref: IEntityRef<TModel[]>) => {
+              return new ReplaceManySuccess<TModel>(ref.info.modelType, ref.entity);
+            }),
+            catchError((error: IEntityError<TModel>) => {
+              if (error.err instanceof TypeError) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate replaceMany method in the ${serviceName}`,
+                  error.err
+                );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
+              } else {
+                console.error(error);
+              }
+              return of(new ReplaceManyFailure<TModel>(error.info.modelType, error.err));
+            })
+          );
+        })
+      );
+  }
+
   delete<TModel>() {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
@@ -367,6 +490,43 @@ export class EntityOperators {
                 console.error(error);
               }
               return of(new DeleteFailure<TModel>(error.info.modelType, error.err));
+            })
+          );
+        })
+      );
+  }
+
+  deleteMany<TModel>() {
+    return (source: Observable<DeleteMany<TModel>>) =>
+      source.pipe(
+        mergeMap((action: DeleteMany<TModel>) => {
+          console.log('[NGRX-AE] Delete Many effect');
+          return this.entityService.deleteMany<TModel>(action.info, action.entities, action.criteria).pipe(
+            map((ref: IEntityRef<TModel[]>) => {
+              return new DeleteManySuccess<TModel>(ref.info.modelType, ref.entity);
+            }),
+            catchError((error: IEntityError<TModel>) => {
+              if (error.err instanceof TypeError) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate deleteMany method in the ${serviceName}`,
+                  error.err
+                );
+              } else if (error.info && error.message) {
+                const serviceName = `${pascalCase(error.info.modelName)}Service`;
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+                  error.message
+                );
+              } else if (error.message) {
+                console.error(
+                  `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+                  error.message
+                );
+              } else {
+                console.error(error);
+              }
+              return of(new DeleteManyFailure<TModel>(error.info.modelType, error.err));
             })
           );
         })

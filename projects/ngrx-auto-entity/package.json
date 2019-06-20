@@ -1,7 +1,7 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "@briebug/ngrx-auto-entity",
-  "description": "An automatic entity action library for NgRX",
+  "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "keywords": [
     "ngrx",
     "state",

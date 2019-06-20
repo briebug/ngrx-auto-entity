@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Customer } from 'models/customer.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Customer } from 'models/customer.model';
 import { AppState } from 'state/app.state';
 import { CustomerFacadeBase } from 'state/customer.state';
 
@@ -15,9 +16,7 @@ export class CustomerFacade extends CustomerFacadeBase {
   }
 
   get active(): Observable<Customer[]> {
-    return this.all.pipe(
-      map(customers => customers.filter(customer => customer.isActive))
-    );
+    return this.all.pipe(map(customers => customers.filter(customer => customer.isActive)));
   }
 
   top(count: number): Observable<Customer[]> {

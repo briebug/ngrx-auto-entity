@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OrdersPreviewComponent } from '../orders-preview/orders-preview.component';
+
 import { OrderStatus } from 'models/order.model';
+import { OrdersPreviewComponent } from '../orders-preview/orders-preview.component';
 
 @Component({
   selector: 'app-home',

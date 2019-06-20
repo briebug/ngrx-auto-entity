@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'models/product.model';
 import { Observable } from 'rxjs';
+
 import { ProductFacade } from 'facades/product.facade';
+import { Product } from 'models/product.model';
 
 @Component({
   selector: 'app-recent-products',
@@ -11,7 +12,7 @@ import { ProductFacade } from 'facades/product.facade';
 export class RecentProductsComponent implements OnInit {
   products$: Observable<Product[]>;
 
-  constructor(private productFacade: ProductFacade) { }
+  constructor(private productFacade: ProductFacade) {}
 
   ngOnInit() {
     this.productFacade.loadAll();

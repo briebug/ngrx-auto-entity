@@ -1,13 +1,18 @@
 import 'jest-extended';
 
 import {
+  CreateManySuccess,
   CreateSuccess,
+  DeleteManySuccess,
   DeleteSuccess,
   Load,
   LoadAllSuccess,
+  LoadManySuccess,
   LoadPageSuccess,
   LoadRangeSuccess,
   LoadSuccess,
+  ReplaceManySuccess,
+  ReplaceSuccess,
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
@@ -139,6 +144,71 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [4, 5, 6],
           totalPageableCount: 3,
+          isLoading: false,
+          loadedAt: expect.toBeDate()
+        }
+      });
+    });
+
+    it(`should reduce LoadManySuccess and add entities to empty state`, () => {
+      const state = {
+        testEntity: {
+          entities: {},
+          ids: []
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(
+        state,
+        new LoadAllSuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }])
+      );
+
+      expect(newState).toEqual({
+        testEntity: {
+          currentPage: 1,
+          entities: {
+            1: { identity: 1 },
+            2: { identity: 2 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          totalPageableCount: 3,
+          isLoading: false,
+          loadedAt: expect.toBeDate()
+        }
+      });
+    });
+
+    it(`should reduce LoadManySuccess and update entities in existing state`, () => {
+      const state = {
+        testEntity: {
+          entities: {
+            1: { identity: 1 },
+            2: { identity: 2 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(
+        state,
+        new LoadManySuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }])
+      );
+
+      expect(newState).toEqual({
+        testEntity: {
+          entities: {
+            1: { identity: 1 },
+            2: { identity: 2 },
+            3: { identity: 3 },
+            4: { identity: 4 },
+            5: { identity: 5 },
+            6: { identity: 6 }
+          },
+          ids: [1, 2, 3, 4, 5, 6],
           isLoading: false,
           loadedAt: expect.toBeDate()
         }
@@ -322,6 +392,33 @@ describe('NgRX Auto-Entity: Reducer', () => {
       });
     });
 
+    it(`should reduce CreateManySuccess and update existing entities in state`, () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 }
+          },
+          ids: [2]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new CreateManySuccess(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState).toEqual({
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [2, 1, 3],
+          isSaving: false,
+          createdAt: expect.toBeDate()
+        }
+      });
+    });
+
     it(`should reduce UpdateSuccess and update existing entity in state`, () => {
       const state = {
         testEntity: {
@@ -377,6 +474,61 @@ describe('NgRX Auto-Entity: Reducer', () => {
       });
     });
 
+    it(`should reduce ReplaceSuccess and update existing entity in state`, () => {
+      const state = {
+        testEntity: {
+          entities: { 1: { identity: 1, name: 'before' } },
+          ids: [1]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new ReplaceSuccess(TestEntity, { identity: 1, name: 'after' }));
+
+      expect(newState).toEqual({
+        testEntity: {
+          entities: {
+            1: { identity: 1, name: 'after' }
+          },
+          ids: [1],
+          isSaving: false,
+          savedAt: expect.toBeDate()
+        }
+      });
+    });
+
+    it(`should reduce ReplaceManySuccess and update existing entities in state`, () => {
+      const state = {
+        testEntity: {
+          entities: {
+            1: { identity: 1, name: 'before1' },
+            2: { identity: 2, name: 'before2' },
+            3: { identity: 3, name: 'before3' }
+          },
+          ids: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(
+        state,
+        new ReplaceManySuccess(TestEntity, [{ identity: 1, name: 'after1' }, { identity: 3, name: 'after3' }])
+      );
+
+      expect(newState).toEqual({
+        testEntity: {
+          entities: {
+            1: { identity: 1, name: 'after1' },
+            2: { identity: 2, name: 'before2' },
+            3: { identity: 3, name: 'after3' }
+          },
+          ids: [1, 2, 3],
+          isSaving: false,
+          savedAt: expect.toBeDate()
+        }
+      });
+    });
+
     it(`should reduce DeleteSuccess and remove existing entity from state`, () => {
       const state = {
         testEntity: {
@@ -392,6 +544,33 @@ describe('NgRX Auto-Entity: Reducer', () => {
         testEntity: {
           entities: {},
           ids: [],
+          isDeleting: false,
+          deletedAt: expect.toBeDate()
+        }
+      });
+    });
+
+    it(`should reduce DeleteManySuccess and remove existing entities from state`, () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new DeleteManySuccess(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState).toEqual({
+        testEntity: {
+          entities: {
+            2: { identity: 2 }
+          },
+          ids: [2],
           isDeleting: false,
           deletedAt: expect.toBeDate()
         }

@@ -1,18 +1,18 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
-import { IEntityInfo } from '@briebug/ngrx-auto-entity';
+import { IEntityInfo, NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 import { Customer } from 'models/customer.model';
 import { environment } from '../../environments/environment';
 import { EntityService } from './entity.service';
 
-describe('CustomerService', () => {
+xdescribe('EntityService', () => {
   let injector: TestBed;
   let service: EntityService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, NgrxAutoEntityModule],
       providers: [EntityService]
     });
     injector = getTestBed();
@@ -32,7 +32,8 @@ describe('CustomerService', () => {
     {
       id: 1,
       name: 'Peter Parker',
-      catchPhrase: `Hey, I'm swingin' here!`
+      catchPhrase: `Hey, I'm swingin' here!`,
+      isActive: true
     }
   ];
 

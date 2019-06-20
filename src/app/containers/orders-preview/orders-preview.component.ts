@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrderInfo } from 'models/orderInfo';
-import { OrderManagerFacade } from 'facades/orderManager.facade';
-import { OrderFacade } from 'facades/order.facade';
+
 import { CustomerFacade } from 'facades/customer.facade';
+import { OrderFacade } from 'facades/order.facade';
+import { OrderManagerFacade } from 'facades/orderManager.facade';
 import { OrderStatus } from 'models/order.model';
+import { OrderInfo } from 'models/orderInfo';
 
 @Component({
   selector: 'app-orders-preview',
@@ -17,15 +18,14 @@ export class OrdersPreviewComponent implements OnInit {
   constructor(
     private orderManager: OrderManagerFacade,
     private orderFacade: OrderFacade,
-    private customerFacade: CustomerFacade) { }
+    private customerFacade: CustomerFacade
+  ) {}
 
   ngOnInit() {
     this.orderFacade.loadAll();
     this.customerFacade.loadAll();
 
-    this.orders$ = this.orderManager.recentOrderInfoByStatus(
-      5, ...[OrderStatus.open, OrderStatus.completed]
-    );
+    this.orders$ = this.orderManager.recentOrderInfoByStatus(5, ...[OrderStatus.open, OrderStatus.completed]);
   }
 
   setStatus(...status: OrderStatus[]) {
