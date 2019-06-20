@@ -4,13 +4,19 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   CreateFailure,
+  CreateManyFailure,
+  CreateManySuccess,
   CreateSuccess,
   DeleteFailure,
+  DeleteManyFailure,
+  DeleteManySuccess,
   DeleteSuccess,
   EntityActionTypes,
   LoadAllFailure,
   LoadAllSuccess,
   LoadFailure,
+  LoadManyFailure,
+  LoadManySuccess,
   LoadPageFailure,
   LoadPageSuccess,
   LoadRangeFailure,
@@ -18,6 +24,8 @@ import {
   LoadSuccess,
   ofEntityAction,
   ReplaceFailure,
+  ReplaceManyFailure,
+  ReplaceManySuccess,
   ReplaceSuccess,
   UpdateFailure,
   UpdateManyFailure,
@@ -41,6 +49,12 @@ export class EntityEffects {
   );
 
   @Effect()
+  loadMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadMany),
+    this.ops.loadMany()
+  );
+
+  @Effect()
   loadPage$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.LoadPage),
     this.ops.loadPage()
@@ -56,6 +70,12 @@ export class EntityEffects {
   create$: Observable<Action> = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Create),
     this.ops.create()
+  );
+
+  @Effect()
+  createMany$: Observable<Action> = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.CreateMany),
+    this.ops.createMany()
   );
 
   @Effect()
@@ -77,9 +97,21 @@ export class EntityEffects {
   );
 
   @Effect()
+  replaceMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.ReplaceMany),
+    this.ops.replaceMany()
+  );
+
+  @Effect()
   delete$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Delete),
     this.ops.delete()
+  );
+
+  @Effect()
+  deleteMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteMany),
+    this.ops.deleteMany()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -102,6 +134,17 @@ export class LoadAllEffect {
   loadAll$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.LoadAll),
     this.ops.loadAll()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
+export class LoadManyEffect {
+  @Effect()
+  loadMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadMany),
+    this.ops.loadMany()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -144,6 +187,12 @@ export class LoadEffects {
   );
 
   @Effect()
+  loadMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadMany),
+    this.ops.loadMany()
+  );
+
+  @Effect()
   loadPage$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.LoadPage),
     this.ops.loadPage()
@@ -164,6 +213,17 @@ export class CreateEffect {
   create$: Observable<Action> = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Create),
     this.ops.create()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
+export class CreateManyEffect {
+  @Effect()
+  createMany$: Observable<Action> = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.CreateMany),
+    this.ops.createMany()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -203,6 +263,17 @@ export class ReplaceEffect {
 }
 
 @Injectable()
+export class ReplaceManyEffect {
+  @Effect()
+  replaceMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.ReplaceMany),
+    this.ops.replaceMany()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
 export class DeleteEffect {
   @Effect()
   delete$ = this.actions$.pipe(
@@ -214,11 +285,28 @@ export class DeleteEffect {
 }
 
 @Injectable()
+export class DeleteManyEffect {
+  @Effect()
+  deleteMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteMany),
+    this.ops.deleteMany()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
 export class CUDEffects {
   @Effect()
   create$: Observable<Action> = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Create),
     this.ops.create()
+  );
+
+  @Effect()
+  createMany$: Observable<Action> = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.CreateMany),
+    this.ops.createMany()
   );
 
   @Effect()
@@ -240,9 +328,21 @@ export class CUDEffects {
   );
 
   @Effect()
+  replaceMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.ReplaceMany),
+    this.ops.replaceMany()
+  );
+
+  @Effect()
   delete$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Delete),
     this.ops.delete()
+  );
+
+  @Effect()
+  deleteMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteMany),
+    this.ops.deleteMany()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}

@@ -1,11 +1,30 @@
+<a name="0.1.1"></a>
+
+# [0.1.1](https://github.com/briebug/ngrx-auto-entity/compare/0.1.0...0.1.1) Beta (2019-06-20)
+
+### Bug Fixes
+
+- **operators:** Restore missing operators for `many` alts of: Load, Create, Replace, Delete
+- **effects:** Restore missing effects for `many` alts of: Load, Create, Replace, Delete
+- **service:** Restore missing service methods for `many` alts of: Load, Create, Replace, Delete
+- **api:** Move AOT-compatible export bundle into `index.ts`, re-export index from `public_api.ts`, to improve auto-import functionality in IDEs
+
+### Testing
+
+- **reducer:** Add additional test cases for `many` alts
+
+### Broken Features !!
+
+- **features:** Feature state via `buildFeatureState` will not function at runtime due to issues locating lazy module `Injector` instances
+
 <a name="0.1.0"></a>
 
-# [0.1.0](https://github.com/briebug/ngrx-auto-entity/compare/0.0.15...0.1.0) Alpha (2019-05-23)
+# [0.1.0](https://github.com/briebug/ngrx-auto-entity/compare/0.0.15...0.1.0) Beta (2019-05-23)
 
 ### Features
 
-- **util:** Added pre-fabricated facades to buildState utilities
-- **util:** Added pre-fabricated reducer to buildState utilities
+- **util:** Added pre-fabricated facades to `buildState` utilities
+- **util:** Added pre-fabricated reducer to `buildState` utilities
 
 <a name="0.0.15"></a>
 
@@ -13,7 +32,7 @@
 
 ### Bug Fixes
 
-- **actions:** Fixed incorrect action type for SelectByKey action
+- **actions:** Fixed incorrect action type for `SelectByKey` action
 
 ### Breaking Changes !!
 
@@ -22,11 +41,11 @@
 
 ### Features
 
-- **actions:** Added LoadMany action to retrieve many, but not all, entities
-- **actions:** Added CreateMany action to bulk create many entities at once
-- **actions:** Added DeleteMany action to bulk delete many entities at once
-- **actions:** Added ReplaceMany action to bulk replace (PUT) many entities at once
-- **selectors:** Added currentEntityKey selector to retrieve just the key of current entity
+- **actions:** Added `LoadMany` action to retrieve many, but not all, entities
+- **actions:** Added `CreateMany` action to bulk create many entities at once
+- **actions:** Added `DeleteMany` action to bulk delete many entities at once
+- **actions:** Added `ReplaceMany` action to bulk replace (PUT) many entities at once
+- **selectors:** Added `currentEntityKey` selector to retrieve just the key of current entity
 - **util:** Added utility functions to retrieve entity key from decorated models
 
 <a name="0.0.13"></a>
@@ -35,7 +54,7 @@
 
 ### Features
 
-- **actions:** Added UpdateMany action to update (PATCH) many, but not all, entities
+- **actions:** Added `UpdateMany` action to update (PATCH) many, but not all, entities
 
 <a name="0.0.12"></a>
 

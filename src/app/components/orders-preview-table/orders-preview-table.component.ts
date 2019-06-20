@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { OrderInfo } from 'models/orderInfo';
 
@@ -7,7 +7,7 @@ import { OrderInfo } from 'models/orderInfo';
   templateUrl: './orders-preview-table.component.html',
   styleUrls: ['./orders-preview-table.component.scss']
 })
-export class OrdersPreviewTableComponent implements OnInit {
+export class OrdersPreviewTableComponent implements OnChanges {
   @Input() orders: OrderInfo[];
 
   columnsToDisplay = ['customer', 'dateOfOrder', 'status'];
@@ -19,8 +19,5 @@ export class OrdersPreviewTableComponent implements OnInit {
     if (simpleChanges.orders && simpleChanges.orders.currentValue) {
       this.dataSource.data = this.orders;
     }
-  }
-
-  ngOnInit() {
   }
 }

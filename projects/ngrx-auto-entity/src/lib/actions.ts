@@ -715,57 +715,55 @@ export type EntityActions<TModel> =
 export function ofEntityAction<T extends EntityAction>(
   ...allowedActionTypes: EntityActionTypes[]
 ): OperatorFunction<Action, T> {
-  return filter(
-    (action: EntityAction): action is T => {
-      return action instanceof Load ||
-        action instanceof LoadSuccess ||
-        action instanceof LoadFailure ||
-        action instanceof LoadMany ||
-        action instanceof LoadManySuccess ||
-        action instanceof LoadManyFailure ||
-        action instanceof LoadAll ||
-        action instanceof LoadAllSuccess ||
-        action instanceof LoadAllFailure ||
-        action instanceof LoadPage ||
-        action instanceof LoadPageSuccess ||
-        action instanceof LoadPageFailure ||
-        action instanceof LoadRange ||
-        action instanceof LoadRangeSuccess ||
-        action instanceof LoadRangeFailure ||
-        action instanceof Create ||
-        action instanceof CreateSuccess ||
-        action instanceof CreateFailure ||
-        action instanceof CreateMany ||
-        action instanceof CreateManySuccess ||
-        action instanceof CreateManyFailure ||
-        action instanceof Update ||
-        action instanceof UpdateSuccess ||
-        action instanceof UpdateFailure ||
-        action instanceof UpdateMany ||
-        action instanceof UpdateManySuccess ||
-        action instanceof UpdateManyFailure ||
-        action instanceof Replace ||
-        action instanceof ReplaceSuccess ||
-        action instanceof ReplaceFailure ||
-        action instanceof ReplaceMany ||
-        action instanceof ReplaceManySuccess ||
-        action instanceof ReplaceManyFailure ||
-        action instanceof Delete ||
-        action instanceof DeleteSuccess ||
-        action instanceof DeleteFailure ||
-        action instanceof DeleteMany ||
-        action instanceof DeleteManySuccess ||
-        action instanceof DeleteManyFailure ||
-        action instanceof Clear ||
-        action instanceof Select ||
-        action instanceof SelectByKey ||
-        action instanceof Selected ||
-        action instanceof Deselect ||
-        action instanceof Deselected
-        ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
-        : false;
-    }
-  );
+  return filter((action: EntityAction): action is T => {
+    return action instanceof Load ||
+      action instanceof LoadSuccess ||
+      action instanceof LoadFailure ||
+      action instanceof LoadMany ||
+      action instanceof LoadManySuccess ||
+      action instanceof LoadManyFailure ||
+      action instanceof LoadAll ||
+      action instanceof LoadAllSuccess ||
+      action instanceof LoadAllFailure ||
+      action instanceof LoadPage ||
+      action instanceof LoadPageSuccess ||
+      action instanceof LoadPageFailure ||
+      action instanceof LoadRange ||
+      action instanceof LoadRangeSuccess ||
+      action instanceof LoadRangeFailure ||
+      action instanceof Create ||
+      action instanceof CreateSuccess ||
+      action instanceof CreateFailure ||
+      action instanceof CreateMany ||
+      action instanceof CreateManySuccess ||
+      action instanceof CreateManyFailure ||
+      action instanceof Update ||
+      action instanceof UpdateSuccess ||
+      action instanceof UpdateFailure ||
+      action instanceof UpdateMany ||
+      action instanceof UpdateManySuccess ||
+      action instanceof UpdateManyFailure ||
+      action instanceof Replace ||
+      action instanceof ReplaceSuccess ||
+      action instanceof ReplaceFailure ||
+      action instanceof ReplaceMany ||
+      action instanceof ReplaceManySuccess ||
+      action instanceof ReplaceManyFailure ||
+      action instanceof Delete ||
+      action instanceof DeleteSuccess ||
+      action instanceof DeleteFailure ||
+      action instanceof DeleteMany ||
+      action instanceof DeleteManySuccess ||
+      action instanceof DeleteManyFailure ||
+      action instanceof Clear ||
+      action instanceof Select ||
+      action instanceof SelectByKey ||
+      action instanceof Selected ||
+      action instanceof Deselect ||
+      action instanceof Deselected
+      ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
+      : false;
+  });
 }
 
 /**
@@ -778,61 +776,58 @@ export function ofEntityType<TModel, T extends EntityAction>(
   entity: { new (): TModel },
   ...allowedActionTypes: EntityActionTypes[]
 ): OperatorFunction<Action, T> {
-  return filter(
-    (action: EntityAction): action is T => {
-      if (
-        action instanceof Load ||
-        action instanceof LoadSuccess ||
-        action instanceof LoadFailure ||
-        action instanceof LoadMany ||
-        action instanceof LoadManySuccess ||
-        action instanceof LoadManyFailure ||
-        action instanceof LoadAll ||
-        action instanceof LoadAllSuccess ||
-        action instanceof LoadAllFailure ||
-        action instanceof LoadPage ||
-        action instanceof LoadPageSuccess ||
-        action instanceof LoadPageFailure ||
-        action instanceof LoadRange ||
-        action instanceof LoadRangeSuccess ||
-        action instanceof LoadRangeFailure ||
-        action instanceof Create ||
-        action instanceof CreateSuccess ||
-        action instanceof CreateFailure ||
-        action instanceof CreateMany ||
-        action instanceof CreateManySuccess ||
-        action instanceof CreateManyFailure ||
-        action instanceof Update ||
-        action instanceof UpdateSuccess ||
-        action instanceof UpdateFailure ||
-        action instanceof UpdateMany ||
-        action instanceof UpdateManySuccess ||
-        action instanceof UpdateManyFailure ||
-        action instanceof Replace ||
-        action instanceof ReplaceSuccess ||
-        action instanceof ReplaceFailure ||
-        action instanceof ReplaceMany ||
-        action instanceof ReplaceManySuccess ||
-        action instanceof ReplaceManyFailure ||
-        action instanceof Delete ||
-        action instanceof DeleteSuccess ||
-        action instanceof DeleteFailure ||
-        action instanceof DeleteMany ||
-        action instanceof DeleteManySuccess ||
-        action instanceof DeleteManyFailure ||
-        action instanceof Clear ||
-        action instanceof Select ||
-        action instanceof SelectByKey ||
-        action instanceof Selected ||
-        action instanceof Deselect ||
-        action instanceof Deselected
-      ) {
-        return (
-          action.info.modelType === entity &&
-          allowedActionTypes.some(type => setType(type, action.info) === action.type)
-        );
-      }
-      return false;
+  return filter((action: EntityAction): action is T => {
+    if (
+      action instanceof Load ||
+      action instanceof LoadSuccess ||
+      action instanceof LoadFailure ||
+      action instanceof LoadMany ||
+      action instanceof LoadManySuccess ||
+      action instanceof LoadManyFailure ||
+      action instanceof LoadAll ||
+      action instanceof LoadAllSuccess ||
+      action instanceof LoadAllFailure ||
+      action instanceof LoadPage ||
+      action instanceof LoadPageSuccess ||
+      action instanceof LoadPageFailure ||
+      action instanceof LoadRange ||
+      action instanceof LoadRangeSuccess ||
+      action instanceof LoadRangeFailure ||
+      action instanceof Create ||
+      action instanceof CreateSuccess ||
+      action instanceof CreateFailure ||
+      action instanceof CreateMany ||
+      action instanceof CreateManySuccess ||
+      action instanceof CreateManyFailure ||
+      action instanceof Update ||
+      action instanceof UpdateSuccess ||
+      action instanceof UpdateFailure ||
+      action instanceof UpdateMany ||
+      action instanceof UpdateManySuccess ||
+      action instanceof UpdateManyFailure ||
+      action instanceof Replace ||
+      action instanceof ReplaceSuccess ||
+      action instanceof ReplaceFailure ||
+      action instanceof ReplaceMany ||
+      action instanceof ReplaceManySuccess ||
+      action instanceof ReplaceManyFailure ||
+      action instanceof Delete ||
+      action instanceof DeleteSuccess ||
+      action instanceof DeleteFailure ||
+      action instanceof DeleteMany ||
+      action instanceof DeleteManySuccess ||
+      action instanceof DeleteManyFailure ||
+      action instanceof Clear ||
+      action instanceof Select ||
+      action instanceof SelectByKey ||
+      action instanceof Selected ||
+      action instanceof Deselect ||
+      action instanceof Deselected
+    ) {
+      return (
+        action.info.modelType === entity && allowedActionTypes.some(type => setType(type, action.info) === action.type)
+      );
     }
-  );
+    return false;
+  });
 }
