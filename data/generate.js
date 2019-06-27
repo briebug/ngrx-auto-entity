@@ -52,14 +52,15 @@ module.exports = () => {
   for (let order = 0; order < 50; order++) {
     const account = data.accounts[getRandomInt(data.accounts.length)];
     const id = data.orders.length + 1;
-    data.orders.push({
+    const _order = {
       id,
       accountId: account.id,
       customerId: account.customerId,
       dateOfOrder:
         order < 10 && order % 2 === 0 ? faker.date.past() : order < 35 ? faker.date.recent() : faker.date.future(),
-      status: order < 10 ? 'archived' : order < 35 ? (faker.random.number() % 3 ? 'open' : 'completed') : 'pending'
-    });
+      status: order < 10 ? 'archived' : order < 35 ? (faker.random.number() % 3 ? 'open' : 'completed') : 'pending',
+      total: 0
+    };
 
     for (let orderItem = 0; orderItem < getRandomInt(10) + 2; orderItem++) {
       const product = data.products[getRandomInt(data.products.length)];
@@ -69,13 +70,18 @@ module.exports = () => {
         continue;
       }
 
+      _order.total += product.price;
+
       data.orderItems.push({
         orderId: id,
         productId: product.id,
         quantity: getRandomInt(4) + 1
       });
     }
+
+    data.products.push(_order);
   }
+
 
   return data;
 };

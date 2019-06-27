@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+.filter-input {
+  width: 100%;
+}
+
+mat-row:hover {
+  background-color: mat-color($mat-grey, 200);
+  cursor: pointer;
+}
+
+.mat-column-id {
+  flex: 0 0 4vw;
+}
+
+.mat-column-actions {
+  flex: 0 0 40px;
+}

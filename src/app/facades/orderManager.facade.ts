@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { noop, Observable } from 'rxjs';
+import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderFacade } from 'facades/order.facade';
 import { OrderItemFacade } from 'facades/orderItem.facade';
-import { OrderStatus } from 'models/order.model';
+import { Order, OrderStatus } from 'models/order.model';
 import { OrderInfo } from 'models/orderInfo';
 import { AppState } from 'state/app.state';
 
@@ -21,8 +21,8 @@ export class OrderManagerFacade {
     private customerFacade: CustomerFacade
   ) {}
 
-  orderInfoByStatus(...status: OrderStatus[]): Observable<OrderInfo[]> {
-    return this.orderFacade.ofStatus(...status).pipe(
+  orderInfo(selection: Observable<Order[]>) {
+    return selection.pipe(
       withLatestFrom(this.customerFacade.all),
       map(([orders, customers]) =>
         orders
@@ -44,7 +44,7 @@ export class OrderManagerFacade {
   }
 
   recentOrderInfoByStatus(count: number, ...status: OrderStatus[]): Observable<OrderInfo[]> {
-    return this.orderInfoByStatus(...status).pipe(
+    return this.orderInfo(this.orderFacade.ofStatus(...status)).pipe(
       map(orders => {
         orders.sort((a, b) => b.dateOfOrder.localeCompare(a.dateOfOrder));
         return orders.slice(0, count);

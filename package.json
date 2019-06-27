@@ -16,7 +16,7 @@
     "test:ci": "jest --ci --runInBand --testResultsProcessor='jest-junit'",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "json-server": "json-server --watch data/db.json --routes data/routes.json",
+    "json-server": "json-server --watch data/generate.js --routes data/routes.json",
     "link": "ng build ngrx-auto-entity && npm link dist/ngrx-auto-entity",
     "link:ci": "ng build ngrx-auto-entity && sudo npm link dist/ngrx-auto-entity",
     "postinstall": "if test \"$NODE_ENV\" = \"ci\" ; then npm run link:ci ; else npm run link ; fi",

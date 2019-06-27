@@ -30,6 +30,7 @@ export class ProductsTableComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    console.log(this.dataSource.data.length);
     this.dataSource.paginator = this.paginator;
   }
 }
