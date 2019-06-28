@@ -56,8 +56,7 @@ module.exports = () => {
       id,
       accountId: account.id,
       customerId: account.customerId,
-      dateOfOrder:
-        order < 10 && order % 2 === 0 ? faker.date.past() : order < 35 ? faker.date.recent() : faker.date.future(),
+      dateOfOrder: order < 10 && order % 2 === 0 ? faker.date.past() : order < 35 ? faker.date.recent() : faker.date.future(),
       status: order < 10 ? 'archived' : order < 35 ? (faker.random.number() % 3 ? 'open' : 'completed') : 'pending',
       total: 0
     };
@@ -70,7 +69,8 @@ module.exports = () => {
         continue;
       }
 
-      _order.total += product.price;
+      // UPDATE ORDER TOTAL
+      _order.total = (parseFloat(product.price) + parseFloat(_order.total)).toFixed(2);
 
       data.orderItems.push({
         orderId: id,
@@ -81,7 +81,6 @@ module.exports = () => {
 
     data.products.push(_order);
   }
-
 
   return data;
 };
