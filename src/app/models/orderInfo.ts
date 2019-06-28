@@ -5,4 +5,5 @@ export class OrderInfo {
   customer: string;
   dateOfOrder: string;
   status: OrderStatus;
+  total: number;
 }

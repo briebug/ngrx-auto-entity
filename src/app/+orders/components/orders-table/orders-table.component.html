@@ -2,8 +2,15 @@
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
 
+<mat-form-field>
+  <mat-label>Toppings</mat-label>
+  <mat-select [formControl]="orderStatus" multiple>
+    <mat-option *ngFor="let status of statusList" [value]="status">{{status}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
 <div class="mat-elevation-z8">
-  <mat-table [dataSource]="dataSource">
+  <mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)">
 
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
@@ -15,20 +22,38 @@
     </ng-container>
 
     <ng-container matColumnDef="customer">
-      <mat-header-cell *matHeaderCellDef> Customer </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Customer </mat-header-cell>
       <mat-cell *matCellDef="let order">
-        <a [routerLink]="['/orders', order.id]">{{order.customer}}</a>
+        {{order.customer}}
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="dateOfOrder">
-      <mat-header-cell *matHeaderCellDef> Date of Order </mat-header-cell>
-      <mat-cell *matCellDef="let order"> {{order.dateOfOrder}} </mat-cell>
+    <ng-container matColumnDef="dateOfOrder" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date of Order </mat-header-cell>
+      <mat-cell *matCellDef="let order"> {{order.dateOfOrder | date:'medium'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-      <mat-cell *matCellDef="let order"> {{order.status }} </mat-cell>
+      <mat-cell *matCellDef="let order">
+        <mat-chip-list>
+          <mat-chip [ngClass]="{
+            'green-chip': order.status === 'completed',
+            'yellow-chip': order.status === 'pending',
+            'grey-chip': order.status === 'archived',
+            'teal-chip': order.status === 'open'}"
+          >  {{order.status}}  </mat-chip>
+        </mat-chip-list>
+      </mat-cell>
+
+
+
+    </ng-container>
+
+
+    <ng-container matColumnDef="total">
+      <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+      <mat-cell *matCellDef="let order"> {{order.total | currency}} </mat-cell>
     </ng-container>
 
 

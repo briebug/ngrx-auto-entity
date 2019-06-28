@@ -13,4 +13,5 @@ export class Order {
   customerId: number;
   dateOfOrder: string;
   status: OrderStatus;
+  total: number;
 }

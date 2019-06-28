@@ -12,9 +12,12 @@ import {
   MatListModule,
   MatMenuModule,
   MatNativeDateModule,
+  MatOptionModule,
   MatPaginatorModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatSortModule,
   MatTableModule,
   MatToolbarModule
 } from '@angular/material';
@@ -32,9 +35,12 @@ import {
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatOptionModule,
     MatPaginatorModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatSortModule,
     MatTableModule,
     MatToolbarModule,
     MatGridListModule

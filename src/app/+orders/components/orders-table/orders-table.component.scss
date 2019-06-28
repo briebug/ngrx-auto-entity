@@ -16,3 +16,24 @@ mat-row:hover {
 .mat-column-actions {
   flex: 0 0 40px;
 }
+
+/*completed*/
+.green-chip {
+  background-color: #78cd00;
+  color: #3e3e3e;
+}
+/*pending*/
+.yellow-chip {
+  background-color: #ffe775;
+  color: #3e3e3e;
+}
+/*archived*/
+.grey-chip {
+  background-color: #757575;
+  color: #3e3e3e;
+}
+/*open*/
+.teal-chip {
+  background-color: #38ffd8;
+  color: #3e3e3e;
+}

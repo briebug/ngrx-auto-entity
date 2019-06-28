@@ -1,7 +1,12 @@
 <div fxLayout="column" fxLayoutAlign="start stretch" class="orders">
   <h2>Orders</h2>
-  <div class="actions" fxLayout="row" fxLayoutAlign="end">
+  <!--<div class="actions" fxLayout="row" fxLayoutAlign="end">
     <a mat-stroked-button routerLink="add" color="primary">Add Order</a>
-  </div>
-  <app-orders-table [orders]="orders$ | async" (delete)="onDelete($event)" (edit)="onEdit($event)"></app-orders-table>
+  </div>-->
+  <app-orders-table
+    [orders]="orders$ | async"
+    (delete)="onDelete($event)"
+    (edit)="onEdit($event)"
+    (statusFilter)="onStatusFilter($event)"
+  ></app-orders-table>
 </div>

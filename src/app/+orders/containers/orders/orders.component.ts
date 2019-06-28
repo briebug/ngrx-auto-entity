@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderFacade } from 'facades/order.facade';
@@ -26,7 +26,7 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.customerFacade.loadAll();
     this.orderFacade.loadAll();
-    this.orders$ = this.orderManager.recentOrderInfoByStatus(5, ...[OrderStatus.open, OrderStatus.completed]);
+    this.orders$ = this.orderManager.recentOrderInfoByStatus(null, ...[OrderStatus.open, OrderStatus.completed]);
   }
 
   onDelete(order: Order) {
@@ -36,5 +36,10 @@ export class OrdersComponent implements OnInit {
   onEdit(order: Order) {
     this.orderFacade.select(order);
     this.router.navigate(['orders', order.id]);
+  }
+
+  onStatusFilter(status: OrderStatus[]) {
+    console.log(status);
+    this.orders$ = this.orderManager.recentOrderInfoByStatus(null, ...[...status]);
   }
 }
