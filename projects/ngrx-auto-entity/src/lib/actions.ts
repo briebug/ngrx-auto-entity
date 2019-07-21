@@ -4,6 +4,7 @@ import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { checkKeyName } from './decorators';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
+import { EntityIdentity } from './util';
 
 export enum EntityActionTypes {
   Load = '[Entity] Generic Load',
@@ -62,9 +63,17 @@ export enum EntityActionTypes {
 
   Select = '[Entity] Generic Select',
   SelectByKey = '[Entity] Generic Select by Key',
+  SelectMany = '[Entity] Generic Select of Many',
+  SelectManyByKeys = '[Entity] Generic Select of Many by Keys',
   Selected = '[Entity] Generic Selection',
+  SelectedMany = '[Entity] Generic Selection of Many',
+
   Deselect = '[Entity] Generic Deselect',
-  Deselected = '[Entity] Generic Deselection'
+  DeselectMany = '[Entity] Generic Deselect of Many',
+  DeselectManyByKeys = '[Entity] Generic Deselect of Many by Keys',
+  DeselectAll = '[Entity] Generic Deselect of All',
+  Deselected = '[Entity] Generic Deselection',
+  DeselectedMany = '[Entity] Generic Deselection of Many'
 }
 
 /**
@@ -72,13 +81,13 @@ export enum EntityActionTypes {
  */
 export interface IEntityInfo {
   modelName: string;
-  modelType: { new (): any };
+  modelType: new () => any;
 }
 
 /**
  * Structure for all of this library's actions
  */
-export class EntityAction implements Action {
+export abstract class EntityAction implements Action {
   type: string;
   actionType: string;
   info: IEntityInfo;
@@ -108,7 +117,7 @@ export class Load<TModel> implements EntityAction {
   actionType = EntityActionTypes.Load;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public keys: any, public criteria?: any) {
+  constructor(type: new () => TModel, public keys: any, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -119,7 +128,7 @@ export class LoadSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -130,7 +139,7 @@ export class LoadFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -144,7 +153,7 @@ export class LoadMany<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadMany;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public criteria?: any) {
+  constructor(type: new () => TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -155,7 +164,7 @@ export class LoadManySuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadManySuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[]) {
+  constructor(type: new () => TModel, public entities: TModel[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -166,7 +175,7 @@ export class LoadManyFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadManyFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -180,7 +189,7 @@ export class LoadAll<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadAll;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public criteria?: any) {
+  constructor(type: new () => TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -191,7 +200,7 @@ export class LoadAllSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadAllSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[]) {
+  constructor(type: new () => TModel, public entities: TModel[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -202,7 +211,7 @@ export class LoadAllFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadAllFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -216,7 +225,7 @@ export class LoadPage<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadPage;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public page: Page, public criteria?: any) {
+  constructor(type: new () => TModel, public page: Page, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -227,7 +236,7 @@ export class LoadPageSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadPageSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[], public pageInfo: IPageInfo) {
+  constructor(type: new () => TModel, public entities: TModel[], public pageInfo: IPageInfo) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -238,7 +247,7 @@ export class LoadPageFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadPageFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -252,7 +261,7 @@ export class LoadRange<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadRange;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public range: Range, public criteria?: any) {
+  constructor(type: new () => TModel, public range: Range, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -263,7 +272,7 @@ export class LoadRangeSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadRangeSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[], public rangeInfo: IRangeInfo) {
+  constructor(type: new () => TModel, public entities: TModel[], public rangeInfo: IRangeInfo) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -274,7 +283,7 @@ export class LoadRangeFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.LoadRangeFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -288,7 +297,7 @@ export class Create<TModel> implements EntityAction {
   actionType = EntityActionTypes.Create;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -299,7 +308,7 @@ export class CreateSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.CreateSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -310,7 +319,7 @@ export class CreateFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.CreateFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -324,7 +333,7 @@ export class CreateMany<TModel> implements EntityAction {
   actionType = EntityActionTypes.CreateMany;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -335,7 +344,7 @@ export class CreateManySuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.CreateManySuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[]) {
+  constructor(type: new () => TModel, public entities: TModel[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -346,7 +355,7 @@ export class CreateManyFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.CreateManyFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -362,7 +371,7 @@ export class Update<TModel> implements EntityAction {
   actionType = EntityActionTypes.Update;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -373,7 +382,7 @@ export class UpdateSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.UpdateSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -384,7 +393,7 @@ export class UpdateFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.UpdateFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -400,7 +409,7 @@ export class UpdateMany<TModel> implements EntityAction {
   actionType = EntityActionTypes.UpdateMany;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -411,7 +420,7 @@ export class UpdateManySuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.UpdateManySuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[]) {
+  constructor(type: new () => TModel, public entities: TModel[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -422,7 +431,7 @@ export class UpdateManyFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.UpdateManyFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -438,7 +447,7 @@ export class Replace<TModel> implements EntityAction {
   actionType = EntityActionTypes.Replace;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -449,7 +458,7 @@ export class ReplaceSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.ReplaceSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -460,7 +469,7 @@ export class ReplaceFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.ReplaceFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -476,7 +485,7 @@ export class ReplaceMany<TModel> implements EntityAction {
   actionType = EntityActionTypes.ReplaceMany;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -487,7 +496,7 @@ export class ReplaceManySuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.ReplaceManySuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[]) {
+  constructor(type: new () => TModel, public entities: TModel[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -498,7 +507,7 @@ export class ReplaceManyFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.ReplaceManyFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -512,7 +521,7 @@ export class Delete<TModel> implements EntityAction {
   actionType = EntityActionTypes.Delete;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel, public criteria?: any) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -523,7 +532,7 @@ export class DeleteSuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.DeleteSuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -534,7 +543,7 @@ export class DeleteFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.DeleteFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -548,7 +557,7 @@ export class DeleteMany<TModel> implements EntityAction {
   actionType = EntityActionTypes.DeleteMany;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[], public criteria?: any) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -559,7 +568,7 @@ export class DeleteManySuccess<TModel> implements EntityAction {
   actionType = EntityActionTypes.DeleteManySuccess;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entities: TModel[]) {
+  constructor(type: new () => TModel, public entities: TModel[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -570,7 +579,7 @@ export class DeleteManyFailure<TModel> implements EntityAction {
   actionType = EntityActionTypes.DeleteManyFailure;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public error: any) {
+  constructor(type: new () => TModel, public error: any) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -584,7 +593,7 @@ export class Clear<TModel> implements EntityAction {
   actionType = EntityActionTypes.Clear;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }) {
+  constructor(type: new () => TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -598,7 +607,7 @@ export class Select<TModel> implements EntityAction {
   actionType = EntityActionTypes.Select;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -612,7 +621,35 @@ export class SelectByKey<TModel> implements EntityAction {
   actionType = EntityActionTypes.SelectByKey;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entityKey: string | number) {
+  constructor(type: new () => TModel, public entityKey: EntityIdentity) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Selects a single entity in the store by the entity model
+ */
+export class SelectMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.SelectMany;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Selects a single entity in the store by the entity key
+ */
+export class SelectManyByKeys<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.SelectManyByKeys;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[]) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -626,7 +663,21 @@ export class Selected<TModel> implements EntityAction {
   actionType = EntityActionTypes.Selected;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }, public entity: TModel) {
+  constructor(type: new () => TModel, public entity: TModel | EntityIdentity) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Indicates the selection of a single entity in the store
+ */
+export class SelectedMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.SelectedMany;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -640,7 +691,49 @@ export class Deselect<TModel> implements EntityAction {
   actionType = EntityActionTypes.Deselect;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }) {
+  constructor(type: new () => TModel) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * De-selects many entities in the store
+ */
+export class DeselectMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeselectMany;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel, public entities: TModel[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * De-selects many entities in the store by entity keys
+ */
+export class DeselectManyByKeys<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeselectManyByKeys;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[]) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * De-selects all entities in the store
+ */
+export class DeselectAll<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeselectAll;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
@@ -654,12 +747,29 @@ export class Deselected<TModel> implements EntityAction {
   actionType = EntityActionTypes.Deselected;
   info: IEntityInfo;
 
-  constructor(type: { new (): TModel }) {
+  constructor(type: new () => TModel) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
 }
 
+/**
+ * Indicates the de-selection of many entities in the store
+ */
+export class DeselectedMany<TModel> implements EntityAction {
+  type: string;
+  actionType = EntityActionTypes.DeselectedMany;
+  info: IEntityInfo;
+
+  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
+}
+
+/**
+ * Union of all known entity action types
+ */
 export type EntityActions<TModel> =
   | Load<TModel>
   | LoadFailure<TModel>
@@ -703,9 +813,15 @@ export type EntityActions<TModel> =
   | Clear<TModel>
   | Select<TModel>
   | SelectByKey<TModel>
+  | SelectMany<TModel>
+  | SelectManyByKeys<TModel>
   | Selected<TModel>
+  | SelectedMany<TModel>
   | Deselect<TModel>
-  | Deselected<TModel>;
+  | DeselectMany<TModel>
+  | DeselectManyByKeys<TModel>
+  | Deselected<TModel>
+  | DeselectedMany<TModel>;
 
 /**
  * Operator to filter actions by an entity action type or multiple action types.
@@ -758,9 +874,16 @@ export function ofEntityAction<T extends EntityAction>(
       action instanceof Clear ||
       action instanceof Select ||
       action instanceof SelectByKey ||
+      action instanceof SelectMany ||
+      action instanceof SelectManyByKeys ||
       action instanceof Selected ||
+      action instanceof SelectedMany ||
       action instanceof Deselect ||
-      action instanceof Deselected
+      action instanceof DeselectMany ||
+      action instanceof DeselectManyByKeys ||
+      action instanceof DeselectAll ||
+      action instanceof Deselected ||
+      action instanceof DeselectedMany
       ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
       : false;
   });
@@ -773,7 +896,7 @@ export function ofEntityAction<T extends EntityAction>(
  * @param allowedActionTypes One or more action type string constants
  */
 export function ofEntityType<TModel, T extends EntityAction>(
-  entity: { new (): TModel },
+  entity: new () => TModel,
   ...allowedActionTypes: EntityActionTypes[]
 ): OperatorFunction<Action, T> {
   return filter((action: EntityAction): action is T => {
@@ -820,9 +943,16 @@ export function ofEntityType<TModel, T extends EntityAction>(
       action instanceof Clear ||
       action instanceof Select ||
       action instanceof SelectByKey ||
+      action instanceof SelectMany ||
+      action instanceof SelectManyByKeys ||
       action instanceof Selected ||
+      action instanceof SelectedMany ||
       action instanceof Deselect ||
-      action instanceof Deselected
+      action instanceof DeselectMany ||
+      action instanceof DeselectManyByKeys ||
+      action instanceof DeselectAll ||
+      action instanceof Deselected ||
+      action instanceof DeselectedMany
     ) {
       return (
         action.info.modelType === entity && allowedActionTypes.some(type => setType(type, action.info) === action.type)

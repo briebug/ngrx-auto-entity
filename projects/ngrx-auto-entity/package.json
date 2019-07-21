@@ -1,17 +1,20 @@
 {
-  "version": "0.1.1",
+  "version": "0.2.0",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "keywords": [
     "ngrx",
+    "ngrxae",
     "state",
     "entity",
     "auto-entity",
     "automatic entities",
     "action",
-    "effect"
+    "generic action",
+    "effect",
+    "facade"
   ],
-  "homepage": "https://github.com/briebug/ngrx-auto-entity#readme",
+  "homepage": "https://briebug.gitbook.io/ngrx-auto-entity/",
   "repository": {
     "type": "git",
     "url": "https://github.com/briebug/ngrx-auto-entity.git"
@@ -20,10 +23,10 @@
     "change-case": "^3.0.2"
   },
   "peerDependencies": {
-    "@angular/common": "^6.x",
-    "@angular/core": "^6.x",
-    "@ngrx/effects": "^6.x",
-    "@ngrx/store": "^6.x",
+    "@angular/common": "^8.x",
+    "@angular/core": "^8.x",
+    "@ngrx/effects": "^8.x",
+    "@ngrx/store": "^8.x",
     "rxjs": "^6.x"
   }
 }

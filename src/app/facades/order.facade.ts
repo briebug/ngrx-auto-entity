@@ -15,7 +15,7 @@ export class OrderFacade extends OrderFacadeBase {
   }
 
   ofStatus(...status: OrderStatus[]): Observable<Order[]> {
-    return this.all.pipe(map(orders => orders.filter(order => status.includes(order.status))));
+    return this.all$.pipe(map(orders => orders.filter(order => status.includes(order.status))));
   }
 
   recentOfStatus(count: number, ...status: OrderStatus[]): Observable<Order[]> {

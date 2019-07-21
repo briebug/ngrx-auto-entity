@@ -61,6 +61,7 @@ export interface IAutoEntityService<TModel> {
  */
 @Injectable()
 export class NgrxAutoEntityService {
+  static INJECTOR: Injector = null;
   constructor(private injector: Injector) {}
 
   load<TModel>(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<IEntityRef<TModel>> {
@@ -254,7 +255,7 @@ export class NgrxAutoEntityService {
       }
 
       if (typeof service.update !== 'function') {
-        return throwError({ info: entityInfo, message: 'Entity service "update" is not a function' });
+        return throwError({ info: entityInfo, message: 'Entity service "create" is not a function' });
       }
 
       return service.create(entityInfo, entity, criteria).pipe(
@@ -535,7 +536,8 @@ export class NgrxAutoEntityService {
 
   protected getService<TModel>(entityInfo: IEntityInfo): IAutoEntityService<TModel> {
     try {
-      const service = this.injector.get(entityInfo.modelType);
+      const _injector = NgrxAutoEntityService.INJECTOR || this.injector;
+      const service = _injector.get(entityInfo.modelType);
       return service;
     } catch (err) {
       const serviceName = `${pascalCase(entityInfo.modelName)}Service`;

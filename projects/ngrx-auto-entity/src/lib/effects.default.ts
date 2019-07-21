@@ -11,6 +11,8 @@ import {
   DeleteManyFailure,
   DeleteManySuccess,
   DeleteSuccess,
+  Deselected,
+  DeselectedMany,
   EntityActionTypes,
   LoadAllFailure,
   LoadAllSuccess,
@@ -27,6 +29,8 @@ import {
   ReplaceManyFailure,
   ReplaceManySuccess,
   ReplaceSuccess,
+  Selected,
+  SelectedMany,
   UpdateFailure,
   UpdateManyFailure,
   UpdateManySuccess,
@@ -34,6 +38,10 @@ import {
 } from './actions';
 import { EntityOperators } from './operators';
 
+/**
+ * Fully-featured entity effects class that provides all standard
+ * effect handling for all CURDL operations.
+ */
 @Injectable()
 export class EntityEffects {
   @Effect()
@@ -112,6 +120,59 @@ export class EntityEffects {
   deleteMany$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeleteMany),
     this.ops.deleteMany()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
+export class ExtraEffects {
+  @Effect()
+  select = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Select),
+    this.ops.select()
+  );
+
+  @Effect()
+  selectByKey = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.SelectByKey),
+    this.ops.selectByKey()
+  );
+
+  @Effect()
+  selectMany = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.SelectMany),
+    this.ops.selectMany()
+  );
+
+  @Effect()
+  selectManyByKeys = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.SelectManyByKeys),
+    this.ops.selectManyByKeys()
+  );
+
+  @Effect()
+  deselect = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Deselect),
+    this.ops.deselect()
+  );
+
+  @Effect()
+  deselectMany = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeselectMany),
+    this.ops.deselectMany()
+  );
+
+  @Effect()
+  deselectManyByKeys = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeselectManyByKeys),
+    this.ops.deselectManyByKeys()
+  );
+
+  @Effect()
+  deselectAll = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeselectAll),
+    this.ops.deselectAll()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}

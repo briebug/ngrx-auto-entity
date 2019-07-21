@@ -17,7 +17,7 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit() {
     this.customerFacade.loadAll();
-    this.customers$ = this.customerFacade.all;
+    this.customers$ = this.customerFacade.all$;
   }
 
   onDelete(customer: Customer) {

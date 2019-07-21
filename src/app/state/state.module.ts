@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { EntityEffects } from '@briebug/ngrx-auto-entity';
+import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
@@ -17,9 +17,10 @@ import { CustomRouterStateSerializer } from './shared/utils';
   imports: [
     CommonModule,
     StoreModule.forRoot(appReducer, { metaReducers: appMetaReducers }),
-    EffectsModule.forRoot([EntityEffects, CustomerEffects, OrderEffects, ProductEffects, RouterEffects]),
+    EffectsModule.forRoot([CustomerEffects, OrderEffects, ProductEffects, RouterEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+    NgrxAutoEntityModule.forRoot()
   ]
 })
 export class StateModule {

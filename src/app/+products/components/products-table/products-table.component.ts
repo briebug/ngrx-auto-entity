@@ -12,7 +12,7 @@ export class ProductsTableComponent implements OnChanges, OnInit {
   @Output() delete = new EventEmitter<Product>();
   @Output() edit = new EventEmitter<Product>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   columnsToDisplay = ['id', 'name', 'details', 'price', 'dateAdded', 'actions'];
   dataSource = new MatTableDataSource();

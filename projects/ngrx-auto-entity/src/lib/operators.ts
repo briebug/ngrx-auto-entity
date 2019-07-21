@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { pascalCase } from 'change-case';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+
 import {
   Create,
   CreateFailure,
@@ -15,6 +16,12 @@ import {
   DeleteManyFailure,
   DeleteManySuccess,
   DeleteSuccess,
+  Deselect,
+  DeselectAll,
+  Deselected,
+  DeselectedMany,
+  DeselectMany,
+  DeselectManyByKeys,
   Load,
   LoadAll,
   LoadAllFailure,
@@ -36,6 +43,12 @@ import {
   ReplaceManyFailure,
   ReplaceManySuccess,
   ReplaceSuccess,
+  Select,
+  SelectByKey,
+  Selected,
+  SelectedMany,
+  SelectMany,
+  SelectManyByKeys,
   Update,
   UpdateFailure,
   UpdateMany,
@@ -56,7 +69,7 @@ export class EntityOperators {
     return (source: Observable<Load<TModel>>) =>
       source.pipe(
         mergeMap(action => {
-          console.log('[NGRX-AE] Load effect');
+          // console.log('[NGRX-AE] Load effect');
           return this.entityService.load(action.info, action.keys, action.criteria).pipe(
             map((ref: IEntityRef<TModel>) => {
               return new LoadSuccess<TModel>(ref.info.modelType, ref.entity);
@@ -93,7 +106,7 @@ export class EntityOperators {
     return (source: Observable<LoadAll<TModel>>) =>
       source.pipe(
         mergeMap(action => {
-          console.log('[NGRX-AE] Load all effect');
+          // console.log('[NGRX-AE] Load all effect');
           return this.entityService.loadAll(action.info, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
               return new LoadAllSuccess<TModel>(ref.info.modelType, ref.entity);
@@ -130,7 +143,7 @@ export class EntityOperators {
     return (source: Observable<LoadMany<TModel>>) =>
       source.pipe(
         mergeMap((action: LoadMany<TModel>) => {
-          console.log('[NGRX-AE] Load many effect');
+          // console.log('[NGRX-AE] Load many effect');
           return this.entityService.loadMany(action.info, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
               return new LoadManySuccess<TModel>(ref.info.modelType, ref.entity);
@@ -167,7 +180,7 @@ export class EntityOperators {
     return (source: Observable<LoadPage<TModel>>) =>
       source.pipe(
         mergeMap((action: LoadPage<TModel>) => {
-          console.log('[NGRX-AE] Load page effect');
+          // console.log('[NGRX-AE] Load page effect');
           return this.entityService.loadPage(action.info, action.page, action.criteria).pipe(
             map((ref: IEntityPageRef<TModel>) => {
               return new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo);
@@ -204,7 +217,7 @@ export class EntityOperators {
     return (source: Observable<LoadRange<TModel>>) =>
       source.pipe(
         mergeMap((action: LoadRange<TModel>) => {
-          console.log('[NGRX-AE] Load range effect');
+          // console.log('[NGRX-AE] Load range effect');
           return this.entityService.loadRange(action.info, action.range, action.criteria).pipe(
             map((ref: IEntityRangeRef<TModel>) => {
               return new LoadRangeSuccess<TModel>(ref.info.modelType, ref.entity, ref.rangeInfo);
@@ -241,7 +254,7 @@ export class EntityOperators {
     return (source: Observable<Create<TModel>>) =>
       source.pipe(
         mergeMap((action: Create<TModel>) => {
-          console.log('[NGRX-AE] Create effect');
+          // console.log('[NGRX-AE] Create effect');
           return this.entityService.create<TModel>(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => {
               return new CreateSuccess<TModel>(ref.info.modelType, ref.entity);
@@ -278,7 +291,7 @@ export class EntityOperators {
     return (source: Observable<CreateMany<TModel>>) =>
       source.pipe(
         mergeMap((action: CreateMany<TModel>) => {
-          console.log('[NGRX-AE] Create Many effect');
+          // console.log('[NGRX-AE] Create Many effect');
           return this.entityService.createMany<TModel>(action.info, action.entities, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
               return new CreateManySuccess<TModel>(ref.info.modelType, ref.entity);
@@ -315,7 +328,7 @@ export class EntityOperators {
     return (source: Observable<Update<TModel>>) =>
       source.pipe(
         mergeMap((action: Update<TModel>) => {
-          console.log('[NGRX-AE] Update effect');
+          // console.log('[NGRX-AE] Update effect');
           return this.entityService.update<TModel>(action.info, action.entity, action.criteria).pipe(
             map((ref: IEntityRef<TModel>) => {
               return new UpdateSuccess<TModel>(ref.info.modelType, ref.entity);
@@ -352,7 +365,7 @@ export class EntityOperators {
     return (source: Observable<UpdateMany<TModel>>) =>
       source.pipe(
         mergeMap((action: UpdateMany<TModel>) => {
-          console.log('[NGRX-AE] Update effect');
+          // console.log('[NGRX-AE] Update effect');
           return this.entityService.updateMany<TModel>(action.info, action.entities, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
               return new UpdateManySuccess<TModel>(ref.info.modelType, ref.entity);
@@ -389,7 +402,7 @@ export class EntityOperators {
     return (source: Observable<Replace<TModel>>) =>
       source.pipe(
         mergeMap((action: Replace<TModel>) => {
-          console.log('[NGRX-AE] Replace effect');
+          // console.log('[NGRX-AE] Replace effect');
           return this.entityService.replace<TModel>(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => {
               return new ReplaceSuccess<TModel>(ref.info.modelType, ref.entity);
@@ -426,7 +439,7 @@ export class EntityOperators {
     return (source: Observable<ReplaceMany<TModel>>) =>
       source.pipe(
         mergeMap((action: ReplaceMany<TModel>) => {
-          console.log('[NGRX-AE] Replace Many effect');
+          // console.log('[NGRX-AE] Replace Many effect');
           return this.entityService.replaceMany<TModel>(action.info, action.entities, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
               return new ReplaceManySuccess<TModel>(ref.info.modelType, ref.entity);
@@ -463,7 +476,7 @@ export class EntityOperators {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
         mergeMap(action => {
-          console.log('[NGRX-AE] Delete effect');
+          // console.log('[NGRX-AE] Delete effect');
           return this.entityService.delete(action.info, action.entity).pipe(
             map((ref: IEntityRef<TModel>) => {
               return new DeleteSuccess<TModel>(ref.info.modelType, ref.entity);
@@ -500,7 +513,7 @@ export class EntityOperators {
     return (source: Observable<DeleteMany<TModel>>) =>
       source.pipe(
         mergeMap((action: DeleteMany<TModel>) => {
-          console.log('[NGRX-AE] Delete Many effect');
+          // console.log('[NGRX-AE] Delete Many effect');
           return this.entityService.deleteMany<TModel>(action.info, action.entities, action.criteria).pipe(
             map((ref: IEntityRef<TModel[]>) => {
               return new DeleteManySuccess<TModel>(ref.info.modelType, ref.entity);
@@ -529,6 +542,78 @@ export class EntityOperators {
               return of(new DeleteManyFailure<TModel>(error.info.modelType, error.err));
             })
           );
+        })
+      );
+  }
+
+  select<TModel>() {
+    return (source: Observable<Select<TModel>>) =>
+      source.pipe(
+        map((action: Select<TModel>) => {
+          return new Selected<TModel>(action.info.modelType, action.entity);
+        })
+      );
+  }
+
+  selectByKey<TModel>() {
+    return (source: Observable<SelectByKey<TModel>>) =>
+      source.pipe(
+        map((action: SelectByKey<TModel>) => {
+          return new Selected<TModel>(action.info.modelType, action.entityKey);
+        })
+      );
+  }
+
+  selectMany<TModel>() {
+    return (source: Observable<SelectMany<TModel>>) =>
+      source.pipe(
+        map((action: SelectMany<TModel>) => {
+          return new SelectedMany<TModel>(action.info.modelType, action.entities);
+        })
+      );
+  }
+
+  selectManyByKeys<TModel>() {
+    return (source: Observable<SelectManyByKeys<TModel>>) =>
+      source.pipe(
+        map((action: SelectManyByKeys<TModel>) => {
+          return new SelectedMany<TModel>(action.info.modelType, action.entitiesKeys);
+        })
+      );
+  }
+
+  deselect<TModel>() {
+    return (source: Observable<Deselect<TModel>>) =>
+      source.pipe(
+        map((action: Deselect<TModel>) => {
+          return new Deselected<TModel>(action.info.modelType);
+        })
+      );
+  }
+
+  deselectMany<TModel>() {
+    return (source: Observable<DeselectMany<TModel>>) =>
+      source.pipe(
+        map((action: DeselectMany<TModel>) => {
+          return new DeselectedMany<TModel>(action.info.modelType, action.entities);
+        })
+      );
+  }
+
+  deselectManyByKeys<TModel>() {
+    return (source: Observable<DeselectManyByKeys<TModel>>) =>
+      source.pipe(
+        map((action: DeselectManyByKeys<TModel>) => {
+          return new DeselectedMany<TModel>(action.info.modelType, action.entitiesKeys);
+        })
+      );
+  }
+
+  deselectAll<TModel>() {
+    return (source: Observable<DeselectAll<TModel>>) =>
+      source.pipe(
+        map((action: DeselectAll<TModel>) => {
+          return new DeselectedMany<TModel>(action.info.modelType, null);
         })
       );
   }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -9,7 +9,7 @@ import { Title } from '@angular/platform-browser';
 export class ShellComponent {
   opened: boolean;
 
-  constructor(private titleService: Title, private media: ObservableMedia) {}
+  constructor(private titleService: Title, private media: MediaObserver) {}
 
   get isMobile(): boolean {
     return this.media.isActive('xs') || this.media.isActive('sm');

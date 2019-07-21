@@ -16,7 +16,7 @@ export class CustomerFacade extends CustomerFacadeBase {
   }
 
   get active(): Observable<Customer[]> {
-    return this.all.pipe(map(customers => customers.filter(customer => customer.isActive)));
+    return this.all$.pipe(map(customers => customers.filter(customer => customer.isActive)));
   }
 
   top(count: number): Observable<Customer[]> {

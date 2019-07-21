@@ -9,7 +9,8 @@ export {
   IEntityState,
   IModelState,
   ISelectorMap,
-  ITModelClass
+  IModelClass,
+  EntityIdentity
 } from './lib/util';
 
 export {
@@ -110,7 +111,16 @@ export {
   ReplaceManyEffect,
   DeleteEffect,
   DeleteManyEffect,
-  EntityEffects
+  EntityEffects,
+  ExtraEffects
 } from './lib/effects.default';
 
-export { NgrxAutoEntityModule } from './lib/module';
+export {
+  NgrxAutoEntityModule,
+  NgRxAutoEntityRootModuleWithEffects,
+  NgRxAutoEntityRootModuleNoCURDLEffects,
+  NgRxAutoEntityRootModuleNoEffects,
+  NgRxAutoEntityFeatureModule,
+  NgRxAutoEntityModuleConfig,
+  getNgRxAutoEntityMetaReducer
+} from './lib/module';

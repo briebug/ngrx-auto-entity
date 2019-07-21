@@ -16,7 +16,7 @@ export class ProductFacade extends ProductFacadeBase {
   }
 
   mostRecent(count: number): Observable<Product[]> {
-    return this.all.pipe(
+    return this.all$.pipe(
       map(products => {
         products.sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
         return products;

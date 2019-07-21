@@ -1,3 +1,44 @@
+<a name="0.2.0"></a>
+
+# [0.2.0](https://github.com/briebug/ngrx-auto-entity/compare/0.1.1...0.2.0) Beta (2019-07-20)
+
+This version introduces some fundamental changes to how NgRx Auto-Entity is initialized, additional
+features and functionality, as well as some breaking changes to facade properties. Many of these changes
+further reduce the already minimal boilerplate with Auto-Entity.
+
+### Platform Update
+
+This release involves a major update to the minimum required Angular and NgRx versions. In order to leverage
+updated functionality from both libraries, as well as begin phasing in improved use of TypeScript, both platforms
+have been updated to the 8.x versions. We apologize for any inconvenience this may cause, however we do believe
+the changes and future improvements allowed by making this change will be welcome.
+
+ - **angular:** The required version of @angular has been bumped up to 8.0
+ - **ngrx:** The required version of @ngrx has been bumped uop to 8.0
+
+### Features
+ - **actions:** Added multiple entity selection and deselection actions
+ - **effects:** Added new `ExtraEffects` class containing selection and clearing related effects
+ - **operators:** Added new operators to handle selection and clearing related actions
+ - **reducer:** Updated meta reducer to handle new multiple entity selection and deselection
+ - **facade:** Updated facade base class to include support for multiple entity selections
+ - **module:** `NgrxAutoEntityModule` will now automatically provide `autoEntityMetaReducer` in `META_REDUCERS`
+ - **module:** `NgrxAutoEntityModule` will now automatically provide `EntityEffects` and `ExtraEffects`
+ - **module** Must now call `.forRoot(()` or `.forFeature()` as appropriate to import module
+ - **module:** A new `.forRootNoEntityEffects()` can be used instead of `.forRoot()` to disable auto-provisioning of entity effects (keeps extra effects)
+ - **module:** A new `.forRootNoEffects()` can be used instead of `.forRoot()` to disable auto-provisioning of all effects
+
+### Bug Fixes
+ - **module:** Implemented `.forRoot()` and `.forFeature()` calls on `NgrxAutoEntityModule` to fix broken support for lazy loaded modules
+ - **effects:** Added missing effects for select/deselect actions to dispatch selected/deselected counterparts
+ - **service:** Updated `NgrxAutoEntityService` to support aggregate Injector tree so that models/entity services in lazy loaded modules will be found by root entity service
+ - **util:** Changed `interface ITModelType<TModel>` to a `type IModelType<TModel>` to better conform to TypeScript best practices
+ 
+ ### Breaking Changes !!
+  - **facade:** Updated facade base class to include a $ postfix on all streaming properties
+ 
+
+
 <a name="0.1.1"></a>
 
 # [0.1.1](https://github.com/briebug/ngrx-auto-entity/compare/0.1.0...0.1.1) Beta (2019-06-20)
