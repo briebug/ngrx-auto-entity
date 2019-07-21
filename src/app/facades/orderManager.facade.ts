@@ -23,7 +23,7 @@ export class OrderManagerFacade {
 
   orderInfoByStatus(...status: OrderStatus[]): Observable<OrderInfo[]> {
     return this.orderFacade.ofStatus(...status).pipe(
-      withLatestFrom(this.customerFacade.all),
+      withLatestFrom(this.customerFacade.all$),
       map(([orders, customers]) =>
         orders
           .map(order => ({

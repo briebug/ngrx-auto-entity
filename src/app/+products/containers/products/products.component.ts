@@ -17,7 +17,7 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.productFacade.loadAll();
-    this.products$ = this.productFacade.all;
+    this.products$ = this.productFacade.all$;
   }
 
   onDelete(product: Product) {

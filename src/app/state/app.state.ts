@@ -1,4 +1,4 @@
-import { autoEntityMetaReducer, IEntityState } from '@briebug/ngrx-auto-entity';
+import { IEntityState } from '@briebug/ngrx-auto-entity';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -39,5 +39,4 @@ export const appReducer: ActionReducerMap<AppState> = {
 };
 
 export const appMetaReducers: Array<MetaReducer<AppState>> = !environment.production
-  ? [autoEntityMetaReducer, storeFreeze]
-  : [autoEntityMetaReducer];
+  ? [storeFreeze] : [];

@@ -5,6 +5,8 @@ import {
   CreateSuccess,
   DeleteManySuccess,
   DeleteSuccess,
+  DeselectMany,
+  DeselectManyByKeys,
   EntityAction,
   EntityActions,
   EntityActionTypes,
@@ -15,6 +17,8 @@ import {
   ReplaceSuccess,
   Select,
   SelectByKey,
+  SelectMany,
+  SelectManyByKeys,
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
@@ -678,7 +682,18 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         ...state,
         [stateName]: {
           entities: {},
-          ids: []
+          ids: [],
+          currentEntityKey: undefined,
+          currentEntitiesKeys: undefined,
+          currentPage: undefined,
+          currentRange: undefined,
+          totalPageableCount: undefined,
+          isLoading: undefined,
+          isSaving: undefined,
+          isDeleting: undefined,
+          loadedAt: undefined,
+          savedAt: undefined,
+          deletedAt: undefined
         }
       };
       // console.debug('[NGRX-AE] Clear action reduced');
@@ -716,6 +731,37 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       return reduced;
     }
 
+    case EntityActionTypes.SelectMany: {
+      // console.debug('[NGRX-AE] Select Many action reducing...');
+      const selectingEntities = (action as SelectMany<any>).entities;
+      const keys = selectingEntities.map(entity => getKey(action, entity));
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          currentEntitiesKeys: keys
+        }
+      };
+      // console.debug('[NGRX-AE] Select Many action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.SelectManyByKeys: {
+      // console.debug('[NGRX-AE] Select Many by Keys action reducing...');
+      const keys = (action as SelectManyByKeys<any>).entitiesKeys;
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          currentEntitiesKeys: keys
+        }
+      };
+      // console.debug('[NGRX-AE] Select Many by Keys action reduced');
+      return reduced;
+    }
+
     case EntityActionTypes.Deselect: {
       // console.debug('[NGRX-AE] Deselect action reducing...');
 
@@ -727,6 +773,51 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         }
       };
       // console.debug('[NGRX-AE] Deselect action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.DeselectMany: {
+      // console.debug('[NGRX-AE] Deselect Many action reducing...');
+      const deselectingEntities = (action as DeselectMany<any>).entities;
+      const keys = deselectingEntities.map(entity => getKey(action, entity));
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          currentEntitiesKeys: entityState.currentEntitiesKeys.filter(key => !keys.some(key))
+        }
+      };
+      // console.debug('[NGRX-AE] Deselect Many action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.DeselectManyByKeys: {
+      // console.debug('[NGRX-AE] Deselect Many action reducing...');
+      const keys = (action as DeselectManyByKeys<any>).entitiesKeys;
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          currentEntitiesKeys: entityState.currentEntitiesKeys.filter(key => !keys.some(key))
+        }
+      };
+      // console.debug('[NGRX-AE] Deselect Many action reduced');
+      return reduced;
+    }
+
+    case EntityActionTypes.DeselectAll: {
+      // console.debug('[NGRX-AE] Deselect All action reducing...');
+
+      const reduced = {
+        ...state,
+        [stateName]: {
+          ...entityState,
+          currentEntitiesKeys: undefined
+        }
+      };
+      // console.debug('[NGRX-AE] Deselect All action reduced');
       return reduced;
     }
   }

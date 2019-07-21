@@ -1,4 +1,5 @@
 import { EntityAction } from './actions';
+import { EntityIdentity } from './util';
 
 // NOTE: The following two constants should be Symbol() to avoid any potential conflict with
 // any user-defined properties on the entity models. However, use of Symbol() here causes
@@ -42,7 +43,7 @@ export function getKeyNamesFromModel<TModel>(type: { new (): TModel }): string[]
   return keys;
 }
 
-function _getKey(entity: any, keyNames: string[]): string | number {
+function _getKey(entity: any, keyNames: string[]): EntityIdentity {
   if (keyNames.length === 1) {
     return entity[keyNames[0]];
   }
@@ -52,12 +53,12 @@ function _getKey(entity: any, keyNames: string[]): string | number {
   return compositeKey.substr(1);
 }
 
-export function getKey(action: EntityAction, entity: any): any {
+export function getKey(action: EntityAction, entity: any): EntityIdentity {
   const keyNames = getKeyNames(action);
   return _getKey(entity, keyNames);
 }
 
-export function getKeyFromModel<TModel>(type: { new (): TModel }, entity: TModel): any {
+export function getKeyFromModel<TModel>(type: { new (): TModel }, entity: TModel): EntityIdentity {
   const keyNames = getKeyNamesFromModel(type);
   return _getKey(entity, keyNames);
 }

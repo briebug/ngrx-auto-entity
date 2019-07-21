@@ -33,12 +33,12 @@ export class CustomerComponent implements OnInit {
             }
           });
       }),
-      switchMap(() => this.customerFacade.current)
+      switchMap(() => this.customerFacade.current$)
     );
   }
 
   hasCustomerWithIdInState(id: number): Observable<boolean> {
-    return this.customerFacade.ids.pipe(map((ids: number[]) => ids.indexOf(id) > -1));
+    return this.customerFacade.ids$.pipe(map((ids: number[]) => ids.indexOf(id) > -1));
   }
 
   onCustomerChange(payload: { customer: Customer; valid: boolean }) {

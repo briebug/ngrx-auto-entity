@@ -44,7 +44,6 @@ import { EntityService } from './services/entity.service';
     BrowserModule,
     CoreModule.forRoot(),
     HttpClientModule,
-    NgrxAutoEntityModule,
     StateModule.forRoot(),
     MaterialModule
   ],

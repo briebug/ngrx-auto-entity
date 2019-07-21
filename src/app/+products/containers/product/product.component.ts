@@ -33,12 +33,12 @@ export class ProductComponent implements OnInit {
             }
           });
       }),
-      switchMap(() => this.productFacade.current)
+      switchMap(() => this.productFacade.current$)
     );
   }
 
   hasProductWithIdInState(id: number): Observable<boolean> {
-    return this.productFacade.ids.pipe(map((ids: number[]) => ids.indexOf(id) > -1));
+    return this.productFacade.ids$.pipe(map((ids: number[]) => ids.indexOf(id) > -1));
   }
 
   onProductChange(payload: { product: Product; valid: boolean }) {
