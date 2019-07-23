@@ -16,14 +16,14 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   showPending() {
-    this.ordersPreview.setStatus(OrderStatus.pending);
+    this.ordersPreview.setStatus([OrderStatus.pending]);
   }
 
   showCurrent() {
-    this.ordersPreview.setStatus(OrderStatus.open, OrderStatus.completed);
+    this.ordersPreview.setStatus([OrderStatus.open, OrderStatus.completed]);
   }
 
   showArchived() {
-    this.ordersPreview.setStatus(OrderStatus.archived);
+    this.ordersPreview.setStatus([OrderStatus.archived]);
   }
 }

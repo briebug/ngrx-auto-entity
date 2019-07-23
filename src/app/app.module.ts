@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 
 import { CoreModule } from 'core/core.module';
 import { StateModule } from 'state/state.module';
@@ -10,7 +9,6 @@ import { MaterialModule } from './material.module';
 
 import { Customer } from 'models/customer.model';
 import { Order } from 'models/order.model';
-import { OrderItem } from 'models/orderItem.model';
 import { Product } from 'models/product.model';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,7 +49,6 @@ import { EntityService } from './services/entity.service';
     { provide: Customer, useClass: EntityService },
     { provide: Product, useClass: EntityService },
     { provide: Order, useClass: EntityService },
-    { provide: OrderItem, useClass: EntityService }
   ]
 })
 export class AppModule {}

@@ -459,19 +459,24 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   };
 };
 
+
+export const FEATURE_AFFINITY = '__ngrxae_feature_affinity';
 /**
  * Builds the Ngrx state for an entity that is part of a feature module
  *
  * @param type the entity class
+ * @param featureStateName the name of the feature state
  * @param selectParentState a selector for the entity's parent state
  * @param extraInitialState the (optional) initial feature state
  */
 export const buildFeatureState = <TState extends IEntityState<TModel>, TParentState, TModel>(
   type: IModelClass<TModel>,
+  featureStateName: NonNullable<string>,
   selectParentState: MemoizedSelector<object, TParentState>,
   extraInitialState?: any
 ): IModelState<TParentState, TState, TModel> => {
   const modelName = camelCase(new type().constructor.name);
+  (type as any)[FEATURE_AFFINITY] = featureStateName;
 
   const selectState = createSelector(
     selectParentState,
@@ -482,11 +487,9 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
 
   // region Initial State
   const initialState = {
-    [modelName]: {
-      entities: {},
-      ids: [],
-      ...extraInitialState
-    }
+    entities: {},
+    ids: [],
+    ...extraInitialState
   } as TState;
   // endregion
 
