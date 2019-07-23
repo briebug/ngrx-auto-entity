@@ -1,3 +1,3 @@
 <div fxLayout="column" fxLayoutAlign="start stretch" class="customers">
-  <app-products-basic-table [products]="products$ | async"></app-products-basic-table>
+  <app-products-basic-table [products]="products.mostRecent$(3) | async"></app-products-basic-table>
 </div>

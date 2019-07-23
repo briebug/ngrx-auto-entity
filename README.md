@@ -1,6 +1,19 @@
-[![CircleCI](https://circleci.com/gh/briebug/ngrx-auto-entity/tree/develop.svg?style=svg&circle-token=d1d500027a81dda34d4ad75ae5fee38dd8953487)](https://circleci.com/gh/briebug/ngrx-auto-entity/tree/develop)
+![CircleCI](https://img.shields.io/circleci/build/github/briebug/ngrx-auto-entity/develop.svg)
+![Issues](https://img.shields.io/github/issues/briebug/ngrx-auto-entity.svg)
+![Version](https://img.shields.io/npm/v/@briebug/ngrx-auto-entity.svg)
+![Downloads](https://img.shields.io/npm/dm/@briebug/ngrx-auto-entity.svg)
+![Downloads](https://img.shields.io/npm/dt/@briebug/ngrx-auto-entity.svg)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E8.x-blue.svg)
+![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E8.x-blue.svg)
+![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E8.x-blue.svg)
+![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)
+
+![Follow-BB](https://img.shields.io/twitter/follow/briebugsoftware.svg?style=flat)
+![Follow-BB](https://img.shields.io/twitter/follow/JesseS_BrieBug.svg?style=flat)
+![Follow-BB](https://img.shields.io/twitter/follow/jonristadev.svg?style=flat)
+![Follow-BB](https://img.shields.io/twitter/follow/kevinschuchard.svg?style=flat)
+![Follow-BB](https://img.shields.io/twitter/follow/anthonyjones519.svg?style=flat)
 
 # NgRX Auto-Entity
 

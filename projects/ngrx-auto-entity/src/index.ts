@@ -118,7 +118,7 @@ export {
 export {
   NgrxAutoEntityModule,
   NgRxAutoEntityRootModuleWithEffects,
-  NgRxAutoEntityRootModuleNoCURDLEffects,
+  NgRxAutoEntityRootModuleNoEntityEffects,
   NgRxAutoEntityRootModuleNoEffects,
   NgRxAutoEntityFeatureModule,
   NgRxAutoEntityModuleConfig,

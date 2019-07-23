@@ -14,12 +14,12 @@ export class OrderFacade extends OrderFacadeBase {
     super(Order, store);
   }
 
-  ofStatus(...status: OrderStatus[]): Observable<Order[]> {
+  ofStatus(status: OrderStatus[]): Observable<Order[]> {
     return this.all$.pipe(map(orders => orders.filter(order => status.includes(order.status))));
   }
 
-  recentOfStatus(count: number, ...status: OrderStatus[]): Observable<Order[]> {
-    return this.ofStatus(...status).pipe(
+  recentOfStatus(count: number, status: OrderStatus[]): Observable<Order[]> {
+    return this.ofStatus(status).pipe(
       map(order => {
         order.sort((a, b) => b.dateOfOrder.localeCompare(a.dateOfOrder));
         return order;
@@ -29,14 +29,14 @@ export class OrderFacade extends OrderFacadeBase {
   }
 
   recentPending(count: number): Observable<Order[]> {
-    return this.recentOfStatus(count, OrderStatus.pending);
+    return this.recentOfStatus(count, [OrderStatus.pending]);
   }
 
   recentActive(count: number): Observable<Order[]> {
-    return this.recentOfStatus(count, OrderStatus.open, OrderStatus.completed);
+    return this.recentOfStatus(count, [OrderStatus.open, OrderStatus.completed]);
   }
 
   recentArchived(count: number): Observable<Order[]> {
-    return this.recentOfStatus(count, OrderStatus.archived);
+    return this.recentOfStatus(count, [OrderStatus.archived]);
   }
 }

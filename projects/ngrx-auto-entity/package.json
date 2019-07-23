@@ -27,6 +27,8 @@
     "@angular/core": "^8.x",
     "@ngrx/effects": "^8.x",
     "@ngrx/store": "^8.x",
+    "match-when": "^3.0.0",
+    "ramda": "^0.26.1",
     "rxjs": "^6.x"
   }
 }

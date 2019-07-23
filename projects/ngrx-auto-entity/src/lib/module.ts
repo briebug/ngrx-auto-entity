@@ -31,9 +31,6 @@ export class NgRxAutoEntityRootModuleWithEffects {
     extraEffects: ExtraEffects,
     injector: Injector
   ) {
-    // Set the core NgRxAutoEntityService overarching INJECTOR instance to the root injector
-    NgrxAutoEntityService.INJECTOR = injector;
-
     // NOTE: The following trick learned from @ngrx/data!
 
     // Warning: this alternative approach relies on an undocumented API
@@ -62,9 +59,6 @@ export class NgRxAutoEntityRootModuleWithEffects {
 })
 export class NgRxAutoEntityRootModuleNoEntityEffects {
   constructor(private effectSources: EffectSources, extraEffects: ExtraEffects, injector: Injector) {
-    // Set the core NgRxAutoEntityService overarching INJECTOR instance to the root injector
-    NgrxAutoEntityService.INJECTOR = injector;
-
     // NOTE: The following trick learned from @ngrx/data!
 
     // Warning: this alternative approach relies on an undocumented API
@@ -90,27 +84,24 @@ export class NgRxAutoEntityRootModuleNoEntityEffects {
     { provide: META_REDUCERS, useFactory: getNgRxAutoEntityMetaReducer, multi: true }
   ]
 })
-export class NgRxAutoEntityRootModuleNoEffects {
-  constructor(private effectSources: EffectSources, extraEffects: ExtraEffects, injector: Injector) {
-    // Set the core NgRxAutoEntityService overarching INJECTOR instance to the root injector
-    NgrxAutoEntityService.INJECTOR = injector;
-  }
-}
+export class NgRxAutoEntityRootModuleNoEffects {}
 
 let INJECTOR_DEPTH = 0;
 
 @NgModule({})
 export class NgRxAutoEntityFeatureModule {
   constructor(injector: Injector) {
-    // Update the core NgRxAutoEntityService overarching INJECTOR instance to include the current injector
-    // This creates a telescoping hierarchy of injectors that should eventually encompass the entire application
-    // as lazy loaded modules are subsequently created
+    // Update the core NgRxAutoEntityService INJECTORS to include the current injector
+    // This creates a list of injectors that should eventually encompass the entire application
+    // as lazy loaded modules are subsequently created, to be evaluated in reverse order
     INJECTOR_DEPTH = INJECTOR_DEPTH + 1;
-    NgrxAutoEntityService.INJECTOR = Injector.create({
-      providers: [],
-      parent: injector,
-      name: 'Injector' + INJECTOR_DEPTH
-    });
+    NgrxAutoEntityService.addInjector(
+      Injector.create({
+        providers: [],
+        parent: injector,
+        name: 'Injector' + INJECTOR_DEPTH
+      })
+    );
   }
 }
 

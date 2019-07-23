@@ -1,0 +1,21 @@
+import { Component, OnInit } from '@angular/core';
+import { OrderItemFacade } from '../../facades/orderItem.facade';
+import { OrderItem } from '../../models/orderItem.model';
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'app-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.scss']
+})
+export class OrderComponent implements OnInit {
+  all$: Observable<OrderItem[]>;
+
+  constructor(public orderItems: OrderItemFacade) {
+    orderItems.loadAll();
+  }
+
+  ngOnInit() {
+    this.all$ = this.orderItems.all();
+  }
+}
