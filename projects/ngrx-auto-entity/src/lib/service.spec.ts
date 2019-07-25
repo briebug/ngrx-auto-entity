@@ -1,12 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { IEntityInfo } from './actions';
 import { Page, Range } from './models';
-import { IAutoEntityService, IEntityWithPageInfo, IEntityWithRangeInfo, NgrxAutoEntityService } from './service';
+import {
+  failResolution,
+  getService,
+  IAutoEntityService,
+  IEntityWithPageInfo,
+  IEntityWithRangeInfo,
+  logAndThrow,
+  logErrorDetails,
+  logServiceLocateFailure,
+  NgrxAutoEntityService,
+  notAFunction,
+  notImplemented,
+  resolveService,
+  resolveServiceDeep
+} from './service';
 
 export class TestModel {
   id: number;
@@ -46,7 +60,10 @@ export class TestModelService implements IAutoEntityService<TestModel> {
           }
         ],
         pageInfo: {
-          page: 1,
+          page: {
+            page: 1,
+            size: 1
+          },
           totalCount: 1
         }
       });
@@ -54,7 +71,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
       return of({
         entities: [],
         pageInfo: {
-          page: page.page,
+          page,
           totalCount: 1
         }
       });
@@ -66,6 +83,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
       return throwError({ message: 'Service not found' });
     }
 
+    // @ts-ignore
     if ((range.start <= 1234 && range.end >= 1234) || (range.first <= 1234 && range.last >= 1234)) {
       return of({
         entities: [
@@ -136,14 +154,6 @@ export class TestModelService implements IAutoEntityService<TestModel> {
 describe('NgRX Auto-Entity: Service', () => {
   let entityService: NgrxAutoEntityService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientModule, CommonModule],
-      providers: [{ provide: TestModel, useClass: TestModelService }, NgrxAutoEntityService]
-    });
-    entityService = TestBed.get(NgrxAutoEntityService);
-  });
-
   const entityInfo: IEntityInfo = {
     modelName: 'TestModel',
     modelType: TestModel
@@ -159,280 +169,409 @@ describe('NgRX Auto-Entity: Service', () => {
     modelType: TestModel
   };
 
-  describe('getServiceByName', () => {
-    // test('should be truthy', () => {
-    // expect(entityService.getServiceByName(entityInfo)).toBeTruthy();
-    // });
-  });
-
-  describe('getServiceByToken', () => {
-    // test('should be truthy', () => {
-    // expect(service.getServiceByToken(entityInfo)).toBeTruthy();
-    // });
-  });
-
-  describe('load', () => {
-    test('should get a valid entityRef on successful load', done => {
-      entityService.load(entityInfo, 1234).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          entity: { id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }
-        });
-        done();
-      });
-    });
-
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .load(badEntityInfo, 1234)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
+  describe('Function: notImplemented', () => {
+    test('Should return "Entity service method "load" has not been implemented. (Entity: TestModel)"', () => {
+      const msg = notImplemented('load', { modelName: 'TestModel', modelType: TestModel });
+      expect(msg).toBe('Entity service method "load" has not been implemented. (Entity: TestModel)');
     });
   });
 
-  describe('loadAll', () => {
-    test('should get a valid entityRef on successful load', done => {
-      entityService.loadAll(entityInfo).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
-        });
-        done();
-      });
-    });
-
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .loadAll(badEntityInfo)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
+  describe('Function: notAFunction', () => {
+    test('Should return "Entity service method "load" is not a function. (Entity: TestModel)"', () => {
+      const msg = notAFunction('load', { modelName: 'TestModel', modelType: TestModel });
+      expect(msg).toBe('Entity service method "load" is not a function. (Entity: TestModel)');
     });
   });
 
-  describe('loadPage', () => {
-    test('should get a valid entityRef on successful load of filled page', done => {
-      entityService.loadPage(entityInfo, { page: 1, size: 1 }).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          pageInfo: { page: 1, totalCount: 1 },
-          entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
-        });
-        done();
+  describe('Function: logAndThrow', () => {
+    test('Should throw and console log "[NGRX-AE] ! Service error: load(). (Entity: TestModel)"', () => {
+      let consoleMsgs = [];
+      jest.spyOn(console, 'error').mockImplementation(msg => {
+        consoleMsgs = [...consoleMsgs, msg];
       });
-    });
-
-    test('should get a valid entityRef on successful load of empty page', done => {
-      entityService.loadPage(entityInfo, { page: 2, size: 1 }).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          pageInfo: { page: 2, totalCount: 1 },
-          entity: []
-        });
-        done();
-      });
-    });
-
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .loadPage(badEntityInfo, { page: 2, size: 1 })
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
+      logAndThrow(
+        'load',
+        { message: 'StaticInjector error' },
+        {
+          modelName: 'TestModel',
+          modelType: TestModel
+        }
+      ).subscribe(
+        () => {},
+        thrown => {
+          expect(thrown).toEqual({
+            info: { modelName: 'TestModel', modelType: TestModel },
+            err: { message: 'StaticInjector error' }
+          });
+          expect(consoleMsgs.length).toBe(2);
+          expect(consoleMsgs[0]).toBe('[NGRX-AE] ! Service error: load(). (Entity: TestModel)');
+          expect(consoleMsgs[1]).toBe("{ message: 'StaticInjector error' }");
+        }
+      );
     });
   });
 
-  describe('loadRange', () => {
-    test('should get a valid entityRef on successful load of filled first/last range', done => {
-      entityService.loadRange(entityInfo, { first: 1000, last: 2000 }).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          rangeInfo: { range: { first: 1000, last: 2000 }, totalCount: 1 },
-          entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
-        });
-        done();
+  describe('Function: logServiceLocateFailure', () => {
+    test('Should log "[NGRX-AE] ! Error: Unable to locate service "TestModelService" using model name of "TestModel"', () => {
+      jest.spyOn(console, 'error').mockImplementation(msg => {
+        expect(msg).toBe(
+          '[NGRX-AE] ! Error: Unable to locate service "TestModelService" using model name of "TestModel"'
+        );
       });
-    });
-
-    test('should get a valid entityRef on successful load of empty first/last range', done => {
-      entityService.loadRange(entityInfo, { start: 0, end: 1000 }).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          rangeInfo: { range: { start: 0, end: 1000 }, totalCount: 1 },
-          entity: []
-        });
-        done();
-      });
-    });
-
-    test('should get a valid entityRef on successful load of filled start/end range', done => {
-      entityService.loadRange(entityInfo, { start: 1000, end: 2000 }).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          rangeInfo: { range: { start: 1000, end: 2000 }, totalCount: 1 },
-          entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
-        });
-        done();
-      });
-    });
-
-    test('should get a valid entityRef on successful load of empty start/end range', done => {
-      entityService.loadRange(entityInfo, { start: 0, end: 1000 }).subscribe(entityRef => {
-        expect(entityRef).toEqual({
-          info: entityInfo,
-          rangeInfo: { range: { start: 0, end: 1000 }, totalCount: 1 },
-          entity: []
-        });
-        done();
-      });
-    });
-
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .loadRange(badEntityInfo, { start: 0, end: 1 })
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
+      logServiceLocateFailure({ modelName: 'TestModel', modelType: TestModel }, 'TestModelService');
     });
   });
 
-  describe('create', () => {
-    test('should return a valid entityRef on successful create', done => {
-      entityService.create(entityInfo, entity).subscribe(entityRef => {
-        expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
-        done();
+  describe('Function: logErrorDetails', () => {
+    test('Should log "[NGRX-AE] ! Error Details:', () => {
+      jest.spyOn(console, 'error').mockImplementation(msg => {
+        expect(msg).toBe('[NGRX-AE] ! Error Details:');
       });
-    });
-
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .create(badEntityInfo, entity)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
+      logErrorDetails({ message: 'StaticInjector error' });
     });
   });
 
-  describe('update', () => {
-    test('should return a valid entityRef on successful update', done => {
-      entityService.update(entityInfo, entity).subscribe(entityRef => {
-        expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
-        done();
-      });
-    });
-
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .update(badEntityInfo, entity)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
+  describe('Function: failResolution', () => {
+    test('Should throw and console log error message and detail', () => {
+      let consoleMsgs = [];
+      try {
+        jest.spyOn(console, 'error').mockImplementation(msg => {
+          consoleMsgs = [...consoleMsgs, msg];
         });
+        failResolution(
+          {
+            info: { modelName: 'TestModel', modelType: TestModel },
+            err: { message: 'StaticInjector error' }
+          },
+          { modelName: 'TestModel', modelType: TestModel }
+        );
+      } catch (err) {
+        expect(err).toEqual({
+          info: { modelName: 'TestModel', modelType: TestModel },
+          err: { message: 'StaticInjector error' }
+        });
+        expect(consoleMsgs.length).toBe(2);
+        expect(consoleMsgs[0]).toBe(
+          '[NGRX-AE] ! Error: Unable to locate service "TestModelService" using model name of "TestModel"'
+        );
+        expect(consoleMsgs[1]).toBe('[NGRX-AE] ! Error Details:');
+      }
     });
   });
 
-  describe('updateMany', () => {
-    test('should return a valid entityRef on successful update', done => {
-      entityService.updateMany(entityInfo, [entity]).subscribe(entityRef => {
-        expect(entityRef).toEqual({ info: entityInfo, entity: [{ id: 5678, name: 'TestEntity' }] });
-        done();
+  describe('Angular Dependent', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientModule, CommonModule],
+        providers: [{ provide: TestModel, useClass: TestModelService }, NgrxAutoEntityService]
+      });
+      entityService = TestBed.get(NgrxAutoEntityService);
+    });
+
+    describe('Function: getService', () => {
+      let injector: Injector;
+      beforeEach(() => {
+        injector = TestBed.get(Injector);
+      });
+
+      test('Should resolve service with default injector', () => {
+        const service = getService({ modelName: 'TestModel', modelType: TestModel }, injector);
+        expect(service).toBeTruthy();
+        expect(service).toBeInstanceOf(TestModelService);
       });
     });
 
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .update(badEntityInfo, entity)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
-    });
-  });
+    describe('Function: resolveService', () => {
+      let injector: Injector;
+      beforeEach(() => {
+        injector = TestBed.get(Injector);
+      });
 
-  describe('replace', () => {
-    test('should return a valid entityRef on successful replace', done => {
-      entityService.replace(entityInfo, entity).subscribe(entityRef => {
-        expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
-        done();
+      test('Should resolve service with default injector', () => {
+        const service = resolveService({ modelName: 'TestModel', modelType: TestModel }, injector);
+        expect(service).toBeTruthy();
+        expect(service).toBeInstanceOf(TestModelService);
       });
     });
 
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .replace(badEntityInfo, entity)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
-    });
-  });
+    describe('Function: resolveServiceDeep', () => {
+      let injector: Injector;
+      beforeEach(() => {
+        injector = TestBed.get(Injector);
+      });
 
-  describe('delete', () => {
-    test('should return a valid entityRef on successful delete', done => {
-      entityService.delete(entityInfo, entity).subscribe(entityRef => {
-        expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
-        done();
+      test('Should resolve service with default injector', () => {
+        const service = resolveServiceDeep({ modelName: 'TestModel', modelType: TestModel }, injector, []);
+        expect(service).toBeTruthy();
+        expect(service).toBeInstanceOf(TestModelService);
       });
     });
 
-    test('should throw an error when the service is not found', done => {
-      entityService
-        .delete(badEntityInfo, entity)
-        .pipe(
-          catchError(err => {
-            expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
-            return of(err);
-          })
-        )
-        .subscribe(() => {
-          done();
+    describe('Service: NgrxAutoEntityService', () => {
+      describe('load', () => {
+        test('should get a valid entityRef on successful load', done => {
+          entityService.load(entityInfo, 1234).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              entity: { id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }
+            });
+            done();
+          });
         });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .load(badEntityInfo, 1234)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('loadAll', () => {
+        test('should get a valid entityRef on successful load', done => {
+          entityService.loadAll(entityInfo).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
+            });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .loadAll(badEntityInfo)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('loadPage', () => {
+        test('should get a valid entityRef on successful load of filled page', done => {
+          entityService.loadPage(entityInfo, { page: 1, size: 1 }).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              pageInfo: { page: { page: 1, size: 1 }, totalCount: 1 },
+              entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
+            });
+            done();
+          });
+        });
+
+        test('should get a valid entityRef on successful load of empty page', done => {
+          entityService.loadPage(entityInfo, { page: 2, size: 1 }).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              pageInfo: { page: { page: 2, size: 1 }, totalCount: 1 },
+              entity: []
+            });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .loadPage(badEntityInfo, { page: 2, size: 1 })
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('loadRange', () => {
+        test('should get a valid entityRef on successful load of filled first/last range', done => {
+          entityService.loadRange(entityInfo, { first: 1000, last: 2000 }).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              rangeInfo: { range: { first: 1000, last: 2000 }, totalCount: 1 },
+              entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
+            });
+            done();
+          });
+        });
+
+        test('should get a valid entityRef on successful load of empty first/last range', done => {
+          entityService.loadRange(entityInfo, { start: 0, end: 1000 }).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              rangeInfo: { range: { start: 0, end: 1000 }, totalCount: 1 },
+              entity: []
+            });
+            done();
+          });
+        });
+
+        test('should get a valid entityRef on successful load of filled start/end range', done => {
+          entityService.loadRange(entityInfo, { start: 1000, end: 2000 }).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              rangeInfo: { range: { start: 1000, end: 2000 }, totalCount: 1 },
+              entity: [{ id: 1234, name: 'Test', parentId: 1, surrogateKey: 'test_1234' }]
+            });
+            done();
+          });
+        });
+
+        test('should get a valid entityRef on successful load of empty start/end range', done => {
+          entityService.loadRange(entityInfo, { start: 0, end: 1000 }).subscribe(entityRef => {
+            expect(entityRef).toEqual({
+              info: entityInfo,
+              rangeInfo: { range: { start: 0, end: 1000 }, totalCount: 1 },
+              entity: []
+            });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .loadRange(badEntityInfo, { start: 0, end: 1 })
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('create', () => {
+        test('should return a valid entityRef on successful create', done => {
+          entityService.create(entityInfo, entity).subscribe(entityRef => {
+            expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .create(badEntityInfo, entity)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('update', () => {
+        test('should return a valid entityRef on successful update', done => {
+          entityService.update(entityInfo, entity).subscribe(entityRef => {
+            expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .update(badEntityInfo, entity)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('updateMany', () => {
+        test('should return a valid entityRef on successful update', done => {
+          entityService.updateMany(entityInfo, [entity]).subscribe(entityRef => {
+            expect(entityRef).toEqual({ info: entityInfo, entity: [{ id: 5678, name: 'TestEntity' }] });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .update(badEntityInfo, entity)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('replace', () => {
+        test('should return a valid entityRef on successful replace', done => {
+          entityService.replace(entityInfo, entity).subscribe(entityRef => {
+            expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .replace(badEntityInfo, entity)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('delete', () => {
+        test('should return a valid entityRef on successful delete', done => {
+          entityService.delete(entityInfo, entity).subscribe(entityRef => {
+            expect(entityRef).toEqual({ info: entityInfo, entity: { id: 5678, name: 'TestEntity' } });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .delete(badEntityInfo, entity)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
     });
   });
 });

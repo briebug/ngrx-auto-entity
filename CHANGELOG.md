@@ -1,10 +1,14 @@
 <a name="0.2.0"></a>
 
-# [0.2.0](https://github.com/briebug/ngrx-auto-entity/compare/0.1.1...0.2.0) Beta (2019-07-20)
+# [0.2.0](https://github.com/briebug/ngrx-auto-entity/compare/0.1.1...0.2.0) Beta (2019-07-25)
 
 This version introduces some fundamental changes to how NgRx Auto-Entity is initialized, additional
 features and functionality, as well as some breaking changes to facade properties. Many of these changes
 further reduce the already minimal boilerplate with Auto-Entity.
+
+### Documentation
+
+Extensive documentation, examples and a proper quickstart guide have been added to our [GitBook](https://briebug.gitbook.io/ngrx-auto-entity/).
 
 ### Platform Update
 

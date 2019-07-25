@@ -3,9 +3,19 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import {
+  Clear,
   Create,
   CreateFailure,
+  CreateMany,
+  CreateManyFailure,
+  CreateManySuccess,
   CreateSuccess,
+  Deselect,
+  DeselectAll,
+  Deselected,
+  DeselectedMany,
+  DeselectMany,
+  DeselectManyByKeys,
   EntityActionTypes,
   Load,
   LoadAll,
@@ -21,15 +31,68 @@ import {
   LoadRangeFailure,
   LoadRangeSuccess,
   LoadSuccess,
-  ofEntityType
+  ofEntityAction,
+  ofEntityType,
+  Replace,
+  ReplaceFailure,
+  ReplaceMany,
+  ReplaceManyFailure,
+  ReplaceManySuccess,
+  ReplaceSuccess,
+  Select,
+  SelectByKey,
+  SelectMany,
+  SelectManyByKeys,
+  Update,
+  UpdateFailure,
+  UpdateMany,
+  UpdateManyFailure,
+  UpdateManySuccess,
+  UpdateSuccess
 } from './actions';
 import { Key } from './decorators';
 
 class TestEntity {
-  @Key id: 1;
-  firstName: 'Brian';
-  lastName: 'Love';
+  @Key id: number;
+  firstName: string;
+  lastName: string;
 }
+
+const brian: TestEntity = {
+  id: 1,
+  firstName: 'Brian',
+  lastName: 'Love'
+};
+
+const jon: TestEntity = {
+  id: 2,
+  firstName: 'Jon',
+  lastName: 'Rista'
+};
+
+const fyneman: TestEntity = {
+  id: 3,
+  firstName: 'Richard',
+  lastName: 'Feynman'
+};
+
+const einstein: TestEntity = {
+  id: 6,
+  firstName: 'Albert',
+  lastName: 'Einstein'
+};
+
+const developers: TestEntity[] = [brian, jon];
+const scientists: TestEntity[] = [fyneman, einstein];
+
+const testError = {
+  status: 500,
+  error: {
+    message: 'Test error'
+  }
+};
+
+const criteria = { criteria: 'test' };
 
 describe('NgRX Auto-Entity: Actions', () => {
   let actions: Observable<any>;
@@ -40,535 +103,971 @@ describe('NgRX Auto-Entity: Actions', () => {
     });
   });
 
-  describe('Load', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new Load(TestEntity, 1);
+  describe('Actions: Load', () => {
+    describe('Load', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new Load(TestEntity, 1);
 
-      expect(load.type).toEqual('[TestEntity] Generic Load');
-      expect(load.actionType).toEqual(EntityActionTypes.Load);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+        expect(action.type).toEqual('[TestEntity] Generic Load');
+        expect(action.actionType).toEqual(EntityActionTypes.Load);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.keys).toEqual(1);
-    });
-
-    it('should construct EntityAction with proper details and criteria', () => {
-      const load = new Load(TestEntity, 1, { criteria: 'test' });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load');
-      expect(load.actionType).toEqual(EntityActionTypes.Load);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.keys).toEqual(1);
-      expect(load.criteria).toEqual({ criteria: 'test' });
-    });
-  });
-
-  describe('LoadSuccess', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadSuccess(TestEntity, {
-        id: 2,
-        firstName: 'Jon',
-        lastName: 'Rista'
+        expect(action.keys).toEqual(1);
       });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load: Success');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadSuccess);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new Load(TestEntity, 1, criteria);
 
-      expect(load.entity).toEqual({
-        id: 2,
-        firstName: 'Jon',
-        lastName: 'Rista'
+        expect(action.type).toEqual('[TestEntity] Generic Load');
+        expect(action.actionType).toEqual(EntityActionTypes.Load);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.keys).toEqual(1);
+        expect(action.criteria).toEqual(criteria);
       });
     });
-  });
 
-  describe('LoadFailure', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadFailure(TestEntity, {
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
+    describe('LoadSuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadSuccess(TestEntity, jon);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(jon);
       });
+    });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load: Failure');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadFailure);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+    describe('LoadFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadFailure(TestEntity, testError);
 
-      expect(load.error).toEqual({
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
+        expect(action.type).toEqual('[TestEntity] Generic Load: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
       });
     });
   });
 
-  describe('LoadMany', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadMany(TestEntity, 'test');
+  describe('Actions: LoadMany', () => {
+    describe('LoadMany', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadMany(TestEntity, 'test');
 
-      expect(load.type).toEqual('[TestEntity] Generic Load Many');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadMany);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+        expect(action.type).toEqual('[TestEntity] Generic Load Many');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.criteria).toEqual('test');
-    });
-  });
-
-  describe('LoadManySuccess', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadManySuccess(TestEntity, [
-        {
-          id: 2,
-          firstName: 'Jon',
-          lastName: 'Rista'
-        }
-      ]);
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Many: Success');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadManySuccess);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.entities).toEqual([
-        {
-          id: 2,
-          firstName: 'Jon',
-          lastName: 'Rista'
-        }
-      ]);
-    });
-  });
-
-  describe('LoadManyFailure', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadManyFailure(TestEntity, {
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
+        expect(action.criteria).toEqual('test');
       });
+    });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load Many: Failure');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadManyFailure);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+    describe('LoadManySuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadManySuccess(TestEntity, [jon]);
 
-      expect(load.error).toEqual({
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
+        expect(action.type).toEqual('[TestEntity] Generic Load Many: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadManySuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual([jon]);
+      });
+    });
+
+    describe('LoadManyFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadManyFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Many: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadManyFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
       });
     });
   });
 
-  describe('LoadAll', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadAll(TestEntity, 'test');
+  describe('Actions: LoadAll', () => {
+    describe('LoadAll', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadAll(TestEntity, 'test');
 
-      expect(load.type).toEqual('[TestEntity] Generic Load All');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadAll);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+        expect(action.type).toEqual('[TestEntity] Generic Load All');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadAll);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.criteria).toEqual('test');
-    });
-  });
-
-  describe('LoadAllSuccess', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadAllSuccess(TestEntity, [
-        {
-          id: 2,
-          firstName: 'Jon',
-          lastName: 'Rista'
-        }
-      ]);
-
-      expect(load.type).toEqual('[TestEntity] Generic Load All: Success');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadAllSuccess);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.entities).toEqual([
-        {
-          id: 2,
-          firstName: 'Jon',
-          lastName: 'Rista'
-        }
-      ]);
-    });
-  });
-
-  describe('LoadAllFailure', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadAllFailure(TestEntity, {
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
+        expect(action.criteria).toEqual('test');
       });
+    });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load All: Failure');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadAllFailure);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+    describe('LoadAllSuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadAllSuccess(TestEntity, [jon]);
 
-      expect(load.error).toEqual({
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
+        expect(action.type).toEqual('[TestEntity] Generic Load All: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadAllSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual([jon]);
+      });
+    });
+
+    describe('LoadAllFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadAllFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load All: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadAllFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
       });
     });
   });
 
-  describe('LoadPage', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadPage(TestEntity, { page: 2, size: 10 });
+  describe('Actions: LoadPage', () => {
+    describe('LoadPage', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadPage(TestEntity, { page: 2, size: 10 });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load Page');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadPage);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+        expect(action.type).toEqual('[TestEntity] Generic Load Page');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadPage);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.page).toEqual({ page: 2, size: 10 });
+        expect(action.page).toEqual({ page: 2, size: 10 });
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new LoadPage(TestEntity, { page: 2, size: 10 }, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Page');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadPage);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.page).toEqual({ page: 2, size: 10 });
+        expect(action.criteria).toEqual(criteria);
+      });
     });
 
-    it('should construct EntityAction with proper details and criteria', () => {
-      const load = new LoadPage(TestEntity, { page: 2, size: 10 }, { criteria: 'test' });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Page');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadPage);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.page).toEqual({ page: 2, size: 10 });
-      expect(load.criteria).toEqual({ criteria: 'test' });
-    });
-  });
-
-  describe('LoadPageSuccess', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadPageSuccess(
-        TestEntity,
-        [
-          {
-            id: 1,
-            firstName: 'Brian',
-            lastName: 'Love'
-          },
-          {
-            id: 2,
-            firstName: 'Jon',
-            lastName: 'Rista'
-          }
-        ],
-        {
+    describe('LoadPageSuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadPageSuccess(TestEntity, developers, {
           page: { page: 1, size: 2 },
           totalCount: 10
-        }
-      );
+        });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load Page: Success');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadPageSuccess);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+        expect(action.type).toEqual('[TestEntity] Generic Load Page: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadPageSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.entities).toEqual([
-        {
-          id: 1,
-          firstName: 'Brian',
-          lastName: 'Love'
-        },
-        {
-          id: 2,
-          firstName: 'Jon',
-          lastName: 'Rista'
-        }
-      ]);
-      expect(load.pageInfo).toEqual({
-        page: {
-          page: 1,
-          size: 2
-        },
-        totalCount: 10
-      });
-    });
-  });
-
-  describe('LoadPageFailure', () => {
-    it('should construct EntityAction with proper details', () => {
-      const load = new LoadAllFailure(TestEntity, {
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
-      });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load All: Failure');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadAllFailure);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.error).toEqual({
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
-      });
-    });
-  });
-
-  describe('LoadRange', () => {
-    it('should construct EntityAction with proper details for start/end range', () => {
-      const load = new LoadRange(TestEntity, { start: 10, end: 20 });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Range');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRange);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.range).toEqual({ start: 10, end: 20 });
-    });
-
-    it('should construct EntityAction with proper details and criteria for start/end range', () => {
-      const load = new LoadRange(TestEntity, { start: 10, end: 20 }, { criteria: 'test' });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Range');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRange);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.range).toEqual({ start: 10, end: 20 });
-      expect(load.criteria).toEqual({ criteria: 'test' });
-    });
-
-    it('should construct EntityAction with proper details for first/last range', () => {
-      const load = new LoadRange(TestEntity, { first: 10, last: 20 });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Range');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRange);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.range).toEqual({ first: 10, last: 20 });
-    });
-
-    it('should construct EntityAction with proper details and criteria for first/last range', () => {
-      const load = new LoadRange(TestEntity, { first: 10, last: 20 }, { criteria: 'test' });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Range');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRange);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.range).toEqual({ first: 10, last: 20 });
-      expect(load.criteria).toEqual({ criteria: 'test' });
-    });
-
-    it('should construct EntityAction with proper details for skip/take range', () => {
-      const load = new LoadRange(TestEntity, { skip: 10, take: 10 });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Range');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRange);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.range).toEqual({ skip: 10, take: 10 });
-    });
-
-    it('should construct EntityAction with proper details and criteria for skip/take range', () => {
-      const load = new LoadRange(TestEntity, { skip: 10, take: 10 }, { criteria: 'test' });
-
-      expect(load.type).toEqual('[TestEntity] Generic Load Range');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRange);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.range).toEqual({ skip: 10, take: 10 });
-      expect(load.criteria).toEqual({ criteria: 'test' });
-    });
-  });
-
-  describe('LoadRangeSuccess', () => {
-    it('should construct EntityAction with proper details for start/end range', () => {
-      const load = new LoadRangeSuccess(
-        TestEntity,
-        [
-          {
-            id: 1,
-            firstName: 'Brian',
-            lastName: 'Love'
+        expect(action.entities).toEqual(developers);
+        expect(action.pageInfo).toEqual({
+          page: {
+            page: 1,
+            size: 2
           },
-          {
-            id: 2,
-            firstName: 'Jon',
-            lastName: 'Rista'
-          }
-        ],
-        {
+          totalCount: 10
+        });
+      });
+    });
+
+    describe('LoadPageFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadAllFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load All: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadAllFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Actions: LoadRange', () => {
+    describe('LoadRange', () => {
+      it('should construct EntityAction with proper details for start/end range', () => {
+        const action = new LoadRange(TestEntity, { start: 10, end: 20 });
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.range).toEqual({ start: 10, end: 20 });
+      });
+
+      it('should construct EntityAction with proper details and criteria for start/end range', () => {
+        const action = new LoadRange(TestEntity, { start: 10, end: 20 }, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.range).toEqual({ start: 10, end: 20 });
+        expect(action.criteria).toEqual(criteria);
+      });
+
+      it('should construct EntityAction with proper details for first/last range', () => {
+        const action = new LoadRange(TestEntity, { first: 10, last: 20 });
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.range).toEqual({ first: 10, last: 20 });
+      });
+
+      it('should construct EntityAction with proper details and criteria for first/last range', () => {
+        const action = new LoadRange(TestEntity, { first: 10, last: 20 }, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.range).toEqual({ first: 10, last: 20 });
+        expect(action.criteria).toEqual(criteria);
+      });
+
+      it('should construct EntityAction with proper details for skip/take range', () => {
+        const action = new LoadRange(TestEntity, { skip: 10, take: 10 });
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.range).toEqual({ skip: 10, take: 10 });
+      });
+
+      it('should construct EntityAction with proper details and criteria for skip/take range', () => {
+        const action = new LoadRange(TestEntity, { skip: 10, take: 10 }, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.range).toEqual({ skip: 10, take: 10 });
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('LoadRangeSuccess', () => {
+      it('should construct EntityAction with proper details for start/end range', () => {
+        const action = new LoadRangeSuccess(TestEntity, developers, {
           range: {
             start: 1,
             end: 10
           },
           totalCount: 2
-        }
-      );
+        });
 
-      expect(load.type).toEqual('[TestEntity] Generic Load Range: Success');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRangeSuccess);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+        expect(action.type).toEqual('[TestEntity] Generic Load Range: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRangeSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.entities).toEqual([
-        {
-          id: 1,
-          firstName: 'Brian',
-          lastName: 'Love'
-        },
-        {
-          id: 2,
-          firstName: 'Jon',
-          lastName: 'Rista'
-        }
-      ]);
-      expect(load.rangeInfo).toEqual({
-        range: {
-          start: 1,
-          end: 10
-        },
-        totalCount: 2
+        expect(action.entities).toEqual(developers);
+        expect(action.rangeInfo).toEqual({
+          range: {
+            start: 1,
+            end: 10
+          },
+          totalCount: 2
+        });
+      });
+    });
+
+    describe('LoadRangeFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new LoadRangeFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Load Range: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.LoadRangeFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
       });
     });
   });
 
-  describe('LoadRangeFailure', () => {
+  describe('Actions: Create', () => {
+    describe('Create', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new Create(TestEntity, fyneman);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create');
+        expect(action.actionType).toEqual(EntityActionTypes.Create);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new Create(TestEntity, fyneman, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create');
+        expect(action.actionType).toEqual(EntityActionTypes.Create);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('CreateSuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new CreateSuccess(TestEntity, fyneman);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.CreateSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+      });
+    });
+
+    describe('CreateFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new CreateFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.CreateFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Actions: CreateMany', () => {
+    describe('CreateMany', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new CreateMany(TestEntity, scientists);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create Many');
+        expect(action.actionType).toEqual(EntityActionTypes.CreateMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new CreateMany(TestEntity, scientists, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create Many');
+        expect(action.actionType).toEqual(EntityActionTypes.CreateMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('CreateManySuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new CreateManySuccess(TestEntity, scientists);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create Many: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.CreateManySuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+      });
+    });
+
+    describe('CreateManyFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new CreateManyFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Create Many: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.CreateManyFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Actions: Update', () => {
+    describe('Update', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new Update(TestEntity, fyneman);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update');
+        expect(action.actionType).toEqual(EntityActionTypes.Update);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new Update(TestEntity, fyneman, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update');
+        expect(action.actionType).toEqual(EntityActionTypes.Update);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('UpdateSuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new UpdateSuccess(TestEntity, fyneman);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.UpdateSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+      });
+    });
+
+    describe('UpdateFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new UpdateFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.UpdateFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Actions: UpdateMany', () => {
+    describe('UpdateMany', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new UpdateMany(TestEntity, scientists);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update Many');
+        expect(action.actionType).toEqual(EntityActionTypes.UpdateMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new UpdateMany(TestEntity, scientists, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update Many');
+        expect(action.actionType).toEqual(EntityActionTypes.UpdateMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('UpdateManySuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new UpdateManySuccess(TestEntity, scientists);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update Many: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.UpdateManySuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+      });
+    });
+
+    describe('UpdateManyFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new UpdateManyFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Update Many: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.UpdateManyFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Actions: Replace', () => {
+    describe('Replace', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new Replace(TestEntity, fyneman);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace');
+        expect(action.actionType).toEqual(EntityActionTypes.Replace);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new Replace(TestEntity, fyneman, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace');
+        expect(action.actionType).toEqual(EntityActionTypes.Replace);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('ReplaceSuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new ReplaceSuccess(TestEntity, fyneman);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.ReplaceSuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entity).toEqual(fyneman);
+      });
+    });
+
+    describe('ReplaceFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new ReplaceFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.ReplaceFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Actions: ReplaceMany', () => {
+    describe('ReplaceMany', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new ReplaceMany(TestEntity, scientists);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace Many');
+        expect(action.actionType).toEqual(EntityActionTypes.ReplaceMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+      });
+
+      it('should construct EntityAction with proper details and criteria', () => {
+        const action = new ReplaceMany(TestEntity, scientists, criteria);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace Many');
+        expect(action.actionType).toEqual(EntityActionTypes.ReplaceMany);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+        expect(action.criteria).toEqual(criteria);
+      });
+    });
+
+    describe('ReplaceManySuccess', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new ReplaceManySuccess(TestEntity, scientists);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace Many: Success');
+        expect(action.actionType).toEqual(EntityActionTypes.ReplaceManySuccess);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.entities).toEqual(scientists);
+      });
+    });
+
+    describe('ReplaceManyFailure', () => {
+      it('should construct EntityAction with proper details', () => {
+        const action = new ReplaceManyFailure(TestEntity, testError);
+
+        expect(action.type).toEqual('[TestEntity] Generic Replace Many: Failure');
+        expect(action.actionType).toEqual(EntityActionTypes.ReplaceManyFailure);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.error).toEqual(testError);
+      });
+    });
+  });
+
+  describe('Action: Clear', () => {
     it('should construct EntityAction with proper details', () => {
-      const load = new LoadRangeFailure(TestEntity, {
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
-      });
+      const action = new Clear(TestEntity);
 
-      expect(load.type).toEqual('[TestEntity] Generic Load Range: Failure');
-      expect(load.actionType).toEqual(EntityActionTypes.LoadRangeFailure);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.error).toEqual({
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
-      });
+      expect(action.type).toEqual('[TestEntity] Generic Clear');
+      expect(action.actionType).toEqual(EntityActionTypes.Clear);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
     });
   });
 
-  describe('Create', () => {
+  describe('Action: Select', () => {
     it('should construct EntityAction with proper details', () => {
-      const load = new Create(TestEntity, {
-        id: 3,
-        firstName: 'Richard',
-        lastName: 'Feynman'
-      });
+      const action = new Select(TestEntity, fyneman);
 
-      expect(load.type).toEqual('[TestEntity] Generic Create');
-      expect(load.actionType).toEqual(EntityActionTypes.Create);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+      expect(action.type).toEqual('[TestEntity] Generic Select');
+      expect(action.actionType).toEqual(EntityActionTypes.Select);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.entity).toEqual({
-        id: 3,
-        firstName: 'Richard',
-        lastName: 'Feynman'
-      });
-    });
-
-    it('should construct EntityAction with proper details and criteria', () => {
-      const load = new Create(
-        TestEntity,
-        {
-          id: 3,
-          firstName: 'Richard',
-          lastName: 'Feynman'
-        },
-        { criteria: 'test' }
-      );
-
-      expect(load.type).toEqual('[TestEntity] Generic Create');
-      expect(load.actionType).toEqual(EntityActionTypes.Create);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.entity).toEqual({
-        id: 3,
-        firstName: 'Richard',
-        lastName: 'Feynman'
-      });
-      expect(load.criteria).toEqual({ criteria: 'test' });
+      expect(action.entity).toEqual(fyneman);
     });
   });
 
-  describe('CreateSuccess', () => {
+  describe('Action: SelectMany', () => {
     it('should construct EntityAction with proper details', () => {
-      const load = new CreateSuccess(TestEntity, {
-        id: 3,
-        firstName: 'Richard',
-        lastName: 'Feynman'
-      });
+      const action = new SelectMany(TestEntity, scientists);
 
-      expect(load.type).toEqual('[TestEntity] Generic Create: Success');
-      expect(load.actionType).toEqual(EntityActionTypes.CreateSuccess);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
+      expect(action.type).toEqual('[TestEntity] Generic Select of Many');
+      expect(action.actionType).toEqual(EntityActionTypes.SelectMany);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
 
-      expect(load.entity).toEqual({
-        id: 3,
-        firstName: 'Richard',
-        lastName: 'Feynman'
-      });
+      expect(action.entities).toEqual(scientists);
     });
   });
 
-  describe('CreateFailure', () => {
+  describe('Action: SelectByKey', () => {
+    it('should construct EntityAction with proper details (number key)', () => {
+      const action = new SelectByKey(TestEntity, 1);
+
+      expect(action.type).toEqual('[TestEntity] Generic Select by Key');
+      expect(action.actionType).toEqual(EntityActionTypes.SelectByKey);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entityKey).toEqual(1);
+    });
+
+    it('should construct EntityAction with proper details (string key)', () => {
+      const action = new SelectByKey(TestEntity, 'key');
+
+      expect(action.type).toEqual('[TestEntity] Generic Select by Key');
+      expect(action.actionType).toEqual(EntityActionTypes.SelectByKey);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entityKey).toEqual('key');
+    });
+  });
+
+  describe('Action: SelectManyByKeys', () => {
+    it('should construct EntityAction with proper details (number keys)', () => {
+      const action = new SelectManyByKeys(TestEntity, [1, 2]);
+
+      expect(action.type).toEqual('[TestEntity] Generic Select of Many by Keys');
+      expect(action.actionType).toEqual(EntityActionTypes.SelectManyByKeys);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entitiesKeys).toEqual([1, 2]);
+    });
+
+    it('should construct EntityAction with proper details (string keys)', () => {
+      const action = new SelectManyByKeys(TestEntity, ['key_a', 'key_b']);
+
+      expect(action.type).toEqual('[TestEntity] Generic Select of Many by Keys');
+      expect(action.actionType).toEqual(EntityActionTypes.SelectManyByKeys);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entitiesKeys).toEqual(['key_a', 'key_b']);
+    });
+  });
+
+  describe('Action: Deselect', () => {
     it('should construct EntityAction with proper details', () => {
-      const load = new CreateFailure(TestEntity, {
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
-      });
+      const action = new Deselect(TestEntity);
 
-      expect(load.type).toEqual('[TestEntity] Generic Create: Failure');
-      expect(load.actionType).toEqual(EntityActionTypes.CreateFailure);
-      expect(load.info.modelType).toEqual(TestEntity);
-      expect(load.info.modelName).toEqual('TestEntity');
-
-      expect(load.error).toEqual({
-        status: 500,
-        error: {
-          message: 'Test error'
-        }
-      });
+      expect(action.type).toEqual('[TestEntity] Generic Deselect');
+      expect(action.actionType).toEqual(EntityActionTypes.Deselect);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
     });
   });
 
-  it('should ', () => {
-    const action = new Load(TestEntity, 'id');
+  describe('Action: DeselectMany', () => {
+    it('should construct EntityAction with proper details', () => {
+      const action = new DeselectMany(TestEntity, scientists);
 
-    actions = hot('-a', { a: action });
-    actions.pipe(ofEntityType<TestEntity, Load<TestEntity>>(TestEntity, EntityActionTypes.Load)).subscribe(a => {
-      expect(a).toEqual(action);
+      expect(action.type).toEqual('[TestEntity] Generic Deselect of Many');
+      expect(action.actionType).toEqual(EntityActionTypes.DeselectMany);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entities).toEqual(scientists);
+    });
+  });
+
+  describe('Action: DeelectManyByKeys', () => {
+    it('should construct EntityAction with proper details (number keys)', () => {
+      const action = new DeselectManyByKeys(TestEntity, [1, 2]);
+
+      expect(action.type).toEqual('[TestEntity] Generic Deselect of Many by Keys');
+      expect(action.actionType).toEqual(EntityActionTypes.DeselectManyByKeys);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entitiesKeys).toEqual([1, 2]);
+    });
+
+    it('should construct EntityAction with proper details (string keys)', () => {
+      const action = new DeselectManyByKeys(TestEntity, ['key_a', 'key_b']);
+
+      expect(action.type).toEqual('[TestEntity] Generic Deselect of Many by Keys');
+      expect(action.actionType).toEqual(EntityActionTypes.DeselectManyByKeys);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entitiesKeys).toEqual(['key_a', 'key_b']);
+    });
+  });
+
+  describe('Action: DeselectAll', () => {
+    it('should construct EntityAction with proper details', () => {
+      const action = new DeselectAll(TestEntity);
+
+      expect(action.type).toEqual('[TestEntity] Generic Deselect of All');
+      expect(action.actionType).toEqual(EntityActionTypes.DeselectAll);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+    });
+  });
+
+  describe('Action: Deselected', () => {
+    it('should construct EntityAction with proper details', () => {
+      const action = new Deselected(TestEntity);
+
+      expect(action.type).toEqual('[TestEntity] Generic Deselection');
+      expect(action.actionType).toEqual(EntityActionTypes.Deselected);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+    });
+  });
+
+  describe('Action: DeselectedMany', () => {
+    it('should construct EntityAction with proper details', () => {
+      const action = new DeselectedMany(TestEntity, scientists);
+
+      expect(action.type).toEqual('[TestEntity] Generic Deselection of Many');
+      expect(action.actionType).toEqual(EntityActionTypes.DeselectedMany);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entities).toEqual(scientists);
+    });
+  });
+
+  describe('Operator: ofActionType<T extends EntityAction>', () => {
+    it('should match action type', () => {
+      const action = new Load(TestEntity, 'id');
+
+      actions = hot('-a', { a: action });
+      const expected = hot('-a', { a: action });
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match action type and ignore prior non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+
+      actions = hot('-a-b', { a: action1, b: action2 });
+      const expected = hot('---b', { b: action2 });
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match action type and ignore subsequent non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+
+      actions = hot('-a-b', { a: action2, b: action1 });
+      const expected = hot('-a--', { a: action2 });
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match action type and ignore orior and subsequent non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+      const action3 = new LoadAll(TestEntity);
+
+      actions = hot('-a-b-c', { a: action1, b: action2, c: action3 });
+      const expected = hot('---b--', { b: action2 });
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match multiple action types', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+      const action3 = new LoadAll(TestEntity);
+
+      actions = hot('-a-b-c', { a: action1, b: action2, c: action3 });
+      const expected = hot('-a-b-c', { a: action1, b: action2, c: action3 });
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.Load, EntityActionTypes.LoadAll));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match multiple action types and ignore non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new LoadMany(TestEntity);
+      const action3 = new Load(TestEntity, 'id');
+      const action4 = new LoadAll(TestEntity);
+      const action5 = new LoadMany(TestEntity);
+
+      actions = hot('-a-b-c-d-e', { a: action1, b: action2, c: action3, d: action4, e: action5 });
+      const expected = hot('-a---c-d--', { a: action1, c: action3, d: action4 });
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.Load, EntityActionTypes.LoadAll));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match no action types if none match', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new LoadMany(TestEntity);
+      const action3 = new Load(TestEntity, 'id');
+      const action4 = new LoadAll(TestEntity);
+      const action5 = new LoadMany(TestEntity);
+
+      actions = hot('-a-b-c-d-e', { a: action1, b: action2, c: action3, d: action4, e: action5 });
+      const expected = hot('----------');
+      const result = actions.pipe(ofEntityAction(EntityActionTypes.LoadPage));
+
+      expect(result).toBeObservable(expected);
+    });
+  });
+
+  describe('Operator: ofEntityType<TModel, T extends EntityAction>', () => {
+    it('should match action type and entity type', () => {
+      const action = new Load(TestEntity, 'id');
+
+      actions = hot('-a', { a: action });
+      const expected = hot('-a', { a: action });
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match action type and entity type and ignore prior non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+
+      actions = hot('-a-b', { a: action1, b: action2 });
+      const expected = hot('---b', { b: action2 });
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match action type and entity type and ignore subsequent non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+
+      actions = hot('-a-b', { a: action2, b: action1 });
+      const expected = hot('-a--', { a: action2 });
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match action type and entity type and ignore orior and subsequent non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+      const action3 = new LoadAll(TestEntity);
+
+      actions = hot('-a-b-c', { a: action1, b: action2, c: action3 });
+      const expected = hot('---b--', { b: action2 });
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.Load));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match multiple action types and entity type', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new Load(TestEntity, 'id');
+      const action3 = new LoadAll(TestEntity);
+
+      actions = hot('-a-b-c', { a: action1, b: action2, c: action3 });
+      const expected = hot('-a-b-c', { a: action1, b: action2, c: action3 });
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.Load, EntityActionTypes.LoadAll));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match multiple action types and entity type and ignore non-matching', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new LoadMany(TestEntity);
+      const action3 = new Load(TestEntity, 'id');
+      const action4 = new LoadAll(TestEntity);
+      const action5 = new LoadMany(TestEntity);
+
+      actions = hot('-a-b-c-d-e', { a: action1, b: action2, c: action3, d: action4, e: action5 });
+      const expected = hot('-a---c-d--', { a: action1, c: action3, d: action4 });
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.Load, EntityActionTypes.LoadAll));
+
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should match no action types if none match for entity type', () => {
+      const action1 = new LoadAll(TestEntity);
+      const action2 = new LoadMany(TestEntity);
+      const action3 = new Load(TestEntity, 'id');
+      const action4 = new LoadAll(TestEntity);
+      const action5 = new LoadMany(TestEntity);
+
+      actions = hot('-a-b-c-d-e', { a: action1, b: action2, c: action3, d: action4, e: action5 });
+      const expected = hot('----------');
+      const result = actions.pipe(ofEntityType(TestEntity, EntityActionTypes.LoadPage));
+
+      expect(result).toBeObservable(expected);
     });
   });
 });

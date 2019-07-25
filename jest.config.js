@@ -1,7 +1,21 @@
 module.exports = {
   preset: 'jest-preset-angular',
-  setupTestFrameworkScriptFile: '<rootDir>/setup-jest.ts',
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  globals: {
+    'ts-jest': {
+      tsConfig: '<rootDir>/src/tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.html$',
+      astTransformers: [
+        require.resolve('jest-preset-angular/InlineHtmlStripStylesTransformer')
+      ],
+      diagnostics: false
+    }
+  },
   testMatch: ['**/+(*.)+(spec|test).+(ts)?(x)'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    'dist'
+  ],
   coverageReporters: ['html', 'text'],
   collectCoverageFrom: [
     'src/**/*.ts',
@@ -21,5 +35,6 @@ module.exports = {
     '^core/(.*)': '<rootDir>/src/app/core/$1',
     '^models/(.*)': '<rootDir>/src/app/models/$1'
   },
-  modulePathIgnorePatterns: ['<rootDir>/dist']
+  modulePathIgnorePatterns: ['<rootDir>/dist'],
+  transformIgnorePatterns: ['node_modules/(?!@ngrx)']
 };

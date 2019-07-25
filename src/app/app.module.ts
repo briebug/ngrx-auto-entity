@@ -48,7 +48,7 @@ import { EntityService } from './services/entity.service';
   providers: [
     { provide: Customer, useClass: EntityService },
     { provide: Product, useClass: EntityService },
-    { provide: Order, useClass: EntityService },
+    { provide: Order, useClass: EntityService }
   ]
 })
 export class AppModule {}

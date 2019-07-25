@@ -56,13 +56,13 @@ If you have not already, install the required peer dependencies as well:
 ## Quick Start
 
 If you want to get rolling as quickly and simply as possible, you may jump to the
-[quick start guide](https://briebug.gitbook.io/ngrx-auto-entity/quick-start).
+[quick start guide](https://briebug.gitbook.io/ngrx-auto-entity/getting-started/quick-start).
 (Note: Documentation still in progress!)
 
 ## Full Usage Documentation
 
 If you wish to learn more about how Auto-Entity works, you may jump to the
-[full usage documentation](https://briebug.gitbook.io/ngrx-auto-entity/advanced-usage).
+[full usage documentation](https://briebug.gitbook.io/ngrx-auto-entity/advanced/usage).
 (Note: Documentation still in progress!)
 
 # Roadmap
@@ -87,7 +87,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 # Contributors
 
 - [Jesse Sanders](https://github.com/jessesanders): Evil Mastermind!
-- [Jon Rista](https://github.com/jrista): Design & Implementation
+- [Jon Rista](https://github.com/jrista): Design, Architecture & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
 - [Andy Pickler](https://github.com/BigGillyStyle): Implementation
