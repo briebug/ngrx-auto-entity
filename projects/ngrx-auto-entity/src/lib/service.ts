@@ -65,19 +65,16 @@ export interface IAutoEntityService<TModel> {
   deleteMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
 }
 
-const notImplemented = (method: string, entityInfo: IEntityInfo): string =>
+export const notImplemented = (method: string, entityInfo: IEntityInfo): string =>
   `Entity service method "${method}" has not been implemented. (Entity: ${entityInfo.modelName})`;
-const notAFunction = (method: string, entityInfo: IEntityInfo): string =>
+export const notAFunction = (method: string, entityInfo: IEntityInfo): string =>
   `Entity service method "${method}" is not a function. (Entity: ${entityInfo.modelName})`;
 
-const logAndThrow = (method: string, err: any, entityInfo: IEntityInfo) => {
+export const logAndThrow = (method: string, err: any, entityInfo: IEntityInfo) => {
   console.error(`[NGRX-AE] ! Service error: ${method}(). (Entity: ${entityInfo.modelName})`);
   console.error(err);
   return throwError({ info: entityInfo, err });
 };
-
-const getService = <TModel>(entityInfo: IEntityInfo, injector: Injector): IAutoEntityService<TModel> =>
-  resolveServiceDeep(entityInfo, injector, [...NgrxAutoEntityService.INJECTORS]);
 
 export const logServiceLocateFailure = (entityInfo: IEntityInfo, serviceName: string): void =>
   console.error(
@@ -86,18 +83,21 @@ export const logServiceLocateFailure = (entityInfo: IEntityInfo, serviceName: st
 
 export const logErrorDetails = (error: any): void => console.error(`[NGRX-AE] ! Error Details:`, error);
 
-const failResolution = (error: any, entityInfo: IEntityInfo): void => {
+export const failResolution = (error: any, entityInfo: IEntityInfo): void => {
   const serviceName = `${pascalCase(entityInfo.modelName)}Service`;
   logServiceLocateFailure(entityInfo, serviceName);
   logErrorDetails(error);
   throw error;
 };
 
-const resolveService = <TModel>(entityInfo: Readonly<IEntityInfo>, injector: Injector): IAutoEntityService<TModel> => {
+export const resolveService = <TModel>(
+  entityInfo: Readonly<IEntityInfo>,
+  injector: Injector
+): IAutoEntityService<TModel> => {
   return injector.get(entityInfo.modelType);
 };
 
-const resolveServiceDeep = <TModel>(
+export const resolveServiceDeep = <TModel>(
   entityInfo: Readonly<IEntityInfo>,
   injector: Injector,
   remaining: Injector[]
@@ -114,7 +114,10 @@ const resolveServiceDeep = <TModel>(
   }
 };
 
-const invokeService = <TModel, TModelObs, TResult>(
+export const getService = <TModel>(entityInfo: IEntityInfo, injector: Injector): IAutoEntityService<TModel> =>
+  resolveServiceDeep(entityInfo, injector, [...NgrxAutoEntityService.INJECTORS]); // ts:disable
+
+export const invokeService = <TModel, TModelObs, TResult>(
   method: string,
   entityInfo: IEntityInfo,
   invoke: (service: IAutoEntityService<TModel>) => Observable<TModelObs>,
@@ -130,7 +133,7 @@ const invokeService = <TModel, TModelObs, TResult>(
         catchError(err => throwError({ info: entityInfo, err }))
       );
 
-const callService = <TModel, TModelObs, TResult>(
+export const callService = <TModel, TModelObs, TResult>(
   method: string,
   entityInfo: IEntityInfo,
   injector: Injector,
@@ -196,7 +199,7 @@ export class NgrxAutoEntityService {
       'loadPage',
       entityInfo,
       this.injector,
-      service => service.loadPage(entityInfo, criteria),
+      service => service.loadPage(entityInfo, page, criteria),
       result => ({
         info: entityInfo,
         pageInfo: result.pageInfo,
@@ -210,7 +213,7 @@ export class NgrxAutoEntityService {
       'loadRange',
       entityInfo,
       this.injector,
-      service => service.loadRange(entityInfo, criteria),
+      service => service.loadRange(entityInfo, range, criteria),
       result => ({
         info: entityInfo,
         rangeInfo: result.rangeInfo,

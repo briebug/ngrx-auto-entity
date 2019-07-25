@@ -459,7 +459,6 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   };
 };
 
-
 export const FEATURE_AFFINITY = '__ngrxae_feature_affinity';
 /**
  * Builds the Ngrx state for an entity that is part of a feature module
