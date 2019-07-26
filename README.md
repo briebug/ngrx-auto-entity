@@ -1,8 +1,8 @@
 ![CircleCI](https://img.shields.io/circleci/build/github/briebug/ngrx-auto-entity/develop.svg)
-![Issues](https://img.shields.io/github/issues/briebug/ngrx-auto-entity.svg)
-![Version](https://img.shields.io/npm/v/@briebug/ngrx-auto-entity.svg)
+[![Issues](https://img.shields.io/github/issues/briebug/ngrx-auto-entity.svg)](https://github.com/briebug/ngrx-auto-entity/issues)
+[![Version](https://img.shields.io/npm/v/@briebug/ngrx-auto-entity.svg)
 ![Downloads](https://img.shields.io/npm/dm/@briebug/ngrx-auto-entity.svg)
-![Downloads](https://img.shields.io/npm/dt/@briebug/ngrx-auto-entity.svg)
+![Downloads](https://img.shields.io/npm/dt/@briebug/ngrx-auto-entity.svg)](https://www.npmjs.com/package/@briebug/ngrx-auto-entity)
 
 ![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E8.x-blue.svg)
 ![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E8.x-blue.svg)
