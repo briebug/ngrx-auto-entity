@@ -4,16 +4,16 @@
 ![Downloads](https://img.shields.io/npm/dm/@briebug/ngrx-auto-entity.svg)
 ![Downloads](https://img.shields.io/npm/dt/@briebug/ngrx-auto-entity.svg)](https://www.npmjs.com/package/@briebug/ngrx-auto-entity)
 
-![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E8.x-blue.svg)
-![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E8.x-blue.svg)
-![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E8.x-blue.svg)
-![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)
+[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E8.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E8.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E8.x-blue.svg)](https://github.com/ngrx/platform)
+[![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)](https://github.com/reactivex/rxjs)
 
-![Follow-BB](https://img.shields.io/twitter/follow/briebugsoftware.svg?style=flat)
-![Follow-BB](https://img.shields.io/twitter/follow/JesseS_BrieBug.svg?style=flat)
-![Follow-BB](https://img.shields.io/twitter/follow/jonristadev.svg?style=flat)
-![Follow-BB](https://img.shields.io/twitter/follow/kevinschuchard.svg?style=flat)
-![Follow-BB](https://img.shields.io/twitter/follow/anthonyjones519.svg?style=flat)
+[![Follow-BB](https://img.shields.io/twitter/follow/briebugsoftware.svg?style=flat)](https://twitter.com/briebugsoftware)
+[![Follow-BB](https://img.shields.io/twitter/follow/JesseS_BrieBug.svg?style=flat)](https://twitter.com/JesseS_BrieBug)
+[![Follow-BB](https://img.shields.io/twitter/follow/jonristadev.svg?style=flat)](https://twitter.com/JonRistaDev)
+[![Follow-BB](https://img.shields.io/twitter/follow/kevinschuchard.svg?style=flat)](https://twitter.com/kevinschuchard)
+[![Follow-BB](https://img.shields.io/twitter/follow/anthonyjones519.svg?style=flat)](https://twitter.com/anthonyjones519)
 
 # NgRX Auto-Entity
 
