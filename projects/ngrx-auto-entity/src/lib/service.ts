@@ -1,6 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
 import { pascalCase } from 'change-case';
-import { prepend } from 'ramda';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -148,7 +147,7 @@ export const callService = <TModel, TModelObs, TResult>(
   }
 };
 
-// export const prepend = <T>(first: T, rest: ReadonlyArray<T>): ReadonlyArray<T> => [first, ...rest];
+export const prepend = <T>(first: T, rest: ReadonlyArray<T>): ReadonlyArray<T> => [first, ...rest];
 
 /**
  * Looks up client-provided entity service class using Angular's injector and this package's naming

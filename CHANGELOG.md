@@ -1,3 +1,12 @@
+<a name="0.2.1"></a>
+
+# [0.2.1](https://github.com/briebug/ngrx-auto-entity/compare/0.2.0...0.2.1) Beta (2019-07-28)
+
+### Bug Fixes
+
+- **service:** Remove legacy reference to Ramda
+
+
 <a name="0.2.0"></a>
 
 # [0.2.0](https://github.com/briebug/ngrx-auto-entity/compare/0.1.1...0.2.0) Beta (2019-07-25)
