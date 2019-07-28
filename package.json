@@ -7,6 +7,8 @@
     "serve": "ng serve --source-map --vendorSourceMap",
     "serve-proxy": "ng serve --source-map --vendorSourceMap --proxy-config proxy.conf.json",
     "build": "ng build --prod",
+    "build:app": "ng build ngrx-auto-entity-app --prod",
+    "build:app:watch": "ng build ngrx-auto-entity-app --prod --watch",
     "build:lib": "ng build ngrx-auto-entity --prod",
     "build:lib:watch": "ng build ngrx-auto-entity --prod --watch",
     "build:ci": "ng build --prod --aot --no-progress",
@@ -41,8 +43,6 @@
     "@ngrx/store": "^8.0.0",
     "change-case": "^3.1.0",
     "core-js": "^2.5.7",
-    "match-when": "^3.0.0",
-    "ramda": "^0.26.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "6.5.2",
     "zone.js": "~0.9.1"
