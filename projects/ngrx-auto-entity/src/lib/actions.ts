@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
-import { pascalCase } from 'change-case';
 import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { pascalCase } from '../util/case';
 import { checkKeyName } from './decorators';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
 import { EntityIdentity } from './util';
@@ -84,13 +84,24 @@ export interface IEntityInfo {
   modelType: new () => any;
 }
 
+export type TNew<TModel> = new () => TModel;
+
+export interface IEntityAction extends Action {
+  actionType: string;
+  info: IEntityInfo;
+}
+
 /**
  * Structure for all of this library's actions
  */
-export abstract class EntityAction implements Action {
+export abstract class EntityAction<TModel> implements IEntityAction {
   type: string;
-  actionType: string;
   info: IEntityInfo;
+
+  protected constructor(type: TNew<TModel>, public actionType: string) {
+    this.info = setInfo(type);
+    this.type = setType(this.actionType, this.info);
+  }
 }
 
 const setInfo = (type: any): IEntityInfo => {
@@ -112,252 +123,147 @@ const setType = (actionType: string, info: IEntityInfo): string => {
 /**
  * Loads a single instance of an entity, corresponding to HTTP GET /entity/:id operation
  */
-export class Load<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Load;
-  info: IEntityInfo;
-
+export class Load<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public keys: any, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Load);
   }
 }
 
-export class LoadSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadSuccess;
-  info: IEntityInfo;
-
+export class LoadSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadSuccess);
   }
 }
 
-export class LoadFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadFailure;
-  info: IEntityInfo;
-
+export class LoadFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadFailure);
   }
 }
 
 /**
  * Loads many instances of an entity (updating existing state), corresponding to HTTP GET /entity operation
  */
-export class LoadMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadMany;
-  info: IEntityInfo;
-
+export class LoadMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadMany);
   }
 }
 
-export class LoadManySuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadManySuccess;
-  info: IEntityInfo;
-
+export class LoadManySuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadManySuccess);
   }
 }
 
-export class LoadManyFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadManyFailure;
-  info: IEntityInfo;
-
+export class LoadManyFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadManyFailure);
   }
 }
 
 /**
  * Loads all instance of an entity (replacing existing state), corresponding to HTTP GET /entity operation
  */
-export class LoadAll<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadAll;
-  info: IEntityInfo;
-
+export class LoadAll<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadAll);
   }
 }
 
-export class LoadAllSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadAllSuccess;
-  info: IEntityInfo;
-
+export class LoadAllSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadAllSuccess);
   }
 }
 
-export class LoadAllFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadAllFailure;
-  info: IEntityInfo;
-
+export class LoadAllFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadAllFailure);
   }
 }
 
 /**
  * Loads a single page of entities, corresponding to HTTP GET /entity?page&size operation
  */
-export class LoadPage<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadPage;
-  info: IEntityInfo;
-
+export class LoadPage<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public page: Page, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadPage);
   }
 }
 
-export class LoadPageSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadPageSuccess;
-  info: IEntityInfo;
-
+export class LoadPageSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[], public pageInfo: IPageInfo) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadPageSuccess);
   }
 }
 
-export class LoadPageFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadPageFailure;
-  info: IEntityInfo;
-
+export class LoadPageFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadPageFailure);
   }
 }
 
 /**
  * Loads a range of entities, corresponding to HTTP GET /entity?start&end|first&last|skip&take operation
  */
-export class LoadRange<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadRange;
-  info: IEntityInfo;
-
+export class LoadRange<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public range: Range, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadRange);
   }
 }
 
-export class LoadRangeSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadRangeSuccess;
-  info: IEntityInfo;
-
+export class LoadRangeSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[], public rangeInfo: IRangeInfo) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadRangeSuccess);
   }
 }
 
-export class LoadRangeFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.LoadRangeFailure;
-  info: IEntityInfo;
-
+export class LoadRangeFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.LoadRangeFailure);
   }
 }
 
 /**
  * Creates a single entity, corresponding to HTTP POST operation
  */
-export class Create<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Create;
-  info: IEntityInfo;
-
+export class Create<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Create);
   }
 }
 
-export class CreateSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.CreateSuccess;
-  info: IEntityInfo;
-
+export class CreateSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.CreateSuccess);
   }
 }
 
-export class CreateFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.CreateFailure;
-  info: IEntityInfo;
-
+export class CreateFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.CreateFailure);
   }
 }
 
 /**
  * Creates many entities, corresponding to HTTP POST operation
  */
-export class CreateMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.CreateMany;
-  info: IEntityInfo;
-
+export class CreateMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.CreateMany);
   }
 }
 
-export class CreateManySuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.CreateManySuccess;
-  info: IEntityInfo;
-
+export class CreateManySuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.CreateManySuccess);
   }
 }
 
-export class CreateManyFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.CreateManyFailure;
-  info: IEntityInfo;
-
+export class CreateManyFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.CreateManyFailure);
   }
 }
 
@@ -366,36 +272,21 @@ export class CreateManyFailure<TModel> implements EntityAction {
  *
  * PATCH: Update just the supplied attributes of the entity
  */
-export class Update<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Update;
-  info: IEntityInfo;
-
+export class Update<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Update);
   }
 }
 
-export class UpdateSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.UpdateSuccess;
-  info: IEntityInfo;
-
+export class UpdateSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.UpdateSuccess);
   }
 }
 
-export class UpdateFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.UpdateFailure;
-  info: IEntityInfo;
-
+export class UpdateFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.UpdateFailure);
   }
 }
 
@@ -404,36 +295,21 @@ export class UpdateFailure<TModel> implements EntityAction {
  *
  * PATCH: Update just the supplied attributes of the entities
  */
-export class UpdateMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.UpdateMany;
-  info: IEntityInfo;
-
+export class UpdateMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.UpdateMany);
   }
 }
 
-export class UpdateManySuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.UpdateManySuccess;
-  info: IEntityInfo;
-
+export class UpdateManySuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.UpdateManySuccess);
   }
 }
 
-export class UpdateManyFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.UpdateManyFailure;
-  info: IEntityInfo;
-
+export class UpdateManyFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.UpdateManyFailure);
   }
 }
 
@@ -442,36 +318,21 @@ export class UpdateManyFailure<TModel> implements EntityAction {
  *
  * PUT: Replace the entity with the one supplied in the request
  */
-export class Replace<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Replace;
-  info: IEntityInfo;
-
+export class Replace<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Replace);
   }
 }
 
-export class ReplaceSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.ReplaceSuccess;
-  info: IEntityInfo;
-
+export class ReplaceSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.ReplaceSuccess);
   }
 }
 
-export class ReplaceFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.ReplaceFailure;
-  info: IEntityInfo;
-
+export class ReplaceFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.ReplaceFailure);
   }
 }
 
@@ -480,290 +341,180 @@ export class ReplaceFailure<TModel> implements EntityAction {
  *
  * PUT: Replace the entities with the ones supplied in the request
  */
-export class ReplaceMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.ReplaceMany;
-  info: IEntityInfo;
-
+export class ReplaceMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.ReplaceMany);
   }
 }
 
-export class ReplaceManySuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.ReplaceManySuccess;
-  info: IEntityInfo;
-
+export class ReplaceManySuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.ReplaceManySuccess);
   }
 }
 
-export class ReplaceManyFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.ReplaceManyFailure;
-  info: IEntityInfo;
-
+export class ReplaceManyFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.ReplaceManyFailure);
   }
 }
 
 /**
  * Deletes a single entity, corresponding to HTTP DELETE operation
  */
-export class Delete<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Delete;
-  info: IEntityInfo;
-
+export class Delete<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel, public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Delete);
   }
 }
 
-export class DeleteSuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeleteSuccess;
-  info: IEntityInfo;
-
+export class DeleteSuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeleteSuccess);
   }
 }
 
-export class DeleteFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeleteFailure;
-  info: IEntityInfo;
-
+export class DeleteFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeleteFailure);
   }
 }
 
 /**
  * Deletes many entities, corresponding to HTTP DELETE operation
  */
-export class DeleteMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeleteMany;
-  info: IEntityInfo;
-
+export class DeleteMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[], public criteria?: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeleteMany);
   }
 }
 
-export class DeleteManySuccess<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeleteManySuccess;
-  info: IEntityInfo;
-
+export class DeleteManySuccess<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeleteManySuccess);
   }
 }
 
-export class DeleteManyFailure<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeleteManyFailure;
-  info: IEntityInfo;
-
+export class DeleteManyFailure<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public error: any) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeleteManyFailure);
   }
 }
 
 /**
  * Clears all entities for this model from state
  */
-export class Clear<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Clear;
-  info: IEntityInfo;
-
+export class Clear<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Clear);
   }
 }
 
 /**
  * Selects a single entity in the store by the entity model
  */
-export class Select<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Select;
-  info: IEntityInfo;
-
+export class Select<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Select);
   }
 }
 
 /**
  * Selects a single entity in the store by the entity key
  */
-export class SelectByKey<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.SelectByKey;
-  info: IEntityInfo;
-
+export class SelectByKey<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entityKey: EntityIdentity) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.SelectByKey);
   }
 }
 
 /**
  * Selects a single entity in the store by the entity model
  */
-export class SelectMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.SelectMany;
-  info: IEntityInfo;
-
+export class SelectMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.SelectMany);
   }
 }
 
 /**
  * Selects a single entity in the store by the entity key
  */
-export class SelectManyByKeys<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.SelectManyByKeys;
-  info: IEntityInfo;
-
+export class SelectManyByKeys<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.SelectManyByKeys);
   }
 }
 
 /**
  * Indicates the selection of a single entity in the store
  */
-export class Selected<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Selected;
-  info: IEntityInfo;
-
+export class Selected<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: TModel | EntityIdentity) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Selected);
   }
 }
 
 /**
  * Indicates the selection of a single entity in the store
  */
-export class SelectedMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.SelectedMany;
-  info: IEntityInfo;
-
+export class SelectedMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.SelectedMany);
   }
 }
 
 /**
  * De-selects a single entity in the store
  */
-export class Deselect<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Deselect;
-  info: IEntityInfo;
-
+export class Deselect<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Deselect);
   }
 }
 
 /**
  * De-selects many entities in the store
  */
-export class DeselectMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeselectMany;
-  info: IEntityInfo;
-
+export class DeselectMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeselectMany);
   }
 }
 
 /**
  * De-selects many entities in the store by entity keys
  */
-export class DeselectManyByKeys<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeselectManyByKeys;
-  info: IEntityInfo;
-
+export class DeselectManyByKeys<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[]) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeselectManyByKeys);
   }
 }
 
 /**
  * De-selects all entities in the store
  */
-export class DeselectAll<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeselectAll;
-  info: IEntityInfo;
-
+export class DeselectAll<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeselectAll);
   }
 }
 
 /**
  * Indicates the de-selection of a single entity in the store
  */
-export class Deselected<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.Deselected;
-  info: IEntityInfo;
-
+export class Deselected<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.Deselected);
   }
 }
 
 /**
  * Indicates the de-selection of many entities in the store
  */
-export class DeselectedMany<TModel> implements EntityAction {
-  type: string;
-  actionType = EntityActionTypes.DeselectedMany;
-  info: IEntityInfo;
-
+export class DeselectedMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>) {
-    this.info = setInfo(type);
-    this.type = setType(this.actionType, this.info);
+    super(type, EntityActionTypes.DeselectedMany);
   }
 }
 
@@ -823,67 +574,70 @@ export type EntityActions<TModel> =
   | Deselected<TModel>
   | DeselectedMany<TModel>;
 
+export const isEntityActionInstance = (action: IEntityAction): boolean =>
+  action instanceof Load ||
+  action instanceof LoadSuccess ||
+  action instanceof LoadFailure ||
+  action instanceof LoadMany ||
+  action instanceof LoadManySuccess ||
+  action instanceof LoadManyFailure ||
+  action instanceof LoadAll ||
+  action instanceof LoadAllSuccess ||
+  action instanceof LoadAllFailure ||
+  action instanceof LoadPage ||
+  action instanceof LoadPageSuccess ||
+  action instanceof LoadPageFailure ||
+  action instanceof LoadRange ||
+  action instanceof LoadRangeSuccess ||
+  action instanceof LoadRangeFailure ||
+  action instanceof Create ||
+  action instanceof CreateSuccess ||
+  action instanceof CreateFailure ||
+  action instanceof CreateMany ||
+  action instanceof CreateManySuccess ||
+  action instanceof CreateManyFailure ||
+  action instanceof Update ||
+  action instanceof UpdateSuccess ||
+  action instanceof UpdateFailure ||
+  action instanceof UpdateMany ||
+  action instanceof UpdateManySuccess ||
+  action instanceof UpdateManyFailure ||
+  action instanceof Replace ||
+  action instanceof ReplaceSuccess ||
+  action instanceof ReplaceFailure ||
+  action instanceof ReplaceMany ||
+  action instanceof ReplaceManySuccess ||
+  action instanceof ReplaceManyFailure ||
+  action instanceof Delete ||
+  action instanceof DeleteSuccess ||
+  action instanceof DeleteFailure ||
+  action instanceof DeleteMany ||
+  action instanceof DeleteManySuccess ||
+  action instanceof DeleteManyFailure ||
+  action instanceof Clear ||
+  action instanceof Select ||
+  action instanceof SelectByKey ||
+  action instanceof SelectMany ||
+  action instanceof SelectManyByKeys ||
+  action instanceof Selected ||
+  action instanceof SelectedMany ||
+  action instanceof Deselect ||
+  action instanceof DeselectMany ||
+  action instanceof DeselectManyByKeys ||
+  action instanceof DeselectAll ||
+  action instanceof Deselected ||
+  action instanceof DeselectedMany;
+
 /**
  * Operator to filter actions by an entity action type or multiple action types.
  *
  * @param allowedActionTypes One or more action type string constants
  */
-export function ofEntityAction<T extends EntityAction>(
+export function ofEntityAction<T extends IEntityAction>(
   ...allowedActionTypes: EntityActionTypes[]
 ): OperatorFunction<Action, T> {
-  return filter((action: EntityAction): action is T => {
-    return action instanceof Load ||
-      action instanceof LoadSuccess ||
-      action instanceof LoadFailure ||
-      action instanceof LoadMany ||
-      action instanceof LoadManySuccess ||
-      action instanceof LoadManyFailure ||
-      action instanceof LoadAll ||
-      action instanceof LoadAllSuccess ||
-      action instanceof LoadAllFailure ||
-      action instanceof LoadPage ||
-      action instanceof LoadPageSuccess ||
-      action instanceof LoadPageFailure ||
-      action instanceof LoadRange ||
-      action instanceof LoadRangeSuccess ||
-      action instanceof LoadRangeFailure ||
-      action instanceof Create ||
-      action instanceof CreateSuccess ||
-      action instanceof CreateFailure ||
-      action instanceof CreateMany ||
-      action instanceof CreateManySuccess ||
-      action instanceof CreateManyFailure ||
-      action instanceof Update ||
-      action instanceof UpdateSuccess ||
-      action instanceof UpdateFailure ||
-      action instanceof UpdateMany ||
-      action instanceof UpdateManySuccess ||
-      action instanceof UpdateManyFailure ||
-      action instanceof Replace ||
-      action instanceof ReplaceSuccess ||
-      action instanceof ReplaceFailure ||
-      action instanceof ReplaceMany ||
-      action instanceof ReplaceManySuccess ||
-      action instanceof ReplaceManyFailure ||
-      action instanceof Delete ||
-      action instanceof DeleteSuccess ||
-      action instanceof DeleteFailure ||
-      action instanceof DeleteMany ||
-      action instanceof DeleteManySuccess ||
-      action instanceof DeleteManyFailure ||
-      action instanceof Clear ||
-      action instanceof Select ||
-      action instanceof SelectByKey ||
-      action instanceof SelectMany ||
-      action instanceof SelectManyByKeys ||
-      action instanceof Selected ||
-      action instanceof SelectedMany ||
-      action instanceof Deselect ||
-      action instanceof DeselectMany ||
-      action instanceof DeselectManyByKeys ||
-      action instanceof DeselectAll ||
-      action instanceof Deselected ||
-      action instanceof DeselectedMany
+  return filter((action: IEntityAction): action is T => {
+    return isEntityActionInstance(action)
       ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
       : false;
   });
@@ -895,69 +649,13 @@ export function ofEntityAction<T extends EntityAction>(
  * @param entity The entity class
  * @param allowedActionTypes One or more action type string constants
  */
-export function ofEntityType<TModel, T extends EntityAction>(
+export function ofEntityType<TModel, T extends EntityAction<TModel>>(
   entity: new () => TModel,
   ...allowedActionTypes: EntityActionTypes[]
 ): OperatorFunction<Action, T> {
-  return filter((action: EntityAction): action is T => {
-    if (
-      action instanceof Load ||
-      action instanceof LoadSuccess ||
-      action instanceof LoadFailure ||
-      action instanceof LoadMany ||
-      action instanceof LoadManySuccess ||
-      action instanceof LoadManyFailure ||
-      action instanceof LoadAll ||
-      action instanceof LoadAllSuccess ||
-      action instanceof LoadAllFailure ||
-      action instanceof LoadPage ||
-      action instanceof LoadPageSuccess ||
-      action instanceof LoadPageFailure ||
-      action instanceof LoadRange ||
-      action instanceof LoadRangeSuccess ||
-      action instanceof LoadRangeFailure ||
-      action instanceof Create ||
-      action instanceof CreateSuccess ||
-      action instanceof CreateFailure ||
-      action instanceof CreateMany ||
-      action instanceof CreateManySuccess ||
-      action instanceof CreateManyFailure ||
-      action instanceof Update ||
-      action instanceof UpdateSuccess ||
-      action instanceof UpdateFailure ||
-      action instanceof UpdateMany ||
-      action instanceof UpdateManySuccess ||
-      action instanceof UpdateManyFailure ||
-      action instanceof Replace ||
-      action instanceof ReplaceSuccess ||
-      action instanceof ReplaceFailure ||
-      action instanceof ReplaceMany ||
-      action instanceof ReplaceManySuccess ||
-      action instanceof ReplaceManyFailure ||
-      action instanceof Delete ||
-      action instanceof DeleteSuccess ||
-      action instanceof DeleteFailure ||
-      action instanceof DeleteMany ||
-      action instanceof DeleteManySuccess ||
-      action instanceof DeleteManyFailure ||
-      action instanceof Clear ||
-      action instanceof Select ||
-      action instanceof SelectByKey ||
-      action instanceof SelectMany ||
-      action instanceof SelectManyByKeys ||
-      action instanceof Selected ||
-      action instanceof SelectedMany ||
-      action instanceof Deselect ||
-      action instanceof DeselectMany ||
-      action instanceof DeselectManyByKeys ||
-      action instanceof DeselectAll ||
-      action instanceof Deselected ||
-      action instanceof DeselectedMany
-    ) {
-      return (
-        action.info.modelType === entity && allowedActionTypes.some(type => setType(type, action.info) === action.type)
-      );
-    }
-    return false;
+  return filter((action: EntityAction<TModel>): action is T => {
+    return isEntityActionInstance(action)
+      ? action.info.modelType === entity && allowedActionTypes.some(type => setType(type, action.info) === action.type)
+      : false;
   });
 }

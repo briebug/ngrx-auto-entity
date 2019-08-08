@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
-import { pascalCase } from 'change-case';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+import { pascalCase } from '../util/case';
 import { IEntityInfo } from './actions';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
 import { IAutoEntityService } from './service';

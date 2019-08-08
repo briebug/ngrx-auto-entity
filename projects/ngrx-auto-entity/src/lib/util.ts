@@ -1,6 +1,6 @@
-import { createSelector, MemoizedSelector, select, Store } from '@ngrx/store';
-import { camelCase } from 'change-case';
+import { createSelector, MemoizedSelector, select, Selector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { camelCase } from '../util/case'; // NOTE: Keep ALL imports here!!!!
 import {
   Clear,
   Create,
@@ -26,7 +26,7 @@ import {
   UpdateMany
 } from './actions';
 // NOTE: The following line MUST import:  IPage, IPageInfo, IRangeInfo, Page, Range; Required for AOT!
-import { IPage, IPageInfo, IRangeInfo, Page, Range } from './models'; // NOTE: Keep ALL imports here!!!!
+import { IPage, IPageInfo, IRangeInfo, Page, Range } from './models';
 
 /**
  * Structure for how entities are stored within the `entities` state property:
@@ -91,6 +91,80 @@ export interface ISelectorMap<TParentState, TModel> {
   selectSavedAt: MemoizedSelector<object | TParentState, Date>;
   selectDeletedAt: MemoizedSelector<object | TParentState, Date>;
 }
+
+export const buildSelectorMap = <TParentState, TState extends IEntityState<TModel>, TModel>(
+  getState: Selector<TParentState, TState> | MemoizedSelector<object | TParentState, TState>
+): ISelectorMap<TParentState, TModel> =>
+  ({
+    selectAll: createSelector(
+      getState,
+      (state: TState): TModel[] => state.ids.map(id => state.entities[id])
+    ),
+    selectEntities: createSelector(
+      getState,
+      (state: TState): IEntityDictionary<TModel> => state.entities
+    ),
+    selectIds: createSelector(
+      getState,
+      (state: TState): EntityIdentity[] => state.ids
+    ),
+    selectTotal: createSelector(
+      getState,
+      (state: TState): number => state.ids.length
+    ),
+    selectCurrentEntity: createSelector(
+      getState,
+      (state: TState): TModel => state.entities[state.currentEntityKey]
+    ),
+    selectCurrentEntityKey: createSelector(
+      getState,
+      (state: TState): EntityIdentity => state.currentEntityKey
+    ),
+    selectCurrentEntities: createSelector(
+      getState,
+      (state: TState): TModel[] => state.currentEntitiesKeys.map(key => state.entities[key])
+    ),
+    selectCurrentEntitiesKeys: createSelector(
+      getState,
+      (state: TState): EntityIdentity[] => state.currentEntitiesKeys
+    ),
+    selectCurrentPage: createSelector(
+      getState,
+      (state: TState): Page => state.currentPage
+    ),
+    selectCurrentRange: createSelector(
+      getState,
+      (state: TState): Range => state.currentRange
+    ),
+    selectTotalPageable: createSelector(
+      getState,
+      (state: TState): number => state.totalPageableCount
+    ),
+    selectIsLoading: createSelector(
+      getState,
+      (state: TState): boolean => !!state.isLoading
+    ),
+    selectIsSaving: createSelector(
+      getState,
+      (state: TState): boolean => !!state.isSaving
+    ),
+    selectIsDeleting: createSelector(
+      getState,
+      (state: TState): boolean => !!state.isDeleting
+    ),
+    selectLoadedAt: createSelector(
+      getState,
+      (state: TState): Date => state.loadedAt
+    ),
+    selectSavedAt: createSelector(
+      getState,
+      (state: TState): Date => state.savedAt
+    ),
+    selectDeletedAt: createSelector(
+      getState,
+      (state: TState): Date => state.deletedAt
+    )
+  } as ISelectorMap<TParentState, TModel>);
 
 /**
  * The basic structure of a class for an entity
@@ -360,89 +434,14 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
 
   // This uses ES6/TS computed property names: http://es6-features.org/#ComputedPropertyNames
 
-  // region Initial State
   const initialState = {
     entities: {},
     ids: [],
     ...extraInitialState
   } as TState;
-  // endregion
 
-  // region Selector Map
-  const selectors = {
-    selectAll: createSelector(
-      getState,
-      (state: TState): TModel[] => state.ids.map(id => state.entities[id])
-    ),
-    selectEntities: createSelector(
-      getState,
-      (state: TState): IEntityDictionary<TModel> => state.entities
-    ),
-    selectIds: createSelector(
-      getState,
-      (state: TState): EntityIdentity[] => state.ids
-    ),
-    selectTotal: createSelector(
-      getState,
-      (state: TState): number => state.ids.length
-    ),
-    selectCurrentEntity: createSelector(
-      getState,
-      (state: TState): TModel => state.entities[state.currentEntityKey]
-    ),
-    selectCurrentEntityKey: createSelector(
-      getState,
-      (state: TState): EntityIdentity => state.currentEntityKey
-    ),
-    selectCurrentEntities: createSelector(
-      getState,
-      (state: TState): TModel[] => state.currentEntitiesKeys.map(key => state.entities[key])
-    ),
-    selectCurrentEntitiesKeys: createSelector(
-      getState,
-      (state: TState): EntityIdentity[] => state.currentEntitiesKeys
-    ),
-    selectCurrentPage: createSelector(
-      getState,
-      (state: TState): Page => state.currentPage
-    ),
-    selectCurrentRange: createSelector(
-      getState,
-      (state: TState): Range => state.currentRange
-    ),
-    selectTotalPageable: createSelector(
-      getState,
-      (state: TState): number => state.totalPageableCount
-    ),
-    selectIsLoading: createSelector(
-      getState,
-      (state: TState): boolean => !!state.isLoading
-    ),
-    selectIsSaving: createSelector(
-      getState,
-      (state: TState): boolean => !!state.isSaving
-    ),
-    selectIsDeleting: createSelector(
-      getState,
-      (state: TState): boolean => !!state.isDeleting
-    ),
-    selectLoadedAt: createSelector(
-      getState,
-      (state: TState): Date => state.loadedAt
-    ),
-    selectSavedAt: createSelector(
-      getState,
-      (state: TState): Date => state.savedAt
-    ),
-    selectDeletedAt: createSelector(
-      getState,
-      (state: TState): Date => state.deletedAt
-    )
-  } as ISelectorMap<TParentState, TModel>;
-  // endregion
-
+  const selectors = buildSelectorMap<TParentState, TState, TModel>(getState);
   const facade = buildFacade<TModel, TParentState>(selectors);
-
   const reducer = (state = initialState): IEntityState<TModel> => {
     // tslint:disable-line
     return state;
@@ -484,81 +483,14 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
 
   // This uses ES6/TS computed property names: http://es6-features.org/#ComputedPropertyNames
 
-  // region Initial State
   const initialState = {
     entities: {},
     ids: [],
     ...extraInitialState
   } as TState;
-  // endregion
 
-  // region Selector Map
-  const selectors = {
-    selectAll: createSelector(
-      selectState,
-      (state: TState): TModel[] => state.ids.map(id => state.entities[id])
-    ),
-    selectEntities: createSelector(
-      selectState,
-      (state: TState): IEntityDictionary<TModel> => state.entities
-    ),
-    selectIds: createSelector(
-      selectState,
-      (state: TState): EntityIdentity[] => state.ids
-    ),
-    selectTotal: createSelector(
-      selectState,
-      (state: TState): number => state.ids.length
-    ),
-    selectCurrentEntity: createSelector(
-      selectState,
-      (state: TState): TModel => state.entities[state.currentEntityKey]
-    ),
-    selectCurrentEntityKey: createSelector(
-      selectState,
-      (state: TState): any => state.currentEntityKey
-    ),
-    selectCurrentPage: createSelector(
-      selectState,
-      (state: TState): Page => state.currentPage
-    ),
-    selectCurrentRange: createSelector(
-      selectState,
-      (state: TState): Range => state.currentRange
-    ),
-    selectTotalPageable: createSelector(
-      selectState,
-      (state: TState): number => state.totalPageableCount
-    ),
-    selectIsLoading: createSelector(
-      selectState,
-      (state: TState): boolean => !!state.isLoading
-    ),
-    selectIsSaving: createSelector(
-      selectState,
-      (state: TState): boolean => !!state.isSaving
-    ),
-    selectIsDeleting: createSelector(
-      selectState,
-      (state: TState): boolean => !!state.isDeleting
-    ),
-    selectLoadedAt: createSelector(
-      selectState,
-      (state: TState): Date => state.loadedAt
-    ),
-    selectSavedAt: createSelector(
-      selectState,
-      (state: TState): Date => state.savedAt
-    ),
-    selectDeletedAt: createSelector(
-      selectState,
-      (state: TState): Date => state.deletedAt
-    )
-  } as ISelectorMap<TParentState, TModel>;
-  // endregion
-
+  const selectors = buildSelectorMap<TParentState, TState, TModel>(selectState);
   const facade = buildFacade<TModel, TParentState>(selectors);
-
   const reducer = (state = initialState): IEntityState<TModel> => {
     // tslint:disable-line
     return state;

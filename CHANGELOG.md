@@ -1,3 +1,32 @@
+<a name="0.2.2"></a>
+
+# [0.2.2](https://github.com/briebug/ngrx-auto-entity/compare/0.2.1...0.2.1) Beta (2019-08-07)
+
+This release focuses on reducing the intrinsic package size and total package+dependency size of
+the library. Total library size is now ~10k or so smaller than before. Third party dependency on
+changeCase, which included a lot of casing functionality this library did not directly require, has
+been removed in favor of integrated case conversion code. Further size optimizations may be made
+possible in the future with some additional internal restructuring. 
+
+For the most compatibility with future internal (but otherwise non-breaking) changes, make sure
+you are importing from @briebug/ngrx-auto-entity and not from child paths within the library!
+
+### Package
+
+- **dependencies:** Remove direct dependency on changeCase, integrate functionality
+
+### Features
+
+- **utils:** Added a new `buildSelectorMap` utility function
+- **utils:** Added a new `buildFacade` utility function
+
+### Cleanup
+
+- **operators:** Reduce duplication of code by pulling out error handling to function
+- **utils:** Reduce duplication of code by pulling out selector map creation to function
+- **actions:** Reduce duplication of code by moving common lines to EntityAction base type
+- **actions:** Reduce duplication of code by moving entity action type checking into function
+
 <a name="0.2.1"></a>
 
 # [0.2.1](https://github.com/briebug/ngrx-auto-entity/compare/0.2.0...0.2.1) Beta (2019-07-28)
