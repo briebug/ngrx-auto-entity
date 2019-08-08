@@ -1,6 +1,6 @@
 <a name="0.2.2"></a>
 
-# [0.2.2](https://github.com/briebug/ngrx-auto-entity/compare/0.2.1...0.2.1) Beta (2019-08-07)
+# [0.2.2](https://github.com/briebug/ngrx-auto-entity/compare/0.2.1...0.2.2) Beta (2019-08-07)
 
 This release focuses on reducing the intrinsic package size and total package+dependency size of
 the library. Total library size is now ~10k or so smaller than before. Third party dependency on
