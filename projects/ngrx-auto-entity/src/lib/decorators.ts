@@ -1,4 +1,4 @@
-import { EntityAction } from './actions';
+import { IEntityAction } from './actions';
 import { EntityIdentity } from './util';
 
 // NOTE: The following two constants should be Symbol() to avoid any potential conflict with
@@ -6,8 +6,6 @@ import { EntityIdentity } from './util';
 // problems with the Jest test runner at the current time
 export const NAE_KEYS = '__nae_keys';
 export const NAE_KEY_NAMES = '__nae_key_names';
-
-export const NAE_GET_KEY = 'getEntityKey';
 
 /**
  * Used to designate the key property for the entity
@@ -17,7 +15,6 @@ export const NAE_GET_KEY = 'getEntityKey';
  */
 export function Key(target, keyName: string | symbol): void {
   target[NAE_KEY_NAMES] = target[NAE_KEY_NAMES] ? [...target[NAE_KEY_NAMES], keyName] : [keyName];
-  target[NAE_GET_KEY] = () => _getKey(this, target[NAE_KEY_NAMES]);
   Object.defineProperty(target, NAE_KEYS, { get: () => target[NAE_KEY_NAMES] });
 }
 
@@ -30,7 +27,7 @@ export function checkKeyName(type: any, modelName: string): boolean {
   return true;
 }
 
-export function getKeyNames(action: EntityAction): string[] {
+export function getKeyNames(action: IEntityAction): string[] {
   const keys = action.info.modelType.prototype[NAE_KEYS];
   if (keys === undefined) {
     console.error(`[NGRX-AE] Entity model '${action.info.modelName}' does not have a key specified!`);
@@ -53,7 +50,7 @@ function _getKey(entity: any, keyNames: string[]): EntityIdentity {
   return compositeKey.substr(1);
 }
 
-export function getKey(action: EntityAction, entity: any): EntityIdentity {
+export function getKey(action: IEntityAction, entity: any): EntityIdentity {
   const keyNames = getKeyNames(action);
   return _getKey(entity, keyNames);
 }

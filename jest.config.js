@@ -14,7 +14,8 @@ module.exports = {
   testMatch: ['**/+(*.)+(spec|test).+(ts)?(x)'],
   testPathIgnorePatterns: [
     '/node_modules/',
-    'dist'
+    '<rootDir>/dist',
+    '<rootDir>/src'
   ],
   coverageReporters: ['html', 'text'],
   collectCoverageFrom: [
@@ -29,12 +30,6 @@ module.exports = {
     '!<rootDir>/setup-jest.ts',
     '!<rootDir>/jestGlobalMocks.ts'
   ],
-  moduleNameMapper: {
-    '^ngrx-auto-entity/(.*)': '<rootDir>/projects/ngrx-auto-entity/$1',
-    '^state/(.*)': '<rootDir>/src/app/state/$1',
-    '^core/(.*)': '<rootDir>/src/app/core/$1',
-    '^models/(.*)': '<rootDir>/src/app/models/$1'
-  },
   modulePathIgnorePatterns: ['<rootDir>/dist'],
   transformIgnorePatterns: ['node_modules/(?!@ngrx)']
 };

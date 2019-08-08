@@ -1,5 +1,5 @@
 import { ActionReducer } from '@ngrx/store';
-import { camelCase } from 'change-case';
+import { camelCase } from '../util/case';
 import {
   CreateManySuccess,
   CreateSuccess,
@@ -10,6 +10,7 @@ import {
   EntityAction,
   EntityActions,
   EntityActionTypes,
+  IEntityAction,
   LoadPageSuccess,
   LoadRangeSuccess,
   LoadSuccess,
@@ -25,11 +26,11 @@ import {
 import { getKey } from './decorators';
 import { FEATURE_AFFINITY } from './util';
 
-export function stateNameFromAction(action: EntityAction): string {
+export function stateNameFromAction(action: IEntityAction): string {
   return camelCase(action.info.modelName);
 }
 
-export function featureNameFromAction(action: EntityAction): string {
+export function featureNameFromAction(action: IEntityAction): string {
   return (action.info.modelType as any)[FEATURE_AFFINITY];
 }
 
