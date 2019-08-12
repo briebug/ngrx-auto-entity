@@ -5,8 +5,11 @@
 export {
   buildFeatureState,
   buildState,
+  buildSelectorMap,
+  buildFacade,
   IEntityDictionary,
   IEntityState,
+  IEntityFacade,
   IModelState,
   ISelectorMap,
   IModelClass,
@@ -28,6 +31,7 @@ export {
 export {
   ofEntityType,
   ofEntityAction,
+  isEntityActionInstance,
   IEntityInfo,
   EntityActions,
   EntityAction,
@@ -75,7 +79,13 @@ export {
   SelectByKey,
   Selected,
   Deselect,
-  Deselected
+  Deselected,
+  Edit,
+  Edited,
+  Change,
+  Changed,
+  EndEdit,
+  EditEnded
 } from './lib/actions';
 
 export { Key, getKey, getKeyFromModel, getKeyNames, getKeyNamesFromModel, checkKeyName } from './lib/decorators';

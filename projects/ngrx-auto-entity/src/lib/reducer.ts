@@ -1,13 +1,14 @@
 import { ActionReducer } from '@ngrx/store';
 import { camelCase } from '../util/case';
 import {
+  Change,
   CreateManySuccess,
   CreateSuccess,
   DeleteManySuccess,
   DeleteSuccess,
   DeselectMany,
   DeselectManyByKeys,
-  EntityAction,
+  Edit,
   EntityActions,
   EntityActionTypes,
   IEntityAction,
@@ -572,6 +573,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         ids: [],
         currentEntityKey: undefined,
         currentEntitiesKeys: undefined,
+        editedEntity: undefined,
+        isDirty: undefined,
         currentPage: undefined,
         currentRange: undefined,
         totalPageableCount: undefined,
@@ -598,7 +601,6 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
-
     case EntityActionTypes.SelectByKey: {
       const key = (action as SelectByKey<any>).entityKey;
       const newState = {
@@ -621,7 +623,6 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
-
     case EntityActionTypes.SelectManyByKeys: {
       const keys = (action as SelectManyByKeys<any>).entitiesKeys;
       const newState = {
@@ -654,7 +655,6 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
-
     case EntityActionTypes.DeselectManyByKeys: {
       const keys = (action as DeselectManyByKeys<any>).entitiesKeys;
       const newState = {
@@ -665,11 +665,51 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
-
     case EntityActionTypes.DeselectAll: {
       const newState = {
         ...entityState,
         currentEntitiesKeys: undefined
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+
+    case EntityActionTypes.Edit: {
+      const entity = (action as Edit<any>).entity;
+      if (!entity) {
+        return state;
+      }
+
+      const newState = {
+        ...entityState,
+        editedEntity: { ...entity },
+        isDirty: false
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.Change: {
+      const entity = (action as Change<any>).entity;
+      if (!entity || !entityState.editedEntity) {
+        return state;
+      }
+
+      const newState = {
+        ...entityState,
+        editedEntity: { ...entity },
+        isDirty: true
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.EndEdit: {
+      const newState = {
+        ...entityState,
+        editedEntity: undefined,
+        isDirty: undefined
       };
 
       const next = setNewState(featureName, stateName, state, newState);

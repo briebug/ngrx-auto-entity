@@ -3,6 +3,8 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
+  Change,
+  Changed,
   CreateFailure,
   CreateManyFailure,
   CreateManySuccess,
@@ -13,6 +15,10 @@ import {
   DeleteSuccess,
   Deselected,
   DeselectedMany,
+  Edit,
+  Edited,
+  EditEnded,
+  EndEdit,
   EntityActionTypes,
   LoadAllFailure,
   LoadAllSuccess,
@@ -173,6 +179,24 @@ export class ExtraEffects {
   deselectAll = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeselectAll),
     this.ops.deselectAll()
+  );
+
+  @Effect()
+  edit = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Edit),
+    this.ops.edit()
+  );
+
+  @Effect()
+  change = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Change),
+    this.ops.change()
+  );
+
+  @Effect()
+  endEdit = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.EndEdit),
+    this.ops.endEdit()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
