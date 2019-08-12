@@ -4,6 +4,8 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { pascalCase } from '../util/case';
 import {
+  Change,
+  Changed,
   Create,
   CreateFailure,
   CreateMany,
@@ -22,6 +24,10 @@ import {
   DeselectedMany,
   DeselectMany,
   DeselectManyByKeys,
+  Edit,
+  Edited,
+  EditEnded,
+  EndEdit,
   Load,
   LoadAll,
   LoadAllFailure,
@@ -317,5 +323,20 @@ export class EntityOperators {
   deselectAll<TModel>() {
     return (source: Observable<DeselectAll<TModel>>) =>
       source.pipe(map(({ info }) => new DeselectedMany<TModel>(info.modelType, null)));
+  }
+
+  edit<TModel>() {
+    return (source: Observable<Edit<TModel>>) =>
+      source.pipe(map(({ info, entity }) => new Edited<TModel>(info.modelType, entity)));
+  }
+
+  change<TModel>() {
+    return (source: Observable<Change<TModel>>) =>
+      source.pipe(map(({ info, entity }) => new Changed<TModel>(info.modelType, entity)));
+  }
+
+  endEdit<TModel>() {
+    return (source: Observable<EndEdit<TModel>>) =>
+      source.pipe(map(({ info }) => new EditEnded<TModel>(info.modelType)));
   }
 }

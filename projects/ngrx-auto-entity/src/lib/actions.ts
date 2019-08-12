@@ -7,73 +7,80 @@ import { IPageInfo, IRangeInfo, Page, Range } from './models';
 import { EntityIdentity } from './util';
 
 export enum EntityActionTypes {
-  Load = '[Entity] Generic Load',
-  LoadSuccess = '[Entity] Generic Load: Success',
-  LoadFailure = '[Entity] Generic Load: Failure',
+  Load = '[Entity] (Generic) Load',
+  LoadSuccess = '[Entity] (Generic) Load: Success',
+  LoadFailure = '[Entity] (Generic) Load: Failure',
 
-  LoadMany = '[Entity] Generic Load Many',
-  LoadManySuccess = '[Entity] Generic Load Many: Success',
-  LoadManyFailure = '[Entity] Generic Load Many: Failure',
+  LoadMany = '[Entity] (Generic) Load Many',
+  LoadManySuccess = '[Entity] (Generic) Load Many: Success',
+  LoadManyFailure = '[Entity] (Generic) Load Many: Failure',
 
-  LoadAll = '[Entity] Generic Load All',
-  LoadAllSuccess = '[Entity] Generic Load All: Success',
-  LoadAllFailure = '[Entity] Generic Load All: Failure',
+  LoadAll = '[Entity] (Generic) Load All',
+  LoadAllSuccess = '[Entity] (Generic) Load All: Success',
+  LoadAllFailure = '[Entity] (Generic) Load All: Failure',
 
-  LoadPage = '[Entity] Generic Load Page',
-  LoadPageSuccess = '[Entity] Generic Load Page: Success',
-  LoadPageFailure = '[Entity] Generic Load Page: Failure',
+  LoadPage = '[Entity] (Generic) Load Page',
+  LoadPageSuccess = '[Entity] (Generic) Load Page: Success',
+  LoadPageFailure = '[Entity] (Generic) Load Page: Failure',
 
-  LoadRange = '[Entity] Generic Load Range',
-  LoadRangeSuccess = '[Entity] Generic Load Range: Success',
-  LoadRangeFailure = '[Entity] Generic Load Range: Failure',
+  LoadRange = '[Entity] (Generic) Load Range',
+  LoadRangeSuccess = '[Entity] (Generic) Load Range: Success',
+  LoadRangeFailure = '[Entity] (Generic) Load Range: Failure',
 
-  Create = '[Entity] Generic Create',
-  CreateSuccess = '[Entity] Generic Create: Success',
-  CreateFailure = '[Entity] Generic Create: Failure',
+  Create = '[Entity] (Generic) Create',
+  CreateSuccess = '[Entity] (Generic) Create: Success',
+  CreateFailure = '[Entity] (Generic) Create: Failure',
 
-  CreateMany = '[Entity] Generic Create Many',
-  CreateManySuccess = '[Entity] Generic Create Many: Success',
-  CreateManyFailure = '[Entity] Generic Create Many: Failure',
+  CreateMany = '[Entity] (Generic) Create Many',
+  CreateManySuccess = '[Entity] (Generic) Create Many: Success',
+  CreateManyFailure = '[Entity] (Generic) Create Many: Failure',
 
-  Update = '[Entity] Generic Update',
-  UpdateSuccess = '[Entity] Generic Update: Success',
-  UpdateFailure = '[Entity] Generic Update: Failure',
+  Update = '[Entity] (Generic) Update',
+  UpdateSuccess = '[Entity] (Generic) Update: Success',
+  UpdateFailure = '[Entity] (Generic) Update: Failure',
 
-  UpdateMany = '[Entity] Generic Update Many',
-  UpdateManySuccess = '[Entity] Generic Update Many: Success',
-  UpdateManyFailure = '[Entity] Generic Update Many: Failure',
+  UpdateMany = '[Entity] (Generic) Update Many',
+  UpdateManySuccess = '[Entity] (Generic) Update Many: Success',
+  UpdateManyFailure = '[Entity] (Generic) Update Many: Failure',
 
-  Replace = '[Entity] Generic Replace',
-  ReplaceSuccess = '[Entity] Generic Replace: Success',
-  ReplaceFailure = '[Entity] Generic Replace: Failure',
+  Replace = '[Entity] (Generic) Replace',
+  ReplaceSuccess = '[Entity] (Generic) Replace: Success',
+  ReplaceFailure = '[Entity] (Generic) Replace: Failure',
 
-  ReplaceMany = '[Entity] Generic Replace Many',
-  ReplaceManySuccess = '[Entity] Generic Replace Many: Success',
-  ReplaceManyFailure = '[Entity] Generic Replace Many: Failure',
+  ReplaceMany = '[Entity] (Generic) Replace Many',
+  ReplaceManySuccess = '[Entity] (Generic) Replace Many: Success',
+  ReplaceManyFailure = '[Entity] (Generic) Replace Many: Failure',
 
-  Delete = '[Entity] Generic Delete',
-  DeleteSuccess = '[Entity] Generic Delete: Success',
-  DeleteFailure = '[Entity] Generic Delete: Failure',
+  Delete = '[Entity] (Generic) Delete',
+  DeleteSuccess = '[Entity] (Generic) Delete: Success',
+  DeleteFailure = '[Entity] (Generic) Delete: Failure',
 
-  DeleteMany = '[Entity] Generic Delete Many',
-  DeleteManySuccess = '[Entity] Generic Delete Many: Success',
-  DeleteManyFailure = '[Entity] Generic Delete Many: Failure',
+  DeleteMany = '[Entity] (Generic) Delete Many',
+  DeleteManySuccess = '[Entity] (Generic) Delete Many: Success',
+  DeleteManyFailure = '[Entity] (Generic) Delete Many: Failure',
 
-  Clear = '[Entity] Generic Clear',
+  Clear = '[Entity] (Generic) Clear',
 
-  Select = '[Entity] Generic Select',
-  SelectByKey = '[Entity] Generic Select by Key',
-  SelectMany = '[Entity] Generic Select of Many',
-  SelectManyByKeys = '[Entity] Generic Select of Many by Keys',
-  Selected = '[Entity] Generic Selection',
-  SelectedMany = '[Entity] Generic Selection of Many',
+  Select = '[Entity] (Generic) Select',
+  SelectByKey = '[Entity] (Generic) Select by Key',
+  SelectMany = '[Entity] (Generic) Select of Many',
+  SelectManyByKeys = '[Entity] (Generic) Select of Many by Keys',
+  Selected = '[Entity] (Generic) Selection',
+  SelectedMany = '[Entity] (Generic) Selection of Many',
 
-  Deselect = '[Entity] Generic Deselect',
-  DeselectMany = '[Entity] Generic Deselect of Many',
-  DeselectManyByKeys = '[Entity] Generic Deselect of Many by Keys',
-  DeselectAll = '[Entity] Generic Deselect of All',
-  Deselected = '[Entity] Generic Deselection',
-  DeselectedMany = '[Entity] Generic Deselection of Many'
+  Deselect = '[Entity] (Generic) Deselect',
+  DeselectMany = '[Entity] (Generic) Deselect of Many',
+  DeselectManyByKeys = '[Entity] (Generic) Deselect of Many by Keys',
+  DeselectAll = '[Entity] (Generic) Deselect of All',
+  Deselected = '[Entity] (Generic) Deselection',
+  DeselectedMany = '[Entity] (Generic) Deselection of Many',
+
+  Edit = '[Entity] (Generic) Edit',
+  Edited = '[Entity] (Generic) Edited',
+  Change = '[Entity] (Generic) Change',
+  Changed = '[Entity] (Generic) Changed',
+  EndEdit = '[Entity] (Generic) Edit: End',
+  EditEnded = '[Entity] (Generic) Edit: Ended'
 }
 
 /**
@@ -519,6 +526,60 @@ export class DeselectedMany<TModel> extends EntityAction<TModel> {
 }
 
 /**
+ * Tracks an entity as being edited in the store
+ */
+export class Edit<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entity: Partial<TModel>) {
+    super(type, EntityActionTypes.Edit);
+  }
+}
+
+/**
+ * Indicates an entity is being tracked as edited in the store
+ */
+export class Edited<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entity: Partial<TModel>) {
+    super(type, EntityActionTypes.Edited);
+  }
+}
+
+/**
+ * Indicates a change is occurring to the edited entity in the store
+ */
+export class Change<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entity: Partial<TModel>) {
+    super(type, EntityActionTypes.Change);
+  }
+}
+
+/**
+ * Indicates a change has occurred to the edited entity in the store
+ */
+export class Changed<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entity: Partial<TModel>) {
+    super(type, EntityActionTypes.Changed);
+  }
+}
+
+/**
+ * Ends editing of currently edited entity and clears it from state
+ */
+export class EndEdit<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel) {
+    super(type, EntityActionTypes.EndEdit);
+  }
+}
+
+/**
+ * Indicates editing of currently edited entity has ended
+ */
+export class EditEnded<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel) {
+    super(type, EntityActionTypes.EditEnded);
+  }
+}
+
+/**
  * Union of all known entity action types
  */
 export type EntityActions<TModel> =
@@ -572,7 +633,13 @@ export type EntityActions<TModel> =
   | DeselectMany<TModel>
   | DeselectManyByKeys<TModel>
   | Deselected<TModel>
-  | DeselectedMany<TModel>;
+  | DeselectedMany<TModel>
+  | Edit<TModel>
+  | Edited<TModel>
+  | Change<TModel>
+  | Changed<TModel>
+  | EndEdit<TModel>
+  | EditEnded<TModel>;
 
 export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof Load ||
@@ -626,7 +693,13 @@ export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof DeselectManyByKeys ||
   action instanceof DeselectAll ||
   action instanceof Deselected ||
-  action instanceof DeselectedMany;
+  action instanceof DeselectedMany ||
+  action instanceof Edit ||
+  action instanceof Edited ||
+  action instanceof Change ||
+  action instanceof Changed ||
+  action instanceof EndEdit ||
+  action instanceof EditEnded;
 
 /**
  * Operator to filter actions by an entity action type or multiple action types.

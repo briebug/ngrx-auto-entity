@@ -1,7 +1,8 @@
 import { createSelector, MemoizedSelector, select, Selector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { camelCase } from '../util/case'; // NOTE: Keep ALL imports here!!!!
+import { camelCase } from '../util/case';
 import {
+  Change,
   Clear,
   Create,
   CreateMany,
@@ -11,6 +12,8 @@ import {
   DeselectAll,
   DeselectMany,
   DeselectManyByKeys,
+  Edit,
+  EndEdit,
   Load,
   LoadAll,
   LoadMany,
@@ -26,7 +29,7 @@ import {
   UpdateMany
 } from './actions';
 // NOTE: The following line MUST import:  IPage, IPageInfo, IRangeInfo, Page, Range; Required for AOT!
-import { IPage, IPageInfo, IRangeInfo, Page, Range } from './models';
+import { IPage, IPageInfo, IRangeInfo, Page, Range } from './models'; // NOTE: Keep ALL imports here!!!!
 
 /**
  * Structure for how entities are stored within the `entities` state property:
@@ -46,6 +49,8 @@ export interface IEntityState<TModel> {
   ids: EntityIdentity[];
   currentEntityKey?: EntityIdentity;
   currentEntitiesKeys?: EntityIdentity[];
+  editedEntity?: Partial<TModel>;
+  isDirty?: boolean;
   currentPage?: Page;
   currentRange?: Range;
   totalPageableCount?: number;
@@ -81,6 +86,8 @@ export interface ISelectorMap<TParentState, TModel> {
   selectCurrentEntityKey: MemoizedSelector<object | TParentState, EntityIdentity>;
   selectCurrentEntities: MemoizedSelector<object | TParentState, TModel[]>;
   selectCurrentEntitiesKeys: MemoizedSelector<object | TParentState, EntityIdentity[]>;
+  selectEditedEntity: MemoizedSelector<object | TParentState, Partial<TModel>>;
+  selectIsDirty: MemoizedSelector<object | TParentState, boolean>;
   selectCurrentPage: MemoizedSelector<object | TParentState, Page>;
   selectCurrentRange: MemoizedSelector<object | TParentState, Range>;
   selectTotalPageable: MemoizedSelector<object | TParentState, number>;
@@ -127,6 +134,14 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
     selectCurrentEntitiesKeys: createSelector(
       getState,
       (state: TState): EntityIdentity[] => state.currentEntitiesKeys
+    ),
+    selectEditedEntity: createSelector(
+      getState,
+      (state: TState): Partial<TModel> => state.editedEntity
+    ),
+    selectIsDirty: createSelector(
+      getState,
+      (state: TState): boolean => !!state.isDirty
     ),
     selectCurrentPage: createSelector(
       getState,
@@ -183,6 +198,8 @@ export interface IEntityFacade<TModel> {
   currentKey$: Observable<EntityIdentity>;
   currentSet$: Observable<TModel[]>;
   currentSetKeys$: Observable<EntityIdentity[]>;
+  edited$: Observable<Partial<TModel>>;
+  isDirty$: Observable<boolean>;
   currentPage$: Observable<Page>;
   currentRange$: Observable<Range>;
   totalPageable$: Observable<number>;
@@ -208,6 +225,12 @@ export interface IEntityFacade<TModel> {
   deselectManyByKeys(keys: EntityIdentity[]): void;
 
   deselectAll(): void;
+
+  edit(entity: Partial<TModel>): void;
+
+  change(entity: Partial<TModel>): void;
+
+  endEdit(): void;
 
   load(keys: any, criteria?: any): void;
 
@@ -285,6 +308,14 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       return this.store.pipe(select(selectors.selectCurrentEntitiesKeys));
     }
 
+    get edited$(): Observable<Partial<TModel>> {
+      return this.store.pipe(select(selectors.selectEditedEntity));
+    }
+
+    get isDirty$(): Observable<boolean> {
+      return this.store.pipe(select(selectors.selectIsDirty));
+    }
+
     get currentPage$(): Observable<Page> {
       return this.store.pipe(select(selectors.selectCurrentPage));
     }
@@ -356,6 +387,18 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.store.dispatch(new DeselectAll(this.modelType));
     }
 
+    edit(entity: Partial<TModel>): void {
+      this.store.dispatch(new Edit(this.modelType, entity));
+    }
+
+    change(entity: Partial<TModel>): void {
+      this.store.dispatch(new Change(this.modelType, entity));
+    }
+
+    endEdit(): void {
+      this.store.dispatch(new EndEdit(this.modelType));
+    }
+
     load(keys: any, criteria?: any): void {
       this.store.dispatch(new Load(this.modelType, keys, criteria));
     }
@@ -411,7 +454,6 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     clear(): void {
       this.store.dispatch(new Clear(this.modelType));
     }
-
     // endregion
   };
 
