@@ -52,9 +52,9 @@ import {
   Select,
   SelectByKey,
   Selected,
-  SelectedMany,
+  SelectedMany, SelectedMore,
   SelectMany,
-  SelectManyByKeys,
+  SelectManyByKeys, SelectMore, SelectMoreByKeys,
   Update,
   UpdateFailure,
   UpdateMany,
@@ -300,9 +300,19 @@ export class EntityOperators {
       source.pipe(map(({ info, entities }) => new SelectedMany<TModel>(info.modelType, entities)));
   }
 
+  selectMore<TModel>() {
+    return (source: Observable<SelectMore<TModel>>) =>
+      source.pipe(map(({ info, entities }) => new SelectedMore<TModel>(info.modelType, entities)));
+  }
+
   selectManyByKeys<TModel>() {
     return (source: Observable<SelectManyByKeys<TModel>>) =>
       source.pipe(map(({ info, entitiesKeys }) => new SelectedMany<TModel>(info.modelType, entitiesKeys)));
+  }
+
+  selectMoreByKeys<TModel>() {
+    return (source: Observable<SelectMoreByKeys<TModel>>) =>
+      source.pipe(map(({ info, entitiesKeys }) => new SelectedMore<TModel>(info.modelType, entitiesKeys)));
   }
 
   deselect<TModel>() {

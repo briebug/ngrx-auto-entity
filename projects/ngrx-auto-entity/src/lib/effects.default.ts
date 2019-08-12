@@ -152,9 +152,21 @@ export class ExtraEffects {
   );
 
   @Effect()
+  selectMore = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.SelectMore),
+    this.ops.selectMore()
+  );
+
+  @Effect()
   selectManyByKeys = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.SelectManyByKeys),
     this.ops.selectManyByKeys()
+  );
+
+  @Effect()
+  selectMoreByKeys = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.SelectMoreByKeys),
+    this.ops.selectMoreByKeys()
   );
 
   @Effect()

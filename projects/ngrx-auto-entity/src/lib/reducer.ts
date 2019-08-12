@@ -21,6 +21,8 @@ import {
   SelectByKey,
   SelectMany,
   SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys,
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
@@ -623,11 +625,34 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
+    case EntityActionTypes.SelectMore: {
+      const selectingEntities = (action as SelectMore<any>).entities;
+      const keys = selectingEntities.map(entity => getKey(action, entity));
+      const combinedKeys = new Set([...entityState.currentEntitiesKeys, ...keys]);
+      const newState = {
+        ...entityState,
+        currentEntitiesKeys: [...combinedKeys]
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
     case EntityActionTypes.SelectManyByKeys: {
       const keys = (action as SelectManyByKeys<any>).entitiesKeys;
       const newState = {
         ...entityState,
         currentEntitiesKeys: keys
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.SelectMoreByKeys: {
+      const keys = (action as SelectMoreByKeys<any>).entitiesKeys;
+      const combinedKeys = new Set([...entityState.currentEntitiesKeys, ...keys]);
+      const newState = {
+        ...entityState,
+        currentEntitiesKeys: combinedKeys
       };
 
       const next = setNewState(featureName, stateName, state, newState);
