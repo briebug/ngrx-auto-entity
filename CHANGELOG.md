@@ -1,3 +1,16 @@
+<a name="0.2.5"></a>
+
+# [0.2.5](https://github.com/briebug/ngrx-auto-entity/compare/0.2.2...0.2.5) Beta (2019-08-12)
+
+This release add new actions (and related effects, reducers, selectors & facade features) for
+edit and change tracking as well as adding more entities to the current set selection. 
+
+### Features
+
+- **edit:** Add new `Edit`, `Change`, `EndEdit` actions and related functionality
+- **selection:** Added new `selectMore` and `selectMoreByKeys`  actions and related functionality
+
+
 <a name="0.2.2"></a>
 
 # [0.2.2](https://github.com/briebug/ngrx-auto-entity/compare/0.2.1...0.2.2) Beta (2019-08-07)
