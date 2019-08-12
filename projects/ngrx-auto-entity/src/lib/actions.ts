@@ -63,16 +63,21 @@ export enum EntityActionTypes {
 
   Select = '[Entity] (Generic) Select',
   SelectByKey = '[Entity] (Generic) Select by Key',
-  SelectMany = '[Entity] (Generic) Select of Many',
-  SelectManyByKeys = '[Entity] (Generic) Select of Many by Keys',
   Selected = '[Entity] (Generic) Selection',
+
+  SelectMany = '[Entity] (Generic) Select Many',
+  SelectMore = '[Entity] (Generic) Select More',
+  SelectManyByKeys = '[Entity] (Generic) Select Many by Keys',
+  SelectMoreByKeys = '[Entity] (Generic) Select More by Keys',
   SelectedMany = '[Entity] (Generic) Selection of Many',
+  SelectedMore = '[Entity] (Generic) Selection of More',
 
   Deselect = '[Entity] (Generic) Deselect',
+  Deselected = '[Entity] (Generic) Deselection',
+
   DeselectMany = '[Entity] (Generic) Deselect of Many',
   DeselectManyByKeys = '[Entity] (Generic) Deselect of Many by Keys',
   DeselectAll = '[Entity] (Generic) Deselect of All',
-  Deselected = '[Entity] (Generic) Deselection',
   DeselectedMany = '[Entity] (Generic) Deselection of Many',
 
   Edit = '[Entity] (Generic) Edit',
@@ -436,7 +441,7 @@ export class SelectByKey<TModel> extends EntityAction<TModel> {
 }
 
 /**
- * Selects a single entity in the store by the entity model
+ * Selects many entities in the store by the entity models
  */
 export class SelectMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: TModel[]) {
@@ -445,11 +450,29 @@ export class SelectMany<TModel> extends EntityAction<TModel> {
 }
 
 /**
- * Selects a single entity in the store by the entity key
+ * Selects more entities in the store by the entity models
+ */
+export class SelectMore<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entities: TModel[]) {
+    super(type, EntityActionTypes.SelectMore);
+  }
+}
+
+/**
+ * Selects many entities in the store by the entity keys
  */
 export class SelectManyByKeys<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[]) {
     super(type, EntityActionTypes.SelectManyByKeys);
+  }
+}
+
+/**
+ * Selects more entities in the store by the entity keys
+ */
+export class SelectMoreByKeys<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[]) {
+    super(type, EntityActionTypes.SelectMoreByKeys);
   }
 }
 
@@ -463,11 +486,20 @@ export class Selected<TModel> extends EntityAction<TModel> {
 }
 
 /**
- * Indicates the selection of a single entity in the store
+ * Indicates the selection of many entities in the store
  */
 export class SelectedMany<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>) {
     super(type, EntityActionTypes.SelectedMany);
+  }
+}
+
+/**
+ * Indicates the selection of more entities in the store
+ */
+export class SelectedMore<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>) {
+    super(type, EntityActionTypes.SelectedMore);
   }
 }
 

@@ -25,6 +25,8 @@ import {
   SelectByKey,
   SelectMany,
   SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys,
   Update,
   UpdateMany
 } from './actions';
@@ -216,7 +218,11 @@ export interface IEntityFacade<TModel> {
 
   selectMany(entities: TModel[]): void;
 
+  selectMore(entities: TModel[]): void;
+
   selectManyByKeys(keys: EntityIdentity[]): void;
+
+  selectMoreByKeys(keys: EntityIdentity[]): void;
 
   deselect(): void;
 
@@ -367,8 +373,16 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.store.dispatch(new SelectMany(this.modelType, entities));
     }
 
+    selectMore(entities: TModel[]): void {
+      this.store.dispatch(new SelectMore(this.modelType, entities));
+    }
+
     selectManyByKeys(keys: EntityIdentity[]): void {
       this.store.dispatch(new SelectManyByKeys(this.modelType, keys));
+    }
+
+    selectMoreByKeys(keys: EntityIdentity[]): void {
+      this.store.dispatch(new SelectMoreByKeys(this.modelType, keys));
     }
 
     deselect(): void {
