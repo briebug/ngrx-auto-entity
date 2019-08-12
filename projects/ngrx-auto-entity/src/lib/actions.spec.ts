@@ -108,7 +108,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new Load(TestEntity, 1);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load');
         expect(action.actionType).toEqual(EntityActionTypes.Load);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -119,7 +119,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new Load(TestEntity, 1, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load');
         expect(action.actionType).toEqual(EntityActionTypes.Load);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -133,7 +133,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadSuccess(TestEntity, jon);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load: Success');
         expect(action.actionType).toEqual(EntityActionTypes.LoadSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -146,7 +146,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.LoadFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -161,7 +161,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadMany(TestEntity, 'test');
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Many');
         expect(action.actionType).toEqual(EntityActionTypes.LoadMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -174,7 +174,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadManySuccess(TestEntity, [jon]);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Many: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Many: Success');
         expect(action.actionType).toEqual(EntityActionTypes.LoadManySuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -187,7 +187,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadManyFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Many: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Many: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.LoadManyFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -202,7 +202,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadAll(TestEntity, 'test');
 
-        expect(action.type).toEqual('[TestEntity] Generic Load All');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load All');
         expect(action.actionType).toEqual(EntityActionTypes.LoadAll);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -215,7 +215,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadAllSuccess(TestEntity, [jon]);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load All: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load All: Success');
         expect(action.actionType).toEqual(EntityActionTypes.LoadAllSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -228,7 +228,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadAllFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load All: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load All: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.LoadAllFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -243,7 +243,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadPage(TestEntity, { page: 2, size: 10 });
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Page');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Page');
         expect(action.actionType).toEqual(EntityActionTypes.LoadPage);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -254,7 +254,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new LoadPage(TestEntity, { page: 2, size: 10 }, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Page');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Page');
         expect(action.actionType).toEqual(EntityActionTypes.LoadPage);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -271,7 +271,7 @@ describe('NgRX Auto-Entity: Actions', () => {
           totalCount: 10
         });
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Page: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Page: Success');
         expect(action.actionType).toEqual(EntityActionTypes.LoadPageSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -291,7 +291,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadAllFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load All: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load All: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.LoadAllFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -306,7 +306,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details for start/end range', () => {
         const action = new LoadRange(TestEntity, { start: 10, end: 20 });
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -317,7 +317,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria for start/end range', () => {
         const action = new LoadRange(TestEntity, { start: 10, end: 20 }, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -329,7 +329,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details for first/last range', () => {
         const action = new LoadRange(TestEntity, { first: 10, last: 20 });
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -340,7 +340,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria for first/last range', () => {
         const action = new LoadRange(TestEntity, { first: 10, last: 20 }, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -352,7 +352,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details for skip/take range', () => {
         const action = new LoadRange(TestEntity, { skip: 10, take: 10 });
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -363,7 +363,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria for skip/take range', () => {
         const action = new LoadRange(TestEntity, { skip: 10, take: 10 }, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRange);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -383,7 +383,7 @@ describe('NgRX Auto-Entity: Actions', () => {
           totalCount: 2
         });
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range: Success');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRangeSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -403,7 +403,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new LoadRangeFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Load Range: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Load Range: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.LoadRangeFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -418,7 +418,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new Create(TestEntity, fyneman);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create');
         expect(action.actionType).toEqual(EntityActionTypes.Create);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -429,7 +429,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new Create(TestEntity, fyneman, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create');
         expect(action.actionType).toEqual(EntityActionTypes.Create);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -443,7 +443,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new CreateSuccess(TestEntity, fyneman);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create: Success');
         expect(action.actionType).toEqual(EntityActionTypes.CreateSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -456,7 +456,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new CreateFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.CreateFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -471,7 +471,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new CreateMany(TestEntity, scientists);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create Many');
         expect(action.actionType).toEqual(EntityActionTypes.CreateMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -482,7 +482,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new CreateMany(TestEntity, scientists, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create Many');
         expect(action.actionType).toEqual(EntityActionTypes.CreateMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -496,7 +496,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new CreateManySuccess(TestEntity, scientists);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create Many: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create Many: Success');
         expect(action.actionType).toEqual(EntityActionTypes.CreateManySuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -509,7 +509,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new CreateManyFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Create Many: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Create Many: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.CreateManyFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -524,7 +524,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new Update(TestEntity, fyneman);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update');
         expect(action.actionType).toEqual(EntityActionTypes.Update);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -535,7 +535,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new Update(TestEntity, fyneman, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update');
         expect(action.actionType).toEqual(EntityActionTypes.Update);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -549,7 +549,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new UpdateSuccess(TestEntity, fyneman);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update: Success');
         expect(action.actionType).toEqual(EntityActionTypes.UpdateSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -562,7 +562,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new UpdateFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.UpdateFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -577,7 +577,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new UpdateMany(TestEntity, scientists);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update Many');
         expect(action.actionType).toEqual(EntityActionTypes.UpdateMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -588,7 +588,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new UpdateMany(TestEntity, scientists, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update Many');
         expect(action.actionType).toEqual(EntityActionTypes.UpdateMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -602,7 +602,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new UpdateManySuccess(TestEntity, scientists);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update Many: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update Many: Success');
         expect(action.actionType).toEqual(EntityActionTypes.UpdateManySuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -615,7 +615,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new UpdateManyFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Update Many: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Update Many: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.UpdateManyFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -630,7 +630,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new Replace(TestEntity, fyneman);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace');
         expect(action.actionType).toEqual(EntityActionTypes.Replace);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -641,7 +641,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new Replace(TestEntity, fyneman, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace');
         expect(action.actionType).toEqual(EntityActionTypes.Replace);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -655,7 +655,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new ReplaceSuccess(TestEntity, fyneman);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace: Success');
         expect(action.actionType).toEqual(EntityActionTypes.ReplaceSuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -668,7 +668,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new ReplaceFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.ReplaceFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -683,7 +683,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new ReplaceMany(TestEntity, scientists);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace Many');
         expect(action.actionType).toEqual(EntityActionTypes.ReplaceMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -694,7 +694,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details and criteria', () => {
         const action = new ReplaceMany(TestEntity, scientists, criteria);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace Many');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace Many');
         expect(action.actionType).toEqual(EntityActionTypes.ReplaceMany);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -708,7 +708,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new ReplaceManySuccess(TestEntity, scientists);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace Many: Success');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace Many: Success');
         expect(action.actionType).toEqual(EntityActionTypes.ReplaceManySuccess);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -721,7 +721,7 @@ describe('NgRX Auto-Entity: Actions', () => {
       it('should construct EntityAction with proper details', () => {
         const action = new ReplaceManyFailure(TestEntity, testError);
 
-        expect(action.type).toEqual('[TestEntity] Generic Replace Many: Failure');
+        expect(action.type).toEqual('[TestEntity] (Generic) Replace Many: Failure');
         expect(action.actionType).toEqual(EntityActionTypes.ReplaceManyFailure);
         expect(action.info.modelType).toEqual(TestEntity);
         expect(action.info.modelName).toEqual('TestEntity');
@@ -735,7 +735,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new Clear(TestEntity);
 
-      expect(action.type).toEqual('[TestEntity] Generic Clear');
+      expect(action.type).toEqual('[TestEntity] (Generic) Clear');
       expect(action.actionType).toEqual(EntityActionTypes.Clear);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -746,7 +746,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new Select(TestEntity, fyneman);
 
-      expect(action.type).toEqual('[TestEntity] Generic Select');
+      expect(action.type).toEqual('[TestEntity] (Generic) Select');
       expect(action.actionType).toEqual(EntityActionTypes.Select);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -759,7 +759,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new SelectMany(TestEntity, scientists);
 
-      expect(action.type).toEqual('[TestEntity] Generic Select of Many');
+      expect(action.type).toEqual('[TestEntity] (Generic) Select Many');
       expect(action.actionType).toEqual(EntityActionTypes.SelectMany);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -772,7 +772,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details (number key)', () => {
       const action = new SelectByKey(TestEntity, 1);
 
-      expect(action.type).toEqual('[TestEntity] Generic Select by Key');
+      expect(action.type).toEqual('[TestEntity] (Generic) Select by Key');
       expect(action.actionType).toEqual(EntityActionTypes.SelectByKey);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -783,7 +783,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details (string key)', () => {
       const action = new SelectByKey(TestEntity, 'key');
 
-      expect(action.type).toEqual('[TestEntity] Generic Select by Key');
+      expect(action.type).toEqual('[TestEntity] (Generic) Select by Key');
       expect(action.actionType).toEqual(EntityActionTypes.SelectByKey);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -796,7 +796,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details (number keys)', () => {
       const action = new SelectManyByKeys(TestEntity, [1, 2]);
 
-      expect(action.type).toEqual('[TestEntity] Generic Select of Many by Keys');
+      expect(action.type).toEqual('[TestEntity] (Generic) Select Many by Keys');
       expect(action.actionType).toEqual(EntityActionTypes.SelectManyByKeys);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -807,7 +807,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details (string keys)', () => {
       const action = new SelectManyByKeys(TestEntity, ['key_a', 'key_b']);
 
-      expect(action.type).toEqual('[TestEntity] Generic Select of Many by Keys');
+      expect(action.type).toEqual('[TestEntity] (Generic) Select Many by Keys');
       expect(action.actionType).toEqual(EntityActionTypes.SelectManyByKeys);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -820,7 +820,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new Deselect(TestEntity);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselect');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselect');
       expect(action.actionType).toEqual(EntityActionTypes.Deselect);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -831,7 +831,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new DeselectMany(TestEntity, scientists);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselect of Many');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselect of Many');
       expect(action.actionType).toEqual(EntityActionTypes.DeselectMany);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -844,7 +844,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details (number keys)', () => {
       const action = new DeselectManyByKeys(TestEntity, [1, 2]);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselect of Many by Keys');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselect of Many by Keys');
       expect(action.actionType).toEqual(EntityActionTypes.DeselectManyByKeys);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -855,7 +855,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details (string keys)', () => {
       const action = new DeselectManyByKeys(TestEntity, ['key_a', 'key_b']);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselect of Many by Keys');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselect of Many by Keys');
       expect(action.actionType).toEqual(EntityActionTypes.DeselectManyByKeys);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -868,7 +868,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new DeselectAll(TestEntity);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselect of All');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselect of All');
       expect(action.actionType).toEqual(EntityActionTypes.DeselectAll);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -879,7 +879,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new Deselected(TestEntity);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselection');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselection');
       expect(action.actionType).toEqual(EntityActionTypes.Deselected);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
@@ -890,7 +890,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with proper details', () => {
       const action = new DeselectedMany(TestEntity, scientists);
 
-      expect(action.type).toEqual('[TestEntity] Generic Deselection of Many');
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselection of Many');
       expect(action.actionType).toEqual(EntityActionTypes.DeselectedMany);
       expect(action.info.modelType).toEqual(TestEntity);
       expect(action.info.modelName).toEqual('TestEntity');
