@@ -14,8 +14,8 @@ module.exports = {
   testMatch: ['**/+(*.)+(spec|test).+(ts)?(x)'],
   testPathIgnorePatterns: [
     '/node_modules/',
-    '<rootDir>/dist',
-    '<rootDir>/src'
+    '<rootDir>/dist/',
+    '<rootDir>/src/'
   ],
   coverageReporters: ['html', 'text'],
   collectCoverageFrom: [
