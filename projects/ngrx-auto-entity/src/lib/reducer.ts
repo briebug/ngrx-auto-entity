@@ -594,6 +594,10 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
 
     case EntityActionTypes.Select: {
       const entity = (action as Select<any>).entity;
+      if (!entity) {
+        return state;
+      }
+
       const key = getKey(action, entity);
       const newState = {
         ...entityState,
@@ -605,6 +609,10 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
     case EntityActionTypes.SelectByKey: {
       const key = (action as SelectByKey<any>).entityKey;
+      if (!key) {
+        return state;
+      }
+
       const newState = {
         ...entityState,
         currentEntityKey: key
@@ -615,20 +623,23 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
 
     case EntityActionTypes.SelectMany: {
-      const selectingEntities = (action as SelectMany<any>).entities;
+      const actionEntities = (action as SelectMany<any>).entities || [];
+      const selectingEntities = Array.isArray(actionEntities) ? actionEntities : [];
       const keys = selectingEntities.map(entity => getKey(action, entity));
       const newState = {
         ...entityState,
-        currentEntitiesKeys: keys
+        currentEntitiesKeys: [...keys]
       };
 
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
     case EntityActionTypes.SelectMore: {
-      const selectingEntities = (action as SelectMore<any>).entities;
+      const actionEntities = (action as SelectMore<any>).entities || [];
+      const selectingEntities = Array.isArray(actionEntities) ? actionEntities : [];
       const keys = selectingEntities.map(entity => getKey(action, entity));
-      const combinedKeys = new Set([...entityState.currentEntitiesKeys, ...keys]);
+      const currentKeys = entityState.currentEntitiesKeys || [];
+      const combinedKeys = new Set([...currentKeys, ...keys]);
       const newState = {
         ...entityState,
         currentEntitiesKeys: [...combinedKeys]
@@ -638,21 +649,24 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       return next;
     }
     case EntityActionTypes.SelectManyByKeys: {
-      const keys = (action as SelectManyByKeys<any>).entitiesKeys;
+      const actionKeys = (action as SelectManyByKeys<any>).entitiesKeys || [];
+      const keys = Array.isArray(actionKeys) ? actionKeys : [];
       const newState = {
         ...entityState,
-        currentEntitiesKeys: keys
+        currentEntitiesKeys: [...keys]
       };
 
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
     case EntityActionTypes.SelectMoreByKeys: {
-      const keys = (action as SelectMoreByKeys<any>).entitiesKeys;
-      const combinedKeys = new Set([...entityState.currentEntitiesKeys, ...keys]);
+      const actionKeys = (action as SelectMoreByKeys<any>).entitiesKeys || [];
+      const keys = Array.isArray(actionKeys) ? actionKeys : [];
+      const currentKeys = entityState.currentEntitiesKeys || [];
+      const combinedKeys = new Set([...currentKeys, ...keys]);
       const newState = {
         ...entityState,
-        currentEntitiesKeys: combinedKeys
+        currentEntitiesKeys: [...combinedKeys]
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -670,21 +684,26 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
 
     case EntityActionTypes.DeselectMany: {
-      const deselectingEntities = (action as DeselectMany<any>).entities;
+      const actionEntities = (action as DeselectMany<any>).entities || [];
+      const deselectingEntities = Array.isArray(actionEntities) ? actionEntities : [];
       const keys = deselectingEntities.map(entity => getKey(action, entity));
+      const currentKeys = entityState.currentEntitiesKeys || [];
       const newState = {
         ...entityState,
-        currentEntitiesKeys: entityState.currentEntitiesKeys.filter(key => !keys.some(key))
+        currentEntitiesKeys: currentKeys.filter(key => !keys.some(k => k === key))
       };
 
       const next = setNewState(featureName, stateName, state, newState);
       return next;
     }
     case EntityActionTypes.DeselectManyByKeys: {
-      const keys = (action as DeselectManyByKeys<any>).entitiesKeys;
+      const actionKeys = (action as DeselectManyByKeys<any>).entitiesKeys || [];
+      const keys = Array.isArray(actionKeys) ? actionKeys : [];
+      const currentKeys = entityState.currentEntitiesKeys || [];
+
       const newState = {
         ...entityState,
-        currentEntitiesKeys: entityState.currentEntitiesKeys.filter(key => !keys.some(key))
+        currentEntitiesKeys: currentKeys.filter(key => !keys.some(k => k === key))
       };
 
       const next = setNewState(featureName, stateName, state, newState);

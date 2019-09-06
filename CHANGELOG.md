@@ -1,3 +1,18 @@
+<a name="0.2.6"></a>
+
+# [0.2.6](https://github.com/briebug/ngrx-auto-entity/compare/0.2.5...0.2.6) Beta (2019-09-05)
+
+This release resolves two issues with multiple-entity deselections due to bugs in the 
+reduction of deselectMany and deselectAll.
+
+### Features
+
+- **actions:** Add input validation checks and exception throwing to selection related actions
+- **reducer:** Fix issue with potential undefined in selection related reductions #62
+- **reducer:** Fix issue with calls to Array.prototype.some on certain arrays being implemented incorrectly #60
+
+
+
 <a name="0.2.5"></a>
 
 # [0.2.5](https://github.com/briebug/ngrx-auto-entity/compare/0.2.2...0.2.5) Beta (2019-08-12)

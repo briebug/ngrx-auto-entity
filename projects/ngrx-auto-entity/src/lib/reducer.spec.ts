@@ -5,6 +5,10 @@ import {
   CreateSuccess,
   DeleteManySuccess,
   DeleteSuccess,
+  Deselect,
+  DeselectAll,
+  DeselectMany,
+  DeselectManyByKeys,
   Load,
   LoadAllSuccess,
   LoadManySuccess,
@@ -13,6 +17,12 @@ import {
   LoadSuccess,
   ReplaceManySuccess,
   ReplaceSuccess,
+  Select,
+  SelectByKey,
+  SelectMany,
+  SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys,
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
@@ -41,6 +51,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
   });
 
   describe('autoEntityReducer', () => {
+    // region Load
     it(`should reduce LoadSuccess and add entity to empty state`, () => {
       const state = {
         testEntity: {
@@ -85,7 +96,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region LoadAll
     it(`should reduce LoadAllSuccess and add entities to empty state`, () => {
       const state = {
         testEntity: {
@@ -149,7 +162,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region LoadMany
     it(`should reduce LoadManySuccess and add entities to empty state`, () => {
       const state = {
         testEntity: {
@@ -214,7 +229,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region LoadPage
     it(`should reduce LoadPageSuccess and add entities and page info to empty state`, () => {
       const state = {
         testEntity: {
@@ -292,7 +309,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region LoadRange
     it(`should reduce LoadRangeSuccess and add entities and range info to empty state`, () => {
       const state = {
         testEntity: {
@@ -367,7 +386,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region Create
     it(`should reduce CreateSuccess and add new entity to state`, () => {
       const state = {
         testEntity: {
@@ -418,7 +439,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region Update
     it(`should reduce UpdateSuccess and update existing entity in state`, () => {
       const state = {
         testEntity: {
@@ -473,7 +496,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region Replace
     it(`should reduce ReplaceSuccess and update existing entity in state`, () => {
       const state = {
         testEntity: {
@@ -528,7 +553,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
 
+    // region Delete
     it(`should reduce DeleteSuccess and remove existing entity from state`, () => {
       const state = {
         testEntity: {
@@ -576,5 +603,432 @@ describe('NgRX Auto-Entity: Reducer', () => {
         }
       });
     });
+    // endregion
+
+    // region Select (single)
+    it('should reduce Select and add entity key to currentEntityKey in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntityKey: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new Select(TestEntity, { identity: 1 }));
+
+      expect(newState.testEntity.currentEntityKey).toBe(1);
+    });
+
+    it('should reduce SelectByKey and add entity key to currentEntityKey in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntityKey: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectByKey(TestEntity, 1));
+
+      expect(newState.testEntity.currentEntityKey).toBe(1);
+    });
+    // endregion
+
+    // region Deselect (single)
+    it('should reduce Deselect and clear the currentEntityKey from state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntityKey: 1
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new Deselect(TestEntity));
+
+      expect(newState.testEntity.currentEntityKey).toBeUndefined();
+    });
+    // endregion
+
+    // region Select (many)
+    it('should reduce SelectMany and set entity keys to currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMany(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectMany and set entity keys replacing existing keys in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [2]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMany(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectMany and set empty array to currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMany(TestEntity, []));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+    });
+
+    it('should reduce SelectMany and set empty array replacing existing keys in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMany(TestEntity, []));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+    });
+
+    it('should reduce SelectMore and set entity keys to currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMore(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectMore and add entity keys to existing keys in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [2]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMore(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([2, 1, 3]);
+    });
+
+    it('should reduce SelectMore and add entity keys to existing empty array in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: []
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMore(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectManyByKeys and set entity keys to currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectManyByKeys(TestEntity, [1, 3]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectManyByKeys and set entity keys replacing existing keys in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [2]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectManyByKeys(TestEntity, [1, 3]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectManyByKeys and set empty array to currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectManyByKeys(TestEntity, []));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+    });
+
+    it('should reduce SelectManyByKeys and set empty array replacing existing keys in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectManyByKeys(TestEntity, []));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+    });
+
+    it('should reduce SelectMoreByKeys and set entity keys to currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: undefined
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMoreByKeys(TestEntity, [1, 3]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+
+    it('should reduce SelectMoreByKeys and add entity keys to existing keys in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [2]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMoreByKeys(TestEntity, [1, 3]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([2, 1, 3]);
+    });
+
+    it('should reduce SelectMoreByKeys and add entity keys to existing empty array in currentEntitiesKeys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: []
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new SelectMoreByKeys(TestEntity, [1, 3]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+    });
+    // endregion
+
+    // region Deselect (many)
+    it('should reduce DeselectMany with several entities and set currentEntitiesKeys to remaining keys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new DeselectMany(TestEntity, [{ identity: 1 }, { identity: 3 }]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([2]);
+    });
+
+    it('should reduce DeselectMany with empty array and leave currentEntitiesKeys as-is in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new DeselectMany(TestEntity, []));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 2, 3]);
+    });
+
+    it('should reduce DeselectManyByKeys with several keys and set currentEntitiesKeys to remaining keys in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new DeselectManyByKeys(TestEntity, [1, 3]));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([2]);
+    });
+
+    it('should reduce DeselectManyByKeys with empty array and leave currentEntitiesKeys as-is in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new DeselectManyByKeys(TestEntity, []));
+
+      expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 2, 3]);
+    });
+
+    it('should reduce DeselectAll and set currentEntitiesKeys to undefined in state', () => {
+      const state = {
+        testEntity: {
+          entities: {
+            2: { identity: 2 },
+            1: { identity: 1 },
+            3: { identity: 3 }
+          },
+          ids: [1, 2, 3],
+          currentEntitiesKeys: [1, 2, 3]
+        }
+      };
+      const rootReducer = jest.fn();
+      const metaReducer = autoEntityMetaReducer(rootReducer);
+      const newState = metaReducer(state, new DeselectAll(TestEntity));
+
+      expect(newState.testEntity.currentEntitiesKeys).toBeUndefined();
+    });
+    // endregion
   });
 });
