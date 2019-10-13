@@ -1,5 +1,6 @@
+import { Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { OperatorFunction } from 'rxjs';
+import { merge, Observable, OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { pascalCase } from '../util/case';
 import { checkKeyName } from './decorators';
@@ -807,4 +808,13 @@ export function ofEntityType<TModel, T extends EntityAction<TModel>>(
       ? action.info.modelType === entity && allowedActionTypes.some(type => setType(type, action.info) === action.type)
       : false;
   });
+}
+
+export function fromEntityActions<T extends EntityAction<any>>(
+  actions$: Actions,
+  entity: Array<new () => any>,
+  ...allowedActionTypes: EntityActionTypes[]
+): Observable<Action> {
+  const entityActions = entity.map(e => actions$.pipe(ofEntityType(e, ...allowedActionTypes)));
+  return merge(...entityActions);
 }

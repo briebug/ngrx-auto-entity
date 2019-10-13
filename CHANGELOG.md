@@ -1,3 +1,20 @@
+<a name="0.2.7"></a>
+
+# [0.2.7](https://github.com/briebug/ngrx-auto-entity/compare/0.2.6...0.2.7) Beta (2019-10-13)
+
+This release restores a missing selector and adds a new factory function for use with
+custom effects creation. 
+
+### Features
+
+- **actions:** Add fromEntityTypes factory function for multi-entity multi-action effects filtering
+
+### Bug Fixes
+
+- **selectors:** Add createdAt facade getter and corresponding selectors
+
+
+
 <a name="0.2.6"></a>
 
 # [0.2.6](https://github.com/briebug/ngrx-auto-entity/compare/0.2.5...0.2.6) Beta (2019-09-05)
