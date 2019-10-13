@@ -31,6 +31,7 @@ export {
 export {
   ofEntityType,
   ofEntityAction,
+  fromEntityActions,
   isEntityActionInstance,
   IEntityInfo,
   EntityActions,
