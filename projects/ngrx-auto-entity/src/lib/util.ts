@@ -61,6 +61,7 @@ export interface IEntityState<TModel> {
   isDeleting?: boolean;
   loadedAt?: Date;
   savedAt?: Date;
+  createdAt?: Date;
   deletedAt?: Date;
 }
 
@@ -98,6 +99,7 @@ export interface ISelectorMap<TParentState, TModel> {
   selectIsDeleting: MemoizedSelector<object | TParentState, boolean>;
   selectLoadedAt: MemoizedSelector<object | TParentState, Date>;
   selectSavedAt: MemoizedSelector<object | TParentState, Date>;
+  selectCreatedAt: MemoizedSelector<object | TParentState, Date>;
   selectDeletedAt: MemoizedSelector<object | TParentState, Date>;
 }
 
@@ -177,6 +179,10 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
       getState,
       (state: TState): Date => state.savedAt
     ),
+    selectCreatedAt: createSelector(
+      getState,
+      (state: TState): Date => state.createdAt
+    ),
     selectDeletedAt: createSelector(
       getState,
       (state: TState): Date => state.deletedAt
@@ -210,6 +216,7 @@ export interface IEntityFacade<TModel> {
   isDeleting$: Observable<boolean>;
   loadedAt$: Observable<Date>;
   savedAt$: Observable<Date>;
+  createdAt$: Observable<Date>;
   deletedAt$: Observable<Date>;
 
   select(entity: TModel): void;
@@ -352,6 +359,10 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
 
     get savedAt$(): Observable<Date> {
       return this.store.pipe(select(selectors.selectSavedAt));
+    }
+
+    get createdAt$(): Observable<Date> {
+      return this.store.pipe(select(selectors.selectCreatedAt));
     }
 
     get deletedAt$(): Observable<Date> {
