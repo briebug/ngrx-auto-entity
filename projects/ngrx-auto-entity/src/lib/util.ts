@@ -44,7 +44,8 @@ export interface IEntityDictionary<TModel> {
 export type EntityIdentity = string | number;
 
 /**
- * Structure for how entities are stored along with the array of their keys
+ * Structure for how entities are stored, including useful computed properties
+ * such as an array of their keys, status flags, timestamps, etc.
  */
 export interface IEntityState<TModel> {
   entities: IEntityDictionary<TModel>;
@@ -66,7 +67,7 @@ export interface IEntityState<TModel> {
 }
 
 /**
- * Structure of the model state built by the builtState() function
+ * Structure of the model state built by the buildState() function
  */
 export interface IModelState<TParentState, TState, TModel> {
   initialState: TState;
