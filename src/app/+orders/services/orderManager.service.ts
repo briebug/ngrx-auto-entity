@@ -45,9 +45,9 @@ export class OrderManagerService {
                 (customerOrder): OrderInfo => {
                   return {
                     order: customerOrder.order,
+                    items: customerOrder.items,
                     customerName: customerOrder.customer ? customerOrder.customer.name : '<unknown>',
                     dateOfOrder: customerOrder.order.dateOfOrder,
-                    numberOfItems: customerOrder.items.length,
                     total: customerOrder.items.reduce((total: number, item: OrderItem) => {
                       return productsById[item.productId] ? total + +productsById[item.productId].price : total;
                     }, 0)

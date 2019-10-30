@@ -20,7 +20,7 @@
   <!-- Number of items -->
   <ng-container matColumnDef="numberOfItems">
     <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Number of items </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell"> {{ orderInfo.numberOfItems }} </mat-cell>
+    <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell"> {{ orderInfo.items?.length }} </mat-cell>
   </ng-container>
 
   <!-- Total -->
@@ -39,11 +39,18 @@
   <ng-container matColumnDef="userActions">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let orderInfo">
-      <button mat-button (click)="handleEditClick(orderInfo)">Edit</button>
+      <button mat-button (click)="handleExpandClick(orderInfo)">ExpandIcon</button>
     </mat-cell>
   </ng-container>
 
-  <!-- Row definition -->
+  <!-- Hidden row -->
+  <ng-container matColumnDef="viewOrder">
+    <mat-cell *matCellDef="let orderInfo" [@hiddenRowExpand]="orderInfo.order.id === selectedOrderId ? 'expanded' : 'collapsed'">
+      <app-order-form [order]="toOrderFormValue(orderInfo)"></app-order-form>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Normal/Hidden row definition -->
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row *matRowDef="let orderInfo; columns: columnsToDisplay"></mat-row>
 </mat-table>

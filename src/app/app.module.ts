@@ -7,7 +7,7 @@ import { Customer } from 'models/customer.model';
 import { Order } from 'models/order.model';
 import { OrderItem } from 'models/orderItem.model';
 import { Product } from 'models/product.model';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { OrdersSharedModule } from 'src/app/+orders/shared/orders.shared.module';
 import { StateModule } from 'state/state.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +20,6 @@ import { RecentProductsComponent } from './containers/recent-products/recent-pro
 import { TopCustomersComponent } from './containers/top-customers/top-customers.component';
 import { MaterialModule } from './material.module';
 import { EntityService } from './services/entity.service';
-import { OrdersModule } from 'src/app/+orders/orders.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -42,8 +41,7 @@ import { OrdersModule } from 'src/app/+orders/orders.module';
     HttpClientModule,
     StateModule.forRoot(),
     MaterialModule,
-    SharedModule,
-    OrdersModule
+    OrdersSharedModule
   ],
   providers: [
     { provide: Customer, useClass: EntityService },

@@ -4,10 +4,10 @@ import { CustomerFacade } from 'facades/customer.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { Customer } from 'models/customer.model';
 import { Order, OrderStatus } from 'models/order.model';
+import { OrderItem } from 'models/orderItem.model';
 import { Product } from 'models/product.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, map, take, takeUntil, withLatestFrom } from 'rxjs/operators';
-import { OrderItem } from 'models/orderItem.model';
 import { FormGroupConfig } from 'src/app/shared/types/forms.type';
 
 @Component({

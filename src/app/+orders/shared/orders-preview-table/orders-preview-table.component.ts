@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
+import { IOrderFormValue } from 'src/app/+orders/shared/order-form/order-form.component';
 
 const DEFAULT_COLUMNS: IOrdersPreviewTableColumns[] = [
   'customer',
@@ -29,9 +30,9 @@ export class OrdersPreviewTableComponent implements OnChanges {
   @Input() orders: OrderInfo[];
   @Input() columnsToDisplay: IOrdersPreviewTableColumns[] = DEFAULT_COLUMNS;
 
-  @Output() editOrderClick = new EventEmitter<OrderInfo>();
-
   dataSource = new MatTableDataSource();
+
+  selectedOrderId: number;
 
   constructor() {}
 
@@ -42,14 +43,21 @@ export class OrdersPreviewTableComponent implements OnChanges {
   }
 
   /* Handlers */
-  handleEditClick(info: OrderInfo) {
+  handleExpandClick(info: OrderInfo) {
     console.log('clicked', info);
-    this.editOrderClick.emit(info);
+    this.selectedOrderId = info.order.id;
   }
 
   /* Public */
   toCurrencyString(amount: number): string {
     return `$${amount.toFixed(2)}`;
+  }
+
+  toOrderFormValue(info: OrderInfo): IOrderFormValue {
+    return {
+      ...info.order,
+      items: info.items
+    };
   }
 }
 
