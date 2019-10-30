@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-
 import { Order } from 'models/order.model';
 import { tap } from 'rxjs/operators';
-import { AppState } from 'state/app.state';
 import { OrderItem } from '../models/orderItem.model';
-import { FeatureState } from '../state/feature.state';
+import { FeatureState } from '../+orders/state/feature.state';
 import { OrderItemFacadeBase } from '../state/orderItem.state';
+
 
 @Injectable({
   providedIn: 'root'

@@ -1,0 +1,43 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <!-- Customer -->
+  <mat-form-field>
+    <mat-label>Customer</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let customer of (customers$ | async)" [value]="customer.id">
+        {{customer.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Add Product -->
+  <mat-form-field>
+    <mat-select>
+      <mat-option *ngFor="let product of (products$ | async)" (click)="handleAddProductClick(product)">
+        {{product.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Added Products List -->
+  <div *ngIf="itemsFormArray?.length" formArrayName="items">
+    <div *ngFor="let itemFormGroup of itemsFormArray;" fxLayout="row" fxLayoutAlign="space-between center">
+      <ng-container *ngIf="productsById$ | async as productsById">
+        <ng-container *ngIf="productsById[itemFormGroup.get('productId').value] as product">
+          <!-- Row -->
+          <div [formGroup]="itemFormGroup">
+            <!-- Product name -->
+            <div>{{product.name}}</div>
+            <!-- Quantity/Remove -->
+            <div fxLayout="row" fxLayoutAlign="end center">
+              <mat-form-field [formControl]="itemFormGroup.get('quantity')">
+                <input matInput type="number">
+              </mat-form-field>
+              <a>Remove</a>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+</form>

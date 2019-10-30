@@ -1,0 +1,7 @@
+<ng-container *ngIf="orders$ | async as orders">
+  <app-orders-preview-table #table *ngTemplateOutlet="orderForm" [orders]="orders" [columnsToDisplay]="columnsToDisplay">
+  </app-orders-preview-table>
+</ng-container>
+<ng-template #orderForm>
+  <app-order-form *ngIf="table?.selectedOrder" [order]="table?.selectedOrder"></app-order-form>
+</ng-template>

@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class EntityService implements IAutoEntityService<any> {
-  constructor(private http: HttpClient) {}
+  constructor(protected http: HttpClient) {}
 
   load(entityInfo: IEntityInfo, keys: any): Observable<any> {
     return this.http.get<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${keys}`);
