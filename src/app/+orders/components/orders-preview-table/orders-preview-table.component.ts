@@ -1,9 +1,16 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
 
-const DEFAULT_COLUMNS: IOrdersPreviewTableColumns[] = ['customer', 'dateOfOrder', 'numberOfItems', 'total', 'status', 'userActions'];
+const DEFAULT_COLUMNS: IOrdersPreviewTableColumns[] = [
+  'customer',
+  'dateOfOrder',
+  'numberOfItems',
+  'total',
+  'status',
+  'userActions'
+];
 
 @Component({
   selector: 'app-orders-preview-table',
@@ -22,9 +29,9 @@ export class OrdersPreviewTableComponent implements OnChanges {
   @Input() orders: OrderInfo[];
   @Input() columnsToDisplay: IOrdersPreviewTableColumns[] = DEFAULT_COLUMNS;
 
-  dataSource = new MatTableDataSource();
+  @Output() editOrderClick = new EventEmitter<OrderInfo>();
 
-  selectedOrder: OrderInfo;
+  dataSource = new MatTableDataSource();
 
   constructor() {}
 
@@ -34,12 +41,22 @@ export class OrdersPreviewTableComponent implements OnChanges {
     }
   }
 
-  handleEditClick(order: OrderInfo) {
-    console.log('clicked', order);
-    this.selectedOrder = order;
+  /* Handlers */
+  handleEditClick(info: OrderInfo) {
+    console.log('clicked', info);
+    this.editOrderClick.emit(info);
+  }
+
+  /* Public */
+  toCurrencyString(amount: number): string {
+    return `$${amount.toFixed(2)}`;
   }
 }
 
 export type IOrdersPreviewTableColumns =
-  | keyof Pick<OrderInfo, 'customer' | 'dateOfOrder' | 'status' | 'numberOfItems' | 'total'>
+  | 'customer'
+  | 'dateOfOrder'
+  | 'status'
+  | 'numberOfItems'
+  | 'total'
   | 'userActions';

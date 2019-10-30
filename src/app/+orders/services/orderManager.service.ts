@@ -29,10 +29,10 @@ export class OrderManagerService {
         combineLatest([
           this.orderFacade.ofStatus(status),
           this.customerFacade.entities$,
-          // this.orderItemFacade.all$,
-          // this.productFacade.entities$
-          of([]),
-          of({})
+          this.orderItemFacade.all$,
+          this.productFacade.entities$
+          // of([]),
+          // of({})
         ]).pipe(
           map(([orders, customersById, orderItems, productsById]) => {
             return orders
@@ -44,10 +44,9 @@ export class OrderManagerService {
               .map(
                 (customerOrder): OrderInfo => {
                   return {
-                    id: customerOrder.order.id,
-                    customer: customerOrder.customer ? customerOrder.customer.name : '<unknown>',
+                    order: customerOrder.order,
+                    customerName: customerOrder.customer ? customerOrder.customer.name : '<unknown>',
                     dateOfOrder: customerOrder.order.dateOfOrder,
-                    status: customerOrder.order.status,
                     numberOfItems: customerOrder.items.length,
                     total: customerOrder.items.reduce((total: number, item: OrderItem) => {
                       return productsById[item.productId] ? total + +productsById[item.productId].price : total;

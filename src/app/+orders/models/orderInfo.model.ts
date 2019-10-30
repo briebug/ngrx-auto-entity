@@ -1,10 +1,9 @@
-import { OrderStatus } from 'models/order.model';
+import { Order } from 'models/order.model';
 
 export class OrderInfo {
-  id: number;
-  customer: string;
+  order: Order;
+  customerName: string;
   dateOfOrder: string;
-  status: OrderStatus;
   numberOfItems: number;
   total: number;
 }

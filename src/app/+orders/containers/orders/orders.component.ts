@@ -5,7 +5,7 @@ import { OrderManagerService } from 'src/app/+orders/services/orderManager.servi
 import { OrderStatus } from 'models/order.model';
 import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IOrdersPreviewTableColumns } from 'src/app/shared/components/orders-preview-table/orders-preview-table.component';
+import { IOrdersPreviewTableColumns } from 'src/app/+orders/components/orders-preview-table/orders-preview-table.component';
 import { OrderItemFacade } from 'facades/orderItem.facade';
 import { ProductFacade } from 'facades/product.facade';
 
