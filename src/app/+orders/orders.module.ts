@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OrderFormComponent } from 'src/app/+orders/components/order-form/order-form.component';
+import { OrdersPreviewTableComponent } from 'src/app/+orders/components/orders-preview-table/orders-preview-table.component';
 import { OrdersComponent } from 'src/app/+orders/containers/orders/orders.component';
 import { MaterialModule } from 'src/app/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -10,7 +11,7 @@ import { OrderComponent } from './components/order/order.component';
 import { routes } from './orders.routing';
 
 @NgModule({
-  declarations: [OrdersComponent, OrderComponent, OrderFormComponent],
+  declarations: [OrdersComponent, OrderComponent, OrderFormComponent, OrdersPreviewTableComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -20,7 +21,7 @@ import { routes } from './orders.routing';
     ReactiveFormsModule,
     MaterialModule
   ],
-  exports: []
+  exports: [OrdersPreviewTableComponent]
   // providers: [{ provide: OrderItem, useClass: FeatureEntityService }]
 })
 export class OrdersModule {}
