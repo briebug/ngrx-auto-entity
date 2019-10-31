@@ -1,5 +1,5 @@
 import { Order } from 'models/order.model';
-import { OrderItem } from 'models/orderItem.model';
+import { OrderItem } from 'models/order-item.model';
 
 export class OrderInfo {
   order: Order;

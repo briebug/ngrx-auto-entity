@@ -4,7 +4,7 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Account } from 'models/account.model';
 import { Customer } from 'models/customer.model';
 import { Order } from 'models/order.model';
-import { OrderItem } from 'models/orderItem.model';
+import { OrderItem } from 'models/order-item.model';
 import { Product } from 'models/product.model';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { accountReducer } from 'state/account.state';

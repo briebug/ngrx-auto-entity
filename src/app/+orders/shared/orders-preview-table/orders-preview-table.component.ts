@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { OrderItem } from 'models/orderItem.model';
+import { OrderItem } from 'models/order-item.model';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';

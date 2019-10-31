@@ -4,7 +4,7 @@ import { CustomerFacade } from 'facades/customer.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { Customer } from 'models/customer.model';
 import { Order, OrderStatus } from 'models/order.model';
-import { OrderItem } from 'models/orderItem.model';
+import { OrderItem } from 'models/order-item.model';
 import { Product } from 'models/product.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, map, take, takeUntil, withLatestFrom } from 'rxjs/operators';

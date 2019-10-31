@@ -5,7 +5,7 @@ import { OrderFacade } from 'facades/order.facade';
 import { OrderItemFacade } from 'facades/order-item.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { OrderStatus } from 'models/order.model';
-import { OrderItem } from 'models/orderItem.model';
+import { OrderItem } from 'models/order-item.model';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';

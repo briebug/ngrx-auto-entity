@@ -1,5 +1,5 @@
 import { buildState, IEntityState } from '@briebug/ngrx-auto-entity';
-import { OrderItem } from '../models/orderItem.model';
+import { OrderItem } from '../models/order-item.model';
 
 export const { initialState, facade: OrderItemFacadeBase } = buildState(OrderItem);
 

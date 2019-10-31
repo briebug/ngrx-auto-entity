@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from 'core/core.module';
 import { Customer } from 'models/customer.model';
 import { Order } from 'models/order.model';
-import { OrderItem } from 'models/orderItem.model';
+import { OrderItem } from 'models/order-item.model';
 import { Product } from 'models/product.model';
 import { OrdersSharedModule } from 'src/app/+orders/shared/orders.shared.module';
 import { StateModule } from 'state/state.module';

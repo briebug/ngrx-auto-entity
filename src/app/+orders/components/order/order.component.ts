@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderItemFacade } from '../../../facades/order-item.facade';
-import { OrderItem } from '../../../models/orderItem.model';
+import { OrderItem } from '../../../models/order-item.model';
 
 @Component({
   selector: 'app-order',

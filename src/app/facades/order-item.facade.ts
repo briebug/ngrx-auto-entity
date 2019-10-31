@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Order } from 'models/order.model';
 import { tap } from 'rxjs/operators';
 import { AppState } from 'state/app.state';
-import { OrderItem } from '../models/orderItem.model';
+import { OrderItem } from '../models/order-item.model';
 import { OrderItemFacadeBase } from '../state/order-item.state';
 
 
