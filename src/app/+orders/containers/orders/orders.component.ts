@@ -23,8 +23,6 @@ export class OrdersComponent implements OnInit {
   ]);
   orders$: Observable<OrderInfo[]>;
 
-  columnsToDisplay: IOrdersPreviewTableColumns[] = ['customer', 'dateOfOrder', 'status', 'userActions'];
-
   constructor(
     private orderManager: OrderManagerService,
     orderFacade: OrderFacade,

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { CustomerFacade } from 'facades/customer.facade';
-import { OrderFacade } from 'facades/order.facade';
 import { OrderItemFacade } from 'facades/order-item.facade';
+import { OrderFacade } from 'facades/order.facade';
 import { ProductFacade } from 'facades/product.facade';
-import { OrderStatus } from 'models/order.model';
 import { OrderItem } from 'models/order-item.model';
-import { combineLatest, Observable, of } from 'rxjs';
+import { OrderStatus } from 'models/order.model';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
+import { IOrderFormDialogData, OrderFormDialogComponent } from 'src/app/+orders/shared/order-form-dialog/order-form-dialog.component';
 import { AppState } from 'state/app.state';
 
 @Injectable({
@@ -20,7 +22,8 @@ export class OrderManagerService {
     private orderFacade: OrderFacade,
     private customerFacade: CustomerFacade,
     private orderItemFacade: OrderItemFacade,
-    private productFacade: ProductFacade
+    private productFacade: ProductFacade,
+    private dialogService: MatDialog
   ) {}
 
   orderInfoByStatus$(status$: Observable<OrderStatus[]>): Observable<OrderInfo[]> {
@@ -31,8 +34,6 @@ export class OrderManagerService {
           this.customerFacade.entities$,
           this.orderItemFacade.all$,
           this.productFacade.entities$
-          // of([]),
-          // of({})
         ]).pipe(
           map(([orders, customersById, orderItems, productsById]) => {
             return orders
@@ -47,9 +48,11 @@ export class OrderManagerService {
                     order: customerOrder.order,
                     items: customerOrder.items,
                     customerName: customerOrder.customer ? customerOrder.customer.name : '<unknown>',
-                    dateOfOrder: customerOrder.order.dateOfOrder,
+                    dateLocaleString: new Date(customerOrder.order.dateOfOrder).toLocaleString(),
                     total: customerOrder.items.reduce((total: number, item: OrderItem) => {
-                      return productsById[item.productId] ? total + +productsById[item.productId].price : total;
+                      return productsById[item.productId]
+                        ? total + +productsById[item.productId].price * item.quantity
+                        : total;
                     }, 0)
                   };
                 }
@@ -63,9 +66,14 @@ export class OrderManagerService {
   recentOrderInfoByStatus$(status$: Observable<OrderStatus[]>, count?: number): Observable<OrderInfo[]> {
     return this.orderInfoByStatus$(status$).pipe(
       map(orders => {
-        orders.sort((a, b) => b.dateOfOrder.localeCompare(a.dateOfOrder));
+        orders.sort((a, b) => b.order.dateOfOrder.localeCompare(a.order.dateOfOrder));
         return count ? orders.slice(0, count) : orders;
       })
     );
+  }
+
+  openEditOrderFormDialog(info: OrderInfo): MatDialogRef<OrderFormDialogComponent> {
+    const data: IOrderFormDialogData = { orderInfo: info };
+    return this.dialogService.open(OrderFormDialogComponent, { data });
   }
 }

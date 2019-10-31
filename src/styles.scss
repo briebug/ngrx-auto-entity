@@ -5,17 +5,19 @@
 
 /** Colors **/
 // Foreground
-
-// Background
-.default-bg {
-  // background-color: darken(white, 3);
+.color-primary {
+  color: mat-color($app-primary);
 }
+.color-accent {
+  color: mat-color($app-accent);
+}
+
 
 /** Interactable stuff **/
 .default-clickable {
-  color: mat-color($app-primary);
+  @extend .color-primary;
   &:hover {
-    color: mat-color($app-accent);
+    @extend .color-accent;
     cursor: pointer;
   }
 }

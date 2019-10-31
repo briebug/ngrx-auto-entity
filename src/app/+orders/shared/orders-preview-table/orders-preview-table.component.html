@@ -2,64 +2,85 @@
   <mat-table [dataSource]="dataSource" multiTemplateDataRows>
     <!-- ID -->
     <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef class="opt__centered-cell opt__smaller-cell"> Order # </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell opt__smaller-cell">
+      <mat-header-cell *matHeaderCellDef fxFlex="0 1 150px"> Order # </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="0 1 150px">
         {{ orderInfo.order.id }}
       </mat-cell>
     </ng-container>
 
     <!-- Customer -->
     <ng-container matColumnDef="customer">
-      <mat-header-cell *matHeaderCellDef> Customer </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.customerName }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef fxFlex="1 1 30%"> Customer </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="1 1 30%"> {{ orderInfo.customerName }} </mat-cell>
     </ng-container>
 
     <!-- Date of order -->
     <ng-container matColumnDef="dateOfOrder">
-      <mat-header-cell *matHeaderCellDef> Date of Order </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.dateOfOrder }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef fxFlex="0 1 250px"> Date of Order </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="0 1 250px"> {{ orderInfo.dateLocaleString }} </mat-cell>
     </ng-container>
 
     <!-- Number of items -->
     <ng-container matColumnDef="numberOfItems">
-      <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Number of items </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell"> {{ orderInfo.items?.length }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="opt__centered-cell" fxFlex="0 1 150px"> Items </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell" fxFlex="0 1 150px">
+        {{ orderInfo.items?.length }}
+      </mat-cell>
     </ng-container>
 
     <!-- Total -->
     <ng-container matColumnDef="total">
-      <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Total </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell">
+      <mat-header-cell *matHeaderCellDef fxFlex="0 1 200px"> Total </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="0 1 200px">
         {{ toCurrencyString(orderInfo.total) }}
       </mat-cell>
     </ng-container>
 
     <!-- Status -->
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.order.status }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef fxFlex="0 1 200px"> Status </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="0 1 200px"> {{ orderInfo.order.status }} </mat-cell>
     </ng-container>
 
     <!-- User actions -->
     <ng-container matColumnDef="userActions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo">
-        <button mat-button (click)="handleExpandClick(orderInfo)">ExpandIcon</button>
+      <mat-header-cell *matHeaderCellDef fxFlex="0 1 100px"></mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" class="opt__right-align-cell" fxFlex="0 1 100px">
+        <!-- Expand -->
+        <button class="opt__expand-collapse-btn" mat-icon-button color="accent" (click)="handleExpandClick(orderInfo)">
+          <mat-icon>{{ isSelectedOrder(orderInfo) ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
       </mat-cell>
     </ng-container>
 
     <!-- Hidden row -->
     <ng-container matColumnDef="orderDetails">
-      <mat-cell *matCellDef="let orderInfo" [@hiddenRowExpand]="isSelectedOrder(orderInfo) ? 'expanded' : 'collapsed'">
-        <div *ngIf="isSelectedOrder(orderInfo) || orderInfo.order.id === orderIdInCloseAnimation" fxLayout="column">
-          <div *ngFor="let item of orderInfo.items" fxLayout="row" fxLayoutAlign="space-between center">
-            <ng-container *ngIf="productsById$ | async as productsById">
+      <mat-cell
+        *matCellDef="let orderInfo"
+        [class.selected-hidden-cell]="isSelectedOrder(orderInfo) || orderInfo.order.id === orderIdInCloseAnimation"
+        [@hiddenRowExpand]="isSelectedOrder(orderInfo) ? 'expanded' : 'collapsed'"
+      >
+        <div
+          *ngIf="isSelectedOrder(orderInfo) || orderInfo.order.id === orderIdInCloseAnimation"
+          fxLayout="row"
+          fxLayoutAlign="space-between start"
+          style="width:100%"
+        >
+          <!-- Items list -->
+          <div *ngIf="productsById$ | async as productsById" fxLayout="column">
+            <ng-container *ngFor="let item of orderInfo.items">
               <ng-container *ngIf="productsById[item.productId] as product">
-                <!-- Product name x Quantity -->
-                <div>{{ product.name }} x {{ item.quantity }}</div>
+                <!-- Quantity x Product name (Price) -->
+                <div class="color-accent">
+                  - {{ item.quantity }} x {{ product.name }} ({{ toCurrencyString(product.price) }})
+                </div>
               </ng-container>
             </ng-container>
           </div>
+          <!-- Edit -->
+          <button mat-stroked-button (click)="handleEditClick(orderInfo)" [disabled]="!isEditable(orderInfo)">
+            Edit order
+          </button>
         </div>
       </mat-cell>
     </ng-container>
@@ -68,12 +89,8 @@
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
     <mat-row
       *matRowDef="let orderInfo; columns: columnsToDisplay"
-      [class.selected-row]="isSelectedOrder(orderInfo)"
+      [class.selected-row]="isSelectedOrder(orderInfo) || orderInfo.order.id === orderIdInCloseAnimation"
     ></mat-row>
-    <mat-row
-      *matRowDef="let orderInfo; columns: ['orderDetails']"
-      class="opt__hidden-row default-bg"
-      [class.selected-hidden-row]="isSelectedOrder(orderInfo)"
-    ></mat-row>
+    <mat-row *matRowDef="let orderInfo; columns: ['orderDetails']" class="opt__hidden-row default-bg"></mat-row>
   </mat-table>
 </ng-container>

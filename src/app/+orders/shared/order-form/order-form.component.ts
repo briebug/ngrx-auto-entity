@@ -3,11 +3,12 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { CustomerFacade } from 'facades/customer.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { Customer } from 'models/customer.model';
-import { Order, OrderStatus } from 'models/order.model';
 import { OrderItem } from 'models/order-item.model';
+import { Order, OrderStatus } from 'models/order.model';
 import { Product } from 'models/product.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, map, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { FormGroupConfig } from 'src/app/shared/types/forms.type';
 
 @Component({
@@ -17,10 +18,10 @@ import { FormGroupConfig } from 'src/app/shared/types/forms.type';
 })
 export class OrderFormComponent implements OnInit, OnDestroy {
   /** Input for initializing or updating the current order */
-  @Input() set order(formValue: Partial<IOrderFormValue>) {
+  @Input() set orderInfo(formValue: OrderInfo) {
     this.orderFormUpdate$.next({
       ...(this.orderFormUpdate$.getValue() || this.getDefaultFormValue()),
-      ...formValue
+      ...OrderFormComponent.orderInfoToOrderFormValue(formValue)
     });
   }
   /** Event emitter for an order change */
@@ -47,6 +48,19 @@ export class OrderFormComponent implements OnInit, OnDestroy {
     private productFacade: ProductFacade
   ) {}
 
+  /* Static */
+  static orderInfoToOrderFormValue(info: OrderInfo): IOrderFormValue {
+    return {
+      ...info.order,
+      items: info.items.map(
+        (item: OrderItem): IOrderFormItem => {
+          return { productId: item.productId, quantity: item.quantity };
+        }
+      )
+    };
+  }
+
+  /* Instance */
   ngOnInit() {
     this.orderFormUpdate$.subscribe(v => console.log('update form', v));
     this.initFacadeData();

@@ -5,8 +5,9 @@
     display: flex;
     justify-content: center;
   }
-  &__smaller-cell {
-    width: 60px;
+  &__right-align-cell {
+    display: flex;
+    justify-content: flex-end;
   }
   &__hidden-row {
     min-height: 0px;
@@ -14,7 +15,7 @@
   }
 }
 
-.selected-hidden-row {
+.selected-hidden-cell {
   border-bottom: 1px solid $mat-border-color;
 }
 .selected-row {
