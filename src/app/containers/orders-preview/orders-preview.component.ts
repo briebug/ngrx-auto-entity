@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderFacade } from 'facades/order.facade';
-import { OrderItemFacade } from 'facades/orderItem.facade';
+import { OrderItemFacade } from 'facades/order-item.facade';
 import { OrderStatus } from 'models/order.model';
 import { BehaviorSubject } from 'rxjs';
-import { OrderManagerService } from 'src/app/+orders/services/orderManager.service';
+import { OrderManagerService } from 'src/app/+orders/services/order-manager.service';
 
 const DEFAULT_STATUS = [OrderStatus.open, OrderStatus.completed];
 

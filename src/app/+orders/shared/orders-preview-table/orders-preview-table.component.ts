@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material';
 import { OrderItem } from 'models/orderItem.model';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
+import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/shared/order-form/order-form.component';
 import { IEntityDictionary } from '@briebug/ngrx-auto-entity';
 import { Product } from 'models/product.model';

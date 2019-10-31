@@ -10,7 +10,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { accountReducer } from 'state/account.state';
 import { customerReducer } from 'state/customer.state';
 import { orderReducer } from 'state/order.state';
-import { orderItemReducer } from 'state/orderItem.state';
+import { orderItemReducer } from 'state/order-item.state';
 import { productReducer } from 'state/product.state';
 import { IRouterStateUrl } from 'state/shared/utils';
 import { environment } from '../../environments/environment';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrderItemFacade } from '../../../facades/orderItem.facade';
+import { OrderItemFacade } from '../../../facades/order-item.facade';
 import { OrderItem } from '../../../models/orderItem.model';
 
 @Component({

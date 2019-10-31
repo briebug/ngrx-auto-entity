@@ -4,7 +4,7 @@ import { Order } from 'models/order.model';
 import { tap } from 'rxjs/operators';
 import { AppState } from 'state/app.state';
 import { OrderItem } from '../models/orderItem.model';
-import { OrderItemFacadeBase } from '../state/orderItem.state';
+import { OrderItemFacadeBase } from '../state/order-item.state';
 
 
 @Injectable({

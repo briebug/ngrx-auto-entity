@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderFacade } from 'facades/order.facade';
-import { OrderItemFacade } from 'facades/orderItem.facade';
+import { OrderItemFacade } from 'facades/order-item.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { OrderStatus } from 'models/order.model';
 import { OrderItem } from 'models/orderItem.model';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
+import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { AppState } from 'state/app.state';
 
 @Injectable({

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderFacade } from 'facades/order.facade';
-import { OrderItemFacade } from 'facades/orderItem.facade';
+import { OrderItemFacade } from 'facades/order-item.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { OrderStatus } from 'models/order.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
-import { OrderManagerService } from 'src/app/+orders/services/orderManager.service';
+import { OrderInfo } from 'src/app/+orders/models/order-info.model';
+import { OrderManagerService } from 'src/app/+orders/services/order-manager.service';
 import { IOrdersPreviewTableColumns } from 'src/app/+orders/shared/orders-preview-table/orders-preview-table.component';
 
 @Component({
