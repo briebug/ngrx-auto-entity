@@ -1,56 +1,79 @@
-<mat-table [dataSource]="dataSource" multiTemplateDataRows>
-  <!-- ID -->
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> Order # </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.order.id }} </mat-cell>
-  </ng-container>
+<ng-container *ngIf="dataSource">
+  <mat-table [dataSource]="dataSource" multiTemplateDataRows>
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef class="opt__centered-cell opt__smaller-cell"> Order # </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell opt__smaller-cell">
+        {{ orderInfo.order.id }}
+      </mat-cell>
+    </ng-container>
 
-  <!-- Customer -->
-  <ng-container matColumnDef="customer">
-    <mat-header-cell *matHeaderCellDef> Customer </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.customerName }} </mat-cell>
-  </ng-container>
+    <!-- Customer -->
+    <ng-container matColumnDef="customer">
+      <mat-header-cell *matHeaderCellDef> Customer </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.customerName }} </mat-cell>
+    </ng-container>
 
-  <!-- Date of order -->
-  <ng-container matColumnDef="dateOfOrder">
-    <mat-header-cell *matHeaderCellDef> Date of Order </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.dateOfOrder }} </mat-cell>
-  </ng-container>
+    <!-- Date of order -->
+    <ng-container matColumnDef="dateOfOrder">
+      <mat-header-cell *matHeaderCellDef> Date of Order </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.dateOfOrder }} </mat-cell>
+    </ng-container>
 
-  <!-- Number of items -->
-  <ng-container matColumnDef="numberOfItems">
-    <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Number of items </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell"> {{ orderInfo.items?.length }} </mat-cell>
-  </ng-container>
+    <!-- Number of items -->
+    <ng-container matColumnDef="numberOfItems">
+      <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Number of items </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell"> {{ orderInfo.items?.length }} </mat-cell>
+    </ng-container>
 
-  <!-- Total -->
-  <ng-container matColumnDef="total">
-    <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Total </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell"> {{ toCurrencyString(orderInfo.total) }} </mat-cell>
-  </ng-container>
+    <!-- Total -->
+    <ng-container matColumnDef="total">
+      <mat-header-cell *matHeaderCellDef class="opt__centered-cell"> Total </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" class="opt__centered-cell">
+        {{ toCurrencyString(orderInfo.total) }}
+      </mat-cell>
+    </ng-container>
 
-  <!-- Status -->
-  <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.order.status }} </mat-cell>
-  </ng-container>
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo"> {{ orderInfo.order.status }} </mat-cell>
+    </ng-container>
 
-  <!-- User actions -->
-  <ng-container matColumnDef="userActions">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let orderInfo">
-      <button mat-button (click)="handleExpandClick(orderInfo)">ExpandIcon</button>
-    </mat-cell>
-  </ng-container>
+    <!-- User actions -->
+    <ng-container matColumnDef="userActions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo">
+        <button mat-button (click)="handleExpandClick(orderInfo)">ExpandIcon</button>
+      </mat-cell>
+    </ng-container>
 
-  <!-- Hidden row -->
-  <ng-container matColumnDef="viewOrder">
-    <mat-cell *matCellDef="let orderInfo" [@hiddenRowExpand]="orderInfo.order.id === selectedOrderId ? 'expanded' : 'collapsed'">
-      <app-order-form [order]="toOrderFormValue(orderInfo)"></app-order-form>
-    </mat-cell>
-  </ng-container>
+    <!-- Hidden row -->
+    <ng-container matColumnDef="orderDetails">
+      <mat-cell *matCellDef="let orderInfo" [@hiddenRowExpand]="isSelectedOrder(orderInfo) ? 'expanded' : 'collapsed'">
+        <div *ngIf="isSelectedOrder(orderInfo) || orderInfo.order.id === orderIdInCloseAnimation" fxLayout="column">
+          <div *ngFor="let item of orderInfo.items" fxLayout="row" fxLayoutAlign="space-between center">
+            <ng-container *ngIf="productsById$ | async as productsById">
+              <ng-container *ngIf="productsById[item.productId] as product">
+                <!-- Product name x Quantity -->
+                <div>{{ product.name }} x {{ item.quantity }}</div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
 
-  <!-- Normal/Hidden row definition -->
-  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-  <mat-row *matRowDef="let orderInfo; columns: columnsToDisplay"></mat-row>
-</mat-table>
+    <!-- Normal/Hidden row definition -->
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row
+      *matRowDef="let orderInfo; columns: columnsToDisplay"
+      [class.selected-row]="isSelectedOrder(orderInfo)"
+    ></mat-row>
+    <mat-row
+      *matRowDef="let orderInfo; columns: ['orderDetails']"
+      class="opt__hidden-row default-bg"
+      [class.selected-hidden-row]="isSelectedOrder(orderInfo)"
+    ></mat-row>
+  </mat-table>
+</ng-container>

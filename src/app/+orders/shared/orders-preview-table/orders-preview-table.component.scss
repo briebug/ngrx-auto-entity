@@ -1,6 +1,22 @@
+@import '../../../../styles/variables';
+
 .opt {
   &__centered-cell {
     display: flex;
     justify-content: center;
   }
+  &__smaller-cell {
+    width: 60px;
+  }
+  &__hidden-row {
+    min-height: 0px;
+    border: none;
+  }
+}
+
+.selected-hidden-row {
+  border-bottom: 1px solid $mat-border-color;
+}
+.selected-row {
+  border-bottom: none;
 }

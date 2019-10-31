@@ -1,43 +1,46 @@
 <form *ngIf="formGroup" [formGroup]="formGroup">
-  <!-- Customer -->
-  <mat-form-field>
-    <mat-label>Customer</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let customer of (customers$ | async)" [value]="customer.id">
-        {{customer.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+    <!-- Customer -->
+    <mat-form-field appearance="outline">
+      <mat-label>Customer</mat-label>
+      <mat-select [formControl]="getControl('customerId')">
+        <mat-option [value]="null">Clear</mat-option>
+        <mat-option *ngFor="let customer of (customers$ | async)" [value]="customer.id">
+          {{customer.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <!-- Add Product -->
-  <mat-form-field>
-    <mat-select>
-      <mat-option *ngFor="let product of (products$ | async)" (click)="handleAddProductClick(product)">
-        {{product.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <!-- Add Product -->
+    <mat-form-field appearance="outline" floatLabel="never">
+      <mat-select placeholder="Add Product">
+        <mat-option *ngFor="let product of (products$ | async)" (click)="handleAddProductClick(product)">
+          {{product.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
   <!-- Added Products List -->
-  <div *ngIf="itemsFormArray?.length" formArrayName="items">
-    <div *ngFor="let itemFormGroup of itemsFormArray;" fxLayout="row" fxLayoutAlign="space-between center">
-      <ng-container *ngIf="productsById$ | async as productsById">
-        <ng-container *ngIf="productsById[itemFormGroup.get('productId').value] as product">
-          <!-- Row -->
-          <div [formGroup]="itemFormGroup">
+  <ng-container *ngIf="itemsFormArray?.length">
+    <div formArrayName="items" *ngFor="let itemFormGroup of itemsFormArray.controls;let i = index;" fxLayout="row" fxLayoutAlign="space-between center">
+      <!-- Row -->
+      <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+        <ng-container *ngIf="productsById$ | async as productsById">
+          <ng-container *ngIf="productsById[itemFormGroup.get('productId').value] as product">
             <!-- Product name -->
             <div>{{product.name}}</div>
             <!-- Quantity/Remove -->
-            <div fxLayout="row" fxLayoutAlign="end center">
-              <mat-form-field [formControl]="itemFormGroup.get('quantity')">
-                <input matInput type="number">
+            <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+              <mat-form-field class="mat-form-field--xs mat-form-field--centered" appearance="outline">
+                <input [formControl]="itemFormGroup.get('quantity')" matInput type="number">
               </mat-form-field>
-              <a>Remove</a>
+              <div class="default-clickable">Remove</div>
             </div>
-          </div>
+          </ng-container>
         </ng-container>
-      </ng-container>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
 </form>

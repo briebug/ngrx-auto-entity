@@ -48,6 +48,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.orderFormUpdate$.subscribe(v => console.log('update form', v));
     this.initFacadeData();
 
     this.initForm();
@@ -123,6 +124,8 @@ export class OrderFormComponent implements OnInit, OnDestroy {
       };
 
       this.formGroup = this.formBuilder.group(config);
+
+      console.log('formgroup', this.formGroup);
     });
   }
 

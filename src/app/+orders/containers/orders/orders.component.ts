@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderFacade } from 'facades/order.facade';
-import { OrderManagerService } from 'src/app/+orders/services/orderManager.service';
-import { OrderStatus } from 'models/order.model';
-import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { IOrdersPreviewTableColumns } from 'src/app/+orders/shared/orders-preview-table/orders-preview-table.component';
 import { OrderItemFacade } from 'facades/orderItem.facade';
 import { ProductFacade } from 'facades/product.facade';
+import { OrderStatus } from 'models/order.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { OrderInfo } from 'src/app/+orders/models/orderInfo.model';
+import { OrderManagerService } from 'src/app/+orders/services/orderManager.service';
+import { IOrdersPreviewTableColumns } from 'src/app/+orders/shared/orders-preview-table/orders-preview-table.component';
 
 @Component({
   selector: 'app-orders',
@@ -40,7 +40,10 @@ export class OrdersComponent implements OnInit {
     this.initOrders$();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('orders init');
+    this.orders$.subscribe(v => console.log('orders', v));
+  }
 
   private initOrders$() {
     this.orders$ = this.orderManager.recentOrderInfoByStatus$(this.statusFilter$.asObservable());

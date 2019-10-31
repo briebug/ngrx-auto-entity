@@ -23,7 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles.scss", "src/styles/_variables.scss"],
             "scripts": []
           },
           "configurations": {
@@ -69,7 +69,7 @@
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles.scss", "src/styles/_variables.scss"],
             "scripts": [],
             "assets": ["src/favicon.ico", "src/assets"]
           }
