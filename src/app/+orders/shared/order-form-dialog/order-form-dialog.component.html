@@ -1,1 +1,5 @@
-<app-order-form [orderInfo]="data.orderInfo"></app-order-form>
+<app-order-form
+  [orderInfo]="data.orderInfo"
+  (cancelClick)="handleCancelClick()"
+  (saveClick)="handleSaveClick($event, dialogRef)"
+></app-order-form>

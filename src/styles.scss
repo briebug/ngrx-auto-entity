@@ -12,17 +12,27 @@
   color: mat-color($app-accent);
 }
 
+/** Text Formatting **/
+.align-right {
+  text-align: right;
+}
 
 /** Interactable stuff **/
 .default-clickable {
-  @extend .color-primary;
+  color: white;
   &:hover {
     @extend .color-accent;
     cursor: pointer;
   }
 }
 
-/** NG Material mods **/
+/** Random stuff? **/
+.separator {
+  width: 100%;
+  margin: 0;
+}
+
+/** NG Material **/
 // mat-form-field
 .mat-form-field {
   &--xs {

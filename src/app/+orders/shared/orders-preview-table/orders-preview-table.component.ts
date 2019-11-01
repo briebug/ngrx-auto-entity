@@ -3,13 +3,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { IEntityDictionary } from '@briebug/ngrx-auto-entity';
 import { ProductFacade } from 'facades/product.facade';
-import { OrderItem } from 'models/order-item.model';
 import { OrderStatus } from 'models/order.model';
 import { Product } from 'models/product.model';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { toCurrencyString } from 'shared/libs/currency.lib';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
-import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/shared/order-form/order-form.component';
 import { OrderManagerService } from 'src/app/+orders/services/order-manager.service';
 
 const DEFAULT_COLUMNS: IOrdersPreviewTableColumns[] = [
@@ -43,13 +42,13 @@ export class OrdersPreviewTableComponent implements OnInit, OnDestroy {
 
   productsById$: Observable<IEntityDictionary<Product>>;
 
-  dataSource = new MatTableDataSource<OrderInfo>();
-
   // Template state
+  dataSource = new MatTableDataSource<OrderInfo>();
   selectedOrderId: number;
   orderIdInCloseAnimation: number;
 
-  unsubscribe$ = new Subject<void>();
+  toCurrencyString = toCurrencyString;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(private productFacade: ProductFacade, private orderManagerService: OrderManagerService) {
     this.initFacadeData();
@@ -66,7 +65,7 @@ export class OrdersPreviewTableComponent implements OnInit, OnDestroy {
 
   /* Handlers */
   handleEditClick(info: OrderInfo) {
-    const dialogRef = this.orderManagerService.openEditOrderFormDialog(info);
+    this.orderManagerService.openOrderFormDialog(info);
   }
 
   handleExpandClick(info: OrderInfo) {
@@ -76,10 +75,6 @@ export class OrdersPreviewTableComponent implements OnInit, OnDestroy {
   }
 
   /* Public */
-  toCurrencyString(amount: number | string): string {
-    return `$${(+amount).toFixed(2)}`;
-  }
-
   isSelectedOrder(info: OrderInfo): boolean {
     return this.selectedOrderId === info.order.id;
   }

@@ -1,11 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from 'core/core.module';
+import { Account } from 'models/account.model';
 import { Customer } from 'models/customer.model';
-import { Order } from 'models/order.model';
 import { OrderItem } from 'models/order-item.model';
+import { Order } from 'models/order.model';
 import { Product } from 'models/product.model';
 import { OrdersSharedModule } from 'src/app/+orders/shared/orders.shared.module';
 import { StateModule } from 'state/state.module';
@@ -41,9 +43,11 @@ import { EntityService } from './services/entity.service';
     HttpClientModule,
     StateModule.forRoot(),
     MaterialModule,
-    OrdersSharedModule
+    OrdersSharedModule,
+    FlexLayoutModule
   ],
   providers: [
+    { provide: Account, useClass: EntityService },
     { provide: Customer, useClass: EntityService },
     { provide: Product, useClass: EntityService },
     { provide: Order, useClass: EntityService },

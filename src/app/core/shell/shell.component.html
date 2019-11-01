@@ -24,11 +24,16 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>{{title}}</span>
+    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="40px">
+        <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>{{ sidenav.opened ? 'arrow_back' : 'menu' }}</mat-icon>
+        </button>
+        <span class="header-title" (click)="handleTitleClick()">{{title}}</span>
+      </div>
+      <div>
+        <button mat-flat-button (click)="handleCreateOrder()">Create order</button>
+      </div>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

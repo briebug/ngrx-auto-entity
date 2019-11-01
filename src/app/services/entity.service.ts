@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAutoEntityService, IEntityInfo } from '@briebug/ngrx-auto-entity';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -26,6 +26,10 @@ export class EntityService implements IAutoEntityService<any> {
       `${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`,
       entity
     );
+  }
+
+  updateMany(entityInfo: IEntityInfo, entities: any[], criteria?: any): Observable<any[]> {
+    return entities.length ? forkJoin(entities.map(e => this.update(entityInfo, e))) : of([]);
   }
 
   replace(entityInfo: IEntityInfo, entity: any): Observable<any> {

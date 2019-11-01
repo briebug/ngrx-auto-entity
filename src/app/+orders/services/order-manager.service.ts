@@ -6,11 +6,16 @@ import { OrderItemFacade } from 'facades/order-item.facade';
 import { OrderFacade } from 'facades/order.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { OrderItem } from 'models/order-item.model';
-import { OrderStatus } from 'models/order.model';
+import { Order, OrderStatus } from 'models/order.model';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, switchMapTo, take } from 'rxjs/operators';
+import { omitByKeys } from 'shared/libs/util.lib';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
-import { IOrderFormDialogData, OrderFormDialogComponent } from 'src/app/+orders/shared/order-form-dialog/order-form-dialog.component';
+import {
+  IOrderFormDialogData,
+  OrderFormDialogComponent
+} from 'src/app/+orders/shared/order-form-dialog/order-form-dialog.component';
+import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/shared/order-form/order-form.component';
 import { AppState } from 'state/app.state';
 
 @Injectable({
@@ -67,13 +72,56 @@ export class OrderManagerService {
     return this.orderInfoByStatus$(status$).pipe(
       map(orders => {
         orders.sort((a, b) => b.order.dateOfOrder.localeCompare(a.order.dateOfOrder));
-        return count ? orders.slice(0, count) : orders;
+        return count ? orders.slice(0, count) : [...orders];
       })
     );
   }
 
-  openEditOrderFormDialog(info: OrderInfo): MatDialogRef<OrderFormDialogComponent> {
-    const data: IOrderFormDialogData = { orderInfo: info };
-    return this.dialogService.open(OrderFormDialogComponent, { data });
+  // Order form
+  openOrderFormDialog(info?: OrderInfo): MatDialogRef<OrderFormDialogComponent> {
+    const data: IOrderFormDialogData = {
+      orderInfo: info,
+      handleSaveClick: (value: IOrderFormValue, dialogRef: MatDialogRef<OrderFormDialogComponent>) => {
+        this.saveOrderFormToDatabase(value);
+        dialogRef.close();
+      }
+    };
+    return this.dialogService.open(OrderFormDialogComponent, { data, disableClose: true });
+  }
+
+  saveOrderFormToDatabase(formValue: IOrderFormValue) {
+    const order: Order = {
+      ...omitByKeys(formValue, ['items']),
+      dateOfOrder: formValue.dateOfOrder || new Date().toISOString(),
+      status: formValue.status || OrderStatus.pending // Should this be open instead of pending?
+    };
+
+    if (order.id) {
+      this.orderFacade.update(order);
+    } else {
+      this.orderFacade.create(order);
+    }
+
+    this.orderFacade.isLoading$
+      .pipe(
+        filter(loading => !!loading),
+        take(1),
+        switchMapTo(this.orderFacade.all$),
+        take(1),
+        map((orders: Order[]) => orders[orders.length - 1])
+      )
+      .subscribe((newOrder: Order) => {
+        formValue.items.forEach((item: IOrderFormItem) => {
+          if (item.id) {
+            if (item.toDelete) {
+              this.orderItemFacade.delete({ ...item, orderId: formValue.id });
+            } else {
+              this.orderItemFacade.update({ ...item, orderId: formValue.id });
+            }
+          } else {
+            this.orderItemFacade.create({ ...item, id: `${formValue.id}_${item.productId}`, orderId: formValue.id });
+          }
+        });
+      });
   }
 }

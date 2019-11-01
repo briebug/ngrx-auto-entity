@@ -1,13 +1,16 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountFacade } from 'facades/account.facade';
 import { CustomerFacade } from 'facades/customer.facade';
 import { ProductFacade } from 'facades/product.facade';
+import { Account } from 'models/account.model';
 import { Customer } from 'models/customer.model';
 import { OrderItem } from 'models/order-item.model';
 import { Order, OrderStatus } from 'models/order.model';
 import { Product } from 'models/product.model';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, map, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
+import { filter, map, take, takeUntil, withLatestFrom, startWith, tap, shareReplay } from 'rxjs/operators';
+import { toCurrencyString } from 'shared/libs/currency.lib';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { FormGroupConfig } from 'src/app/shared/types/forms.type';
 
@@ -18,34 +21,36 @@ import { FormGroupConfig } from 'src/app/shared/types/forms.type';
 })
 export class OrderFormComponent implements OnInit, OnDestroy {
   /** Input for initializing or updating the current order */
-  @Input() set orderInfo(formValue: OrderInfo) {
-    this.orderFormUpdate$.next({
-      ...(this.orderFormUpdate$.getValue() || this.getDefaultFormValue()),
-      ...OrderFormComponent.orderInfoToOrderFormValue(formValue)
-    });
+  @Input() set orderInfo(orderInfo: OrderInfo) {
+    if (orderInfo) {
+      this.orderFormUpdate$.next({
+        ...(this.orderFormUpdate$.getValue() || this.getDefaultFormValue()),
+        ...OrderFormComponent.orderInfoToOrderFormValue(orderInfo)
+      });
+    }
   }
-  /** Event emitter for an order change */
-  @Output() orderChange: EventEmitter<IOrderFormValue> = new EventEmitter<IOrderFormValue>();
+  @Output() orderChange = new EventEmitter<IOrderFormValue>();
+  @Output() cancelClick = new EventEmitter<IOrderFormValue>();
+  @Output() saveClick = new EventEmitter<IOrderFormValue>();
 
-  /** Records of products by id */
+  accountsByCustomerId$: Observable<Record<number, Account[]>>;
   productsById$: Observable<Record<number, Product>>;
-  /** List of customers the user will be able to pick from */
   customers$: Observable<Customer[]>;
-  /** List of products the user will be able to pick from */
   products$: Observable<Product[]>;
 
-  /** The order form */
   formGroup: FormGroup;
+  currentAccounts$: Observable<Account[]>;
+  total$: Observable<number>;
 
-  /** BehaviorSubject that passes on external updates (usually from the parent) to the order form */
+  toCurrencyString = toCurrencyString;
   private orderFormUpdate$: BehaviorSubject<Order> = new BehaviorSubject<Order>(null);
-  /** Subject to trigger unsubscribe */
   private unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
     private customerFacade: CustomerFacade,
-    private productFacade: ProductFacade
+    private productFacade: ProductFacade,
+    private accountFacade: AccountFacade
   ) {}
 
   /* Static */
@@ -54,7 +59,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
       ...info.order,
       items: info.items.map(
         (item: OrderItem): IOrderFormItem => {
-          return { productId: item.productId, quantity: item.quantity };
+          return { id: item.id, productId: item.productId, quantity: item.quantity, toDelete: false };
         }
       )
     };
@@ -62,12 +67,13 @@ export class OrderFormComponent implements OnInit, OnDestroy {
 
   /* Instance */
   ngOnInit() {
-    this.orderFormUpdate$.subscribe(v => console.log('update form', v));
     this.initFacadeData();
 
     this.initForm();
     this.initEmitOrderChangeOnFormGroupValueChange();
     this.initSetFormGroupOnOrderUpdate();
+    this.initCurrentAccounts$();
+    this.initTotal$();
   }
 
   ngOnDestroy() {
@@ -81,10 +87,35 @@ export class OrderFormComponent implements OnInit, OnDestroy {
   handleAddProductClick(product: Product) {
     this.itemsFormArray.push(
       this.getFormGroupForItem({
+        id: null,
         productId: product.id,
-        quantity: 1
+        quantity: 1,
+        toDelete: false
       })
     );
+    this.itemsFormArray.markAsDirty();
+  }
+
+  handleProductQuantityChange(event: { data: string }, index: number) {
+    if (event.data === '0') {
+      setTimeout(() => {
+        const patch: Pick<IOrderFormItem, 'toDelete'> = { toDelete: true };
+        const itemFg: FormGroup = this.itemsFormArray.at(index) as FormGroup;
+        itemFg.patchValue(patch);
+        itemFg.get('quantity').clearValidators();
+        itemFg.get('quantity').setErrors(null);
+        itemFg.updateValueAndValidity();
+        itemFg.markAsDirty();
+      }, 250);
+    }
+  }
+
+  handleCancelClick() {
+    this.cancelClick.emit();
+  }
+
+  handleSaveClick() {
+    this.saveClick.emit(this.formGroup.value);
   }
 
   /* Public */
@@ -115,7 +146,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
   private getFormGroupForItem(item: IOrderFormItem): FormGroup {
     const config: FormGroupConfig<IOrderFormItem> = {
       ...item,
-      quantity: [item.quantity || 1, Validators.compose([Validators.required, Validators.min(1)])]
+      quantity: [item.quantity || 1, Validators.compose([Validators.required])]
     };
 
     return this.formBuilder.group(config);
@@ -138,15 +169,28 @@ export class OrderFormComponent implements OnInit, OnDestroy {
       };
 
       this.formGroup = this.formBuilder.group(config);
-
-      console.log('formgroup', this.formGroup);
     });
   }
 
   private initFacadeData() {
+    this.accountsByCustomerId$ = this.accountFacade.allByCustomerId$;
     this.productsById$ = this.productFacade.entities$;
-    this.customers$ = this.customerFacade.all$;
-    this.products$ = this.productFacade.all$;
+    this.customers$ = this.customerFacade.all$.pipe(
+      map((products: Customer[]) => {
+        return [...products].sort((a, b) => {
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        });
+      }),
+      shareReplay(1)
+    );
+    this.products$ = this.productFacade.all$.pipe(
+      map((products: Product[]) => {
+        return [...products].sort((a, b) => {
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        });
+      }),
+      shareReplay(1)
+    );
   }
 
   private initEmitOrderChangeOnFormGroupValueChange() {
@@ -178,9 +222,35 @@ export class OrderFormComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue(formValue);
       });
   }
+
+  private initCurrentAccounts$() {
+    this.currentAccounts$ = combineLatest([
+      this.getControl('customerId').valueChanges.pipe(startWith(this.getControl('customerId').value)),
+      this.accountsByCustomerId$
+    ]).pipe(
+      map(([customerId, accountsByCustomerId]: [number, Record<number, Account[]>]) => {
+        return accountsByCustomerId[customerId];
+      }),
+      shareReplay(1)
+    );
+  }
+
+  private initTotal$() {
+    this.total$ = combineLatest([
+      this.itemsFormArray.valueChanges.pipe(startWith(this.itemsFormArray.value)),
+      this.productsById$
+    ]).pipe(
+      map(([items, productsById]: [IOrderFormItem[], Record<number, Product>]) => {
+        return items.reduce((total: number, item: IOrderFormItem) => {
+          return productsById[item.productId] ? total + +productsById[item.productId].price * item.quantity : total;
+        }, 0);
+      }),
+      shareReplay(1)
+    );
+  }
 }
 
 export interface IOrderFormValue extends Order {
   items: IOrderFormItem[];
 }
-export type IOrderFormItem = Pick<OrderItem, 'productId' | 'quantity'>;
+export type IOrderFormItem = Pick<OrderItem, 'id' | 'productId' | 'quantity'> & { toDelete: boolean };
