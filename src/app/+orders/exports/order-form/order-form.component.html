@@ -65,29 +65,19 @@
     <ng-container *ngIf="currentAccounts$ | async as accounts;">
       <mat-form-field appearance="outline">
         <mat-label>Account</mat-label>
-        <mat-select [formControl]="getControl('accountId')" placeholder="Put it on their tab!">
+        <mat-select [formControl]="getControl('accountId')">
           <mat-option *ngFor="let account of accounts" [value]="account.id">{{ account.name }}</mat-option>
           <mat-option *ngIf="!accounts.length" [value]="0">Put it on their tab!</mat-option>
         </mat-select>
       </mat-form-field>
     </ng-container>
-    <!-- <ng-template #noAccounts>
-      <div *ngIf="getControl('customerId').value;else noCustomerId" class="order-f__hint">
-        What? This customer has no account?<br/> Put it on their tab then!
-      </div>
-    </ng-template>
-    <ng-template #noCustomerId>
-      <div class="order-f__hint">
-        Select a customer to begin!
-      </div>
-    </ng-template> -->
 
     <hr class="separator" />
 
     <!-- Save/Cancel -->
     <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="20px">
       <button mat-flat-button (click)="handleCancelClick()">Cancel</button>
-      <!-- TODO: The total$ validation check should go in group-wide validators -->
+      <!-- TODO: The total$ validation check should probably go in group-wide validators -->
       <button
         mat-flat-button
         (click)="handleSaveClick()"
