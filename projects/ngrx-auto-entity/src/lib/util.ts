@@ -544,9 +544,6 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
   const modelName = camelCase(new type().constructor.name);
   (type as any)[FEATURE_AFFINITY] = featureStateName;
 
-  console.log('modelname', modelName);
-  console.log('building feature state', type, featureStateName, selectParentState, extraInitialState);
-
   const selectState = createSelector(
     selectParentState,
     (state: TParentState) => state[modelName]

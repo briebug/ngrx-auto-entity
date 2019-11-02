@@ -4373,6 +4373,13 @@
       "customerId": 86,
       "dateOfOrder": "2019-11-01T03:25:22.484Z",
       "status": "open"
+    },
+    {
+      "id": 52,
+      "accountId": 172,
+      "customerId": 86,
+      "dateOfOrder": "2019-11-02T15:35:45.738Z",
+      "status": "open"
     }
   ],
   "orderItems": [
@@ -5383,6 +5390,12 @@
       "productId": 84,
       "quantity": 1,
       "orderId": 51
+    },
+    {
+      "id": "52_71",
+      "productId": 71,
+      "quantity": 1,
+      "orderId": 52
     }
   ]
 }

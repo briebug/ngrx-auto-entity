@@ -11,8 +11,10 @@ export function createAndFetch$<TModel = any>(
   return facade.isSaving$.pipe(
     filter(isSaving => !isSaving),
     tap(() => {
-      this.create(entity, criteria);
-      isCreated = true;
+      if (!isCreated) {
+        facade.create(entity, criteria);
+        isCreated = true;
+      }
     }),
     skip(1),
     take(1),

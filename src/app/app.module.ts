@@ -9,7 +9,7 @@ import { Customer } from 'models/customer.model';
 import { OrderItem } from 'models/order-item.model';
 import { Order } from 'models/order.model';
 import { Product } from 'models/product.model';
-import { OrdersSharedModule } from 'src/app/+orders/shared/orders.shared.module';
+import { OrdersExportsModule } from 'src/app/+orders/exports/orders.exports.module';
 import { StateModule } from 'state/state.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,7 +43,7 @@ import { EntityService } from './services/entity.service';
     HttpClientModule,
     StateModule.forRoot(),
     MaterialModule,
-    OrdersSharedModule,
+    OrdersExportsModule,
     FlexLayoutModule
   ],
   providers: [

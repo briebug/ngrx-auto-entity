@@ -15,10 +15,6 @@ export class OrderItemFacade extends OrderItemFacadeBase {
     super(OrderItem, store);
   }
 
-  all() {
-    return this.all$.pipe(tap(items => console.log(items)));
-  }
-
   loadForOrder(order: Order) {
     return this.loadAll({ orderId: order.id });
   }

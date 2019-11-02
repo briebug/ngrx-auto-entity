@@ -15,8 +15,8 @@ import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import {
   IOrderFormDialogData,
   OrderFormDialogComponent
-} from 'src/app/+orders/shared/order-form-dialog/order-form-dialog.component';
-import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/shared/order-form/order-form.component';
+} from 'src/app/+orders/exports/order-form-dialog/order-form-dialog.component';
+import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/exports/order-form/order-form.component';
 import { AppState } from 'state/app.state';
 import { Account } from 'models/account.model';
 import { createAndFetch$ } from 'shared/libs/facade.lib';
@@ -100,12 +100,12 @@ export class OrderManagerService {
       status: formValue.status || OrderStatus.pending // Should this be open instead of pending?
     };
     const newOrder$ = new ReplaySubject<Order>(1);
+    const newAccount$ = !order.accountId
+      ? createAndFetch$(this.accountFacade, AccountFacade.getNewPersonalTab(order.customerId))
+      : of(null);
 
     // Order
-    (!order.accountId
-      ? createAndFetch$(this.accountFacade, AccountFacade.getNewPersonalTab(order.customerId))
-      : of(null)
-    ).subscribe((newAccount: Account | null) => {
+    newAccount$.pipe(take(1)).subscribe((newAccount: Account | null) => {
       order.accountId = order.accountId || newAccount.id;
       if (order.id) {
         this.orderFacade.update(order);
@@ -120,11 +120,9 @@ export class OrderManagerService {
     // Order items
     newOrder$.pipe(take(1)).subscribe((newOrder: Order | null) => {
       let orderItem: OrderItem;
-      console.log('hello?');
       formValue.items.forEach((item: IOrderFormItem) => {
         if (item.id) {
           orderItem = { ...omitByKeys(item, ['toDelete']), orderId: formValue.id };
-          console.log('item', item);
           if (item.toDelete) {
             this.orderItemFacade.delete({ ...orderItem });
           } else {
