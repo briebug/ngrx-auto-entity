@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { pascalCase } from '../util/case';
 import { IEntityInfo } from './actions';
@@ -128,7 +128,9 @@ export const invokeService = <TModel, TModelObs, TResult>(
     : typeof service[method] !== 'function'
     ? throwError({ info: entityInfo, message: notAFunction(method, entityInfo) })
     : invoke(service).pipe(
+        tap(v => console.log('to result', v)),
         map(toResult),
+        tap(v => console.log('to result (after)', v)),
         catchError(err => throwError({ info: entityInfo, err }))
       );
 
@@ -143,6 +145,7 @@ export const callService = <TModel, TModelObs, TResult>(
     const service = getService(entityInfo, injector);
     return invokeService(method, entityInfo, invoke, toResult, service);
   } catch (err) {
+    console.log('error calling service', err);
     logAndThrow(method, err, entityInfo);
   }
 };

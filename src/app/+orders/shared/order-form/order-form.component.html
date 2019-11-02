@@ -62,15 +62,16 @@
     <hr class="separator" />
 
     <!-- Account -->
-    <ng-container *ngIf="currentAccounts$ | async as accounts; else noAccounts">
-      <mat-form-field *ngIf="accounts.length; else noAccounts" appearance="outline">
+    <ng-container *ngIf="currentAccounts$ | async as accounts;">
+      <mat-form-field appearance="outline">
         <mat-label>Account</mat-label>
-        <mat-select [formControl]="getControl('accountId')">
+        <mat-select [formControl]="getControl('accountId')" placeholder="Put it on their tab!">
           <mat-option *ngFor="let account of accounts" [value]="account.id">{{ account.name }}</mat-option>
+          <mat-option *ngIf="!accounts.length" [value]="0">Put it on their tab!</mat-option>
         </mat-select>
       </mat-form-field>
     </ng-container>
-    <ng-template #noAccounts>
+    <!-- <ng-template #noAccounts>
       <div *ngIf="getControl('customerId').value;else noCustomerId" class="order-f__hint">
         What? This customer has no account?<br/> Put it on their tab then!
       </div>
@@ -79,7 +80,7 @@
       <div class="order-f__hint">
         Select a customer to begin!
       </div>
-    </ng-template>
+    </ng-template> -->
 
     <hr class="separator" />
 

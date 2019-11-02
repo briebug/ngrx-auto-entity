@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { pascalCase } from '../util/case';
 import {
@@ -267,8 +267,11 @@ export class EntityOperators {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
         mergeMap(({ info, entity, criteria }) => {
+          console.log('inside mergemap', info, entity, criteria);
           return this.entityService.delete(info, entity, criteria).pipe(
+            tap(v => console.log('1', v)),
             map((ref: IEntityRef<TModel>) => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity)),
+            tap(v => console.log('2', v)),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new DeleteFailure<TModel>(error.info.modelType, error.err))
             )

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
+import { AccountFacade } from 'facades/account.facade';
 import { CustomerFacade } from 'facades/customer.facade';
 import { OrderItemFacade } from 'facades/order-item.facade';
 import { OrderFacade } from 'facades/order.facade';
 import { ProductFacade } from 'facades/product.facade';
 import { OrderItem } from 'models/order-item.model';
 import { Order, OrderStatus } from 'models/order.model';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take } from 'rxjs/operators';
+import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
+import { filter, map, skip, switchMap, switchMapTo, take, tap, startWith } from 'rxjs/operators';
 import { omitByKeys } from 'shared/libs/util.lib';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import {
@@ -17,6 +18,8 @@ import {
 } from 'src/app/+orders/shared/order-form-dialog/order-form-dialog.component';
 import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/shared/order-form/order-form.component';
 import { AppState } from 'state/app.state';
+import { Account } from 'models/account.model';
+import { createAndFetch$ } from 'shared/libs/facade.lib';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,7 @@ export class OrderManagerService {
     private customerFacade: CustomerFacade,
     private orderItemFacade: OrderItemFacade,
     private productFacade: ProductFacade,
+    private accountFacade: AccountFacade,
     private dialogService: MatDialog
   ) {}
 
@@ -95,33 +99,48 @@ export class OrderManagerService {
       dateOfOrder: formValue.dateOfOrder || new Date().toISOString(),
       status: formValue.status || OrderStatus.pending // Should this be open instead of pending?
     };
+    const newOrder$ = new ReplaySubject<Order>(1);
 
-    if (order.id) {
-      this.orderFacade.update(order);
-    } else {
-      this.orderFacade.create(order);
-    }
+    // Order
+    (!order.accountId
+      ? createAndFetch$(this.accountFacade, AccountFacade.getNewPersonalTab(order.customerId))
+      : of(null)
+    ).subscribe((newAccount: Account | null) => {
+      order.accountId = order.accountId || newAccount.id;
+      if (order.id) {
+        this.orderFacade.update(order);
+        newOrder$.next(null);
+      } else {
+        createAndFetch$(this.orderFacade, order)
+          .pipe(take(1))
+          .subscribe(newOrder$);
+      }
+    });
 
-    this.orderFacade.isLoading$
-      .pipe(
-        filter(loading => !!loading),
-        take(1),
-        switchMapTo(this.orderFacade.all$),
-        take(1),
-        map((orders: Order[]) => orders[orders.length - 1])
-      )
-      .subscribe((newOrder: Order) => {
-        formValue.items.forEach((item: IOrderFormItem) => {
-          if (item.id) {
-            if (item.toDelete) {
-              this.orderItemFacade.delete({ ...item, orderId: formValue.id });
-            } else {
-              this.orderItemFacade.update({ ...item, orderId: formValue.id });
-            }
+    // Order items
+    newOrder$.pipe(take(1)).subscribe((newOrder: Order | null) => {
+      let orderItem: OrderItem;
+      console.log('hello?');
+      formValue.items.forEach((item: IOrderFormItem) => {
+        if (item.id) {
+          orderItem = { ...omitByKeys(item, ['toDelete']), orderId: formValue.id };
+          console.log('item', item);
+          if (item.toDelete) {
+            this.orderItemFacade.delete({ ...orderItem });
           } else {
-            this.orderItemFacade.create({ ...item, id: `${formValue.id}_${item.productId}`, orderId: formValue.id });
+            this.orderItemFacade.update({ ...orderItem });
           }
-        });
+        } else {
+          orderItem = {
+            ...omitByKeys(item, ['toDelete']),
+            orderId: newOrder.id,
+            id: `${newOrder.id}_${item.productId}`
+          };
+          this.orderItemFacade.create({ ...orderItem });
+        }
+
+        newOrder$.complete();
       });
+    });
   }
 }

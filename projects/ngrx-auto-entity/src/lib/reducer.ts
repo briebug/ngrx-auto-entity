@@ -489,12 +489,15 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
 
     case EntityActionTypes.Delete: {
+      console.log('1 delete reducer', action);
       const newState = {
         ...entityState,
         isDeleting: true
       };
 
+      console.log('2 setting new state');
       const next = setNewState(featureName, stateName, state, newState);
+      console.log('3 new state set');
       return next;
     }
     case EntityActionTypes.DeleteFailure: {

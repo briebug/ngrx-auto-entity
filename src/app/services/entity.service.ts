@@ -37,6 +37,7 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   delete(entityInfo: IEntityInfo, entity: any): Observable<any> {
+    console.log('deleting...', entity, entityInfo);
     return this.http
       .delete<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`)
       .pipe(map(() => entity));

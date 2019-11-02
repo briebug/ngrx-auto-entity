@@ -229,7 +229,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
       this.accountsByCustomerId$
     ]).pipe(
       map(([customerId, accountsByCustomerId]: [number, Record<number, Account[]>]) => {
-        return accountsByCustomerId[customerId];
+        return accountsByCustomerId[customerId] || [];
       }),
       shareReplay(1)
     );

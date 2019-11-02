@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Account } from 'models/account.model';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, skip, switchMapTo, take, tap } from 'rxjs/operators';
 import { AccountFacadeBase } from 'state/account.state';
 import { AppState } from 'state/app.state';
 
@@ -12,6 +12,16 @@ import { AppState } from 'state/app.state';
 export class AccountFacade extends AccountFacadeBase {
   constructor(store: Store<AppState>) {
     super(Account, store);
+  }
+
+  static getNewPersonalTab(customerId: number): Account {
+    return {
+      accountNumber: null,
+      amount: null,
+      customerId,
+      name: 'Personal Tab',
+      id: undefined
+    }
   }
 
   get allByCustomerId$(): Observable<Record<number, Account[]>> {
