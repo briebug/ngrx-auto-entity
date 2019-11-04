@@ -83,17 +83,28 @@ export class OrderFormComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  trackOrderItemByProductId(index: number, orderItemControl: FormGroup): number {
+    return orderItemControl.get('productId').value;
+  }
+
   /* Handlers */
   handleAddProductClick(product: Product) {
-    this.itemsFormArray.push(
-      this.getFormGroupForItem({
-        id: null,
-        productId: product.id,
-        quantity: 1,
-        toDelete: false
-      })
-    );
-    this.itemsFormArray.markAsDirty();
+    const productHasNotBeenAddedYet =
+      this.itemsFormArray.controls.findIndex((orderItemControl: FormGroup) => {
+        return orderItemControl.get('productId').value === product.id;
+      }) === -1;
+
+    if (productHasNotBeenAddedYet) {
+      this.itemsFormArray.push(
+        this.getFormGroupForItem({
+          id: null,
+          productId: product.id,
+          quantity: 1,
+          toDelete: false
+        })
+      );
+      this.itemsFormArray.markAsDirty();
+    }
   }
 
   handleProductQuantityChange(event: { data: string }, index: number) {

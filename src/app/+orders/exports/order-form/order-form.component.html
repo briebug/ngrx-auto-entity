@@ -28,7 +28,7 @@
 
       <!-- List of Added Products -->
       <ng-container *ngIf="itemsFormArray?.length">
-        <div formArrayName="items" *ngFor="let itemFormGroup of itemsFormArray.controls; let i = index">
+        <div formArrayName="items" *ngFor="let itemFormGroup of itemsFormArray.controls;let i = index;trackBy: trackOrderItemsByProductId">
           <!-- Item Row -->
           <div *ngIf="productsById[itemFormGroup.get('productId').value] as product" [formGroupName]="i">
             <mat-form-field *ngIf="!itemFormGroup.get('toDelete').value" appearance="outline" fxFlex="grow">

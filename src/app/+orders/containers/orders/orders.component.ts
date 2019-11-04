@@ -31,8 +31,7 @@ export class OrdersComponent implements OnInit {
     productFacade: ProductFacade,
     accountFacade: AccountFacade
   ) {
-    // TODO: Put inside a resolver and add a check to see if entities have been loaded
-    // recently? (mostly the latter)
+    // TODO: Put inside a resolver and add a check to see if entities have been loaded recently? (mostly the latter)
     orderFacade.loadAll();
     customerFacade.loadAll();
     orderItemFacade.loadAll();

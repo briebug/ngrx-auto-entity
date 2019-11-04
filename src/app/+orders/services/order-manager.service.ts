@@ -100,26 +100,27 @@ export class OrderManagerService {
       dateOfOrder: formValue.dateOfOrder || new Date().toISOString(),
       status: formValue.status || OrderStatus.pending // Should this be open instead of pending?
     };
-    const newOrder$ = new ReplaySubject<Order>(1);
+    const newOrCurrentOrder$ = new ReplaySubject<Order>(1);
     const newAccount$ = !order.accountId
       ? createAndFetch$(this.accountFacade, AccountFacade.getNewPersonalTab(order.customerId))
       : of(null);
 
     // Order
     newAccount$.pipe(take(1)).subscribe((newAccount: Account | null) => {
+      console.log('new account', newAccount);
       order.accountId = order.accountId || newAccount.id;
       if (order.id) {
         this.orderFacade.update(order);
-        newOrder$.next(null);
+        newOrCurrentOrder$.next(order);
       } else {
         createAndFetch$(this.orderFacade, order)
           .pipe(take(1))
-          .subscribe(newOrder$);
+          .subscribe(newOrCurrentOrder$);
       }
     });
 
     // Order items
-    newOrder$.pipe(take(1)).subscribe((newOrder: Order | null) => {
+    newOrCurrentOrder$.pipe(take(1)).subscribe((newOrder: Order) => {
       let orderItem: OrderItem;
       formValue.items.forEach((item: IOrderFormItem) => {
         if (item.id) {
@@ -138,7 +139,7 @@ export class OrderManagerService {
           this.orderItemFacade.create({ ...orderItem });
         }
 
-        newOrder$.complete();
+        newOrCurrentOrder$.complete();
       });
     });
   }
