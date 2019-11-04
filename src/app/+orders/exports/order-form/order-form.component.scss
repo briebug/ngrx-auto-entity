@@ -1,6 +1,5 @@
 @import '../../../../styles/variables';
 
-// Will be deprecated, but can't think of any other way of doing this at the moment
 .order-f {
   &__hint {
     color: $mat-label-color;
@@ -18,6 +17,8 @@
   }
 }
 
+// Will be deprecated, but can't think of any other way of doing this at the moment
+// without doing a one-off class in styles.scss
 ::ng-deep .order-f__products-menu {
   max-width: 350px !important;
 }

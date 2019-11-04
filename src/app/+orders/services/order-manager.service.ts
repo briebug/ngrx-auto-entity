@@ -6,20 +6,20 @@ import { CustomerFacade } from 'facades/customer.facade';
 import { OrderItemFacade } from 'facades/order-item.facade';
 import { OrderFacade } from 'facades/order.facade';
 import { ProductFacade } from 'facades/product.facade';
+import { Account } from 'models/account.model';
 import { OrderItem } from 'models/order-item.model';
 import { Order, OrderStatus } from 'models/order.model';
 import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
-import { filter, map, skip, switchMap, switchMapTo, take, tap, startWith } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
+import { createAndFetch$ } from 'shared/libs/facade.lib';
 import { omitByKeys } from 'shared/libs/util.lib';
-import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import {
   IOrderFormDialogData,
   OrderFormDialogComponent
 } from 'src/app/+orders/exports/order-form-dialog/order-form-dialog.component';
 import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/exports/order-form/order-form.component';
+import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { AppState } from 'state/app.state';
-import { Account } from 'models/account.model';
-import { createAndFetch$ } from 'shared/libs/facade.lib';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,7 @@ export class OrderManagerService {
     private dialogService: MatDialog
   ) {}
 
+  /* Order Info */
   orderInfoByStatus$(status$: Observable<OrderStatus[]>): Observable<OrderInfo[]> {
     return status$.pipe(
       switchMap(status =>
@@ -81,7 +82,7 @@ export class OrderManagerService {
     );
   }
 
-  // Order form
+  /* Order Form */
   openOrderFormDialog(info?: OrderInfo): MatDialogRef<OrderFormDialogComponent> {
     const data: IOrderFormDialogData = {
       orderInfo: info,

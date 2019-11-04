@@ -8,8 +8,8 @@ import { Customer } from 'models/customer.model';
 import { OrderItem } from 'models/order-item.model';
 import { Order, OrderStatus } from 'models/order.model';
 import { Product } from 'models/product.model';
-import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
-import { filter, map, take, takeUntil, withLatestFrom, startWith, tap, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { filter, map, shareReplay, startWith, take, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { toCurrencyString } from 'shared/libs/currency.lib';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { FormGroupConfig } from 'src/app/shared/types/forms.type';
@@ -53,7 +53,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
     private accountFacade: AccountFacade
   ) {}
 
-  /* Static */
+  /** Static */
   static orderInfoToOrderFormValue(info: OrderInfo): IOrderFormValue {
     return {
       ...info.order,
@@ -65,7 +65,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  /* Instance */
+  /** Instance */
   ngOnInit() {
     this.initFacadeData();
 

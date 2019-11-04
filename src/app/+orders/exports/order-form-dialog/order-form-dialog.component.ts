@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { OrderInfo } from 'src/app/+orders/models/order-info.model';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { IOrderFormValue } from 'src/app/+orders/exports/order-form/order-form.component';
+import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 
 @Component({
   selector: 'app-order-form-dialog',
@@ -15,7 +15,7 @@ export class OrderFormDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: IOrderFormDialogData,
     public dialogRef: MatDialogRef<OrderFormDialogComponent>
   ) {
-    this.handleSaveClick = data.handleSaveClick;
+    this.handleSaveClick = data.handleSaveClick || this.handleSaveClick;
   }
 
   ngOnInit() {}

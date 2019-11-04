@@ -22,7 +22,7 @@ export class ShellComponent {
     this.router.navigateByUrl('/home');
   }
 
-  handleCreateOrder() {
+  handleCreateOrderClick() {
     this.orderManagerService.openOrderFormDialog();
   }
 

@@ -11,6 +11,7 @@
         </mat-select>
       </mat-form-field>
 
+      <!-- Products Menu -->
       <mat-menu #productsMenu class="order-f__products-menu">
         <button
           *ngFor="let product of products$ | async"
@@ -25,7 +26,7 @@
         </button>
       </mat-menu>
 
-      <!-- Added Products List -->
+      <!-- List of Added Products -->
       <ng-container *ngIf="itemsFormArray?.length">
         <div formArrayName="items" *ngFor="let itemFormGroup of itemsFormArray.controls; let i = index">
           <!-- Item Row -->
