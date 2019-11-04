@@ -107,7 +107,6 @@ export class OrderManagerService {
 
     // Order
     newAccount$.pipe(take(1)).subscribe((newAccount: Account | null) => {
-      console.log('new account', newAccount);
       order.accountId = order.accountId || newAccount.id;
       if (order.id) {
         this.orderFacade.update(order);
