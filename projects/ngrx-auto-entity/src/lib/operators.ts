@@ -74,18 +74,21 @@ export const handleError = <TModel, TErrorAction>(
   if (error.err instanceof TypeError) {
     const serviceName = `${pascalCase(error.info.modelName)}Service`;
     console.error(
-      `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,
+      `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,,
+      '\nReason: ',
       error.err
     );
   } else if (error.info && error.message) {
     const serviceName = `${pascalCase(error.info.modelName)}Service`;
     console.error(
-      `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
+      `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,,
+      '\nReason: ',
       error.message
     );
   } else if (error.message) {
     console.error(
-      `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
+      `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,,
+      '\nReason: ',
       error.message
     );
   } else {
