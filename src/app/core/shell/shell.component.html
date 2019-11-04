@@ -27,7 +27,7 @@
     <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="40px">
         <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>{{ sidenav.opened ? 'arrow_back' : 'menu' }}</mat-icon>
+          <mat-icon style="transform:scaleX(-1)">{{ sidenav.opened ? 'keyboard_tab' : 'menu' }}</mat-icon>
         </button>
         <span class="header-title" (click)="handleTitleClick()">{{title}}</span>
       </div>

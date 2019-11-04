@@ -1,4 +1,3 @@
 {
-  "/api/orderitems/:orderId/:productId": "/orderItems",
   "/api/*": "/$1"
 }

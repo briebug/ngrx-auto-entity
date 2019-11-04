@@ -10,14 +10,14 @@
 
     <!-- Customer -->
     <ng-container matColumnDef="customer">
-      <mat-header-cell *matHeaderCellDef fxFlex="1 1 30%"> Customer </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo" fxFlex="1 1 30%"> {{ orderInfo.customerName }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef fxFlex="1 1 25%"> Customer </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="1 1 25%"> {{ orderInfo.customerName }} </mat-cell>
     </ng-container>
 
     <!-- Date of order -->
     <ng-container matColumnDef="dateOfOrder">
-      <mat-header-cell *matHeaderCellDef fxFlex="0 1 250px"> Date of Order </mat-header-cell>
-      <mat-cell *matCellDef="let orderInfo" fxFlex="0 1 250px"> {{ orderInfo.dateLocaleString }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef fxFlex="0 1 20%"> Date of Order </mat-header-cell>
+      <mat-cell *matCellDef="let orderInfo" fxFlex="0 1 20%"> {{ orderInfo.dateLocaleString }} </mat-cell>
     </ng-container>
 
     <!-- Number of items -->
