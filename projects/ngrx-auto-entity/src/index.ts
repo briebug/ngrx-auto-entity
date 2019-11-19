@@ -94,7 +94,8 @@ export {
   Change,
   Changed,
   EndEdit,
-  EditEnded
+  EditEnded,
+  Clear
 } from './lib/actions';
 
 export { Key, getKey, getKeyFromModel, getKeyNames, getKeyNamesFromModel, checkKeyName } from './lib/decorators';

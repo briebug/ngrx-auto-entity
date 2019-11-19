@@ -1,3 +1,14 @@
+<a name="0.2.8"></a>
+
+# [0.2.8](https://github.com/briebug/ngrx-auto-entity/compare/0.2.7...0.2.8) Beta (2019-11-19)
+
+This release restores a missing action to the library public interface index.
+
+### Bug Fixes
+
+- **actions:** Add clear action to exported actions of public interface
+
+
 <a name="0.2.7"></a>
 
 # [0.2.7](https://github.com/briebug/ngrx-auto-entity/compare/0.2.6...0.2.7) Beta (2019-10-13)
