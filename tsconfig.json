@@ -18,7 +18,8 @@
       "state/*": ["src/app/state/*"],
       "core/*": ["src/app/core/*"],
       "models/*": ["src/app/models/*"],
-      "facades/*": ["src/app/facades/*"]
+      "facades/*": ["src/app/facades/*"],
+      "shared/*": ["src/app/shared/*"]
     }
   }
 }

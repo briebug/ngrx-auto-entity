@@ -1,0 +1,92 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <div *ngIf="productsById$ | async as productsById" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+      <!-- Customer -->
+      <mat-form-field appearance="outline">
+        <mat-label>Customer</mat-label>
+        <mat-select [formControl]="getControl('customerId')">
+          <mat-option *ngFor="let customer of customers$ | async" [value]="customer.id">
+            {{ customer.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Products Menu -->
+      <mat-menu #productsMenu class="order-f__products-menu">
+        <button
+          *ngFor="let product of products$ | async"
+          mat-menu-item
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          fxLayoutGap="5px"
+          (click)="handleAddProductClick(product)"
+        >
+          <div class="order-f__product-name" fxFlex="70%">{{ product.name }}</div>
+          <div class="align-right" fxFlex="30%">{{ toCurrencyString(product.price) }}</div>
+        </button>
+      </mat-menu>
+
+      <!-- List of Added Products -->
+      <ng-container *ngIf="itemsFormArray?.length">
+        <div formArrayName="items" *ngFor="let itemFormGroup of itemsFormArray.controls;let i = index;trackBy: trackOrderItemsByProductId">
+          <!-- Item Row -->
+          <div *ngIf="productsById[itemFormGroup.get('productId').value] as product" [formGroupName]="i">
+            <mat-form-field *ngIf="!itemFormGroup.get('toDelete').value" appearance="outline" fxFlex="grow">
+              <mat-label>{{ product.name }}</mat-label>
+              <!-- Quantity -->
+              <input
+                [formControl]="itemFormGroup.get('quantity')"
+                matInput
+                type="number"
+                (input)="handleProductQuantityChange($event, i)"
+              />
+              <div class="order-f__product-suffix" matSuffix fxLayout="row">
+                {{ toCurrencyString(product.price * itemFormGroup.get('quantity').value) }}
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Add Product -->
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-stroked-button [matMenuTriggerFor]="productsMenu" fxFlexAlign="end">
+          Add product
+        </button>
+        <!-- Total -->
+        <div>
+          <b>{{ toCurrencyString(total$ | async) }}</b>
+        </div>
+      </div>
+    </div>
+
+    <hr class="separator" />
+
+    <!-- Account -->
+    <ng-container *ngIf="currentAccounts$ | async as accounts;">
+      <mat-form-field appearance="outline">
+        <mat-label>Account</mat-label>
+        <mat-select [formControl]="getControl('accountId')">
+          <mat-option *ngFor="let account of accounts" [value]="account.id">{{ account.name }}</mat-option>
+          <mat-option *ngIf="!accounts.length" [value]="0">Put it on their tab!</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <hr class="separator" />
+
+    <!-- Save/Cancel -->
+    <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="20px">
+      <button mat-flat-button (click)="handleCancelClick()">Cancel</button>
+      <!-- TODO: The total$ validation check should probably go in group-wide validators -->
+      <button
+        mat-flat-button
+        (click)="handleSaveClick()"
+        color="primary"
+        [disabled]="formGroup.pristine || formGroup.invalid || !((total$ | async) > 0)"
+      >
+        {{ getControl('id').value ? 'Save' : 'Create' }}
+      </button>
+    </div>
+  </div>
+</form>
