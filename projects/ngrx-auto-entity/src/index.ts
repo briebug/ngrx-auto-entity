@@ -29,6 +29,7 @@ export {
 } from './lib/models';
 
 export {
+  ICorrelatedAction,
   ofEntityType,
   ofEntityAction,
   fromEntityActions,

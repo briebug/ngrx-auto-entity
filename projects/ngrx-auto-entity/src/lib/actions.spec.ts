@@ -54,6 +54,7 @@ import {
   UpdateSuccess
 } from './actions';
 import { Key } from './decorators';
+import uuid from 'uuidv4';
 
 class TestEntity {
   @Key id: number;
@@ -110,6 +111,14 @@ describe('NgRX Auto-Entity: Actions', () => {
       providers: [provideMockActions(() => actions)]
     });
   });
+
+  describe('Correlated Actions', () => {
+    it('should construct EntityAction with correlationId initialized to a random uuid', () => {
+      const action = new Load(TestEntity, 1);
+
+      expect(uuid.is(action.correlationId)).toEqual(true);
+    });
+  })
 
   describe('Actions: Load', () => {
     describe('Load', () => {
