@@ -13,6 +13,7 @@ import {
   MatMenuModule,
   MatNativeDateModule,
   MatPaginatorModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatTableModule,
@@ -37,7 +38,9 @@ import {
     MatSnackBarModule,
     MatTableModule,
     MatToolbarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule {}

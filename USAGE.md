@@ -742,7 +742,7 @@ Now that everything is set up, which if you are creating a simpler application, 
 require a few minutes of your time, it's time to get down to business. The main use case
 for any action is to dispatch them.
 
-While dispatching actions is fairly strait forward and pretty standard, there are some
+While dispatching actions is fairly straightforward and pretty standard, there are some
 very slight differences in how Auto-Entity actions are dispatched. The most notable
 trait is the way the model is passed as an argument to the action. While possibly a
 little quirky, this is actually fundamental to how Auto-Entity is able to automatically

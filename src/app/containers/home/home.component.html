@@ -7,7 +7,7 @@
   </div>
   <div class="customers">
     <mat-card>
-      <mat-card-header>Customers</mat-card-header>
+      <mat-card-title>Customers</mat-card-title>
       <mat-card-content>
         <app-top-customers></app-top-customers>
       </mat-card-content>
@@ -18,20 +18,23 @@
   </div>
   <div class="orders">
     <mat-card>
-      <mat-card-header>Orders</mat-card-header>
+      <mat-card-title>Orders</mat-card-title>
       <mat-card-content>
         <app-orders-preview #ordersPreview></app-orders-preview>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="showPending()">PENDING</button>
-        <button mat-button (click)="showCurrent()">CURRENT</button>
-        <button mat-button (click)="showArchived()">ARCHIVED</button>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="space-between">
+        <a mat-button routerLink="/orders">MANAGE</a>
+        <div>
+          <button mat-button (click)="showPending()">PENDING</button>
+          <button mat-button (click)="showCurrent()">CURRENT</button>
+          <button mat-button (click)="showArchived()">ARCHIVED</button>
+        </div>
       </mat-card-actions>
     </mat-card>
   </div>
   <div class="products">
     <mat-card>
-      <mat-card-header>Product Catalog</mat-card-header>
+      <mat-card-title>Product Catalog</mat-card-title>
       <mat-card-content>
         <app-recent-products></app-recent-products>
       </mat-card-content>

@@ -13,6 +13,10 @@
     left: 0;
   }
 
+  .header-title {
+    cursor: pointer;
+  }
+
   mat-sidenav {
     min-width: 200px;
     background: mat-color($mat-grey, 900);
