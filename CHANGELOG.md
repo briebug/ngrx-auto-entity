@@ -17,6 +17,10 @@ Correlated actions are usually sets of request/success/failure actions, such as 
 
 - [uuidv4](https://www.npmjs.com/package/uuidv4) will need to be added to your `package.json` as a dependency
 
+### Security Updates
+
+- [handlebars](https://github.com/briebug/ngrx-auto-entity/pull/82) bumped to 4.5.3
+
 
 <a name="0.2.8"></a>
 

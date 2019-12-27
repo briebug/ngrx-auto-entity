@@ -21,7 +21,7 @@ export class AccountFacade extends AccountFacadeBase {
       customerId,
       name: 'Personal Tab',
       id: undefined
-    }
+    };
   }
 
   get allByCustomerId$(): Observable<Record<number, Account[]>> {

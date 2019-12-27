@@ -139,7 +139,9 @@ export class EntityOperators {
       source.pipe(
         mergeMap(({ info, criteria, correlationId }) => {
           return this.entityService.loadMany(info, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new LoadManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
+            map(
+              (ref: IEntityRef<TModel[]>) => new LoadManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)
+            ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new LoadManyFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
@@ -154,7 +156,8 @@ export class EntityOperators {
         mergeMap(({ info, page, criteria, correlationId }) => {
           return this.entityService.loadPage(info, page, criteria).pipe(
             map(
-              (ref: IEntityPageRef<TModel>) => new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo, correlationId)
+              (ref: IEntityPageRef<TModel>) =>
+                new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo, correlationId)
             ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new LoadPageFailure<TModel>(error.info.modelType, error.err, correlationId))
@@ -200,7 +203,10 @@ export class EntityOperators {
       source.pipe(
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.createMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new CreateManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
+            map(
+              (ref: IEntityRef<TModel[]>) =>
+                new CreateManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)
+            ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new CreateManyFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
@@ -228,7 +234,10 @@ export class EntityOperators {
       source.pipe(
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.updateMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new UpdateManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
+            map(
+              (ref: IEntityRef<TModel[]>) =>
+                new UpdateManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)
+            ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new UpdateManyFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
@@ -256,7 +265,10 @@ export class EntityOperators {
       source.pipe(
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.replaceMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new ReplaceManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
+            map(
+              (ref: IEntityRef<TModel[]>) =>
+                new ReplaceManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)
+            ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new ReplaceManyFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
@@ -284,7 +296,10 @@ export class EntityOperators {
       source.pipe(
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.deleteMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new DeleteManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
+            map(
+              (ref: IEntityRef<TModel[]>) =>
+                new DeleteManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)
+            ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new DeleteManyFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
@@ -295,32 +310,50 @@ export class EntityOperators {
 
   select<TModel>() {
     return (source: Observable<Select<TModel>>) =>
-      source.pipe(map(({ info, entity, correlationId }) => new Selected<TModel>(info.modelType, entity, correlationId)));
+      source.pipe(
+        map(({ info, entity, correlationId }) => new Selected<TModel>(info.modelType, entity, correlationId))
+      );
   }
 
   selectByKey<TModel>() {
     return (source: Observable<SelectByKey<TModel>>) =>
-      source.pipe(map(({ info, entityKey, correlationId }) => new Selected<TModel>(info.modelType, entityKey, correlationId)));
+      source.pipe(
+        map(({ info, entityKey, correlationId }) => new Selected<TModel>(info.modelType, entityKey, correlationId))
+      );
   }
 
   selectMany<TModel>() {
     return (source: Observable<SelectMany<TModel>>) =>
-      source.pipe(map(({ info, entities, correlationId }) => new SelectedMany<TModel>(info.modelType, entities, correlationId)));
+      source.pipe(
+        map(({ info, entities, correlationId }) => new SelectedMany<TModel>(info.modelType, entities, correlationId))
+      );
   }
 
   selectMore<TModel>() {
     return (source: Observable<SelectMore<TModel>>) =>
-      source.pipe(map(({ info, entities, correlationId }) => new SelectedMore<TModel>(info.modelType, entities, correlationId)));
+      source.pipe(
+        map(({ info, entities, correlationId }) => new SelectedMore<TModel>(info.modelType, entities, correlationId))
+      );
   }
 
   selectManyByKeys<TModel>() {
     return (source: Observable<SelectManyByKeys<TModel>>) =>
-      source.pipe(map(({ info, entitiesKeys, correlationId }) => new SelectedMany<TModel>(info.modelType, entitiesKeys, correlationId)));
+      source.pipe(
+        map(
+          ({ info, entitiesKeys, correlationId }) =>
+            new SelectedMany<TModel>(info.modelType, entitiesKeys, correlationId)
+        )
+      );
   }
 
   selectMoreByKeys<TModel>() {
     return (source: Observable<SelectMoreByKeys<TModel>>) =>
-      source.pipe(map(({ info, entitiesKeys, correlationId }) => new SelectedMore<TModel>(info.modelType, entitiesKeys, correlationId)));
+      source.pipe(
+        map(
+          ({ info, entitiesKeys, correlationId }) =>
+            new SelectedMore<TModel>(info.modelType, entitiesKeys, correlationId)
+        )
+      );
   }
 
   deselect<TModel>() {
@@ -330,12 +363,19 @@ export class EntityOperators {
 
   deselectMany<TModel>() {
     return (source: Observable<DeselectMany<TModel>>) =>
-      source.pipe(map(({ info, entities, correlationId }) => new DeselectedMany<TModel>(info.modelType, entities, correlationId)));
+      source.pipe(
+        map(({ info, entities, correlationId }) => new DeselectedMany<TModel>(info.modelType, entities, correlationId))
+      );
   }
 
   deselectManyByKeys<TModel>() {
     return (source: Observable<DeselectManyByKeys<TModel>>) =>
-      source.pipe(map(({ info, entitiesKeys, correlationId }) => new DeselectedMany<TModel>(info.modelType, entitiesKeys, correlationId)));
+      source.pipe(
+        map(
+          ({ info, entitiesKeys, correlationId }) =>
+            new DeselectedMany<TModel>(info.modelType, entitiesKeys, correlationId)
+        )
+      );
   }
 
   deselectAll<TModel>() {

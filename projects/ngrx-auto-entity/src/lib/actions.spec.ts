@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
+import uuid from 'uuidv4';
 import {
   Clear,
   Create,
@@ -54,7 +55,6 @@ import {
   UpdateSuccess
 } from './actions';
 import { Key } from './decorators';
-import uuid from 'uuidv4';
 
 class TestEntity {
   @Key id: number;
@@ -118,7 +118,7 @@ describe('NgRX Auto-Entity: Actions', () => {
 
       expect(uuid.is(action.correlationId)).toEqual(true);
     });
-  })
+  });
 
   describe('Actions: Load', () => {
     describe('Load', () => {

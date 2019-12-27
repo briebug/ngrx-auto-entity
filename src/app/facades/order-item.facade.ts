@@ -6,7 +6,6 @@ import { AppState } from 'state/app.state';
 import { OrderItem } from '../models/order-item.model';
 import { OrderItemFacadeBase } from '../state/order-item.state';
 
-
 @Injectable({
   providedIn: 'root'
 })
