@@ -13,10 +13,7 @@ export function orderReducer(state = initialState): IEntityState<Order> {
 
 /* Actions */
 export interface IUpsertFullOrderProps {
-  order: Readonly<PartialPick<Order, 'id' | 'accountId'>>,
-  orderItems: ReadonlyArray<PartialPick<OrderItem, 'id' | 'orderId'>>
+  order: Readonly<PartialPick<Order, 'id' | 'accountId'>>;
+  orderItems: ReadonlyArray<PartialPick<OrderItem, 'id' | 'orderId'>>;
 }
-export const upsertFullOrder = createCorrelatedAction(
-  '[Orders] Upsert Full Order',
-  props<IUpsertFullOrderProps>()
-)
+export const upsertFullOrder = createCorrelatedAction('[Orders] Upsert Full Order', props<IUpsertFullOrderProps>());
