@@ -2,7 +2,6 @@ import { Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { merge, Observable, OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import uuid from 'uuidv4';
 import { pascalCase } from '../util/case';
 import { checkKeyName } from './decorators';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
@@ -108,6 +107,13 @@ export interface IEntityAction extends Action, ICorrelatedAction {
   actionType: string;
   info: IEntityInfo;
 }
+
+// tslint:disable
+const uuid = (a?, b?) => {
+  for (b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-') ;
+  return b;
+};
+// tslint:enable
 
 /**
  * Structure for all of this library's actions

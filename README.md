@@ -14,6 +14,13 @@ Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying re
 enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
 find any errors in this documentation, or bugs within the library, please let us know!**
 
+**APOLOGIES: For those using NgRx Auto-Entity, we apologize for issues with the recent v0.3.0
+release! We used an npm module, uuidv4, and back in november our usage of it was working. It 
+appears as though that library was changed fairly significantly since then, with the default
+import removed. That lead to issues for some people, depending on the version of uuidv4 they 
+installed/had installed. We have dropped uuidv4 and are now using a small, fast built-in function
+instead in v0.3.1 and onward, which should resolve the issues. Again, we apologize for the inconvenience!**
+
 ## What is it?
 
 NgRX Auto-Entity aims to provide a seamless means of dealing with standard entity actions and
