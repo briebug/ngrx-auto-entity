@@ -71,15 +71,14 @@ export const handleError = <TModel, TErrorAction>(
   error: IEntityError<TModel>,
   errorAction: TErrorAction
 ): Observable<TErrorAction> => {
+  const serviceName = `${pascalCase(error.info.modelName)}Service`;
   if (error.err instanceof TypeError) {
-    const serviceName = `${pascalCase(error.info.modelName)}Service`;
     console.error(
       `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,
       '\nReason: ',
       error.err
     );
   } else if (error.info && error.message) {
-    const serviceName = `${pascalCase(error.info.modelName)}Service`;
     console.error(
       `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
       '\nReason: ',

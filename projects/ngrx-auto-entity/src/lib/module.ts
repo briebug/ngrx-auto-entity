@@ -25,12 +25,7 @@ export interface NgRxAutoEntityModuleConfig {
   ]
 })
 export class NgRxAutoEntityRootModuleWithEffects {
-  constructor(
-    private effectSources: EffectSources,
-    entityEffects: EntityEffects,
-    extraEffects: ExtraEffects,
-    injector: Injector
-  ) {
+  constructor(private effectSources: EffectSources, entityEffects: EntityEffects, extraEffects: ExtraEffects) {
     // NOTE: The following trick learned from @ngrx/data!
 
     // Warning: this alternative approach relies on an undocumented API
@@ -58,7 +53,7 @@ export class NgRxAutoEntityRootModuleWithEffects {
   ]
 })
 export class NgRxAutoEntityRootModuleNoEntityEffects {
-  constructor(private effectSources: EffectSources, extraEffects: ExtraEffects, injector: Injector) {
+  constructor(private effectSources: EffectSources, extraEffects: ExtraEffects) {
     // NOTE: The following trick learned from @ngrx/data!
 
     // Warning: this alternative approach relies on an undocumented API

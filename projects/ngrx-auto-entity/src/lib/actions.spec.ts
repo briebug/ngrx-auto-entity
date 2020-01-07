@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import uuid from 'uuidv4';
 import {
   Clear,
   Create,
@@ -103,6 +102,15 @@ const testError = {
 
 const criteria = { criteria: 'test' };
 
+const regex = {
+  v4: /^(?:[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12})|(?:0{8}-0{4}-0{4}-0{4}-0{12})$/u,
+  v5: /^(?:[a-f0-9]{8}-[a-f0-9]{4}-5[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12})|(?:0{8}-0{4}-0{4}-0{4}-0{12})$/u
+};
+
+const isUuid = (value: string): boolean => {
+  return regex.v4.test(value) || regex.v5.test(value);
+};
+
 describe('NgRX Auto-Entity: Actions', () => {
   let actions: Observable<any>;
 
@@ -116,7 +124,7 @@ describe('NgRX Auto-Entity: Actions', () => {
     it('should construct EntityAction with correlationId initialized to a random uuid', () => {
       const action = new Load(TestEntity, 1);
 
-      expect(uuid.is(action.correlationId)).toEqual(true);
+      expect(isUuid(action.correlationId)).toEqual(true);
     });
   });
 

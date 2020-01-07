@@ -1,3 +1,19 @@
+<a name="0.3.1"></a>
+
+# [0.3.1](https://github.com/briebug/ngrx-auto-entity/compare/0.3.0...0.3.1) Beta (2020-01-07)
+
+Bug fix release! We apologize for any inconvenience the v0.3.0 release may have caused. We introduced
+a correlation Id into our actions, and relied on `uuidv4` to handle their generation. Turned out, uuidv4
+just recently went through a breaking change, and the default import was removed. This caused problems,
+dependent upon which version of uuidv4 was used by the application using ngrx-ae.
+
+We have replaced uuidv4 with internal code. Fast, small uuid function acquired from the following gist:
+
+https://gist.github.com/LeverOne/1308368
+
+### Bug Fix
+- **[uuidv4](https://www.npmjs.com/package/uuidv4):** Removed in favor of small, fast built in function 
+
 <a name="0.3.0"></a>
 
 # [0.3.0](https://github.com/briebug/ngrx-auto-entity/compare/0.2.8...0.3.0) Beta (2019-11-26)
