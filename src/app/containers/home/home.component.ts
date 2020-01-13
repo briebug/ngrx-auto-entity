@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { OrderStatus } from 'models/order.model';
+import { OrderStatus } from '../../models';
 import { OrdersPreviewComponent } from '../orders-preview/orders-preview.component';
 
 @Component({

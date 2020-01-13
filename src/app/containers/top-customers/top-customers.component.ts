@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CustomerFacade } from 'facades/customer.facade';
+import { CustomerFacade } from '../../facades/customer.facade';
 
 @Component({
   selector: 'app-top-customers',

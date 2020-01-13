@@ -5,11 +5,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { CustomerEffects } from 'state/customer.effects';
-import { OrderEffects } from 'state/order.effects';
-import { ProductEffects } from 'state/product.effects';
+
 import { environment } from '../../environments/environment';
+
 import { appMetaReducers, appReducer } from './app.state';
+import { CustomerEffects } from './customer.effects';
+import { OrderEffects } from './order.effects';
+import { ProductEffects } from './product.effects';
 import { RouterEffects } from './router/router.effects';
 import { CustomRouterStateSerializer } from './shared/utils';
 

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { createFeatureSelector, Store } from '@ngrx/store';
-import { Key } from './decorators';
+import { Key } from './decorators/key';
 import {
   buildFacade,
   buildFeatureState,
@@ -29,6 +29,7 @@ interface ITestFeatureState {
 
 const testSelectorMap: ISelectorMap<ITestState, Test> = {
   selectAll: expect.any(Function),
+  selectAllSorted: expect.any(Function),
   selectEntities: expect.any(Function),
   selectIds: expect.any(Function),
   selectTotal: expect.any(Function),

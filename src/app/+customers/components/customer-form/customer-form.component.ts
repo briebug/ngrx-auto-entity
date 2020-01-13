@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleCha
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Customer } from '../../../models/customer.model';
+
+import { Customer } from '../../../models';
 
 @Component({
   selector: 'app-customer-form',

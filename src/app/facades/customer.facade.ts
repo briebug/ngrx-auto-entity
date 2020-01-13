@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Customer } from 'models/customer.model';
-import { AppState } from 'state/app.state';
-import { CustomerFacadeBase } from 'state/customer.state';
+import { Customer } from '../models';
+import { AppState } from '../state/app.state';
+import { CustomerFacadeBase } from '../state/customer.state';
 
 @Injectable({
   providedIn: 'root'

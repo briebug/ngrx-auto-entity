@@ -1,4 +1,4 @@
-import { Key, NAE_KEY_NAMES, NAE_KEYS } from './decorators';
+import { Key, NAE_KEY_NAMES, NAE_KEYS } from './key';
 
 class TestEntity {
   @Key id: number;

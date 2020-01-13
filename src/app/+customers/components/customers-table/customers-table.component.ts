@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { Customer } from 'models/customer.model';
+
+import { Customer } from '../../../models';
 
 @Component({
   selector: 'app-customers-table',

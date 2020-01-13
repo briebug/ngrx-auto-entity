@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-
-import { CustomerFacade } from 'facades/customer.facade';
-import { Customer } from 'models/customer.model';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
+
+import { CustomerFacade } from '../../../facades';
+import { Customer } from '../../../models';
 
 @Component({
   selector: 'app-customer',

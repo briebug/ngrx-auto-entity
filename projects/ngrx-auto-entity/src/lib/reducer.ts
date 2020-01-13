@@ -26,7 +26,7 @@ import {
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
-import { getKey } from './decorators';
+import { getKey } from './decorators/key';
 import { FEATURE_AFFINITY } from './util';
 
 export function stateNameFromAction(action: IEntityAction): string {

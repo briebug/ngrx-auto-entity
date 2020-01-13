@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { CustomerFacade } from 'facades/customer.facade';
-import { Customer } from 'models/customer.model';
+import { CustomerFacade } from '../../../facades';
+import { Customer } from '../../../models';
 
 @Component({
   selector: 'app-customers',

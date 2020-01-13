@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product } from 'models/product.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { Product } from '../../../models';
 
 @Component({
   selector: 'app-product-form',

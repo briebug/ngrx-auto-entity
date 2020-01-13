@@ -26,7 +26,7 @@ import {
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
-import { Key } from './decorators';
+import { Key } from './decorators/key';
 import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
 
 class TestEntity {

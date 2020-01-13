@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { Product } from 'models/product.model';
+import { Product } from '../../../models';
 
 @Component({
   selector: 'app-products-table',

@@ -99,7 +99,20 @@ export {
   Clear
 } from './lib/actions';
 
-export { Key, getKey, getKeyFromModel, getKeyNames, getKeyNamesFromModel, checkKeyName } from './lib/decorators';
+export {
+  IEffectExclusions,
+  IEffectExcept,
+  IEntityOptions,
+  Entity,
+  all,
+  extra,
+  loads,
+  curd,
+  except,
+  matching
+} from './lib/decorators/entity';
+
+export { Key, getKey, getKeyFromModel, getKeyNames, getKeyNamesFromModel, checkKeyName } from './lib/decorators/key';
 
 export { EntityOperators } from './lib/operators';
 
