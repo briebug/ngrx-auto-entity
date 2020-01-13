@@ -65,6 +65,7 @@ import {
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
+import { shouldApplyEffect } from './decorators/entity';
 import { IEntityError, IEntityPageRef, IEntityRangeRef, IEntityRef, NgrxAutoEntityService } from './service';
 
 export const handleError = <TModel, TErrorAction>(
@@ -75,19 +76,16 @@ export const handleError = <TModel, TErrorAction>(
   if (error.err instanceof TypeError) {
     console.error(
       `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to locate load method in the ${serviceName}`,
-      '\nReason: ',
       error.err
     );
   } else if (error.info && error.message) {
     console.error(
       `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the ${serviceName}`,
-      '\nReason: ',
       error.message
     );
   } else if (error.message) {
     console.error(
       `[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on entity service`,
-      '\nReason: ',
       error.message
     );
   } else {
@@ -106,6 +104,7 @@ export class EntityOperators {
   load<TModel>() {
     return (source: Observable<Load<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, keys, criteria, correlationId }) => {
           return this.entityService.load(info, keys, criteria).pipe(
             map((ref: IEntityRef<TModel>) => new LoadSuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
@@ -120,6 +119,7 @@ export class EntityOperators {
   loadAll<TModel>() {
     return (source: Observable<LoadAll<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, criteria, correlationId }) => {
           return this.entityService.loadAll(info, criteria).pipe(
             map(
@@ -136,6 +136,7 @@ export class EntityOperators {
   loadMany<TModel>() {
     return (source: Observable<LoadMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, criteria, correlationId }) => {
           return this.entityService.loadMany(info, criteria).pipe(
             map(
@@ -152,6 +153,7 @@ export class EntityOperators {
   loadPage<TModel>() {
     return (source: Observable<LoadPage<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, page, criteria, correlationId }) => {
           return this.entityService.loadPage(info, page, criteria).pipe(
             map(
@@ -169,6 +171,7 @@ export class EntityOperators {
   loadRange<TModel>() {
     return (source: Observable<LoadRange<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, range, criteria, correlationId }) => {
           return this.entityService.loadRange(info, range, criteria).pipe(
             map(
@@ -186,6 +189,7 @@ export class EntityOperators {
   create<TModel>() {
     return (source: Observable<Create<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.create<TModel>(info, entity, criteria).pipe(
             map((ref: IEntityRef<TModel>) => new CreateSuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
@@ -200,6 +204,7 @@ export class EntityOperators {
   createMany<TModel>() {
     return (source: Observable<CreateMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.createMany<TModel>(info, entities, criteria).pipe(
             map(
@@ -217,6 +222,7 @@ export class EntityOperators {
   update<TModel>() {
     return (source: Observable<Update<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.update<TModel>(info, entity, criteria).pipe(
             map((ref: IEntityRef<TModel>) => new UpdateSuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
@@ -231,6 +237,7 @@ export class EntityOperators {
   updateMany<TModel>() {
     return (source: Observable<UpdateMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.updateMany<TModel>(info, entities, criteria).pipe(
             map(
@@ -248,6 +255,7 @@ export class EntityOperators {
   replace<TModel>() {
     return (source: Observable<Replace<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.replace<TModel>(info, entity, criteria).pipe(
             map((ref: IEntityRef<TModel>) => new ReplaceSuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
@@ -262,6 +270,7 @@ export class EntityOperators {
   replaceMany<TModel>() {
     return (source: Observable<ReplaceMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.replaceMany<TModel>(info, entities, criteria).pipe(
             map(
@@ -279,6 +288,7 @@ export class EntityOperators {
   delete<TModel>() {
     return (source: Observable<Delete<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.delete(info, entity, criteria).pipe(
             map((ref: IEntityRef<TModel>) => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
@@ -293,6 +303,7 @@ export class EntityOperators {
   deleteMany<TModel>() {
     return (source: Observable<DeleteMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.deleteMany<TModel>(info, entities, criteria).pipe(
             map(
@@ -310,6 +321,7 @@ export class EntityOperators {
   select<TModel>() {
     return (source: Observable<Select<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(({ info, entity, correlationId }) => new Selected<TModel>(info.modelType, entity, correlationId))
       );
   }
@@ -317,6 +329,7 @@ export class EntityOperators {
   selectByKey<TModel>() {
     return (source: Observable<SelectByKey<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(({ info, entityKey, correlationId }) => new Selected<TModel>(info.modelType, entityKey, correlationId))
       );
   }
@@ -324,6 +337,7 @@ export class EntityOperators {
   selectMany<TModel>() {
     return (source: Observable<SelectMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(({ info, entities, correlationId }) => new SelectedMany<TModel>(info.modelType, entities, correlationId))
       );
   }
@@ -331,6 +345,7 @@ export class EntityOperators {
   selectMore<TModel>() {
     return (source: Observable<SelectMore<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(({ info, entities, correlationId }) => new SelectedMore<TModel>(info.modelType, entities, correlationId))
       );
   }
@@ -338,6 +353,7 @@ export class EntityOperators {
   selectManyByKeys<TModel>() {
     return (source: Observable<SelectManyByKeys<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(
           ({ info, entitiesKeys, correlationId }) =>
             new SelectedMany<TModel>(info.modelType, entitiesKeys, correlationId)
@@ -348,6 +364,7 @@ export class EntityOperators {
   selectMoreByKeys<TModel>() {
     return (source: Observable<SelectMoreByKeys<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(
           ({ info, entitiesKeys, correlationId }) =>
             new SelectedMore<TModel>(info.modelType, entitiesKeys, correlationId)
@@ -357,12 +374,16 @@ export class EntityOperators {
 
   deselect<TModel>() {
     return (source: Observable<Deselect<TModel>>) =>
-      source.pipe(map(({ info, correlationId }) => new Deselected<TModel>(info.modelType, correlationId)));
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, correlationId }) => new Deselected<TModel>(info.modelType, correlationId))
+      );
   }
 
   deselectMany<TModel>() {
     return (source: Observable<DeselectMany<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(({ info, entities, correlationId }) => new DeselectedMany<TModel>(info.modelType, entities, correlationId))
       );
   }
@@ -370,6 +391,7 @@ export class EntityOperators {
   deselectManyByKeys<TModel>() {
     return (source: Observable<DeselectManyByKeys<TModel>>) =>
       source.pipe(
+        shouldApplyEffect(),
         map(
           ({ info, entitiesKeys, correlationId }) =>
             new DeselectedMany<TModel>(info.modelType, entitiesKeys, correlationId)
@@ -379,21 +401,33 @@ export class EntityOperators {
 
   deselectAll<TModel>() {
     return (source: Observable<DeselectAll<TModel>>) =>
-      source.pipe(map(({ info, correlationId }) => new DeselectedMany<TModel>(info.modelType, null, correlationId)));
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, correlationId }) => new DeselectedMany<TModel>(info.modelType, null, correlationId))
+      );
   }
 
   edit<TModel>() {
     return (source: Observable<Edit<TModel>>) =>
-      source.pipe(map(({ info, entity, correlationId }) => new Edited<TModel>(info.modelType, entity, correlationId)));
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, entity, correlationId }) => new Edited<TModel>(info.modelType, entity, correlationId))
+      );
   }
 
   change<TModel>() {
     return (source: Observable<Change<TModel>>) =>
-      source.pipe(map(({ info, entity, correlationId }) => new Changed<TModel>(info.modelType, entity, correlationId)));
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, entity, correlationId }) => new Changed<TModel>(info.modelType, entity, correlationId))
+      );
   }
 
   endEdit<TModel>() {
     return (source: Observable<EndEdit<TModel>>) =>
-      source.pipe(map(({ info, correlationId }) => new EditEnded<TModel>(info.modelType, correlationId)));
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, correlationId }) => new EditEnded<TModel>(info.modelType, correlationId))
+      );
   }
 }

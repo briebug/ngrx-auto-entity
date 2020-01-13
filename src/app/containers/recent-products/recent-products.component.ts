@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProductFacade } from 'facades/product.facade';
+import { ProductFacade } from '../../facades';
 
 @Component({
   selector: 'app-recent-products',

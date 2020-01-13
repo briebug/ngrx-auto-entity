@@ -1,5 +1,5 @@
-import { IEntityAction } from './actions';
-import { EntityIdentity } from './util';
+import { IEntityAction } from '../actions';
+import { EntityIdentity } from '../util';
 
 // NOTE: The following two constants should be Symbol() to avoid any potential conflict with
 // any user-defined properties on the entity models. However, use of Symbol() here causes

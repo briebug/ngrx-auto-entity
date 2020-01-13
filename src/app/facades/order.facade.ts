@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Order, OrderStatus } from 'models/order.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppState } from 'state/app.state';
-import { OrderFacadeBase } from 'state/order.state';
+
+import { Order, OrderStatus } from '../models';
+import { AppState } from '../state/app.state';
+import { OrderFacadeBase } from '../state/order.state';
 
 @Injectable({
   providedIn: 'root'

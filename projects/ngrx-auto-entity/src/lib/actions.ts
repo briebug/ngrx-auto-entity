@@ -2,8 +2,11 @@ import { Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { merge, Observable, OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
 import { pascalCase } from '../util/case';
-import { checkKeyName } from './decorators';
+import { IEntityOptions } from './decorators/entity';
+import { ENTITY_OPTS_PROP } from './decorators/entity-tokens';
+import { checkKeyName } from './decorators/key';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
 import { EntityIdentity } from './util';
 
@@ -94,6 +97,8 @@ export enum EntityActionTypes {
  */
 export interface IEntityInfo {
   modelName: string;
+  pluralName?: string;
+  uriName?: string;
   modelType: new () => any;
 }
 
@@ -110,9 +115,14 @@ export interface IEntityAction extends Action, ICorrelatedAction {
 
 // tslint:disable
 const uuid = (a?, b?) => {
-  for (b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-') ;
+  for (
+    b = a = '';
+    a++ < 36;
+    b += (a * 51) & 52 ? (a ^ 15 ? 8 ^ (Math.random() * (a ^ 20 ? 16 : 4)) : 4).toString(16) : '-'
+  );
   return b;
 };
+
 // tslint:enable
 
 /**
@@ -130,10 +140,14 @@ export abstract class EntityAction<TModel> implements IEntityAction {
 
 const setInfo = (type: any): IEntityInfo => {
   const instance = new type();
-  checkKeyName(type, instance.constructor.name);
+  const opts = (type[ENTITY_OPTS_PROP] || { modelName: instance.constructor.name }) as IEntityOptions;
+  const modelName = opts.modelName;
+  checkKeyName(type, modelName);
   return {
     modelType: type,
-    modelName: instance.constructor.name
+    modelName,
+    pluralName: opts.pluralName,
+    uriName: opts.uriName
   };
 };
 

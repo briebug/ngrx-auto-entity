@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 
-import { Product } from 'models/product.model';
+import { Product } from '../../models';
 
 @Component({
   selector: 'app-products-basic-table',

@@ -1,3 +1,26 @@
+<a name="0.4.0"></a>
+
+# [0.4.0](https://github.com/briebug/ngrx-auto-entity/compare/0.3.1...0.4.0) Beta (2020-01-13)
+
+Introducing the `@Entity` decorator for model classes. This decorator provides custom naming capabilities,
+the ability to filter which auto-entity pre-fab effects handle each model, as well as define a default
+comparer for sorting entities retrieved with a new .sorted$ stream on pre-fab facades.
+
+### Features
+- **decorators:** Add `@Entity` decorator for models with modelName, pluralName, uriName properties (#70)
+- **decorators:** Add `excludeEffects` functionality to `@Entity` decorator for filtering which effects handle entity
+- **decorators:** Add `comparer` property to `@Entity` decorator to support selecting sorted entities (#58)
+- **selectors:** Add `selectAllSorted` selector that uses entity comparer to sort on selection (#58)
+- **facades:** Add `sorted$` stream to return all entities in sorted order from `selectAllSorted` selector (#58)  
+
+### Internal 
+
+- **decorators:** Moved all decorators into internal /lib/decorators directory (will break direct imports, use public api!)
+
+### Bug Fix
+- **selectors:** Added additional falsy checks to all selectors to limit frequency of hard failures (#81)
+- **decorators:** Added `modelName` to `@Entity` decorator to allow explicit definition of model name immune to mangling by code minifiers (#81) 
+
 <a name="0.3.1"></a>
 
 # [0.3.1](https://github.com/briebug/ngrx-auto-entity/compare/0.3.0...0.3.1) Beta (2020-01-07)
@@ -23,7 +46,7 @@ Correlated actions are usually sets of request/success/failure actions, such as 
 
 ### Features
 
-- **correlated actions:** Add `correlationId` property to `EntityAction` for tracking correlated actions.
+- **correlated actions:** Add `correlationId` property to `EntityAction` for tracking correlated actions. (#75)
 
 ### Package
 
@@ -58,11 +81,11 @@ custom effects creation.
 
 ### Features
 
-- **actions:** Add fromEntityTypes factory function for multi-entity multi-action effects filtering
+- **actions:** Add fromEntityTypes factory function for multi-entity multi-action effects filtering (#66)
 
 ### Bug Fixes
 
-- **selectors:** Add createdAt facade getter and corresponding selectors
+- **selectors:** Add createdAt facade getter and corresponding selectors (#65)
 
 
 
