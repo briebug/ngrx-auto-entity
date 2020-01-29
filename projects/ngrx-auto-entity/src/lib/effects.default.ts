@@ -2,46 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  Change,
-  Changed,
-  CreateFailure,
-  CreateManyFailure,
-  CreateManySuccess,
-  CreateSuccess,
-  DeleteFailure,
-  DeleteManyFailure,
-  DeleteManySuccess,
-  DeleteSuccess,
-  Deselected,
-  DeselectedMany,
-  Edit,
-  Edited,
-  EditEnded,
-  EndEdit,
-  EntityActionTypes,
-  LoadAllFailure,
-  LoadAllSuccess,
-  LoadFailure,
-  LoadManyFailure,
-  LoadManySuccess,
-  LoadPageFailure,
-  LoadPageSuccess,
-  LoadRangeFailure,
-  LoadRangeSuccess,
-  LoadSuccess,
-  ofEntityAction,
-  ReplaceFailure,
-  ReplaceManyFailure,
-  ReplaceManySuccess,
-  ReplaceSuccess,
-  Selected,
-  SelectedMany,
-  UpdateFailure,
-  UpdateManyFailure,
-  UpdateManySuccess,
-  UpdateSuccess
-} from './actions';
+import { EntityActionTypes, ofEntityAction } from './actions';
 import { EntityOperators } from './operators';
 
 /**
@@ -126,6 +87,18 @@ export class EntityEffects {
   deleteMany$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeleteMany),
     this.ops.deleteMany()
+  );
+
+  @Effect()
+  deleteByKey$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteByKey),
+    this.ops.deleteByKey()
+  );
+
+  @Effect()
+  deleteManyByKeys$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteManyByKeys),
+    this.ops.deleteManyByKey()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -393,6 +366,28 @@ export class DeleteManyEffect {
 }
 
 @Injectable()
+export class DeleteByKeyEffect {
+  @Effect()
+  deleteByKey$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteByKey),
+    this.ops.deleteByKey()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
+export class DeleteManyByKeysEffect {
+  @Effect()
+  deleteManyByKeys$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteManyByKeys),
+    this.ops.deleteManyByKey()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
 export class CUDEffects {
   @Effect()
   create$: Observable<Action> = this.actions$.pipe(
@@ -440,6 +435,18 @@ export class CUDEffects {
   deleteMany$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeleteMany),
     this.ops.deleteMany()
+  );
+
+  @Effect()
+  deleteByKey$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteByKey),
+    this.ops.deleteByKey()
+  );
+
+  @Effect()
+  deleteManyByKeys$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.DeleteManyByKeys),
+    this.ops.deleteManyByKey()
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}

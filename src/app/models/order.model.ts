@@ -1,4 +1,4 @@
-import { Key } from '@briebug/ngrx-auto-entity';
+import { Entity, Key } from '@briebug/ngrx-auto-entity';
 
 export enum OrderStatus {
   pending = 'pending',
@@ -7,6 +7,7 @@ export enum OrderStatus {
   archived = 'archived'
 }
 
+@Entity({ modelName: 'Order' })
 export class Order {
   @Key id: number;
   accountId: number;

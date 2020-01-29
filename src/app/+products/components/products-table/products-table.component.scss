@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-mat-row:hover {
+mat-row:hover, mat-row.selected {
   background-color: mat-color($mat-grey, 200);
   cursor: pointer;
 }

@@ -12,12 +12,24 @@ import { Product } from '../../../models';
 })
 export class ProductsComponent implements OnInit {
   products$: Observable<Product[]>;
+  selectedProducts: Product[] = [];
 
   constructor(private router: Router, private productFacade: ProductFacade) {}
 
   ngOnInit() {
     this.productFacade.loadAll();
     this.products$ = this.productFacade.all$;
+  }
+
+  bulkDelete() {
+    if (this.selectedProducts.length) {
+      const ids = this.selectedProducts.map(product => product.id);
+      this.productFacade.deleteManyByKeys(ids);
+    }
+  }
+
+  onSelect(products: Product[]) {
+    this.selectedProducts = products;
   }
 
   onDelete(product: Product) {

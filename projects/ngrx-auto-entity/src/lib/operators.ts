@@ -13,8 +13,14 @@ import {
   CreateManySuccess,
   CreateSuccess,
   Delete,
+  DeleteByKey,
+  DeleteByKeyFailure,
+  DeleteByKeySuccess,
   DeleteFailure,
   DeleteMany,
+  DeleteManyByKeys,
+  DeleteManyByKeysFailure,
+  DeleteManyByKeysSuccess,
   DeleteManyFailure,
   DeleteManySuccess,
   DeleteSuccess,
@@ -66,7 +72,15 @@ import {
   UpdateSuccess
 } from './actions';
 import { shouldApplyEffect } from './decorators/entity';
-import { IEntityError, IEntityPageRef, IEntityRangeRef, IEntityRef, NgrxAutoEntityService } from './service';
+import {
+  IEntityError,
+  IEntityIdentitiesRef,
+  IEntityIdentityRef,
+  IEntityPageRef,
+  IEntityRangeRef,
+  IEntityRef,
+  NgrxAutoEntityService
+} from './service';
 
 export const handleError = <TModel, TErrorAction>(
   error: IEntityError<TModel>,
@@ -312,6 +326,42 @@ export class EntityOperators {
             ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new DeleteManyFailure<TModel>(error.info.modelType, error.err, correlationId))
+            )
+          );
+        })
+      );
+  }
+
+  deleteByKey<TModel>() {
+    return (source: Observable<DeleteByKey<TModel>>) =>
+      source.pipe(
+        shouldApplyEffect(),
+        mergeMap(({ info, key, criteria, correlationId }) => {
+          return this.entityService.deleteByKey<TModel>(info, key, criteria).pipe(
+            map(
+              (ref: IEntityIdentityRef) =>
+                new DeleteByKeySuccess<TModel>(ref.info.modelType, ref.entityIdentity, correlationId)
+            ),
+            catchError((error: IEntityError<TModel>) =>
+              handleError(error, new DeleteByKeyFailure<TModel>(error.info.modelType, error.err, correlationId))
+            )
+          );
+        })
+      );
+  }
+
+  deleteManyByKey<TModel>() {
+    return (source: Observable<DeleteManyByKeys<TModel>>) =>
+      source.pipe(
+        shouldApplyEffect(),
+        mergeMap(({ info, keys, criteria, correlationId }) => {
+          return this.entityService.deleteManyByKey<TModel>(info, keys, criteria).pipe(
+            map(
+              (ref: IEntityIdentitiesRef) =>
+                new DeleteManyByKeysSuccess<TModel>(ref.info.modelType, ref.entityIdentities, correlationId)
+            ),
+            catchError((error: IEntityError<TModel>) =>
+              handleError(error, new DeleteManyByKeysFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
           );
         })

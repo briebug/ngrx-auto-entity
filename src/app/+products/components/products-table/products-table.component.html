@@ -41,7 +41,11 @@
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-    <mat-row *matRowDef="let product; columns: columnsToDisplay"></mat-row>
+    <mat-row
+      *matRowDef="let product; columns: columnsToDisplay"
+      [class.selected]="selection.isSelected(product)"
+      (click)="selection.toggle(product)"
+    ></mat-row>
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>

@@ -6,10 +6,21 @@ import { pascalCase } from '../util/case';
 import { IEntityInfo } from './actions';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
 import { IAutoEntityService } from './service';
+import { EntityIdentity } from './util';
 
 export interface IEntityRef<TModel> {
   info: IEntityInfo;
   entity: TModel;
+}
+
+export interface IEntityIdentityRef {
+  info: IEntityInfo;
+  entityIdentity: EntityIdentity;
+}
+
+export interface IEntityIdentitiesRef {
+  info: IEntityInfo;
+  entityIdentities: EntityIdentity[];
 }
 
 export interface IEntityError<TModel> {
@@ -62,6 +73,14 @@ export interface IAutoEntityService<TModel> {
   delete?(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<TModel>;
 
   deleteMany?(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<TModel[]>;
+
+  deleteByKey?(entityInfo: IEntityInfo, key: EntityIdentity, criteria?: any): Observable<EntityIdentity>;
+
+  deleteManyByKeys?(
+    entityInfo: IEntityInfo,
+    keys: EntityIdentity[],
+    criteria?: any
+  ): Observable<EntityIdentity[]>;
 }
 
 export const notImplemented = (method: string, entityInfo: IEntityInfo): string =>
@@ -298,6 +317,34 @@ export class NgrxAutoEntityService {
       this.injector,
       service => service.deleteMany(entityInfo, entities, criteria),
       deleted => ({ info: entityInfo, entity: deleted })
+    );
+  }
+
+  deleteByKey<TModel>(
+    entityInfo: IEntityInfo,
+    key: EntityIdentity,
+    criteria?: any
+  ): Observable<IEntityIdentityRef> {
+    return callService<TModel, EntityIdentity, IEntityIdentityRef>(
+      'deleteByKey',
+      entityInfo,
+      this.injector,
+      service => service.deleteByKey(entityInfo, key, criteria),
+      deletedKey => ({ info: entityInfo, entityIdentity: deletedKey })
+    );
+  }
+
+  deleteManyByKey<TModel>(
+    entityInfo: IEntityInfo,
+    keys: EntityIdentity[],
+    criteria?: any
+  ): Observable<IEntityIdentitiesRef> {
+    return callService<TModel, EntityIdentity[], IEntityIdentitiesRef>(
+      'deleteManyByKeys',
+      entityInfo,
+      this.injector,
+      service => service.deleteManyByKeys(entityInfo, keys, criteria),
+      deletedKeys => ({ info: entityInfo, entityIdentities: deletedKeys })
     );
   }
 }

@@ -39,7 +39,9 @@ const CURD_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.Replace]: true,
   [EntityActionTypes.ReplaceMany]: true,
   [EntityActionTypes.Delete]: true,
-  [EntityActionTypes.DeleteMany]: true
+  [EntityActionTypes.DeleteMany]: true,
+  [EntityActionTypes.DeleteByKey]: true,
+  [EntityActionTypes.DeleteManyByKeys]: true
 });
 
 const LOAD_EFFECTS_EXCLUSION = Object.freeze({

@@ -81,6 +81,8 @@ describe('Utility: all', () => {
       [EntityActionTypes.ReplaceMany]: true,
       [EntityActionTypes.Delete]: true,
       [EntityActionTypes.DeleteMany]: true,
+      [EntityActionTypes.DeleteByKey]: true,
+      [EntityActionTypes.DeleteManyByKeys]: true,
       [EntityActionTypes.Select]: true,
       [EntityActionTypes.SelectMany]: true,
       [EntityActionTypes.SelectByKey]: true,
@@ -110,6 +112,8 @@ describe('Utility: all', () => {
       [EntityActionTypes.ReplaceMany]: true,
       [EntityActionTypes.Delete]: true,
       [EntityActionTypes.DeleteMany]: true,
+      [EntityActionTypes.DeleteByKey]: true,
+      [EntityActionTypes.DeleteManyByKeys]: true,
       [EntityActionTypes.Select]: true,
       [EntityActionTypes.SelectMany]: true,
       [EntityActionTypes.SelectByKey]: true,
@@ -193,6 +197,8 @@ describe('Utility: curd', () => {
       [EntityActionTypes.ReplaceMany]: true,
       [EntityActionTypes.Delete]: true,
       [EntityActionTypes.DeleteMany]: true,
+      [EntityActionTypes.DeleteByKey]: true,
+      [EntityActionTypes.DeleteManyByKeys]: true,
       except: expect.any(Function)
     };
     expect(curd).toEqual(EXTRA);
@@ -207,7 +213,9 @@ describe('Utility: curd', () => {
       [EntityActionTypes.Replace]: true,
       [EntityActionTypes.ReplaceMany]: true,
       [EntityActionTypes.Delete]: false,
-      [EntityActionTypes.DeleteMany]: true
+      [EntityActionTypes.DeleteMany]: true,
+      [EntityActionTypes.DeleteByKey]: true,
+      [EntityActionTypes.DeleteManyByKeys]: true
     };
     expect(curd.except(EntityActionTypes.Create, EntityActionTypes.Delete)).toEqual(EXCEPTED);
   });

@@ -7,7 +7,9 @@ import {
   Create,
   CreateMany,
   Delete,
+  DeleteByKey,
   DeleteMany,
+  DeleteManyByKeys,
   Deselect,
   DeselectAll,
   DeselectMany,
@@ -286,6 +288,10 @@ export interface IEntityFacade<TModel> {
 
   deleteMany(entities: TModel[], criteria?: any): void;
 
+  deleteByKey(key: EntityIdentity, criteria?: any): void;
+
+  deleteManyByKeys(keys: EntityIdentity[], criteria?: any): void;
+
   clear(): void;
 }
 
@@ -493,6 +499,14 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
 
     deleteMany(entities: TModel[], criteria?: any): void {
       this.store.dispatch(new DeleteMany(this.modelType, entities, criteria));
+    }
+
+    deleteByKey(key: string | number, criteria?: any): void {
+      this.store.dispatch(new DeleteByKey(this.modelType, key, criteria));
+    }
+
+    deleteManyByKeys(keys: EntityIdentity[], criteria?: any): void {
+      this.store.dispatch(new DeleteManyByKeys(this.modelType, keys, criteria));
     }
 
     clear(): void {

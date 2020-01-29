@@ -63,6 +63,14 @@ export enum EntityActionTypes {
   DeleteManySuccess = '[Entity] (Generic) Delete Many: Success',
   DeleteManyFailure = '[Entity] (Generic) Delete Many: Failure',
 
+  DeleteByKey = '[Entity] (Generic) Delete by key',
+  DeleteByKeySuccess = '[Entity] (Generic) Delete by key: Success',
+  DeleteByKeyFailure = '[Entity] (Generic) Delete by key: Failure',
+
+  DeleteManyByKeys = '[Entity] (Generic) Delete many by keys',
+  DeleteManyByKeysSuccess = '[Entity] (Generic) Delete many by keys: Success',
+  DeleteManyByKeysFailure = '[Entity] (Generic) Delete many by keys: Failure',
+
   Clear = '[Entity] (Generic) Clear',
 
   Select = '[Entity] (Generic) Select',
@@ -440,6 +448,48 @@ export class DeleteManyFailure<TModel> extends EntityAction<TModel> {
 }
 
 /**
+ * Deletes a single entity by key, corresponding to HTTP DELETE operation
+ */
+export class DeleteByKey<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public key: EntityIdentity, public criteria?: any, correlationId?: string) {
+    super(type, EntityActionTypes.DeleteByKey, correlationId);
+  }
+}
+
+export class DeleteByKeySuccess<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public key: EntityIdentity, correlationId?: string) {
+    super(type, EntityActionTypes.DeleteByKeySuccess, correlationId);
+  }
+}
+
+export class DeleteByKeyFailure<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public error: any, correlationId?: string) {
+    super(type, EntityActionTypes.DeleteByKeyFailure, correlationId);
+  }
+}
+
+/**
+ * Deletes many entities, corresponding to HTTP DELETE operation
+ */
+export class DeleteManyByKeys<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public keys: EntityIdentity[], public criteria?: any, correlationId?: string) {
+    super(type, EntityActionTypes.DeleteManyByKeys, correlationId);
+  }
+}
+
+export class DeleteManyByKeysSuccess<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public keys: EntityIdentity[], correlationId?: string) {
+    super(type, EntityActionTypes.DeleteManyByKeysSuccess, correlationId);
+  }
+}
+
+export class DeleteManyByKeysFailure<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public error: any, correlationId?: string) {
+    super(type, EntityActionTypes.DeleteManyByKeysFailure, correlationId);
+  }
+}
+
+/**
  * Clears all entities for this model from state
  */
 export class Clear<TModel> extends EntityAction<TModel> {
@@ -724,6 +774,12 @@ export type EntityActions<TModel> =
   | DeleteMany<TModel>
   | DeleteManyFailure<TModel>
   | DeleteManySuccess<TModel>
+  | DeleteByKey<TModel>
+  | DeleteByKeyFailure<TModel>
+  | DeleteByKeySuccess<TModel>
+  | DeleteManyByKeys<TModel>
+  | DeleteManyByKeysFailure<TModel>
+  | DeleteManyByKeysSuccess<TModel>
   | Clear<TModel>
   | Select<TModel>
   | SelectByKey<TModel>
@@ -783,6 +839,12 @@ export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof DeleteMany ||
   action instanceof DeleteManySuccess ||
   action instanceof DeleteManyFailure ||
+  action instanceof DeleteByKey ||
+  action instanceof DeleteByKeySuccess ||
+  action instanceof DeleteByKeyFailure ||
+  action instanceof DeleteManyByKeys ||
+  action instanceof DeleteManyByKeysSuccess ||
+  action instanceof DeleteManyByKeysFailure ||
   action instanceof Clear ||
   action instanceof Select ||
   action instanceof SelectByKey ||

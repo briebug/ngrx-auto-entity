@@ -21,6 +21,7 @@ import {
   resolveService,
   resolveServiceDeep
 } from './service';
+import { EntityIdentity } from './util';
 
 export class TestModel {
   id: number;
@@ -147,6 +148,26 @@ export class TestModelService implements IAutoEntityService<TestModel> {
       return throwError({ message: 'Service not found' });
     } else {
       return of(entity);
+    }
+  }
+
+  deleteByKey(entityInfo: IEntityInfo, entityIdentity: EntityIdentity, criteria?: any): Observable<EntityIdentity> {
+    if (entityInfo.modelName !== 'TestModel') {
+      return throwError({ message: 'Service not found' });
+    } else {
+      return of(entityIdentity);
+    }
+  }
+
+  deleteManyByKeys(
+    entityInfo: IEntityInfo,
+    entityIdentities: EntityIdentity[],
+    criteria?: any
+  ): Observable<EntityIdentity[]> {
+    if (entityInfo.modelName !== 'TestModel') {
+      return throwError({ message: 'Service not found' });
+    } else {
+      return of(entityIdentities);
     }
   }
 }
@@ -561,6 +582,52 @@ describe('NgRX Auto-Entity: Service', () => {
         test('should throw an error when the service is not found', done => {
           entityService
             .delete(badEntityInfo, entity)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('deleteByKey', () => {
+        test('should return a valid EntityIdentityRef on successful delete', done => {
+          entityService.deleteByKey(entityInfo, entity.id).subscribe(entityIdentityRef => {
+            expect(entityIdentityRef).toEqual({ info: entityInfo, entityIdentity: entity.id });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .deleteByKey(badEntityInfo, entity.id)
+            .pipe(
+              catchError(err => {
+                expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
+                return of(err);
+              })
+            )
+            .subscribe(() => {
+              done();
+            });
+        });
+      });
+
+      describe('deleteManyByKeys', () => {
+        test('should return a valid EntityIdentitiesRef on successful delete', done => {
+          entityService.deleteManyByKey(entityInfo, [entity.id]).subscribe(entityIdentitiesRef => {
+            expect(entityIdentitiesRef).toEqual({ info: entityInfo, entityIdentities: [entity.id] });
+            done();
+          });
+        });
+
+        test('should throw an error when the service is not found', done => {
+          entityService
+            .deleteManyByKey(badEntityInfo, [entity.id])
             .pipe(
               catchError(err => {
                 expect(err).toEqual({ info: badEntityInfo, err: { message: 'Service not found' } });
