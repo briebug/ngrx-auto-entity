@@ -76,11 +76,7 @@ export interface IAutoEntityService<TModel> {
 
   deleteByKey?(entityInfo: IEntityInfo, key: EntityIdentity, criteria?: any): Observable<EntityIdentity>;
 
-  deleteManyByKeys?(
-    entityInfo: IEntityInfo,
-    keys: EntityIdentity[],
-    criteria?: any
-  ): Observable<EntityIdentity[]>;
+  deleteManyByKeys?(entityInfo: IEntityInfo, keys: EntityIdentity[], criteria?: any): Observable<EntityIdentity[]>;
 }
 
 export const notImplemented = (method: string, entityInfo: IEntityInfo): string =>
@@ -320,11 +316,7 @@ export class NgrxAutoEntityService {
     );
   }
 
-  deleteByKey<TModel>(
-    entityInfo: IEntityInfo,
-    key: EntityIdentity,
-    criteria?: any
-  ): Observable<IEntityIdentityRef> {
+  deleteByKey<TModel>(entityInfo: IEntityInfo, key: EntityIdentity, criteria?: any): Observable<IEntityIdentityRef> {
     return callService<TModel, EntityIdentity, IEntityIdentityRef>(
       'deleteByKey',
       entityInfo,
