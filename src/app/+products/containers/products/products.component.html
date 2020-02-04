@@ -6,6 +6,7 @@
   </div>
   <app-products-table
     [products]="products$ | async"
+    [selectedProducts]="selectedProducts"
     (select)="onSelect($event)"
     (delete)="onDelete($event)"
     (edit)="onEdit($event)"

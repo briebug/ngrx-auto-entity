@@ -24,7 +24,8 @@ export class ProductsComponent implements OnInit {
   bulkDelete() {
     if (this.selectedProducts.length) {
       const ids = this.selectedProducts.map(product => product.id);
-      this.productFacade.deleteManyByKeys(ids);
+      ids.length === 1 ? this.productFacade.deleteByKey(ids[0]) : this.productFacade.deleteManyByKeys(ids);
+      this.selectedProducts = [];
     }
   }
 

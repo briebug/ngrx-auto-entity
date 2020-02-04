@@ -22,6 +22,10 @@ import { Product } from '../../../models';
 })
 export class ProductsTableComponent implements OnChanges, OnInit, OnDestroy {
   @Input() products: Product[];
+  @Input() set selectedProducts(val: Product[]) {
+    this.selection.clear();
+    this.selection.select(...val);
+  }
   @Output() delete = new EventEmitter<Product>();
   @Output() edit = new EventEmitter<Product>();
   @Output() select = new EventEmitter<Product[]>();
