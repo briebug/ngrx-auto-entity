@@ -1,13 +1,11 @@
-import { IEntityState } from '@briebug/ngrx-auto-entity';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-import { customerReducer } from 'state/customer.state';
 import { environment } from '../../environments/environment';
-import { Customer } from '../models/customer.model';
+import { customerReducer, ICustomerState } from './customer.state';
 
 export interface IAppState {
-  customer: IEntityState<Customer>;
+  customer: ICustomerState;
 }
 
 export type AppState = IAppState;

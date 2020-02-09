@@ -653,6 +653,11 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
 
     case EntityActionTypes.Clear: {
       const newState = {
+        // If the developer has included their own extra state properties with buildState(Entity, { /* custom */ })
+        // then we don't want to mess with it. We want to leave any custom developer state as-is!
+        // Spread in the current state to ensure we KEEP custom developer-defined extra state properties:
+        ...entityState,
+        // Now reset the auto-entity managed properties to their default states:
         entities: {},
         ids: [],
         currentEntityKey: undefined,

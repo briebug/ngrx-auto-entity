@@ -1,3 +1,26 @@
+<a name="0.4.1"></a>
+
+# [0.4.1](https://github.com/briebug/ngrx-auto-entity/compare/0.4.0...0.4.1) Beta (2020-02-09)
+
+Introduces the ability to delete entities just by their key, or many entities by their keys. This allows
+the deletion of entities without actually having the entity objects on hand. 
+
+Also resolves an issue with clearing state, which would also clear custom developer-defined extra state
+included alongside auto-entity managed state. 
+
+### Features
+- **actions**:** Add `DeleteByKey`, `DeleteManyByKeys` and related result actions (#85)
+- **service:** Add support for `deleteByKey` and `deleteManyByKeys` methods in entity services (#85)
+- **reducer:** Handles new delete by keys result actions to rmeove deleted entities and update deleting flags/timestamps (#85)
+- **decorators:** Add support for new delete by keys actions in effect exclusion of `@Entity` decorator (#85)
+- **facades:** Add `deleteByKey` and `deleteManyByKeys` methods to generated facades (#85)
+- **effects:** Add operators and effects to handle delete by keys actions (#85)  
+
+### Bug Fix
+- **reducer:** No longer removes custom state when clearing auto-entity managed state with `Clear` action (#86)
+- **util:** Fix `buildState` and `buildFeatureState` and related types to support custom properties in extra state under TS 3.x (#88)
+
+
 <a name="0.4.0"></a>
 
 # [0.4.0](https://github.com/briebug/ngrx-auto-entity/compare/0.3.1...0.4.0) Beta (2020-01-13)

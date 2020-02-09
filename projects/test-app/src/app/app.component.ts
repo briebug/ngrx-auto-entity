@@ -11,5 +11,6 @@ export class AppComponent {
 
   constructor(public customers: CustomerFacade) {
     customers.loadAll();
+    setTimeout(() => customers.clear(), 3000);
   }
 }

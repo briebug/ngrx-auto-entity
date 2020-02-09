@@ -72,12 +72,12 @@ export interface IEntityState<TModel> {
 /**
  * Structure of the model state built by the buildState() function
  */
-export interface IModelState<TParentState, TState, TModel> {
-  initialState: TState;
+export interface IModelState<TParentState, TState, TModel, TExtra> {
+  initialState: TState & TExtra;
   selectors: ISelectorMap<TParentState, TModel>;
-  reducer: (state: TState) => IEntityState<TModel>;
+  reducer: (state: TState & TExtra) => IEntityState<TModel> & TExtra;
   facade: new (type: new () => TModel, store: Store<any>) => IEntityFacade<TModel>;
-  entityState: ((state: TParentState) => TState) | (MemoizedSelector<object, any>);
+  entityState: ((state: TParentState) => TState & TExtra) | (MemoizedSelector<object, any>);
 }
 
 /**
@@ -108,100 +108,103 @@ export interface ISelectorMap<TParentState, TModel> {
   selectDeletedAt: MemoizedSelector<object | TParentState, Date>;
 }
 
-export const buildSelectorMap = <TParentState, TState extends IEntityState<TModel>, TModel>(
-  getState: Selector<TParentState, TState> | MemoizedSelector<object | TParentState, TState>,
+export const buildSelectorMap = <TParentState, TState extends IEntityState<TModel>, TModel, TExtra>(
+  getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>,
   compareFn?: (a, b) => number
 ): ISelectorMap<TParentState, TModel> =>
   ({
     selectAll: createSelector(
       getState,
-      (state: TState): TModel[] =>
+      (state: TState & TExtra): TModel[] =>
         !state || !state.ids || !state.entities ? [] : state.ids.map(id => state.entities[id])
     ),
     selectAllSorted: createSelector(
       getState,
-      (state: TState): TModel[] =>
+      (state: TState & TExtra): TModel[] =>
         (!state || !state.ids || !state.entities ? [] : state.ids.map(id => state.entities[id])).sort(compareFn)
     ),
     selectEntities: createSelector(
       getState,
-      (state: TState): IEntityDictionary<TModel> => (!state || !state.entities ? {} : state.entities)
+      (state: TState & TExtra): IEntityDictionary<TModel> => (!state || !state.entities ? {} : state.entities)
     ),
     selectIds: createSelector(
       getState,
-      (state: TState): EntityIdentity[] => (!state || !state.ids ? [] : state.ids)
+      (state: TState & TExtra): EntityIdentity[] => (!state || !state.ids ? [] : state.ids)
     ),
     selectTotal: createSelector(
       getState,
-      (state: TState): number => (!state || !state.ids ? 0 : state.ids.length)
+      (state: TState & TExtra): number => (!state || !state.ids ? 0 : state.ids.length)
     ),
     selectCurrentEntity: createSelector(
       getState,
-      (state: TState): TModel =>
+      (state: TState & TExtra): TModel =>
         !state || !state.entities || !state.currentEntityKey ? null : state.entities[state.currentEntityKey]
     ),
     selectCurrentEntityKey: createSelector(
       getState,
-      (state: TState): EntityIdentity => (!state ? null : state.currentEntityKey)
+      (state: TState & TExtra): EntityIdentity => (!state ? null : state.currentEntityKey)
     ),
     selectCurrentEntities: createSelector(
       getState,
-      (state: TState): TModel[] =>
-        !state || !state.currentEntitiesKeys || !state.entities
+      (state: TState & TExtra): TModel[] =>
+        // prettier-ignore
+        (!state || !state.currentEntitiesKeys || !state.entities)
           ? []
           : state.currentEntitiesKeys.map(key => state.entities[key])
     ),
     selectCurrentEntitiesKeys: createSelector(
       getState,
-      (state: TState): EntityIdentity[] => (!state || !state.currentEntitiesKeys ? [] : state.currentEntitiesKeys)
+      (state: TState & TExtra): EntityIdentity[] =>
+        // prettier-ignore
+        (!state || !state.currentEntitiesKeys) ? [] : state.currentEntitiesKeys
     ),
     selectEditedEntity: createSelector(
       getState,
-      (state: TState): Partial<TModel> => (!state ? null : state.editedEntity)
+      (state: TState & TExtra): Partial<TModel> => (!state ? null : state.editedEntity)
     ),
     selectIsDirty: createSelector(
       getState,
-      (state: TState): boolean => (!state ? false : !!state.isDirty)
+      (state: TState & TExtra): boolean => (!state ? false : !!state.isDirty)
     ),
     selectCurrentPage: createSelector(
       getState,
-      (state: TState): Page => (!state ? null : state.currentPage)
+      (state: TState & TExtra): Page => (!state ? null : state.currentPage)
     ),
     selectCurrentRange: createSelector(
       getState,
-      (state: TState): Range => (!state ? null : state.currentRange)
+      (state: TState & TExtra): Range => (!state ? null : state.currentRange)
     ),
     selectTotalPageable: createSelector(
       getState,
-      (state: TState): number => (!state ? 0 : state.totalPageableCount)
+      (state: TState & TExtra): number => (!state ? 0 : state.totalPageableCount)
     ),
     selectIsLoading: createSelector(
       getState,
-      (state: TState): boolean => (!state ? false : !!state.isLoading)
+      (state: TState & TExtra): boolean => (!state ? false : !!state.isLoading)
     ),
     selectIsSaving: createSelector(
       getState,
-      (state: TState): boolean => (!state ? false : !!state.isSaving)
+      (state: TState & TExtra): boolean => (!state ? false : !!state.isSaving)
     ),
     selectIsDeleting: createSelector(
       getState,
-      (state: TState): boolean => (!state ? false : !!state.isDeleting)
+      (state: TState & TExtra): boolean => (!state ? false : !!state.isDeleting)
     ),
     selectLoadedAt: createSelector(
       getState,
-      (state: TState): Date => (!state ? null : state.loadedAt)
+      (state: TState & TExtra): Date => (!state ? null : state.loadedAt)
     ),
     selectSavedAt: createSelector(
       getState,
-      (state: TState): Date => (!state ? null : state.savedAt)
+      (state: TState & TExtra): Date => (!state ? null : state.savedAt)
     ),
     selectCreatedAt: createSelector(
       getState,
-      (state: TState): Date => (!state ? null : state.createdAt)
+      (state: TState & TExtra): Date => (!state ? null : state.createdAt)
     ),
     selectDeletedAt: createSelector(
       getState,
-      (state: TState): Date => (!state ? null : state.deletedAt)
+      (state: TState & TExtra): Date => (!state ? null : state.deletedAt)
     )
   } as ISelectorMap<TParentState, TModel>);
 
@@ -525,10 +528,10 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
  * @param type - the entity class
  * @param extraInitialState - the (optional) initial state
  */
-export const buildState = <TState extends IEntityState<TModel>, TParentState, TModel>(
+export const buildState = <TState extends IEntityState<TModel>, TParentState, TModel, TExtra>(
   type: IModelClass<TModel>,
-  extraInitialState?: any
-): IModelState<TParentState, TState, TModel> => {
+  extraInitialState?: TExtra
+): IModelState<TParentState, TState, TModel, TExtra> => {
   const instance = new type();
   const opts = type[ENTITY_OPTS_PROP] || {
     modelName: instance.constructor.name,
@@ -537,7 +540,7 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   const modelName = camelCase(opts.modelName);
 
   console.log(`NGRX-AE: Building entity state for: ${modelName}; constructor name: ${instance.constructor.name}`);
-  const getState = (state: TParentState): TState => {
+  const getState = (state: TParentState): TState & TExtra => {
     const modelState = state[modelName];
     if (!modelState) {
       console.error(`NGRX-AE: State for model ${modelName} could not be found!`);
@@ -552,16 +555,16 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
     entities: {},
     ids: [],
     ...extraInitialState
-  } as TState;
+  } as TState & TExtra;
 
-  const selectors = buildSelectorMap<TParentState, TState, TModel>(getState, opts.comparer);
+  const selectors = buildSelectorMap<TParentState, TState, TModel, TExtra>(getState, opts.comparer);
   const facade = buildFacade<TModel, TParentState>(selectors);
-  const reducer = (state = initialState): IEntityState<TModel> => {
+  const reducer = (state = initialState): IEntityState<TModel> & TExtra => {
     // tslint:disable-line
     return state;
   };
 
-  const entityState = getState as (state: TParentState) => TState;
+  const entityState = getState as (state: TParentState) => TState & TExtra;
 
   return {
     initialState,
@@ -581,12 +584,12 @@ export const FEATURE_AFFINITY = '__ngrxae_feature_affinity';
  * @param selectParentState a selector for the entity's parent state
  * @param extraInitialState the (optional) initial feature state
  */
-export const buildFeatureState = <TState extends IEntityState<TModel>, TParentState, TModel>(
+export const buildFeatureState = <TState extends IEntityState<TModel>, TParentState, TModel, TExtra>(
   type: IModelClass<TModel>,
   featureStateName: NonNullable<string>,
   selectParentState: MemoizedSelector<object, TParentState>,
-  extraInitialState?: any
-): IModelState<TParentState, TState, TModel> => {
+  extraInitialState?: TExtra
+): IModelState<TParentState, TState, TModel, TExtra> => {
   const instance = new type();
   const opts = type[ENTITY_OPTS_PROP] || {
     modelName: instance.constructor.name
@@ -619,11 +622,11 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
     entities: {},
     ids: [],
     ...extraInitialState
-  } as TState;
+  } as TState & TExtra;
 
-  const selectors = buildSelectorMap<TParentState, TState, TModel>(selectState);
+  const selectors = buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState);
   const facade = buildFacade<TModel, TParentState>(selectors);
-  const reducer = (state = initialState): IEntityState<TModel> => {
+  const reducer = (state = initialState): IEntityState<TModel> & TExtra => {
     // tslint:disable-line
     return state;
   };

@@ -6,7 +6,7 @@
     "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
     "serve": "ng serve --source-map --vendorSourceMap",
     "serve:prod": "ng serve --prod --source-map --vendorSourceMap",
-    "serve:test": "ng serve test-app --prod --source-map --vendorSourceMap",
+    "serve:test": "ng serve test-app --source-map --vendorSourceMap",
     "serve:test:prod": "ng serve test-app --source-map --vendorSourceMap",
     "serve-proxy": "ng serve --prod --source-map --vendorSourceMap --proxy-config proxy.conf.json",
     "serve-proxy:test": "ng serve test-app --source-map --vendorSourceMap --proxy-config proxy.conf.json",
