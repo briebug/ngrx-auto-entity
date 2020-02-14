@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { distinctUntilChanged, first } from 'rxjs/operators';
+import { AccountFacade } from './state/account.facade';
 import { CustomerFacade } from './state/customer.facade';
 
 @Component({
@@ -7,10 +9,19 @@ import { CustomerFacade } from './state/customer.facade';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'test-app';
-
-  constructor(public customers: CustomerFacade) {
+  constructor(public customers: CustomerFacade, public accounts: AccountFacade) {
+    accounts.loadAll();
     customers.loadAll();
     setTimeout(() => customers.clear(), 3000);
+
+    setTimeout(() => {
+      accounts.current$
+        .pipe(
+          first(current => !!current),
+          distinctUntilChanged()
+        )
+        .subscribe(current => accounts.update(current));
+      accounts.selectByKey(1);
+    }, 3000);
   }
 }

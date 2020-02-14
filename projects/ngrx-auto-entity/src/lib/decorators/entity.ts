@@ -11,11 +11,17 @@ export interface IEffectExcept {
   except?: (...actions: EntityActionTypes[]) => IEffectExclusions;
 }
 
+export interface IEntityTransformer {
+  fromServer?: (data: any) => any;
+  toServer?: (entity: any) => any;
+}
+
 export interface IEntityOptions {
   modelName: string;
   uriName?: string;
   pluralName?: string;
   comparer?: (a, b) => number;
+  transform?: IEntityTransformer[];
   excludeEffects?: IEffectExclusions | IEffectExcept;
 }
 

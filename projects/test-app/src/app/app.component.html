@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <ul>
-  <li *ngFor="let customer of customers.sorted$ | async">{{customer.name}}</li>
+  <li *ngFor="let account of accounts.sorted$ | async">{{account | json}}</li>
 </ul>
 

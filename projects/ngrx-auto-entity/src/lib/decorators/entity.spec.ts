@@ -330,6 +330,25 @@ describe('Decorator: @Entity', () => {
       matching(EntityActionTypes.Select, EntityActionTypes.Clear, EntityActionTypes.Load)
     );
   });
+
+  test('should include transformations listed in decorator', () => {
+    const xform1 = { fromServer: data => data, toServer: data => data };
+    const xform2 = {
+      fromServer: data => ((data.prop = +data.prop), data),
+      toServer: data => ((data.prop = data.prop.toString()), data)
+    };
+
+    @Entity({
+      modelName: 'Model',
+      transform: [xform1, xform2]
+    })
+    class Model {
+      prop: number;
+    }
+
+    expect(Model[ENTITY_OPTS_PROP].modelName).toBe('Model');
+    expect(Model[ENTITY_OPTS_PROP].transform).toEqual([xform1, xform2]);
+  });
 });
 
 describe('Operator: shouldApplyEffect', () => {

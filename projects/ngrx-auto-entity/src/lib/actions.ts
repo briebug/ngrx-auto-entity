@@ -4,7 +4,7 @@ import { merge, Observable, OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { pascalCase } from '../util/case';
-import { IEntityOptions } from './decorators/entity';
+import { IEntityOptions, IEntityTransformer } from './decorators/entity';
 import { ENTITY_OPTS_PROP } from './decorators/entity-tokens';
 import { checkKeyName } from './decorators/key';
 import { IPageInfo, IRangeInfo, Page, Range } from './models';
@@ -108,6 +108,7 @@ export interface IEntityInfo {
   pluralName?: string;
   uriName?: string;
   modelType: new () => any;
+  transform?: IEntityTransformer[];
 }
 
 export type TNew<TModel> = new () => TModel;
@@ -155,7 +156,8 @@ const setInfo = (type: any): IEntityInfo => {
     modelType: type,
     modelName,
     pluralName: opts.pluralName,
-    uriName: opts.uriName
+    uriName: opts.uriName,
+    transform: opts.transform
   };
 };
 

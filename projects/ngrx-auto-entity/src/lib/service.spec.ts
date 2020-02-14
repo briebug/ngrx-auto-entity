@@ -7,8 +7,10 @@ import { catchError } from 'rxjs/operators';
 import { IEntityInfo } from './actions';
 import { Page, Range } from './models';
 import {
+  applyTransforms,
   failResolution,
   getService,
+  getTransforms,
   IAutoEntityService,
   IEntityWithPageInfo,
   IEntityWithRangeInfo,
@@ -229,6 +231,50 @@ describe('NgRX Auto-Entity: Service', () => {
           expect(consoleMsgs[1]).toBe("{ message: 'StaticInjector error' }");
         }
       );
+    });
+  });
+
+  describe('Functions: Transformation', () => {
+    describe('Function: getTransforms', () => {
+      it('should return default identity transformation if non defined on model', () => {
+        const transforms = getTransforms(undefined, 'fromServer');
+        expect(transforms).toEqual([expect.any(Function)]);
+      });
+
+      it('should return array of transformations defined on model for specified property', () => {
+        const fromServer1 = data => data;
+        const fromServer2 = data => ((data.prop = +data.prop), data);
+
+        const xform1 = { fromServer: fromServer1 };
+        const xform2 = { fromServer: fromServer2 };
+
+        const transforms = getTransforms([xform1, xform2], 'fromServer');
+
+        expect(transforms).toEqual([fromServer1, fromServer2]);
+      });
+    });
+
+    describe('Function: applyTransforms', () => {
+      it('should apply transformations in the order specified', () => {
+        const fromServer1 = data => ((data.date = new Date(data.date)), data);
+        const fromServer2 = data => ((data.num = +data.num), data);
+
+        const originalEntity = {
+          date: '2020-02-13T16:30:30',
+          num: '10'
+        };
+
+        const transformed = applyTransforms([fromServer1, fromServer2])(originalEntity);
+
+        expect(transformed.date).toStrictEqual(expect.any(Date));
+        expect(transformed.date.getFullYear()).toBe(new Date('2020-02-13T16:30:30').getFullYear());
+        expect(transformed.date.getMonth()).toBe(new Date('2020-02-13T16:30:30').getMonth());
+        expect(transformed.date.getDay()).toBe(new Date('2020-02-13T16:30:30').getDay());
+        expect(transformed.date.getHours()).toBe(new Date('2020-02-13T16:30:30').getHours());
+        expect(transformed.date.getMinutes()).toBe(new Date('2020-02-13T16:30:30').getMinutes());
+        expect(transformed.date.getSeconds()).toBe(new Date('2020-02-13T16:30:30').getSeconds());
+        expect(transformed.num).toBe(10);
+      });
     });
   });
 

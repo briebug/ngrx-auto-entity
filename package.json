@@ -59,7 +59,7 @@
     "@angular/compiler-cli": "^8.1.2",
     "@angular/language-service": "^8.1.2",
     "@ngrx/store-devtools": "^7.4.0",
-    "@types/jest": "^24.0.15",
+    "@types/jest": "^24.0.25",
     "@types/node": "~10.9.4",
     "acorn": "6.1.1",
     "codelyzer": "^5.1.0",

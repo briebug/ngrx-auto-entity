@@ -53,8 +53,18 @@ import {
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
+import { Entity } from './decorators/entity';
 import { Key } from './decorators/key';
 
+const xform = {
+  fromServer: data => data,
+  toServer: data => data
+};
+
+@Entity({
+  modelName: 'TestEntity',
+  transform: [xform]
+})
 class TestEntity {
   @Key id: number;
   firstName: string;
@@ -125,6 +135,14 @@ describe('NgRX Auto-Entity: Actions', () => {
       const action = new Load(TestEntity, 1);
 
       expect(isUuid(action.correlationId)).toEqual(true);
+    });
+  });
+
+  describe('Transformations', () => {
+    it('should attach entity transformations to entity info', () => {
+      const action = new Load(TestEntity, 1);
+
+      expect(action.info.transform).toEqual([xform]);
     });
   });
 

@@ -1,6 +1,7 @@
 {
   "extends": "../../tslint.json",
   "rules": {
+    "ban-comma-operator": false,
     "directive-selector": [
       true,
       "attribute",

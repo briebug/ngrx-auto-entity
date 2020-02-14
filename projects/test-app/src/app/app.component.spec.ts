@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from './app.component';
 import { CustomerFacade } from './state/customer.facade';
 
@@ -12,7 +13,8 @@ describe('AppComponent', () => {
           useValue: {
             loadAll: jest.fn()
           }
-        }
+        },
+        provideMockStore()
       ]
     }).compileComponents();
   }));

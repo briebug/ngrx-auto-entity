@@ -21,7 +21,7 @@ export class EntityService implements IAutoEntityService<any> {
     return this.http.post<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
   }
 
-  update(entityInfo: IEntityInfo, entity: any): Observable<any> {
+  update(entityInfo: IEntityInfo, entity: any, criteria?: any, originalEntity?: any): Observable<any> {
     return this.http.patch<any>(
       `${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`,
       entity

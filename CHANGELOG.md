@@ -1,3 +1,32 @@
+<a name="0.4.2"></a>
+
+# [0.4.2](https://github.com/briebug/ngrx-auto-entity/compare/0.4.1...0.4.2) Beta (2020-02-13)
+
+Introduces entity data transformation feature to enable `fromServer` and `toServer` data transformations via
+the `transform` property on the `@Entity` decorator. Each transformation may optionally implement `fromServer`
+and/or `toServer`. When a transformation is implemented for a given direction, it will be applied to data
+flowing in that direction. If transformations are present, they will be applied in the order specified.
+
+Data transformations may be used to convert things such as dates from UTC strings on the server, to actual 
+`Date` objects in the client during loads, and back again during saves. Transform implementations are 
+type-free, allowing any form of data to be handled as input, and any form of data to be returned as output.
+This allows transformations to be highly composable if necessary.
+
+The `IAutoEntityService` interface has been enhanced to include, as a final parameter for modification methods,
+an additional `originalEntity` property. This is the entity before transformation, in the event that the
+original data is required by an entity service implementation.
+
+Transforms must be configured for each entity. No global transformations are supported at the current time.
+
+Resolves #59 
+
+### Features
+- **actions**:** Includes `transform` in `IEntityInfo` attached to every auto-entity action
+- **service:** Refactored to handle transformation of all data, to and from server, for all entities, if configured via `@Entity`
+- **service:** Extended `IAutoEntityService` interface to include support for `originalEntity` (pre-transformation)
+- **decorators:** Add new, optional `transform` property that accepts an array of `IEntityTransformation` implementations
+
+
 <a name="0.4.1"></a>
 
 # [0.4.1](https://github.com/briebug/ngrx-auto-entity/compare/0.4.0...0.4.1) Beta (2020-02-09)
