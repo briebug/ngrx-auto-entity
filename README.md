@@ -87,10 +87,14 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [x] Built-in entity selection support
 - [x] Pre-fabricated facade generation
 - [x] Generated stub reducers
-- [ ] Enhanced IEntityInfo interface with naming utilities
+- [x] Automatic correlation of related initiating and result actions
+- [x] Enhanced IEntityInfo interface with naming utilities
+- [x] Filtering of entities effects handle
+- [x] Custom transformation of data to and from the server (i.e. ISO date to Date())
+- [ ] Normalization of API with NgRx 8 functional/factory function architecture
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
-- [ ] Filtering of entities effects handle
+- [ ] Pre-fabricated, ready-to-go, reusable entity services
 
 # Contributors
 
@@ -103,5 +107,6 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [Jesse Sanders](https://github.com/jessesanders): Evil Mastermind!
 - [Jon Rista](https://github.com/jrista): Design, Architecture & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
+- [Alice Paquette](https://github.com/paquettealice): Alice Paquette 
+- [Patrice Paquette](https://github.com/patpaquette): Patrice Paquette
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
-- [Andy Pickler](https://github.com/BigGillyStyle): Implementation

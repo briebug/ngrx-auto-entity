@@ -48,6 +48,7 @@ export interface IEntityWithRangeInfo<TModel> {
   rangeInfo: IRangeInfo;
 }
 
+// prettier-ignore
 export interface IAutoEntityService<TModel> {
   load?(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<TModel>;
 
@@ -59,41 +60,21 @@ export interface IAutoEntityService<TModel> {
 
   loadRange?(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityWithRangeInfo<TModel>>;
 
-  create?(entityInfo: IEntityInfo, entity: TModel, criteria?: any, originalEntity?: TModel): Observable<TModel>;
+  create?(entityInfo: IEntityInfo, entity: TModel | any, criteria?: any, originalEntity?: TModel): Observable<TModel>;
 
-  createMany?(
-    entityInfo: IEntityInfo,
-    entities: TModel[],
-    criteria?: any,
-    originalEntities?: TModel[]
-  ): Observable<TModel[]>;
+  createMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;
 
-  update?(entityInfo: IEntityInfo, entity: TModel, criteria?: any, originalEntity?: TModel): Observable<TModel>;
+  update?(entityInfo: IEntityInfo, entity: TModel | any, criteria?: any, originalEntity?: TModel): Observable<TModel>;
 
-  updateMany?(
-    entityInfo: IEntityInfo,
-    entities: TModel[],
-    criteria?: any,
-    originalEntities?: TModel[]
-  ): Observable<TModel[]>;
+  updateMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;
 
-  replace?(entityInfo: IEntityInfo, entity: TModel, criteria?: any, originalEntity?: TModel): Observable<TModel>;
+  replace?(entityInfo: IEntityInfo, entity: TModel | any, criteria?: any, originalEntity?: TModel): Observable<TModel>;
 
-  replaceMany?(
-    entityInfo: IEntityInfo,
-    entities: TModel[],
-    criteria?: any,
-    originalEntities?: TModel[]
-  ): Observable<TModel[]>;
+  replaceMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;
 
-  delete?(entityInfo: IEntityInfo, entity: TModel, criteria?: any, originalEntity?: TModel): Observable<TModel>;
+  delete?(entityInfo: IEntityInfo, entity: TModel | any, criteria?: any, originalEntity?: TModel): Observable<TModel>;
 
-  deleteMany?(
-    entityInfo: IEntityInfo,
-    entities: TModel[],
-    criteria?: any,
-    originalEntities?: TModel[]
-  ): Observable<TModel[]>;
+  deleteMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;
 
   deleteByKey?(entityInfo: IEntityInfo, key: EntityIdentity, criteria?: any): Observable<EntityIdentity>;
 

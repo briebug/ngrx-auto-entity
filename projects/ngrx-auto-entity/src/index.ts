@@ -109,6 +109,7 @@ export {
   IEffectExclusions,
   IEffectExcept,
   IEntityOptions,
+  IEntityTransformer,
   Entity,
   all,
   extra,
