@@ -4,26 +4,17 @@ import { Injectable, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IEntityInfo } from './actions';
-import { Page, Range } from './models';
-import {
-  applyTransforms,
-  failResolution,
-  getService,
-  getTransforms,
-  IAutoEntityService,
-  IEntityWithPageInfo,
-  IEntityWithRangeInfo,
-  logAndThrow,
-  logErrorDetails,
-  logServiceLocateFailure,
-  NgrxAutoEntityService,
-  notAFunction,
-  notImplemented,
-  resolveService,
-  resolveServiceDeep
-} from './service';
-import { EntityIdentity } from './util';
+
+import { IEntityInfo } from '../actions/entity-info';
+import { Page, Range } from '../models';
+import { EntityIdentity } from '../util/entity-state';
+import { logAndThrow, logErrorDetails, logServiceLocateFailure, notAFunction, notImplemented } from './error-handling';
+import { IAutoEntityService } from './interface';
+import { NgrxAutoEntityService } from './service';
+import { getService } from './service-injection';
+import { failResolution, resolveService, resolveServiceDeep } from './service-resolution';
+import { applyTransforms, getTransforms } from './transformation';
+import { IEntityWithPageInfo, IEntityWithRangeInfo } from './wrapper-models';
 
 export class TestModel {
   id: number;
@@ -281,9 +272,7 @@ describe('NgRX Auto-Entity: Service', () => {
   describe('Function: logServiceLocateFailure', () => {
     test('Should log "[NGRX-AE] ! Error: Unable to locate service "TestModelService" using model name of "TestModel"', () => {
       jest.spyOn(console, 'error').mockImplementation(msg => {
-        expect(msg).toBe(
-          '[NGRX-AE] ! Error: Unable to locate service "TestModelService" using model name of "TestModel"'
-        );
+        expect(msg).toBe('[NGRX-AE] ! Error: Unable to locate entity service for model "TestModel"');
       });
       logServiceLocateFailure({ modelName: 'TestModel', modelType: TestModel }, 'TestModelService');
     });
@@ -318,9 +307,7 @@ describe('NgRX Auto-Entity: Service', () => {
           err: { message: 'StaticInjector error' }
         });
         expect(consoleMsgs.length).toBe(2);
-        expect(consoleMsgs[0]).toBe(
-          '[NGRX-AE] ! Error: Unable to locate service "TestModelService" using model name of "TestModel"'
-        );
+        expect(consoleMsgs[0]).toBe('[NGRX-AE] ! Error: Unable to locate entity service for model "TestModel"');
         expect(consoleMsgs[1]).toBe('[NGRX-AE] ! Error Details:');
       }
     });

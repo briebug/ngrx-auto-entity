@@ -1,17 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { createFeatureSelector, Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { createFeatureSelector, Store } from '@ngrx/store';
-import { Key } from './decorators/key';
-import {
-  buildFacade,
-  buildFeatureState,
-  buildSelectorMap,
-  buildState,
-  FEATURE_AFFINITY,
-  IEntityState,
-  ISelectorMap
-} from './util';
+import { Key } from '../decorators/key';
+import { IEntityState } from './entity-state';
+import { buildFacade } from './facade-builder';
+import { ISelectorMap } from './selector-map';
+import { buildSelectorMap } from './selector-map-builder';
+import { buildFeatureState, buildState } from './state-builder';
+import { FEATURE_AFFINITY } from './util-tokens';
 
 class Test {
   @Key id: number;
@@ -69,14 +66,14 @@ describe('Utilities', () => {
 
   describe('Function: buildSelectorMap', () => {
     it('should create a selector map for the specified state', () => {
-      const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test>(state => state.test);
+      const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
       expect(selectorMap).toEqual(testSelectorMap);
     });
   });
 
   describe('Function: buildFacade', () => {
     it('should create base facade class', () => {
-      const selectors = buildSelectorMap<ITestState, IEntityState<Test>, Test>(state => state.test);
+      const selectors = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
       const TestFacade = buildFacade<Test, ITestState>(selectors);
 
       expect(TestFacade.constructor).toBeTruthy();

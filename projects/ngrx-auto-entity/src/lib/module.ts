@@ -2,10 +2,12 @@ import { Injector, ModuleWithProviders, NgModule } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
 import { META_REDUCERS } from '@ngrx/store';
 
-import { EntityEffects, ExtraEffects } from './effects.default';
-import { EntityOperators } from './operators';
-import { autoEntityMetaReducer } from './reducer';
-import { NgrxAutoEntityService } from './service';
+import { EntityEffects } from './effects/effects-all';
+import { ExtraEffects } from './effects/effects-extra';
+import { EntityOperators } from './effects/operators';
+import { autoEntityMetaReducer } from './reducer/reducer';
+import { NgrxAutoEntityService } from './service/service';
+import { addInjector } from './service/service-injection';
 
 export function getNgRxAutoEntityMetaReducer() {
   return autoEntityMetaReducer;
@@ -90,7 +92,7 @@ export class NgRxAutoEntityFeatureModule {
     // This creates a list of injectors that should eventually encompass the entire application
     // as lazy loaded modules are subsequently created, to be evaluated in reverse order
     INJECTOR_DEPTH = INJECTOR_DEPTH + 1;
-    NgrxAutoEntityService.addInjector(
+    addInjector(
       Injector.create({
         providers: [],
         parent: injector,

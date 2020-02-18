@@ -1,6 +1,10 @@
 import { hot } from 'jasmine-marbles';
-import { Clear, EntityActionTypes } from '../actions';
-import { all, curd, Entity, except, extra, loads, matching, shouldApplyEffect } from './entity';
+
+import { EntityActionTypes } from '../actions/action-types';
+import { Clear } from '../actions/actions';
+import { all, curd, except, extra, loads, matching } from './effect-exclusion-utils';
+import { Entity } from './entity';
+import { shouldApplyEffect } from './entity-operators';
 import { ENTITY_OPTS_PROP } from './entity-tokens';
 import { Key } from './key';
 

@@ -2,6 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
+
+import { Entity } from '../decorators/entity';
+import { Key } from '../decorators/key';
+import { fromEntityActions, ofEntityAction, ofEntityType } from './action-operators';
+import { EntityActionTypes } from './action-types';
 import {
   Clear,
   Create,
@@ -16,8 +21,6 @@ import {
   DeselectedMany,
   DeselectMany,
   DeselectManyByKeys,
-  EntityActionTypes,
-  fromEntityActions,
   Load,
   LoadAll,
   LoadAllFailure,
@@ -32,8 +35,6 @@ import {
   LoadRangeFailure,
   LoadRangeSuccess,
   LoadSuccess,
-  ofEntityAction,
-  ofEntityType,
   Replace,
   ReplaceFailure,
   ReplaceMany,
@@ -53,8 +54,6 @@ import {
   UpdateManySuccess,
   UpdateSuccess
 } from './actions';
-import { Entity } from './decorators/entity';
-import { Key } from './decorators/key';
 
 const xform = {
   fromServer: data => data,

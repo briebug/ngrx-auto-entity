@@ -28,8 +28,8 @@ import {
   SelectMoreByKeys,
   UpdateManySuccess,
   UpdateSuccess
-} from './actions';
-import { Key } from './decorators/key';
+} from '../actions/actions';
+import { Key } from '../decorators/key';
 import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
 
 class TestEntity {

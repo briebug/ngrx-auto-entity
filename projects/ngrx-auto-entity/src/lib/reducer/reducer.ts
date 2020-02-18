@@ -1,5 +1,7 @@
 import { ActionReducer } from '@ngrx/store';
-import { camelCase } from '../util/case';
+
+import { camelCase } from '../../util/case';
+import { EntityActionTypes } from '../actions/action-types';
 import {
   Change,
   CreateManySuccess,
@@ -11,9 +13,6 @@ import {
   DeselectMany,
   DeselectManyByKeys,
   Edit,
-  EntityActions,
-  EntityActionTypes,
-  IEntityAction,
   LoadPageSuccess,
   LoadRangeSuccess,
   LoadSuccess,
@@ -27,9 +26,11 @@ import {
   SelectMoreByKeys,
   UpdateManySuccess,
   UpdateSuccess
-} from './actions';
-import { getKey } from './decorators/key';
-import { FEATURE_AFFINITY } from './util';
+} from '../actions/actions';
+import { IEntityAction } from '../actions/entity-action';
+import { EntityActions } from '../actions/entity-actions-union';
+import { getKey } from '../decorators/key';
+import { FEATURE_AFFINITY } from '../util/util-tokens';
 
 export function stateNameFromAction(action: IEntityAction): string {
   return camelCase(action.info.modelName);

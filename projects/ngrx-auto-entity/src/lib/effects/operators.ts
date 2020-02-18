@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { pascalCase } from '../util/case';
+import { pascalCase } from '../../util/case';
 import {
   Change,
   Changed,
@@ -70,17 +70,11 @@ import {
   UpdateManyFailure,
   UpdateManySuccess,
   UpdateSuccess
-} from './actions';
-import { shouldApplyEffect } from './decorators/entity';
-import {
-  IEntityError,
-  IEntityIdentitiesRef,
-  IEntityIdentityRef,
-  IEntityPageRef,
-  IEntityRangeRef,
-  IEntityRef,
-  NgrxAutoEntityService
-} from './service';
+} from '../actions/actions';
+import { shouldApplyEffect } from '../decorators/entity-operators';
+import { IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from '../service/refs';
+import { NgrxAutoEntityService } from '../service/service';
+import { IEntityError } from '../service/wrapper-models';
 
 export const handleError = <TModel, TErrorAction>(
   error: IEntityError<TModel>,
