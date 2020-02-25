@@ -13,8 +13,8 @@ export interface IEffectExcept {
  * Defines an entity data transformer capable of transforming data to and from the server.
  */
 export interface IEntityTransformer {
-  fromServer?: (data: any) => any;
-  toServer?: (entity: any) => any;
+  fromServer?: (data: any, criteria?: any) => any;
+  toServer?: (entity: any, criteria?: any) => any;
 }
 
 /**
