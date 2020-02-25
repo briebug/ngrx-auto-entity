@@ -88,7 +88,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: [...(entityState.ids || []), createKey],
         isSaving: false,
-        createdAt: new Date()
+        createdAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -129,7 +129,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: [...(entityState.ids || []), ...createdEntities.map(entity => getKey(action, entity))],
         isSaving: false,
-        createdAt: new Date()
+        createdAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -165,7 +165,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: [...(entityState.ids || []).filter(k => k !== loadKey), loadKey],
         isLoading: false,
-        loadedAt: new Date()
+        loadedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -210,7 +210,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ...loadedIds.filter(lid => !(entityState.ids || []).some(sid => lid === sid))
         ],
         isLoading: false,
-        loadedAt: new Date()
+        loadedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -248,7 +248,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         ),
         ids: loadAllEntities.map(entity => getKey(action, entity)),
         isLoading: false,
-        loadedAt: new Date(),
+        loadedAt: Date.now(),
         currentPage: 1,
         totalPageableCount: loadAllEntities.length
       };
@@ -290,7 +290,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         currentPage: (action as LoadPageSuccess<any>).pageInfo.page,
         totalPageableCount: (action as LoadPageSuccess<any>).pageInfo.totalCount,
         isLoading: false,
-        loadedAt: new Date()
+        loadedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -333,7 +333,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         currentRange: (action as LoadRangeSuccess<any>).rangeInfo.range,
         totalPageableCount: (action as LoadRangeSuccess<any>).rangeInfo.totalCount,
         isLoading: false,
-        loadedAt: new Date()
+        loadedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -368,7 +368,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           [updateKey]: updateEntity
         },
         isSaving: false,
-        savedAt: new Date()
+        savedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -408,7 +408,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           )
         },
         isSaving: false,
-        savedAt: new Date()
+        savedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -444,7 +444,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: [...entityState.ids],
         isSaving: false,
-        savedAt: new Date()
+        savedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -484,7 +484,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           )
         },
         isSaving: false,
-        savedAt: new Date()
+        savedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -523,7 +523,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: entityState.ids.filter(eid => eid !== deleteKey),
         isDeleting: false,
-        deletedAt: new Date()
+        deletedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -565,7 +565,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: [...entityState.ids.filter(sid => !deletedIds.some(did => did === sid))],
         isDeleting: false,
-        deletedAt: new Date()
+        deletedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -603,7 +603,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: entityState.ids.filter(eid => eid !== deleteKey),
         isDeleting: false,
-        deletedAt: new Date()
+        deletedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);
@@ -645,7 +645,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         },
         ids: [...entityState.ids.filter(sid => !deleteKeys.some(did => did === sid))],
         isDeleting: false,
-        deletedAt: new Date()
+        deletedAt: Date.now()
       };
 
       const next = setNewState(featureName, stateName, state, newState);

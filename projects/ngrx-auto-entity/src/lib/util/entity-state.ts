@@ -27,8 +27,8 @@ export interface IEntityState<TModel> {
   isLoading?: boolean;
   isSaving?: boolean;
   isDeleting?: boolean;
-  loadedAt?: Date;
-  savedAt?: Date;
-  createdAt?: Date;
-  deletedAt?: Date;
+  loadedAt?: number;
+  savedAt?: number;
+  createdAt?: number;
+  deletedAt?: number;
 }

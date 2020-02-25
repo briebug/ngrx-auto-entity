@@ -71,7 +71,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           entities: { 1: { identity: 1 } },
           ids: [1],
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -95,7 +95,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2],
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -127,7 +127,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           ids: [1, 2, 3],
           totalPageableCount: 3,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -161,7 +161,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           ids: [4, 5, 6],
           totalPageableCount: 3,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -193,7 +193,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           ids: [1, 2, 3],
           totalPageableCount: 3,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -228,7 +228,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3, 4, 5, 6],
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -266,7 +266,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           currentPage: { page: 1, size: 3 },
           totalPageableCount: 10,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -308,7 +308,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           currentPage: { page: 2, size: 3 },
           totalPageableCount: 10,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -343,7 +343,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           currentRange: { first: 1, last: 3 },
           totalPageableCount: 10,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -385,7 +385,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           currentRange: { first: 4, last: 6 }, // TODO: This is actually incorrect! Figure out how to merge current range info
           totalPageableCount: 10,
           isLoading: false,
-          loadedAt: expect.toBeDate()
+          loadedAt: expect.toBeNumber()
         }
       });
     });
@@ -411,7 +411,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2],
           isSaving: false,
-          createdAt: expect.toBeDate()
+          createdAt: expect.toBeNumber()
         }
       });
     });
@@ -438,7 +438,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [2, 1, 3],
           isSaving: false,
-          createdAt: expect.toBeDate()
+          createdAt: expect.toBeNumber()
         }
       });
     });
@@ -463,7 +463,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1],
           isSaving: false,
-          savedAt: expect.toBeDate()
+          savedAt: expect.toBeNumber()
         }
       });
     });
@@ -495,7 +495,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           isSaving: false,
-          savedAt: expect.toBeDate()
+          savedAt: expect.toBeNumber()
         }
       });
     });
@@ -520,7 +520,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1],
           isSaving: false,
-          savedAt: expect.toBeDate()
+          savedAt: expect.toBeNumber()
         }
       });
     });
@@ -552,7 +552,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [1, 2, 3],
           isSaving: false,
-          savedAt: expect.toBeDate()
+          savedAt: expect.toBeNumber()
         }
       });
     });
@@ -575,7 +575,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           entities: {},
           ids: [],
           isDeleting: false,
-          deletedAt: expect.toBeDate()
+          deletedAt: expect.toBeNumber()
         }
       });
     });
@@ -602,7 +602,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [2],
           isDeleting: false,
-          deletedAt: expect.toBeDate()
+          deletedAt: expect.toBeNumber()
         }
       });
     });
@@ -623,7 +623,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           entities: {},
           ids: [],
           isDeleting: false,
-          deletedAt: expect.toBeDate()
+          deletedAt: expect.toBeNumber()
         }
       });
     });
@@ -650,7 +650,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           },
           ids: [2],
           isDeleting: false,
-          deletedAt: expect.toBeDate()
+          deletedAt: expect.toBeNumber()
         }
       });
     });
