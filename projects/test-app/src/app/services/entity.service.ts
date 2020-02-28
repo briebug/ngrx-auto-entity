@@ -22,10 +22,9 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   update(entityInfo: IEntityInfo, entity: any, criteria?: any, originalEntity?: any): Observable<any> {
-    return this.http.patch<any>(
-      `${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`,
-      entity
-    );
+    return this.http
+      .patch<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`, entity)
+      .pipe(map(() => entity));
   }
 
   updateMany(entityInfo: IEntityInfo, entities: any[], criteria?: any): Observable<any[]> {
@@ -33,7 +32,9 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   replace(entityInfo: IEntityInfo, entity: any): Observable<any> {
-    return this.http.put<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
+    return this.http
+      .put<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`, entity)
+      .pipe(map(() => entity));
   }
 
   delete(entityInfo: IEntityInfo, entity: any): Observable<any> {
