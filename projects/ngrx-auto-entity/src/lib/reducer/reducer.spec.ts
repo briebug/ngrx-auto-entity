@@ -52,10 +52,11 @@ describe('NgRx Auto-Entity: Reducer Performance', () => {
 
     const start = performance.now();
     const allState = metaReducer(state, new LoadAllSuccess(TestEntity, entities1));
-    const manyState = metaReducer(state, new LoadManySuccess(TestEntity, entities2));
+    const manyState = metaReducer(allState, new LoadManySuccess(TestEntity, entities2));
     const end = performance.now();
 
     expect(end - start).toBeLessThan(50);
+    expect(manyState.testEntity.ids.length).toBe(20000);
   });
 
   it('should test loading 100k items followed by 100k more in less than 500ms', () => {
@@ -66,16 +67,17 @@ describe('NgRx Auto-Entity: Reducer Performance', () => {
       }
     };
     const entities1 = [...Array(100000).keys()].map(id => ({ identity: id, name: `Entity ${id}` }));
-    const entities2 = [...Array(100000).keys()].map(id => ({ identity: id + 10000, name: `Entity ${id + 10000}` }));
+    const entities2 = [...Array(100000).keys()].map(id => ({ identity: id + 100000, name: `Entity ${id + 100000}` }));
     const rootReducer = jest.fn();
     const metaReducer = autoEntityMetaReducer(rootReducer);
 
     const start = performance.now();
     const allState = metaReducer(state, new LoadAllSuccess(TestEntity, entities1));
-    const manyState = metaReducer(state, new LoadManySuccess(TestEntity, entities2));
+    const manyState = metaReducer(allState, new LoadManySuccess(TestEntity, entities2));
     const end = performance.now();
 
     expect(end - start).toBeLessThan(500);
+    expect(manyState.testEntity.ids.length).toBe(200000);
   });
 
   it('should test loading 1m items followed by 1m more in less than 2s', () => {
@@ -86,16 +88,20 @@ describe('NgRx Auto-Entity: Reducer Performance', () => {
       }
     };
     const entities1 = [...Array(1000000).keys()].map(id => ({ identity: id, name: `Entity ${id}` }));
-    const entities2 = [...Array(1000000).keys()].map(id => ({ identity: id + 10000, name: `Entity ${id + 10000}` }));
+    const entities2 = [...Array(1000000).keys()].map(id => ({
+      identity: id + 1000000,
+      name: `Entity ${id + 1000000}`
+    }));
     const rootReducer = jest.fn();
     const metaReducer = autoEntityMetaReducer(rootReducer);
 
     const start = performance.now();
     const allState = metaReducer(state, new LoadAllSuccess(TestEntity, entities1));
-    const manyState = metaReducer(state, new LoadManySuccess(TestEntity, entities2));
+    const manyState = metaReducer(allState, new LoadManySuccess(TestEntity, entities2));
     const end = performance.now();
 
     expect(end - start).toBeLessThan(2000);
+    expect(manyState.testEntity.ids.length).toBe(2000000);
   });
 });
 

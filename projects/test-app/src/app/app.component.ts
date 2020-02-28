@@ -76,6 +76,6 @@ export class AppComponent {
             amount: Math.random() * 1000
           })
         );
-    }, 1000);
+    }, 250);
   }
 }

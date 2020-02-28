@@ -14,7 +14,12 @@ import { CustomRouterStateSerializer } from './shared/utils';
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forRoot(appReducer, { metaReducers: appMetaReducers }),
+    StoreModule.forRoot(appReducer, {
+      metaReducers: appMetaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true
+      }
+    }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     NgrxAutoEntityModule.forRoot()
