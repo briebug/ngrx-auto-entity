@@ -61,7 +61,7 @@
     "@ngrx/store-devtools": "^7.4.0",
     "@types/jest": "^24.0.25",
     "@types/node": "~10.9.4",
-    "acorn": "6.1.1",
+    "acorn": "6.4.1",
     "codelyzer": "^5.1.0",
     "concurrently": "^3.6.1",
     "faker": "^4.1.0",
