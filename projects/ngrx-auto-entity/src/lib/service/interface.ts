@@ -25,6 +25,10 @@ export interface IAutoEntityService<TModel> {
 
   updateMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;
 
+  upsert?(entityInfo: IEntityInfo, entity: TModel | any, criteria?: any, originalEntity?: TModel): Observable<TModel>;
+
+  upsertMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;
+
   replace?(entityInfo: IEntityInfo, entity: TModel | any, criteria?: any, originalEntity?: TModel): Observable<TModel>;
 
   replaceMany?(entityInfo: IEntityInfo, entities: Array<TModel | any>, criteria?: any, originalEntities?: TModel[]): Observable<TModel[]>;

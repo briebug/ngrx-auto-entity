@@ -52,6 +52,28 @@ export class UpdateManyEffect {
 }
 
 @Injectable()
+export class UpsertEffect {
+  @Effect()
+  update$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Upsert),
+    this.ops.upsert()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
+export class UpsertManyEffect {
+  @Effect()
+  updateMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.UpsertMany),
+    this.ops.upsertMany()
+  );
+
+  constructor(private actions$: Actions, private ops: EntityOperators) {}
+}
+
+@Injectable()
 export class ReplaceEffect {
   @Effect()
   replace$ = this.actions$.pipe(

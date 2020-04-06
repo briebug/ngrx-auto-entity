@@ -58,6 +58,12 @@ export {
   UpdateMany,
   UpdateManySuccess,
   UpdateManyFailure,
+  Upsert,
+  UpsertSuccess,
+  UpsertFailure,
+  UpsertMany,
+  UpsertManySuccess,
+  UpsertManyFailure,
   Replace,
   ReplaceFailure,
   ReplaceSuccess,
@@ -140,7 +146,9 @@ export {
   ReplaceEffect,
   ReplaceManyEffect,
   UpdateEffect,
-  UpdateManyEffect
+  UpdateManyEffect,
+  UpsertEffect,
+  UpsertManyEffect
 } from './lib/effects/effects-cud-discrete';
 
 export {

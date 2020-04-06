@@ -35,6 +35,14 @@ export enum EntityActionTypes {
   UpdateManySuccess = '[Entity] (Generic) Update Many: Success',
   UpdateManyFailure = '[Entity] (Generic) Update Many: Failure',
 
+  Upsert = '[Entity] (Generic) Upsert',
+  UpsertSuccess = '[Entity] (Generic) Upsert: Success',
+  UpsertFailure = '[Entity] (Generic) Upsert: Failure',
+
+  UpsertMany = '[Entity] (Generic) Upsert Many',
+  UpsertManySuccess = '[Entity] (Generic) Upsert Many: Success',
+  UpsertManyFailure = '[Entity] (Generic) Upsert Many: Failure',
+
   Replace = '[Entity] (Generic) Replace',
   ReplaceSuccess = '[Entity] (Generic) Replace: Success',
   ReplaceFailure = '[Entity] (Generic) Replace: Failure',

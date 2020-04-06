@@ -25,7 +25,9 @@ import {
   SelectMore,
   SelectMoreByKeys,
   UpdateManySuccess,
-  UpdateSuccess
+  UpdateSuccess,
+  UpsertManySuccess,
+  UpsertSuccess
 } from '../actions/actions';
 import { IEntityAction } from '../actions/entity-action';
 import { EntityActions } from '../actions/entity-actions-union';
@@ -67,6 +69,11 @@ export const pushSingle = (currentIds, entityKey) => (currentIds.push(entityKey)
 export const pushMany = (currentIds, newEntities, action) => (
   currentIds.push.apply(currentIds, newEntities.map(entity => getKey(action, entity))), currentIds
 );
+export const combineUnique = (currentIds, currentEntities, modifiedEntities, action) => {
+  const newIds = modifiedEntities.map(entity => getKey(action, entity)).filter(key => !(key in currentEntities));
+  currentIds.push.apply(currentIds, newIds);
+  return currentIds;
+};
 
 export const noop = () => {};
 export const has = (array, value) => array.indexOf(value) > -1;
@@ -401,6 +408,77 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
       const newState = {
         ...entityState,
         entities: mergeMany(entities, updateManyEntities, action),
+        isSaving: false,
+        savedAt: Date.now()
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+
+    case EntityActionTypes.Upsert: {
+      const newState = {
+        ...entityState,
+        isSaving: true
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.UpsertFailure: {
+      const newState = {
+        ...entityState,
+        isSaving: false
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.UpsertSuccess: {
+      const upsertEntity = (action as UpsertSuccess<any>).entity;
+      const upsertKey = getKey(action, upsertEntity);
+      const entities = cloneEntities(entityState.entities);
+      const ids = cloneIds(entityState.ids);
+
+      const newState = {
+        ...entityState,
+        ids: combineUnique(ids, entities, [upsertEntity], action),
+        entities: mergeSingle(entities, upsertKey, upsertEntity),
+        isSaving: false,
+        savedAt: Date.now()
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+
+    case EntityActionTypes.UpsertMany: {
+      const newState = {
+        ...entityState,
+        isSaving: true
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.UpsertManyFailure: {
+      const newState = {
+        ...entityState,
+        isSaving: false
+      };
+
+      const next = setNewState(featureName, stateName, state, newState);
+      return next;
+    }
+    case EntityActionTypes.UpsertManySuccess: {
+      const upsertManyEntities = (action as UpsertManySuccess<any>).entities;
+      const entities = cloneEntities(entityState.entities);
+      const ids = cloneIds(entityState.ids);
+
+      const newState = {
+        ...entityState,
+        ids: combineUnique(ids, entities, upsertManyEntities, action),
+        entities: mergeMany(entities, upsertManyEntities, action),
         isSaving: false,
         savedAt: Date.now()
       };

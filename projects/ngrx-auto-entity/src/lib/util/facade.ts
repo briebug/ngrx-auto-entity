@@ -73,6 +73,10 @@ export interface IEntityFacade<TModel> {
 
   updateMany(entities: TModel[], criteria?: any): void;
 
+  upsert(entity: TModel, criteria?: any): void;
+
+  upsertMany(entities: TModel[], criteria?: any): void;
+
   replace(entity: TModel, criteria?: any): void;
 
   replaceMany(entities: TModel[], criteria?: any): void;

@@ -21,6 +21,8 @@ export const CURD_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.CreateMany]: true,
   [EntityActionTypes.Update]: true,
   [EntityActionTypes.UpdateMany]: true,
+  [EntityActionTypes.Upsert]: true,
+  [EntityActionTypes.UpsertMany]: true,
   [EntityActionTypes.Replace]: true,
   [EntityActionTypes.ReplaceMany]: true,
   [EntityActionTypes.Delete]: true,

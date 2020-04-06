@@ -69,7 +69,13 @@ import {
   UpdateMany,
   UpdateManyFailure,
   UpdateManySuccess,
-  UpdateSuccess
+  UpdateSuccess,
+  Upsert,
+  UpsertFailure,
+  UpsertMany,
+  UpsertManyFailure,
+  UpsertManySuccess,
+  UpsertSuccess
 } from '../actions/actions';
 import { shouldApplyEffect } from '../decorators/entity-operators';
 import { IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from '../service/refs';
@@ -254,6 +260,39 @@ export class EntityOperators {
             ),
             catchError((error: IEntityError<TModel>) =>
               handleError(error, new UpdateManyFailure<TModel>(error.info.modelType, error.err, correlationId))
+            )
+          );
+        })
+      );
+  }
+
+  upsert<TModel>() {
+    return (source: Observable<Upsert<TModel>>) =>
+      source.pipe(
+        shouldApplyEffect(),
+        mergeMap(({ info, entity, criteria, correlationId }) => {
+          return this.entityService.upsert<TModel>(info, entity, criteria).pipe(
+            map((ref: IEntityRef<TModel>) => new UpsertSuccess<TModel>(ref.info.modelType, ref.entity, correlationId)),
+            catchError((error: IEntityError<TModel>) =>
+              handleError(error, new UpsertFailure<TModel>(error.info.modelType, error.err, correlationId))
+            )
+          );
+        })
+      );
+  }
+
+  upsertMany<TModel>() {
+    return (source: Observable<UpsertMany<TModel>>) =>
+      source.pipe(
+        shouldApplyEffect(),
+        mergeMap(({ info, entities, criteria, correlationId }) => {
+          return this.entityService.upsertMany<TModel>(info, entities, criteria).pipe(
+            map(
+              (ref: IEntityRef<TModel[]>) =>
+                new UpsertManySuccess<TModel>(ref.info.modelType, ref.entity, correlationId)
+            ),
+            catchError((error: IEntityError<TModel>) =>
+              handleError(error, new UpsertManyFailure<TModel>(error.info.modelType, error.err, correlationId))
             )
           );
         })

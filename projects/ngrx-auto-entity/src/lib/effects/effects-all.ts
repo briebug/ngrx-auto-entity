@@ -68,6 +68,18 @@ export class EntityEffects {
   );
 
   @Effect()
+  upsert$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.Upsert),
+    this.ops.upsert()
+  );
+
+  @Effect()
+  upsertMany$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.UpsertMany),
+    this.ops.upsertMany()
+  );
+
+  @Effect()
   replace$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Replace),
     this.ops.replace()

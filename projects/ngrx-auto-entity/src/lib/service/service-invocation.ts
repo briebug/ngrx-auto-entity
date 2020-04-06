@@ -24,7 +24,7 @@ export const invokeService = <TModel, TModelObs, TResult>(
       );
 
 export const callService = <TModel, TModelObs, TResult>(
-  method: string,
+  method: keyof IAutoEntityService<TModel>,
   entityInfo: IEntityInfo,
   injector: Injector,
   invoke: (service: IAutoEntityService<TModel>) => Observable<TModelObs>,

@@ -27,7 +27,9 @@ import {
   SelectMore,
   SelectMoreByKeys,
   UpdateManySuccess,
-  UpdateSuccess
+  UpdateSuccess,
+  UpsertManySuccess,
+  UpsertSuccess
 } from '../actions/actions';
 import { Key } from '../decorators/key';
 import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
@@ -562,6 +564,94 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3, name: 'after3' }
             },
             ids: [1, 2, 3],
+            isSaving: false,
+            savedAt: expect.toBeNumber()
+          }
+        });
+      });
+    });
+
+    describe('Upsert', () => {
+      it(`should reduce UpsertSuccess and update existing entity in state`, () => {
+        const state = {
+          testEntity: {
+            entities: { 1: { identity: 1, name: 'before' } },
+            ids: [1]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new UpsertSuccess(TestEntity, { identity: 1, name: 'after' }));
+
+        expect(newState).toEqual({
+          testEntity: {
+            entities: {
+              1: { identity: 1, name: 'after' }
+            },
+            ids: [1],
+            isSaving: false,
+            savedAt: expect.toBeNumber()
+          }
+        });
+      });
+
+      it(`should reduce UpsertSuccess and insert new entity in state`, () => {
+        const state = {
+          testEntity: {
+            entities: { 1: { identity: 1, name: 'before' } },
+            ids: [1]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new UpsertSuccess(TestEntity, { identity: 2, name: 'new' }));
+
+        expect(newState).toEqual({
+          testEntity: {
+            entities: {
+              1: { identity: 1, name: 'before' },
+              2: { identity: 2, name: 'new' }
+            },
+            ids: [1, 2],
+            isSaving: false,
+            savedAt: expect.toBeNumber()
+          }
+        });
+      });
+
+      it(`should reduce UpsertManySuccess and update existing and add new entities in state`, () => {
+        const state = {
+          testEntity: {
+            entities: {
+              1: { identity: 1, name: 'before1' },
+              2: { identity: 2, name: 'before2' },
+              3: { identity: 3, name: 'before3' }
+            },
+            ids: [1, 2, 3]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(
+          state,
+          new UpsertManySuccess(TestEntity, [
+            { identity: 1, name: 'after1' },
+            { identity: 4, name: 'new1' },
+            { identity: 3, name: 'after3' },
+            { identity: 5, name: 'new2' }
+          ])
+        );
+
+        expect(newState).toEqual({
+          testEntity: {
+            entities: {
+              1: { identity: 1, name: 'after1' },
+              2: { identity: 2, name: 'before2' },
+              3: { identity: 3, name: 'after3' },
+              4: { identity: 4, name: 'new1' },
+              5: { identity: 5, name: 'new2' }
+            },
+            ids: [1, 2, 3, 4, 5],
             isSaving: false,
             savedAt: expect.toBeNumber()
           }

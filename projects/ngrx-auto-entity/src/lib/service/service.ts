@@ -127,6 +127,31 @@ export class NgrxAutoEntityService {
     );
   }
 
+  upsert<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
+    const transformed = transformSingleToServer(entityInfo, criteria)(entity);
+    return callService<TModel, TModel, IEntityRef<TModel>>(
+      'upsert',
+      entityInfo,
+      this.injector,
+      service => service.upsert(entityInfo, transformed, criteria, entity),
+      upserted => ({ info: entityInfo, entity: transformSingleFromServer(entityInfo, criteria)(upserted) as TModel })
+    );
+  }
+
+  upsertMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+    const transformed = transformArrayToServer(entityInfo, criteria)(entities);
+    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+      'upsertMany',
+      entityInfo,
+      this.injector,
+      service => service.upsertMany(entityInfo, transformed, criteria, entities),
+      upsertedEntities => ({
+        info: entityInfo,
+        entity: transformArrayFromServer(entityInfo, criteria)(upsertedEntities) as TModel[]
+      })
+    );
+  }
+
   replace<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     const transformed = transformSingleToServer(entityInfo, criteria)(entity);
     return callService<TModel, TModel, IEntityRef<TModel>>(

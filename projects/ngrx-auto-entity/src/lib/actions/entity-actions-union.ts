@@ -62,7 +62,13 @@ import {
   UpdateMany,
   UpdateManyFailure,
   UpdateManySuccess,
-  UpdateSuccess
+  UpdateSuccess,
+  Upsert,
+  UpsertFailure,
+  UpsertMany,
+  UpsertManyFailure,
+  UpsertManySuccess,
+  UpsertSuccess
 } from './actions';
 import { IEntityAction } from './entity-action';
 
@@ -97,6 +103,12 @@ export type EntityActions<TModel> =
   | UpdateMany<TModel>
   | UpdateManyFailure<TModel>
   | UpdateManySuccess<TModel>
+  | Upsert<TModel>
+  | UpsertFailure<TModel>
+  | UpsertSuccess<TModel>
+  | UpsertMany<TModel>
+  | UpsertManyFailure<TModel>
+  | UpsertManySuccess<TModel>
   | Replace<TModel>
   | ReplaceFailure<TModel>
   | ReplaceSuccess<TModel>
@@ -163,6 +175,12 @@ export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof UpdateMany ||
   action instanceof UpdateManySuccess ||
   action instanceof UpdateManyFailure ||
+  action instanceof Upsert ||
+  action instanceof UpsertSuccess ||
+  action instanceof UpsertFailure ||
+  action instanceof UpsertMany ||
+  action instanceof UpsertManySuccess ||
+  action instanceof UpsertManyFailure ||
   action instanceof Replace ||
   action instanceof ReplaceSuccess ||
   action instanceof ReplaceFailure ||

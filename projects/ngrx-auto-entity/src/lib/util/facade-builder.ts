@@ -29,7 +29,9 @@ import {
   SelectMore,
   SelectMoreByKeys,
   Update,
-  UpdateMany
+  UpdateMany,
+  Upsert,
+  UpsertMany
 } from '../actions/actions';
 import { Page, Range } from '../models';
 import { EntityIdentity, IEntityDictionary } from './entity-state';
@@ -224,6 +226,14 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
 
     updateMany(entities: TModel[], criteria?: any): void {
       this.store.dispatch(new UpdateMany(this.modelType, entities, criteria));
+    }
+
+    upsert(entity: TModel, criteria?: any): void {
+      this.store.dispatch(new Upsert(this.modelType, entity, criteria));
+    }
+
+    upsertMany(entities: TModel[], criteria?: any): void {
+      this.store.dispatch(new UpsertMany(this.modelType, entities, criteria));
     }
 
     replace(entity: TModel, criteria?: any): void {
