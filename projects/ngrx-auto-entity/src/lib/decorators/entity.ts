@@ -12,20 +12,23 @@ export interface IEffectExcept {
 /**
  * Defines an entity data transformer capable of transforming data to and from the server.
  */
-export interface IEntityTransformer {
-  fromServer?: (data: any, criteria?: any) => any;
-  toServer?: (entity: any, criteria?: any) => any;
+export interface IEntityTransformer<T = any, U = any, V = any> {
+  fromServer?: (data: U, criteria?: any) => T;
+  toServer?: (entity: T, criteria?: any) => V;
+}
+
+export interface IEntityNames {
+  modelName: string;
+  pluralName?: string;
+  uriName?: string;
 }
 
 /**
  * The options that may be configured for a decorated entity model.
  */
-export interface IEntityOptions {
-  modelName: string;
-  uriName?: string;
-  pluralName?: string;
-  comparer?: (a, b) => number;
-  transform?: IEntityTransformer[];
+export interface IEntityOptions<T = any> extends IEntityNames {
+  comparer?: (a: T, b: T) => number;
+  transform?: Array<IEntityTransformer<T>>;
   excludeEffects?: IEffectExclusions | IEffectExcept;
 }
 

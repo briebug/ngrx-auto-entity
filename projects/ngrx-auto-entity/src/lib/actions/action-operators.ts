@@ -41,7 +41,7 @@ export function ofEntityType<TModel, T extends EntityAction<TModel>>(
 }
 
 /**
- * Operator to filder many actions by entity type and entity action types.
+ * Operator to filter many actions by entity type and entity action types.
  *
  * @param actions$ The NgRx effects Actions stream
  * @param entity The entity types to filter for

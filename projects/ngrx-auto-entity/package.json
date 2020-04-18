@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0-alpha.6",
+  "version": "0.5.0-alpha.7",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "keywords": [

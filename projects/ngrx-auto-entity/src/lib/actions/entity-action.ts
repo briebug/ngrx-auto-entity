@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { uuid } from '../../util/uuid';
+import { EntityActionTypes } from './action-types';
 import { IEntityInfo } from './entity-info';
 import { TNew } from './model-constructor';
 import { setInfo, setType } from './util';
@@ -10,7 +11,7 @@ export interface ICorrelatedAction {
 }
 
 export interface IEntityAction extends Action, ICorrelatedAction {
-  actionType: string;
+  actionType: EntityActionTypes;
   info: IEntityInfo;
 }
 
@@ -21,7 +22,11 @@ export abstract class EntityAction<TModel> implements IEntityAction {
   type: string;
   info: IEntityInfo;
 
-  protected constructor(type: TNew<TModel>, public actionType: string, public correlationId: string = uuid()) {
+  protected constructor(
+    type: TNew<TModel>,
+    public actionType: EntityActionTypes,
+    public correlationId: string = uuid()
+  ) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }
