@@ -192,7 +192,7 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.store.dispatch(new EndEdit(this.modelType));
     }
 
-    load(keys: any, criteria?: any): void {
+    load(keys?: any, criteria?: any): void {
       this.store.dispatch(new Load(this.modelType, keys, criteria));
     }
 

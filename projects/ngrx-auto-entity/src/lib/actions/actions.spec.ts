@@ -169,6 +169,17 @@ describe('NgRX Auto-Entity: Actions', () => {
         expect(action.keys).toEqual(1);
         expect(action.criteria).toEqual(criteria);
       });
+
+      it('should construct EntityAction with optional arguments', () => {
+        const action = new Load(TestEntity);
+
+        expect(action.type).toEqual('[TestEntity] (Generic) Load');
+        expect(action.actionType).toEqual(EntityActionTypes.Load);
+        expect(action.info.modelType).toEqual(TestEntity);
+        expect(action.info.modelName).toEqual('TestEntity');
+
+        expect(action.keys).toEqual(undefined);
+      });
     });
 
     describe('LoadSuccess', () => {

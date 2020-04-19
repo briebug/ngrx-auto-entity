@@ -55,7 +55,7 @@ export interface IEntityFacade<TModel> {
 
   endEdit(): void;
 
-  load(keys: any, criteria?: any): void;
+  load(keys?: any, criteria?: any): void;
 
   loadMany(criteria: any): void;
 
