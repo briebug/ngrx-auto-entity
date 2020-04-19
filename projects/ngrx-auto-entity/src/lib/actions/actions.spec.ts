@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Entity } from '../decorators/entity';
 import { Key } from '../decorators/key';
+import { IEntityError } from '../service/wrapper-models';
 import { fromEntityActions, ofEntityAction, ofEntityType } from './action-operators';
 import { EntityActionTypes } from './action-types';
 import {
@@ -102,11 +103,12 @@ const einstein: TestEntity = {
 const developers: TestEntity[] = [brian, jon];
 const scientists: TestEntity[] = [fyneman, einstein];
 
-const testError = {
-  status: 500,
-  error: {
-    message: 'Test error'
-  }
+const testError: IEntityError = {
+  info: {
+    modelName: '',
+    modelType: TestEntity
+  },
+  message: 'Test error'
 };
 
 const criteria = { criteria: 'test' };

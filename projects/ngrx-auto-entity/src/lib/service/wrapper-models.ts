@@ -1,7 +1,7 @@
 import { IEntityInfo } from '../actions/entity-info';
 import { IPageInfo, IRangeInfo } from '../models';
 
-export interface IEntityError<TModel> {
+export interface IEntityError {
   info: IEntityInfo;
   message?: string;
   err?: any;
