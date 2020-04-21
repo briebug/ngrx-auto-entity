@@ -140,128 +140,190 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     // endregion
 
     // region Dispatches
-    select(entity: TModel): void {
-      this.store.dispatch(new Select(this.modelType, entity));
+    select(entity: TModel, correlationId?: string): string {
+      const action = new Select(this.modelType, entity, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    selectByKey(key: EntityIdentity): void {
-      this.store.dispatch(new SelectByKey(this.modelType, key));
+    selectByKey(key: EntityIdentity, correlationId?: string): string {
+      const action = new SelectByKey(this.modelType, key, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    selectMany(entities: TModel[]): void {
-      this.store.dispatch(new SelectMany(this.modelType, entities));
+    selectMany(entities: TModel[], correlationId?: string): string {
+      const action = new SelectMany(this.modelType, entities, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    selectMore(entities: TModel[]): void {
-      this.store.dispatch(new SelectMore(this.modelType, entities));
+    selectMore(entities: TModel[], correlationId?: string): string {
+      const action = new SelectMore(this.modelType, entities, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    selectManyByKeys(keys: EntityIdentity[]): void {
-      this.store.dispatch(new SelectManyByKeys(this.modelType, keys));
+    selectManyByKeys(keys: EntityIdentity[], correlationId?: string): string {
+      const action = new SelectManyByKeys(this.modelType, keys, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    selectMoreByKeys(keys: EntityIdentity[]): void {
-      this.store.dispatch(new SelectMoreByKeys(this.modelType, keys));
+    selectMoreByKeys(keys: EntityIdentity[], correlationId?: string): string {
+      const action = new SelectMoreByKeys(this.modelType, keys, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deselect(): void {
-      this.store.dispatch(new Deselect(this.modelType));
+    deselect(correlationId?: string): string {
+      const action = new Deselect(this.modelType, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deselectMany(entities: TModel[]): void {
-      this.store.dispatch(new DeselectMany(this.modelType, entities));
+    deselectMany(entities: TModel[], correlationId?: string): string {
+      const action = new DeselectMany(this.modelType, entities, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deselectManyByKeys(keys: EntityIdentity[]): void {
-      this.store.dispatch(new DeselectManyByKeys(this.modelType, keys));
+    deselectManyByKeys(keys: EntityIdentity[], correlationId?: string): string {
+      const action = new DeselectManyByKeys(this.modelType, keys, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deselectAll(): void {
-      this.store.dispatch(new DeselectAll(this.modelType));
+    deselectAll(correlationId?: string): string {
+      const action = new DeselectAll(this.modelType, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    edit(entity: Partial<TModel>): void {
-      this.store.dispatch(new Edit(this.modelType, entity));
+    edit(entity: Partial<TModel>, correlationId?: string): string {
+      const action = new Edit(this.modelType, entity, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    change(entity: Partial<TModel>): void {
-      this.store.dispatch(new Change(this.modelType, entity));
+    change(entity: Partial<TModel>, correlationId?: string): string {
+      const action = new Change(this.modelType, entity, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    endEdit(): void {
-      this.store.dispatch(new EndEdit(this.modelType));
+    endEdit(correlationId?: string): string {
+      const action = new EndEdit(this.modelType, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    load(keys?: any, criteria?: any): void {
-      this.store.dispatch(new Load(this.modelType, keys, criteria));
+    load(keys?: any, criteria?: any, correlationId?: string): string {
+      const action = new Load(this.modelType, keys, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    loadMany(criteria?: any): void {
-      this.store.dispatch(new LoadMany(this.modelType, criteria));
+    loadMany(criteria?: any, correlationId?: string): string {
+      const action = new LoadMany(this.modelType, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    loadAll(criteria?: any): void {
-      this.store.dispatch(new LoadAll(this.modelType, criteria));
+    loadAll(criteria?: any, correlationId?: string): string {
+      const action = new LoadAll(this.modelType, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    loadPage(page: Page, criteria?: any): void {
-      this.store.dispatch(new LoadPage(this.modelType, page, criteria));
+    loadPage(page: Page, criteria?: any, correlationId?: string): string {
+      const action = new LoadPage(this.modelType, page, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    loadRange(range: Range, criteria?: any): void {
-      this.store.dispatch(new LoadRange(this.modelType, range, criteria));
+    loadRange(range: Range, criteria?: any, correlationId?: string): string {
+      const action = new LoadRange(this.modelType, range, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    create(entity: TModel, criteria?: any): void {
-      this.store.dispatch(new Create(this.modelType, entity, criteria));
+    create(entity: TModel, criteria?: any, correlationId?: string): string {
+      const action = new Create(this.modelType, entity, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    createMany(entities: TModel[], criteria?: any): void {
-      this.store.dispatch(new CreateMany(this.modelType, entities, criteria));
+    createMany(entities: TModel[], criteria?: any, correlationId?: string): string {
+      const action = new CreateMany(this.modelType, entities, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    update(entity: TModel, criteria?: any): void {
-      this.store.dispatch(new Update(this.modelType, entity, criteria));
+    update(entity: TModel, criteria?: any, correlationId?: string): string {
+      const action = new Update(this.modelType, entity, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    updateMany(entities: TModel[], criteria?: any): void {
-      this.store.dispatch(new UpdateMany(this.modelType, entities, criteria));
+    updateMany(entities: TModel[], criteria?: any, correlationId?: string): string {
+      const action = new UpdateMany(this.modelType, entities, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    upsert(entity: TModel, criteria?: any): void {
-      this.store.dispatch(new Upsert(this.modelType, entity, criteria));
+    upsert(entity: TModel, criteria?: any, correlationId?: string): string {
+      const action = new Upsert(this.modelType, entity, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    upsertMany(entities: TModel[], criteria?: any): void {
-      this.store.dispatch(new UpsertMany(this.modelType, entities, criteria));
+    upsertMany(entities: TModel[], criteria?: any, correlationId?: string): string {
+      const action = new UpsertMany(this.modelType, entities, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    replace(entity: TModel, criteria?: any): void {
-      this.store.dispatch(new Replace(this.modelType, entity, criteria));
+    replace(entity: TModel, criteria?: any, correlationId?: string): string {
+      const action = new Replace(this.modelType, entity, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    replaceMany(entities: TModel[], criteria?: any): void {
-      this.store.dispatch(new ReplaceMany(this.modelType, entities, criteria));
+    replaceMany(entities: TModel[], criteria?: any, correlationId?: string): string {
+      const action = new ReplaceMany(this.modelType, entities, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    delete(entity: TModel, criteria?: any): void {
-      this.store.dispatch(new Delete(this.modelType, entity, criteria));
+    delete(entity: TModel, criteria?: any, correlationId?: string): string {
+      const action = new Delete(this.modelType, entity, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deleteMany(entities: TModel[], criteria?: any): void {
-      this.store.dispatch(new DeleteMany(this.modelType, entities, criteria));
+    deleteMany(entities: TModel[], criteria?: any, correlationId?: string): string {
+      const action = new DeleteMany(this.modelType, entities, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deleteByKey(key: string | number, criteria?: any): void {
-      this.store.dispatch(new DeleteByKey(this.modelType, key, criteria));
+    deleteByKey(key: string | number, criteria?: any, correlationId?: string): string {
+      const action = new DeleteByKey(this.modelType, key, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    deleteManyByKeys(keys: EntityIdentity[], criteria?: any): void {
-      this.store.dispatch(new DeleteManyByKeys(this.modelType, keys, criteria));
+    deleteManyByKeys(keys: EntityIdentity[], criteria?: any, correlationId?: string): string {
+      const action = new DeleteManyByKeys(this.modelType, keys, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
-    clear(): void {
-      this.store.dispatch(new Clear(this.modelType));
+    clear(correlationId?: string): string {
+      const action = new Clear(this.modelType, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
     }
 
     // endregion

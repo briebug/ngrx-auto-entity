@@ -29,65 +29,65 @@ export interface IEntityFacade<TModel> {
   createdAt$: Observable<Date>;
   deletedAt$: Observable<Date>;
 
-  select(entity: TModel): void;
+  select(entity: TModel, correlationId?: string): string;
 
-  selectByKey(key: EntityIdentity): void;
+  selectByKey(key: EntityIdentity, correlationId?: string): string;
 
-  selectMany(entities: TModel[]): void;
+  selectMany(entities: TModel[], correlationId?: string): string;
 
-  selectMore(entities: TModel[]): void;
+  selectMore(entities: TModel[], correlationId?: string): string;
 
-  selectManyByKeys(keys: EntityIdentity[]): void;
+  selectManyByKeys(keys: EntityIdentity[], correlationId?: string): string;
 
-  selectMoreByKeys(keys: EntityIdentity[]): void;
+  selectMoreByKeys(keys: EntityIdentity[], correlationId?: string): string;
 
-  deselect(): void;
+  deselect(correlationId?: string): string;
 
-  deselectMany(entities: TModel[]): void;
+  deselectMany(entities: TModel[], correlationId?: string): string;
 
-  deselectManyByKeys(keys: EntityIdentity[]): void;
+  deselectManyByKeys(keys: EntityIdentity[], correlationId?: string): string;
 
-  deselectAll(): void;
+  deselectAll(correlationId?: string): string;
 
-  edit(entity: Partial<TModel>): void;
+  edit(entity: Partial<TModel>, correlationId?: string): string;
 
-  change(entity: Partial<TModel>): void;
+  change(entity: Partial<TModel>, correlationId?: string): string;
 
-  endEdit(): void;
+  endEdit(correlationId?: string): string;
 
-  load(keys?: any, criteria?: any): void;
+  load(keys?: any, criteria?: any, correlationId?: string): string;
 
-  loadMany(criteria: any): void;
+  loadMany(criteria: any, correlationId?: string): string;
 
-  loadAll(criteria?: any): void;
+  loadAll(criteria?: any, correlationId?: string): string;
 
-  loadPage(page: Page, criteria?: any): void;
+  loadPage(page: Page, criteria?: any, correlationId?: string): string;
 
-  loadRange(range: Range, criteria?: any): void;
+  loadRange(range: Range, criteria?: any, correlationId?: string): string;
 
-  create(entity: TModel, criteria?: any): void;
+  create(entity: TModel, criteria?: any, correlationId?: string): string;
 
-  createMany(entities: TModel[], criteria?: any): void;
+  createMany(entities: TModel[], criteria?: any, correlationId?: string): string;
 
-  update(entity: TModel, criteria?: any): void;
+  update(entity: TModel, criteria?: any, correlationId?: string): string;
 
-  updateMany(entities: TModel[], criteria?: any): void;
+  updateMany(entities: TModel[], criteria?: any, correlationId?: string): string;
 
-  upsert(entity: TModel, criteria?: any): void;
+  upsert(entity: TModel, criteria?: any, correlationId?: string): string;
 
-  upsertMany(entities: TModel[], criteria?: any): void;
+  upsertMany(entities: TModel[], criteria?: any, correlationId?: string): string;
 
-  replace(entity: TModel, criteria?: any): void;
+  replace(entity: TModel, criteria?: any, correlationId?: string): string;
 
-  replaceMany(entities: TModel[], criteria?: any): void;
+  replaceMany(entities: TModel[], criteria?: any, correlationId?: string): string;
 
-  delete(entity: TModel, criteria?: any): void;
+  delete(entity: TModel, criteria?: any, correlationId?: string): string;
 
-  deleteMany(entities: TModel[], criteria?: any): void;
+  deleteMany(entities: TModel[], criteria?: any, correlationId?: string): string;
 
-  deleteByKey(key: EntityIdentity, criteria?: any): void;
+  deleteByKey(key: EntityIdentity, criteria?: any, correlationId?: string): string;
 
-  deleteManyByKeys(keys: EntityIdentity[], criteria?: any): void;
+  deleteManyByKeys(keys: EntityIdentity[], criteria?: any, correlationId?: string): string;
 
-  clear(): void;
+  clear(correlationId?: string): string;
 }
