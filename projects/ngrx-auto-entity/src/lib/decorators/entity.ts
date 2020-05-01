@@ -17,6 +17,8 @@ export interface IEntityTransformer<T = any, U = any, V = any> {
   toServer?: (entity: T, criteria?: any) => V;
 }
 
+export type EntityComparer = <T = any>(a: T, b: T) => number;
+
 export interface IEntityNames {
   modelName: string;
   pluralName?: string;
@@ -27,7 +29,7 @@ export interface IEntityNames {
  * The options that may be configured for a decorated entity model.
  */
 export interface IEntityOptions<T = any> extends IEntityNames {
-  comparer?: (a: T, b: T) => number;
+  comparer?: EntityComparer;
   transform?: Array<IEntityTransformer<T>>;
   excludeEffects?: IEffectExclusions | IEffectExcept;
 }
