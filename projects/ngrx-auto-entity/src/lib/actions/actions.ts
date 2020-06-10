@@ -13,7 +13,13 @@ export class Load<TModel> extends EntityAction<TModel> {
 }
 
 export class LoadSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
+  constructor(
+    type: new () => TModel,
+    public entity: TModel,
+    public keys: any,
+    public criteria: any,
+    correlationId?: string
+  ) {
     super(type, EntityActionTypes.LoadSuccess, correlationId);
   }
 }
@@ -40,7 +46,7 @@ export class LoadMany<TModel> extends EntityAction<TModel> {
 }
 
 export class LoadManySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadManySuccess, correlationId);
   }
 }
@@ -61,7 +67,7 @@ export class LoadAll<TModel> extends EntityAction<TModel> {
 }
 
 export class LoadAllSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadAllSuccess, correlationId);
   }
 }
@@ -82,13 +88,25 @@ export class LoadPage<TModel> extends EntityAction<TModel> {
 }
 
 export class LoadPageSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], public pageInfo: IPageInfo, correlationId?: string) {
+  constructor(
+    type: new () => TModel,
+    public entities: TModel[],
+    public pageInfo: IPageInfo,
+    public criteria: any,
+    correlationId?: string
+  ) {
     super(type, EntityActionTypes.LoadPageSuccess, correlationId);
   }
 }
 
 export class LoadPageFailure<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public error: any, public page: Page, criteria: any, correlationId?: string) {
+  constructor(
+    type: new () => TModel,
+    public error: any,
+    public page: Page,
+    public criteria: any,
+    correlationId?: string
+  ) {
     super(type, EntityActionTypes.LoadPageFailure, correlationId);
   }
 }
@@ -103,7 +121,13 @@ export class LoadRange<TModel> extends EntityAction<TModel> {
 }
 
 export class LoadRangeSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], public rangeInfo: IRangeInfo, correlationId?: string) {
+  constructor(
+    type: new () => TModel,
+    public entities: TModel[],
+    public rangeInfo: IRangeInfo,
+    public criteria: any,
+    correlationId?: string
+  ) {
     super(type, EntityActionTypes.LoadRangeSuccess, correlationId);
   }
 }
@@ -130,7 +154,7 @@ export class Create<TModel> extends EntityAction<TModel> {
 }
 
 export class CreateSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.CreateSuccess, correlationId);
   }
 }
@@ -157,7 +181,7 @@ export class CreateMany<TModel> extends EntityAction<TModel> {
 }
 
 export class CreateManySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.CreateManySuccess, correlationId);
   }
 }
@@ -186,7 +210,7 @@ export class Update<TModel> extends EntityAction<TModel> {
 }
 
 export class UpdateSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.UpdateSuccess, correlationId);
   }
 }
@@ -215,7 +239,7 @@ export class UpdateMany<TModel> extends EntityAction<TModel> {
 }
 
 export class UpdateManySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.UpdateManySuccess, correlationId);
   }
 }
@@ -243,7 +267,7 @@ export class Upsert<TModel> extends EntityAction<TModel> {
 }
 
 export class UpsertSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.UpsertSuccess, correlationId);
   }
 }
@@ -271,7 +295,7 @@ export class UpsertMany<TModel> extends EntityAction<TModel> {
 }
 
 export class UpsertManySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.UpsertManySuccess, correlationId);
   }
 }
@@ -300,7 +324,7 @@ export class Replace<TModel> extends EntityAction<TModel> {
 }
 
 export class ReplaceSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.ReplaceSuccess, correlationId);
   }
 }
@@ -329,7 +353,7 @@ export class ReplaceMany<TModel> extends EntityAction<TModel> {
 }
 
 export class ReplaceManySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.ReplaceManySuccess, correlationId);
   }
 }
@@ -356,7 +380,7 @@ export class Delete<TModel> extends EntityAction<TModel> {
 }
 
 export class DeleteSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
+  constructor(type: new () => TModel, public entity: TModel, public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.DeleteSuccess, correlationId);
   }
 }
@@ -383,7 +407,7 @@ export class DeleteMany<TModel> extends EntityAction<TModel> {
 }
 
 export class DeleteManySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
+  constructor(type: new () => TModel, public entities: TModel[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.DeleteManySuccess, correlationId);
   }
 }
@@ -410,7 +434,7 @@ export class DeleteByKey<TModel> extends EntityAction<TModel> {
 }
 
 export class DeleteByKeySuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public key: EntityIdentity, correlationId?: string) {
+  constructor(type: new () => TModel, public key: EntityIdentity, public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.DeleteByKeySuccess, correlationId);
   }
 }
@@ -437,7 +461,7 @@ export class DeleteManyByKeys<TModel> extends EntityAction<TModel> {
 }
 
 export class DeleteManyByKeysSuccess<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public keys: EntityIdentity[], correlationId?: string) {
+  constructor(type: new () => TModel, public keys: EntityIdentity[], public criteria: any, correlationId?: string) {
     super(type, EntityActionTypes.DeleteManyByKeysSuccess, correlationId);
   }
 }
