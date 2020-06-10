@@ -28,7 +28,7 @@ export const entityComparer = <TModel>(entityOrType: TNew<TModel> | TModel): Ent
 
 export const entityTransforms = <TModel>(
   entityOrType: TNew<TModel> | TModel
-): Array<IEntityTransformer<TModel>> | null | undefined =>
+): IEntityTransformer[] | null | undefined =>
   entityOrType &&
   ((entityOrType[ENTITY_OPTS_PROP] ||
     (entityOrType.constructor ? entityOrType.constructor[ENTITY_OPTS_PROP] : {}) ||
