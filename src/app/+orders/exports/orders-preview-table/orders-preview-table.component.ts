@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { IEntityDictionary } from '@briebug/ngrx-auto-entity';
 import { ProductFacade } from 'facades/product.facade';
 import { OrderStatus } from 'models/order.model';

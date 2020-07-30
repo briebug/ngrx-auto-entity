@@ -10,10 +10,11 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Product } from '../../../models';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-products-table',
@@ -30,7 +31,7 @@ export class ProductsTableComponent implements OnChanges, OnInit, OnDestroy {
   @Output() edit = new EventEmitter<Product>();
   @Output() select = new EventEmitter<Product[]>();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay = ['id', 'name', 'details', 'price', 'dateAdded', 'actions'];
   dataSource = new MatTableDataSource();

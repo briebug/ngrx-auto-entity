@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Customer } from '../../../models';
 
 @Component({
@@ -13,7 +13,7 @@ export class CustomersTableComponent implements OnChanges, OnInit {
   @Output() delete = new EventEmitter<Customer>();
   @Output() edit = new EventEmitter<Customer>();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay = ['name', 'isActive', 'actions'];
   dataSource = new MatTableDataSource();
