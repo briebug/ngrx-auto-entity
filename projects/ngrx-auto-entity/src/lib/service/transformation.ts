@@ -40,3 +40,20 @@ export const transformArrayToServer = <TModel>(entityInfo: IEntityInfo, criteria
   const transforms = getTransforms(entityInfo.transform, TO);
   return entities.map(applyTransforms(transforms, criteria));
 };
+
+// User utilities
+
+export const transformEntityFromServer = <TModel>(entityInfo: IEntityInfo, entity: any, criteria?: any): TModel =>
+  transformSingleFromServer<TModel>(entityInfo, criteria)(entity);
+
+export const transformEntitiesFromServer = <TModel>(
+  entityInfo: IEntityInfo,
+  entities: any[],
+  criteria?: any
+): TModel[] => transformArrayFromServer<TModel>(entityInfo, criteria)(entities);
+
+export const transformEntityToServer = <TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): any =>
+  transformSingleToServer<TModel>(entityInfo, criteria)(entity);
+
+export const transformEntitiesToServer = <TModel>(entityInfo: IEntityInfo, entities: any[], criteria?: any): TModel[] =>
+  transformArrayToServer<TModel>(entityInfo, criteria)(entities);

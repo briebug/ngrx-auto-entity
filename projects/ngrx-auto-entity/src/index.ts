@@ -167,3 +167,10 @@ export {
   NgRxAutoEntityModuleConfig,
   getNgRxAutoEntityMetaReducer
 } from './lib/module';
+
+export {
+  transformEntityFromServer,
+  transformEntitiesFromServer,
+  transformEntityToServer,
+  transformEntitiesToServer
+} from './lib/service/transformation';
