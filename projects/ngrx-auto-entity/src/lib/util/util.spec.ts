@@ -27,6 +27,7 @@ interface ITestFeatureState {
 const testSelectorMap: ISelectorMap<ITestState, Test> = {
   selectAll: expect.any(Function),
   selectAllSorted: expect.any(Function),
+  selectCustomSorted: expect.any(Function),
   selectEntities: expect.any(Function),
   selectIds: expect.any(Function),
   selectTotal: expect.any(Function),

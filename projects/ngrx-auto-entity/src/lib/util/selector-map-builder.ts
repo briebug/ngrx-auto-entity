@@ -2,6 +2,7 @@ import { createSelector, MemoizedSelector, Selector } from '@ngrx/store';
 import { Page, Range } from '../models';
 import { EntityIdentity, IEntityDictionary, IEntityState } from './entity-state';
 import { ISelectorMap } from './selector-map';
+import { entityComparer } from '../..';
 
 // prettier-ignore
 export const mapToEntityArray =
@@ -10,8 +11,13 @@ export const mapToEntityArray =
 
 // prettier-ignore
 export const mapToSortedEntityArray =
-  <TModel>(all: TModel[], compare: (a, b) => number): TModel[] =>
-    !all ? [] : all.sort(compare);
+  <TModel>(all: TModel[]): TModel[] =>
+    !all ? [] : all.sort(entityComparer(all));
+
+// prettier-ignore
+export const mapToCustomSortedEntityArray =
+  <TModel>(all: TModel[], { name }): TModel[] =>
+    !all ? [] : all.sort(entityComparer(all, name));
 
 // prettier-ignore
 export const mapToEntities =
@@ -112,14 +118,14 @@ export const mapToDeletedAt =
 
 // prettier-ignore
 export const buildSelectorMap = <TParentState, TState extends IEntityState<TModel>, TModel, TExtra>(
-  getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>,
-  compareFn?: (a, b) => number
+  getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>
 ): ISelectorMap<TParentState, TModel> => {
   const selectEntities = createSelector(getState, mapToEntities);
   const selectIds = createSelector(getState, mapToIds);
   const selectTotal = createSelector(getState, mapToTotal);
   const selectAll = createSelector(selectEntities, selectIds, mapToEntityArray);
-  const selectAllSorted = createSelector(selectAll, () => compareFn, mapToSortedEntityArray);
+  const selectAllSorted = createSelector(selectAll, mapToSortedEntityArray);
+  const selectCustomSorted = createSelector(selectAll, mapToCustomSortedEntityArray);
   const selectCurrentEntity = createSelector(getState, mapToCurrentEntity);
   const selectCurrentEntityKey = createSelector(getState, mapToCurrentEntityKey);
   const selectCurrentEntities = createSelector(getState, mapToCurrentEntities);
@@ -140,6 +146,7 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
   return {
     selectAll,
     selectAllSorted,
+    selectCustomSorted,
     selectEntities,
     selectIds,
     selectTotal,

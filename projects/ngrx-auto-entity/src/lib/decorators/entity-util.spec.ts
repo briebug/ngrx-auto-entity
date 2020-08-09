@@ -7,6 +7,11 @@ import { Key } from './key';
   pluralName: 'TestEntities',
   uriName: 'test-entities',
   comparer: (a: any, b: any) => a.id - b.id,
+  comparers: {
+    default: 'id',
+    id: (a: any, b: any) => a.id - b.id,
+    name: (a: any, b: any) => a.name.localeCompare(b.name)
+  },
   transform: [
     {
       fromServer: data => data,
@@ -109,8 +114,20 @@ describe('entityComparer()', () => {
     expect(comparer).toBeInstanceOf(Function);
   });
 
+  it('should return named comparer of entity type if decorated', () => {
+    const comparer = entityComparer(TestEntity, 'name');
+    expect(comparer).toBeTruthy();
+    expect(comparer).toBeInstanceOf(Function);
+  });
+
   it('should return comparer of entity instance if decorated', () => {
     const comparer = entityComparer(new TestEntity());
+    expect(comparer).toBeTruthy();
+    expect(comparer).toBeInstanceOf(Function);
+  });
+
+  it('should return named comparer of entity instance if decorated', () => {
+    const comparer = entityComparer(new TestEntity(), 'name');
     expect(comparer).toBeTruthy();
     expect(comparer).toBeInstanceOf(Function);
   });

@@ -18,6 +18,9 @@ export interface IEntityTransformer {
 }
 
 export type EntityComparer = (a, b) => number;
+export interface IEntityComparerMap {
+  [key: string]: EntityComparer | string;
+}
 
 export interface IEntityNames {
   modelName: string;
@@ -30,6 +33,7 @@ export interface IEntityNames {
  */
 export interface IEntityOptions extends IEntityNames {
   comparer?: EntityComparer;
+  comparers?: IEntityComparerMap;
   transform?: IEntityTransformer[];
   excludeEffects?: IEffectExclusions | IEffectExcept;
 }

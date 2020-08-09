@@ -137,6 +137,9 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       return this.store.select(selectors.selectDeletedAt);
     }
 
+    customSorted$(name: string): Observable<TModel[]> {
+      return this.store.select(selectors.selectCustomSorted, { name });
+    }
     // endregion
 
     // region Dispatches

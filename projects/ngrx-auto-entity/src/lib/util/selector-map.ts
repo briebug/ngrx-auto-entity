@@ -11,6 +11,7 @@ export interface ISelectorMap<TParentState, TModel> {
   selectEntities: MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
   selectAll: MemoizedSelector<object | TParentState, TModel[]>;
   selectAllSorted: MemoizedSelector<object | TParentState, TModel[]>;
+  selectCustomSorted: MemoizedSelector<object | TParentState, TModel[]>;
   selectTotal: MemoizedSelector<object | TParentState, number>;
   selectCurrentEntity: MemoizedSelector<object | TParentState, TModel | null>;
   selectCurrentEntityKey: MemoizedSelector<object | TParentState, EntityIdentity | null>;
