@@ -108,6 +108,7 @@ export { ENTITY_OPTS_PROP } from './lib/decorators/entity-tokens';
 export { IEffectExcept, IEntityOptions, IEntityTransformer, Entity } from './lib/decorators/entity';
 export { IEffectExclusions } from './lib/decorators/effect-exclusions';
 export { curd, loads, extra, all, matching, except } from './lib/decorators/effect-exclusion-utils';
+export { makeEntity } from './lib/util/make-entity';
 export {
   nameOfEntity,
   pluralNameOfEntity,
@@ -115,7 +116,16 @@ export {
   entityComparer,
   entityTransforms
 } from './lib/decorators/entity-util';
-export { Key, getKey, getKeyFromModel, getKeyNames, getKeyNamesFromModel, checkKeyName } from './lib/decorators/key';
+export {
+  Key,
+  getKey,
+  getKeyFromModel,
+  getKeyFromEntity,
+  getKeyNames,
+  getKeyNamesFromModel,
+  getKeyNamesFromEntity,
+  checkKeyName
+} from './lib/decorators/key';
 
 export { EntityOperators } from './lib/effects/operators';
 

@@ -1,4 +1,5 @@
 import { Entity, ENTITY_OPTS_PROP, Key } from '../..';
+import { NAE_KEY_NAMES, NAE_KEYS } from '../decorators/key';
 import { makeEntity } from './make-entity';
 
 @Entity({
@@ -10,7 +11,7 @@ class Test {
 }
 
 describe('makeEntity()', () => {
-  it('should return undefined if input type is falsy', () => {
+  it('should return entity with proper prototype', () => {
     const makeTest = makeEntity(Test);
     const entity = makeTest({
       id: 1,
@@ -24,5 +25,18 @@ describe('makeEntity()', () => {
     expect(entity.constructor[ENTITY_OPTS_PROP]).toEqual({
       modelName: 'Test'
     });
+    expect(entity[NAE_KEY_NAMES]).toEqual(['id']);
+    expect(entity[NAE_KEYS]).toEqual(['id']);
+  });
+
+  it('should make entities efficiently', () => {
+    const makeTest = makeEntity(Test);
+    const objects = [...Array(100000).keys()].map(id => ({ id, name: `Entity ${id}` }));
+
+    const start = performance.now();
+    const entities = objects.map(obj => makeTest(obj));
+    const end = performance.now();
+
+    expect(end - start).toBeLessThan(250);
   });
 });

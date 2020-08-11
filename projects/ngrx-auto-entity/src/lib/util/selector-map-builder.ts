@@ -1,8 +1,8 @@
 import { createSelector, MemoizedSelector, Selector } from '@ngrx/store';
+import { entityComparer } from '../..';
 import { Page, Range } from '../models';
 import { EntityIdentity, IEntityDictionary, IEntityState } from './entity-state';
 import { ISelectorMap } from './selector-map';
-import { entityComparer } from '../..';
 
 // prettier-ignore
 export const mapToEntityArray =

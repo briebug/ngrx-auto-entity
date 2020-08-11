@@ -1,4 +1,3 @@
-import { tpipe } from '../../util/func';
 import { TNew } from '../actions/model-constructor';
 
 const createEntity = <TModel>(Type: TNew<TModel>) => (obj: any) => ({ entity: Type ? new Type() : undefined, obj });
@@ -8,4 +7,5 @@ const populateEntity = <TModel>({ entity, obj }): TModel =>
     ? Object.keys(obj || {}).reduce((populated, key) => ((populated[key] = obj[key]), populated), entity)
     : undefined;
 
-export const makeEntity = <TModel>(Type: TNew<TModel>) => tpipe<any>(createEntity(Type), populateEntity);
+export const makeEntity = <TModel>(Type: TNew<TModel>) => obj =>
+  obj && Type && Object.assign(Object.create(Type.prototype), obj);
