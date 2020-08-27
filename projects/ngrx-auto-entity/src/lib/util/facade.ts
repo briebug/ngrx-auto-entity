@@ -43,6 +43,7 @@ export interface IEntityFacade<TModel> {
   deselectAll(correlationId?: string): string;
 
   edit(entity: Partial<TModel>, correlationId?: string): string;
+  editByKey(key: EntityIdentity, correlationId?: string): string;
   change(entity: Partial<TModel>, correlationId?: string): string;
   endEdit(correlationId?: string): string;
 

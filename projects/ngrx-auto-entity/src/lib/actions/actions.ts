@@ -676,11 +676,29 @@ export class Edit<TModel> extends EntityAction<TModel> {
 }
 
 /**
+ * Tracks an entity (by its key) as being edited in the store
+ */
+export class EditByKey<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public key: EntityIdentity, correlationId?: string) {
+    super(type, EntityActionTypes.EditByKey, correlationId);
+  }
+}
+
+/**
  * Indicates an entity is being tracked as edited in the store
  */
 export class Edited<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public entity: Partial<TModel>, correlationId?: string) {
     super(type, EntityActionTypes.Edited, correlationId);
+  }
+}
+
+/**
+ * Indicates an entity (by its key) is being tracked as edited in the store
+ */
+export class EditedByKey<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public key: EntityIdentity, correlationId?: string) {
+    super(type, EntityActionTypes.EditedByKey, correlationId);
   }
 }
 

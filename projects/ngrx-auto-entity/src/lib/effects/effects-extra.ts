@@ -8,79 +8,85 @@ import { EntityOperators } from './operators';
 @Injectable()
 export class ExtraEffects {
   @Effect()
-  select = this.actions$.pipe(
+  select$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Select),
     this.ops.select()
   );
 
   @Effect()
-  selectByKey = this.actions$.pipe(
+  selectByKey$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.SelectByKey),
     this.ops.selectByKey()
   );
 
   @Effect()
-  selectMany = this.actions$.pipe(
+  selectMany$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.SelectMany),
     this.ops.selectMany()
   );
 
   @Effect()
-  selectMore = this.actions$.pipe(
+  selectMore$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.SelectMore),
     this.ops.selectMore()
   );
 
   @Effect()
-  selectManyByKeys = this.actions$.pipe(
+  selectManyByKeys$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.SelectManyByKeys),
     this.ops.selectManyByKeys()
   );
 
   @Effect()
-  selectMoreByKeys = this.actions$.pipe(
+  selectMoreByKeys$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.SelectMoreByKeys),
     this.ops.selectMoreByKeys()
   );
 
   @Effect()
-  deselect = this.actions$.pipe(
+  deselect$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Deselect),
     this.ops.deselect()
   );
 
   @Effect()
-  deselectMany = this.actions$.pipe(
+  deselectMany$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeselectMany),
     this.ops.deselectMany()
   );
 
   @Effect()
-  deselectManyByKeys = this.actions$.pipe(
+  deselectManyByKeys$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeselectManyByKeys),
     this.ops.deselectManyByKeys()
   );
 
   @Effect()
-  deselectAll = this.actions$.pipe(
+  deselectAll$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.DeselectAll),
     this.ops.deselectAll()
   );
 
   @Effect()
-  edit = this.actions$.pipe(
+  edit$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Edit),
     this.ops.edit()
   );
 
   @Effect()
-  change = this.actions$.pipe(
+  editByKey$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.EditByKey),
+    this.ops.editByKey()
+  );
+
+  @Effect()
+  change$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Change),
     this.ops.change()
   );
 
   @Effect()
-  endEdit = this.actions$.pipe(
+  endEdit$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.EndEdit),
     this.ops.endEdit()
   );

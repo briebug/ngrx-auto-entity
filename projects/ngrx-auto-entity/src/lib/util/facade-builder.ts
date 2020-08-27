@@ -14,6 +14,7 @@ import {
   DeselectMany,
   DeselectManyByKeys,
   Edit,
+  EditByKey,
   EndEdit,
   Load,
   LoadAll,
@@ -205,6 +206,12 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
 
     edit(entity: Partial<TModel>, correlationId?: string): string {
       const action = new Edit(this.modelType, entity, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
+    editByKey(key: EntityIdentity, correlationId?: string): string {
+      const action = new EditByKey(this.modelType, key, correlationId);
       this.store.dispatch(action);
       return action.correlationId;
     }

@@ -12,6 +12,8 @@ import {
   DeselectAll,
   DeselectMany,
   DeselectManyByKeys,
+  Edit,
+  EditByKey,
   Load,
   LoadAllSuccess,
   LoadManySuccess,
@@ -1295,6 +1297,152 @@ describe('NgRX Auto-Entity: Reducer', () => {
           ids: [],
           customProperty: 'hello'
         });
+      });
+    });
+
+    describe('Edit', () => {
+      it('should set the edited entity in state', () => {
+        const state = {
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new Edit(TestEntity, { identity: 1 }));
+
+        expect(newState).toEqual({
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3],
+            editedEntity: { identity: 1 },
+            isDirty: false
+          }
+        });
+      });
+
+      it('should not change state if the entity is already being edited', () => {
+        const state = {
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3],
+            editedEntity: { identity: 1 },
+            isDirty: false
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new Edit(TestEntity, { identity: 1 }));
+
+        expect(newState).toStrictEqual(state);
+      });
+
+      it('should not change state if no entity is referenced by the action', () => {
+        const state = {
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new Edit(TestEntity, null));
+
+        expect(newState).toStrictEqual(state);
+      });
+    });
+
+    describe('EditByKey', () => {
+      it('should set the edited entity in state', () => {
+        const state = {
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new EditByKey(TestEntity, 1));
+
+        expect(newState).toEqual({
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3],
+            editedEntity: { identity: 1 },
+            isDirty: false
+          }
+        });
+      });
+
+      it('should not change state if the entity is already being edited', () => {
+        const state = {
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3],
+            editedEntity: { identity: 1 },
+            isDirty: false
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new EditByKey(TestEntity, 1));
+
+        expect(newState).toStrictEqual(state);
+      });
+
+      it('should not change state if no entity is referenced by the action', () => {
+        const state = {
+          testEntity: {
+            entities: {
+              2: { identity: 2 },
+              1: { identity: 1 },
+              3: { identity: 3 }
+            },
+            ids: [1, 2, 3],
+            currentEntitiesKeys: [1, 2, 3]
+          }
+        };
+        const rootReducer = jest.fn();
+        const metaReducer = autoEntityMetaReducer(rootReducer);
+        const newState = metaReducer(state, new EditByKey(TestEntity, null));
+
+        expect(newState).toStrictEqual(state);
       });
     });
   });

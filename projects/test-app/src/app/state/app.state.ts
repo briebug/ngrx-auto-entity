@@ -1,7 +1,5 @@
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { storeFreeze } from 'ngrx-store-freeze';
-
 import { IEntityState } from '@briebug/ngrx-auto-entity';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { Account } from '../models/account.model';
 import { accountReducer } from './account.state';

@@ -27,7 +27,9 @@ import {
   DeselectMany,
   DeselectManyByKeys,
   Edit,
+  EditByKey,
   Edited,
+  EditedByKey,
   EditEnded,
   EndEdit,
   Load,
@@ -141,7 +143,9 @@ export type EntityActions<TModel> =
   | Deselected<TModel>
   | DeselectedMany<TModel>
   | Edit<TModel>
+  | EditByKey<TModel>
   | Edited<TModel>
+  | EditedByKey<TModel>
   | Change<TModel>
   | Changed<TModel>
   | EndEdit<TModel>
@@ -213,7 +217,9 @@ export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof Deselected ||
   action instanceof DeselectedMany ||
   action instanceof Edit ||
+  action instanceof EditByKey ||
   action instanceof Edited ||
+  action instanceof EditedByKey ||
   action instanceof Change ||
   action instanceof Changed ||
   action instanceof EndEdit ||

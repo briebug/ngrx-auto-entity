@@ -31,7 +31,9 @@ import {
   DeselectMany,
   DeselectManyByKeys,
   Edit,
+  EditByKey,
   Edited,
+  EditedByKey,
   EditEnded,
   EndEdit,
   Load,
@@ -560,6 +562,14 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         map(({ info, entity, correlationId }) => new Edited<TModel>(info.modelType, entity, correlationId))
+      );
+  }
+
+  editByKey<TModel>() {
+    return (source: Observable<EditByKey<TModel>>) =>
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, key, correlationId }) => new EditedByKey<TModel>(info.modelType, key, correlationId))
       );
   }
 

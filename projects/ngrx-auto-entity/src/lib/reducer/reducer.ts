@@ -14,6 +14,7 @@ import {
   DeselectMany,
   DeselectManyByKeys,
   Edit,
+  EditByKey,
   LoadPageSuccess,
   LoadRangeSuccess,
   LoadSuccess,
@@ -905,6 +906,33 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           return state;
         }
 
+        const editedKey = safeGetKey(action, editEntity);
+        const prevEditedKey = entityState.editedEntity && getKey(action, entityState.editedEntity);
+        if (editedKey === prevEditedKey) {
+          return state;
+        }
+
+        const newState = {
+          ...entityState,
+          editedEntity: { ...editEntity },
+          isDirty: false
+        };
+
+        const next = setNewState(featureName, stateName, state, newState);
+        return next;
+      }
+      case EntityActionTypes.EditByKey: {
+        const editedKey = (action as EditByKey<any>).key;
+        const prevEditedKey = entityState.editedEntity && getKey(action, entityState.editedEntity);
+        if (!editedKey || editedKey === prevEditedKey) {
+          return state;
+        }
+
+        const editEntity = entityState.entities[editedKey];
+        if (!editEntity) {
+          return state;
+        }
+
         const newState = {
           ...entityState,
           editedEntity: { ...editEntity },
@@ -930,6 +958,10 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         return next;
       }
       case EntityActionTypes.EndEdit: {
+        if (entityState.editedEntity === undefined) {
+          return state;
+        }
+
         const newState = {
           ...entityState,
           editedEntity: undefined,
