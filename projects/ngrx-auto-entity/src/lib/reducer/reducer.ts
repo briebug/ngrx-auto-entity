@@ -1,8 +1,4 @@
 import { ActionReducer } from '@ngrx/store';
-
-import { camelCase } from '../../util/case';
-import { iif, isUndefined, map, noop, pipe, throwError } from '../../util/func';
-import { EntityActionTypes } from '../actions/action-types';
 import {
   Change,
   CreateManySuccess,
@@ -10,29 +6,28 @@ import {
   DeleteByKeySuccess,
   DeleteManyByKeysSuccess,
   DeleteManySuccess,
-  DeleteSuccess,
-  DeselectMany,
-  DeselectManyByKeys,
-  Edit,
-  EditByKey,
+  DeleteSuccess, DeselectMany, DeselectManyByKeys, Edit, EditByKey,
   LoadPageSuccess,
   LoadRangeSuccess,
-  LoadSuccess,
   ReplaceManySuccess,
-  ReplaceSuccess,
-  Select,
+  ReplaceSuccess, Select,
   SelectByKey,
   SelectMany,
   SelectManyByKeys,
   SelectMore,
   SelectMoreByKeys,
-  UpdateManySuccess,
   UpdateSuccess,
-  UpsertManySuccess,
-  UpsertSuccess
-} from '../actions/actions';
+  UpsertManySuccess
+} from '../..';
+
+import { camelCase } from '../../util/case';
+import { iif, isUndefined, map, noop, pipe, throwError } from '../../util/func';
+import { EntityActionTypes } from '../actions/action-types';
 import { IEntityAction } from '../actions/entity-action';
 import { EntityActions } from '../actions/entity-actions-union';
+import { LoadSuccess } from '../actions/load-actions';
+import { UpdateManySuccess } from '../actions/update-actions';
+import { UpsertSuccess } from '../actions/upsert-actions';
 import { getKey } from '../decorators/key';
 import { EntityIdentity } from '../util/entity-state';
 import { FEATURE_AFFINITY } from '../util/util-tokens';
@@ -58,7 +53,7 @@ export const safeGetKey = <TModel>(action: IEntityAction, entity: TModel): Entit
     iif(
       isUndefined,
       throwError(
-        `[NGRX-AE] ! Entity key for \'${action.info.modelName}\' could not be found! Make sure your entity is properly decorated with the necessary key metadata. State will NOT be updated due to misconfiguration of your entity.`
+        `[NGRX-AE] ! Entity key for \'${action.info.modelName}\' could not be found on this entity instance! Make sure your entity is properly decorated with the necessary key metadata. State will NOT be updated due to misconfiguration of your entity.`
       ),
       key => key
     )

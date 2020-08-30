@@ -1,38 +1,30 @@
 import 'jest-extended';
-
 import {
-  Clear,
   CreateManySuccess,
   CreateSuccess,
   DeleteByKeySuccess,
   DeleteManyByKeysSuccess,
   DeleteManySuccess,
-  DeleteSuccess,
-  Deselect,
-  DeselectAll,
-  DeselectMany,
-  DeselectManyByKeys,
-  Edit,
-  EditByKey,
-  Load,
+  DeleteSuccess, DeselectAll, DeselectMany, DeselectManyByKeys, EditByKey,
   LoadAllSuccess,
   LoadManySuccess,
   LoadPageSuccess,
   LoadRangeSuccess,
-  LoadSuccess,
   ReplaceManySuccess,
-  ReplaceSuccess,
-  Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
-  SelectMore,
+  ReplaceSuccess, Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore,
   SelectMoreByKeys,
-  UpdateManySuccess,
   UpdateSuccess,
   UpsertManySuccess,
   UpsertSuccess
+} from '../..';
+
+import {
+  Clear
 } from '../actions/actions';
+import { Deselect } from '../actions/deselection-actions';
+import { Edit } from '../actions/edit-actions';
+import { Load, LoadSuccess } from '../actions/load-actions';
+import { UpdateManySuccess } from '../actions/update-actions';
 import { Key } from '../decorators/key';
 import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
 

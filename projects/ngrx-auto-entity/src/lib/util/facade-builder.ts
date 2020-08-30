@@ -2,38 +2,30 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   Change,
-  Clear,
   Create,
-  CreateMany,
   Delete,
-  DeleteByKey,
-  DeleteMany,
-  DeleteManyByKeys,
-  Deselect,
-  DeselectAll,
-  DeselectMany,
-  DeselectManyByKeys,
-  Edit,
-  EditByKey,
-  EndEdit,
+  DeleteByKey, DeselectManyByKeys, EditByKey, EndEdit,
   Load,
-  LoadAll,
   LoadMany,
   LoadPage,
-  LoadRange,
   Replace,
-  ReplaceMany,
-  Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
+  ReplaceMany, Select, SelectMany,
   SelectMore,
-  SelectMoreByKeys,
-  Update,
-  UpdateMany,
   Upsert,
   UpsertMany
+} from '../..';
+import {
+  Clear
 } from '../actions/actions';
+import { CreateMany } from '../actions/create-actions';
+import { DeleteMany } from '../actions/delete-actions';
+import { DeleteManyByKeys } from '../actions/delete-by-key-actions';
+import { Deselect, DeselectAll, DeselectMany } from '../actions/deselection-actions';
+import { Edit } from '../actions/edit-actions';
+import { LoadAll } from '../actions/load-all-actions';
+import { LoadRange } from '../actions/load-range-actions';
+import { SelectByKey, SelectManyByKeys, SelectMoreByKeys } from '../actions/selection-actions';
+import { Update, UpdateMany } from '../actions/update-actions';
 import { Page, Range } from '../models';
 import { EntityIdentity, IEntityDictionary } from './entity-state';
 import { IEntityFacade } from './facade';

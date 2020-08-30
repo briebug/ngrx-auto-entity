@@ -9,52 +9,46 @@ import { IEntityError } from '../service/wrapper-models';
 import { fromEntityActions, ofEntityAction, ofEntityType } from './action-operators';
 import { EntityActionTypes } from './action-types';
 import {
-  Clear,
+  Clear
+} from './actions';
+import {
   Create,
   CreateFailure,
   CreateMany,
   CreateManyFailure,
   CreateManySuccess,
-  CreateSuccess,
+  CreateSuccess
+} from './create-actions';
+import {
   Deselect,
   DeselectAll,
   Deselected,
   DeselectedMany,
   DeselectMany,
-  DeselectManyByKeys,
-  Load,
-  LoadAll,
-  LoadAllFailure,
-  LoadAllSuccess,
-  LoadFailure,
-  LoadMany,
-  LoadManyFailure,
-  LoadManySuccess,
-  LoadPage,
-  LoadPageSuccess,
-  LoadRange,
-  LoadRangeFailure,
-  LoadRangeSuccess,
-  LoadSuccess,
+  DeselectManyByKeys
+} from './deselection-actions';
+import { Load, LoadFailure, LoadSuccess } from './load-actions';
+import { LoadAll, LoadAllFailure, LoadAllSuccess } from './load-all-actions';
+import { LoadMany, LoadManyFailure, LoadManySuccess } from './load-many-actions';
+import { LoadPage, LoadPageSuccess } from './load-page-actions';
+import { LoadRange, LoadRangeFailure, LoadRangeSuccess } from './load-range-actions';
+import {
   Replace,
   ReplaceFailure,
   ReplaceMany,
   ReplaceManyFailure,
   ReplaceManySuccess,
-  ReplaceSuccess,
-  Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
-  SelectMore,
-  SelectMoreByKeys,
+  ReplaceSuccess
+} from './replace-actions';
+import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMoreByKeys } from './selection-actions';
+import {
   Update,
   UpdateFailure,
   UpdateMany,
   UpdateManyFailure,
   UpdateManySuccess,
   UpdateSuccess
-} from './actions';
+} from './update-actions';
 
 const xform = {
   fromServer: data => data,

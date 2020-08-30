@@ -1,21 +1,26 @@
 export enum EntityActionTypes {
   Load = '[Entity] (Generic) Load',
+  LoadIfNecessary = '[Entity] (Generic) Load (If Necessary)',
   LoadSuccess = '[Entity] (Generic) Load: Success',
   LoadFailure = '[Entity] (Generic) Load: Failure',
 
   LoadMany = '[Entity] (Generic) Load Many',
+  LoadManyIfNecessary = '[Entity] (Generic) Load Many (If Necessary)',
   LoadManySuccess = '[Entity] (Generic) Load Many: Success',
   LoadManyFailure = '[Entity] (Generic) Load Many: Failure',
 
   LoadAll = '[Entity] (Generic) Load All',
+  LoadAllIfNecessary = '[Entity] (Generic) Load All (If Necessary)',
   LoadAllSuccess = '[Entity] (Generic) Load All: Success',
   LoadAllFailure = '[Entity] (Generic) Load All: Failure',
 
   LoadPage = '[Entity] (Generic) Load Page',
+  LoadPageIfNecessary = '[Entity] (Generic) Load Page (If Necessary)',
   LoadPageSuccess = '[Entity] (Generic) Load Page: Success',
   LoadPageFailure = '[Entity] (Generic) Load Page: Failure',
 
   LoadRange = '[Entity] (Generic) Load Range',
+  LoadRangeIfNecessary = '[Entity] (Generic) Load Range (If Necessary)',
   LoadRangeSuccess = '[Entity] (Generic) Load Range: Success',
   LoadRangeFailure = '[Entity] (Generic) Load Range: Failure',
 

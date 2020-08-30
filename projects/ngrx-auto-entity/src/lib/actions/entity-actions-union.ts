@@ -1,78 +1,69 @@
 import {
-  Change,
-  Changed,
-  Clear,
+  Clear
+} from './actions';
+import {
   Create,
   CreateFailure,
   CreateMany,
   CreateManyFailure,
   CreateManySuccess,
-  CreateSuccess,
+  CreateSuccess
+} from './create-actions';
+import {
   Delete,
-  DeleteByKey,
-  DeleteByKeyFailure,
-  DeleteByKeySuccess,
   DeleteFailure,
   DeleteMany,
-  DeleteManyByKeys,
-  DeleteManyByKeysFailure,
-  DeleteManyByKeysSuccess,
   DeleteManyFailure,
   DeleteManySuccess,
-  DeleteSuccess,
+  DeleteSuccess
+} from './delete-actions';
+import {
+  DeleteByKey,
+  DeleteByKeyFailure, DeleteByKeySuccess,
+  DeleteManyByKeys,
+  DeleteManyByKeysFailure,
+  DeleteManyByKeysSuccess
+} from './delete-by-key-actions';
+import {
   Deselect,
   DeselectAll,
   Deselected,
   DeselectedMany,
   DeselectMany,
-  DeselectManyByKeys,
-  Edit,
-  EditByKey,
-  Edited,
-  EditedByKey,
-  EditEnded,
-  EndEdit,
-  Load,
-  LoadAll,
-  LoadAllFailure,
-  LoadAllSuccess,
-  LoadFailure,
-  LoadMany,
-  LoadManyFailure,
-  LoadManySuccess,
-  LoadPage,
-  LoadPageFailure,
-  LoadPageSuccess,
-  LoadRange,
-  LoadRangeFailure,
-  LoadRangeSuccess,
-  LoadSuccess,
+  DeselectManyByKeys
+} from './deselection-actions';
+import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EndEdit } from './edit-actions';
+import { IEntityAction } from './entity-action';
+import { Load, LoadFailure, LoadSuccess } from './load-actions';
+import { LoadAll, LoadAllFailure, LoadAllSuccess } from './load-all-actions';
+import { LoadMany, LoadManyFailure, LoadManySuccess } from './load-many-actions';
+import { LoadPage, LoadPageFailure, LoadPageSuccess } from './load-page-actions';
+import { LoadRange, LoadRangeFailure, LoadRangeSuccess } from './load-range-actions';
+import {
   Replace,
   ReplaceFailure,
   ReplaceMany,
   ReplaceManyFailure,
   ReplaceManySuccess,
-  ReplaceSuccess,
-  Select,
-  SelectByKey,
-  Selected,
-  SelectedMany,
-  SelectMany,
-  SelectManyByKeys,
+  ReplaceSuccess
+} from './replace-actions';
+import { Select, SelectByKey, Selected, SelectedMany, SelectMany, SelectManyByKeys } from './selection-actions';
+import {
   Update,
   UpdateFailure,
   UpdateMany,
   UpdateManyFailure,
   UpdateManySuccess,
-  UpdateSuccess,
+  UpdateSuccess
+} from './update-actions';
+import {
   Upsert,
   UpsertFailure,
   UpsertMany,
   UpsertManyFailure,
   UpsertManySuccess,
   UpsertSuccess
-} from './actions';
-import { IEntityAction } from './entity-action';
+} from './upsert-actions';
 
 /**
  * Union of all known entity action types

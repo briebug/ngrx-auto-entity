@@ -4,81 +4,76 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { pascalCase } from '../../util/case';
 import {
-  Change,
-  Changed,
   Create,
   CreateFailure,
   CreateMany,
   CreateManyFailure,
   CreateManySuccess,
-  CreateSuccess,
+  CreateSuccess
+} from '../actions/create-actions';
+import {
   Delete,
-  DeleteByKey,
-  DeleteByKeyFailure,
-  DeleteByKeySuccess,
   DeleteFailure,
   DeleteMany,
-  DeleteManyByKeys,
-  DeleteManyByKeysFailure,
-  DeleteManyByKeysSuccess,
   DeleteManyFailure,
   DeleteManySuccess,
-  DeleteSuccess,
+  DeleteSuccess
+} from '../actions/delete-actions';
+import {
+  DeleteByKey,
+  DeleteByKeyFailure, DeleteByKeySuccess,
+  DeleteManyByKeys,
+  DeleteManyByKeysFailure,
+  DeleteManyByKeysSuccess
+} from '../actions/delete-by-key-actions';
+import {
   Deselect,
   DeselectAll,
   Deselected,
   DeselectedMany,
   DeselectMany,
-  DeselectManyByKeys,
-  Edit,
-  EditByKey,
-  Edited,
-  EditedByKey,
-  EditEnded,
-  EndEdit,
-  Load,
-  LoadAll,
-  LoadAllFailure,
-  LoadAllSuccess,
-  LoadFailure,
-  LoadMany,
-  LoadManyFailure,
-  LoadManySuccess,
-  LoadPage,
-  LoadPageFailure,
-  LoadPageSuccess,
-  LoadRange,
-  LoadRangeFailure,
-  LoadRangeSuccess,
-  LoadSuccess,
+  DeselectManyByKeys
+} from '../actions/deselection-actions';
+import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EndEdit } from '../actions/edit-actions';
+import { Load, LoadFailure, LoadSuccess } from '../actions/load-actions';
+import { LoadAll, LoadAllFailure, LoadAllSuccess } from '../actions/load-all-actions';
+import { LoadMany, LoadManyFailure, LoadManySuccess } from '../actions/load-many-actions';
+import { LoadPage, LoadPageFailure, LoadPageSuccess } from '../actions/load-page-actions';
+import { LoadRange, LoadRangeFailure, LoadRangeSuccess } from '../actions/load-range-actions';
+import {
   Replace,
   ReplaceFailure,
   ReplaceMany,
   ReplaceManyFailure,
   ReplaceManySuccess,
-  ReplaceSuccess,
+  ReplaceSuccess
+} from '../actions/replace-actions';
+import {
   Select,
   SelectByKey,
   Selected,
   SelectedMany,
-  SelectedMore,
-  SelectMany,
+  SelectedMore, SelectMany,
   SelectManyByKeys,
   SelectMore,
-  SelectMoreByKeys,
+  SelectMoreByKeys
+} from '../actions/selection-actions';
+import {
   Update,
   UpdateFailure,
   UpdateMany,
   UpdateManyFailure,
   UpdateManySuccess,
-  UpdateSuccess,
+  UpdateSuccess
+} from '../actions/update-actions';
+import {
   Upsert,
   UpsertFailure,
   UpsertMany,
   UpsertManyFailure,
   UpsertManySuccess,
   UpsertSuccess
-} from '../actions/actions';
+} from '../actions/upsert-actions';
 import { shouldApplyEffect } from '../decorators/entity-operators';
 import { IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from '../service/refs';
 import { NgrxAutoEntityService } from '../service/service';
