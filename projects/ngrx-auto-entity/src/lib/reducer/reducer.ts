@@ -1,35 +1,31 @@
 import { ActionReducer } from '@ngrx/store';
-import {
-  Change,
-  CreateManySuccess,
-  CreateSuccess,
-  DeleteByKeySuccess,
-  DeleteManyByKeysSuccess,
-  DeleteManySuccess,
-  DeleteSuccess, DeselectMany, DeselectManyByKeys, Edit, EditByKey,
-  LoadPageSuccess,
-  LoadRangeSuccess,
-  ReplaceManySuccess,
-  ReplaceSuccess, Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
-  SelectMore,
-  SelectMoreByKeys,
-  UpdateSuccess,
-  UpsertManySuccess
-} from '../..';
 
 import { camelCase } from '../../util/case';
 import { iif, isUndefined, map, noop, pipe, throwError } from '../../util/func';
 import { EntityActionTypes } from '../actions/action-types';
+import { CreateManySuccess, CreateSuccess } from '../actions/create-actions';
+import { DeleteManySuccess, DeleteSuccess } from '../actions/delete-actions';
+import { DeleteByKeySuccess, DeleteManyByKeysSuccess } from '../actions/delete-by-key-actions';
+import { DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
+import { Change, Edit, EditByKey } from '../actions/edit-actions';
 import { IEntityAction } from '../actions/entity-action';
 import { EntityActions } from '../actions/entity-actions-union';
 import { LoadSuccess } from '../actions/load-actions';
-import { UpdateManySuccess } from '../actions/update-actions';
-import { UpsertSuccess } from '../actions/upsert-actions';
-import { getKey } from '../decorators/key';
-import { EntityIdentity } from '../util/entity-state';
+import { LoadPageSuccess } from '../actions/load-page-actions';
+import { LoadRangeSuccess } from '../actions/load-range-actions';
+import { ReplaceManySuccess, ReplaceSuccess } from '../actions/replace-actions';
+import {
+  Select,
+  SelectByKey,
+  SelectMany,
+  SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys
+} from '../actions/selection-actions';
+import { UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
+import { UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
+import { getKey } from '../decorators/key-util';
+import { EntityIdentity } from '../types/entity-identity';
 import { FEATURE_AFFINITY } from '../util/util-tokens';
 
 export function stateNameFromAction(action: IEntityAction): string {

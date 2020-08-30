@@ -1,5 +1,5 @@
 import { IEntityInfo } from '../actions/entity-info';
-import { IEntityTransformer } from '../decorators/entity';
+import { IEntityTransformer } from '../decorators/entity-options';
 
 const FROM = 'fromServer';
 const TO = 'toServer';

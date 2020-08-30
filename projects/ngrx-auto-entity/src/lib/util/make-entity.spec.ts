@@ -1,5 +1,6 @@
-import { Entity, ENTITY_OPTS_PROP, Key } from '../..';
-import { NAE_KEY_NAMES, NAE_KEYS } from '../decorators/key';
+import { Entity } from '../decorators/entity-decorator';
+import { ENTITY_OPTS_PROP, NAE_KEY_NAMES, NAE_KEYS } from '../decorators/entity-tokens';
+import { Key } from '../decorators/key-decorator';
 import { makeEntity } from './make-entity';
 
 @Entity({

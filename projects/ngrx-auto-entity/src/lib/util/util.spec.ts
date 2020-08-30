@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { createFeatureSelector, Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { Entity } from '../decorators/entity';
-import { Key } from '../decorators/key';
+import { Entity } from '../decorators/entity-decorator';
+import { Key } from '../decorators/key-decorator';
 import { IEntityState } from './entity-state';
 import { buildFacade } from './facade-builder';
 import { ISelectorMap } from './selector-map';

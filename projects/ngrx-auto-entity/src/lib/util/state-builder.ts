@@ -1,10 +1,10 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { camelCase } from '../../util/case';
-import { IEntityOptions } from '../decorators/entity';
-import { ENTITY_OPTS_PROP } from '../decorators/entity-tokens';
-import { NAE_KEY_NAMES, NAE_KEYS } from '../decorators/key';
-import { EntityIdentity, IEntityState } from './entity-state';
+import { IEntityOptions } from '../decorators/entity-options';
+import { ENTITY_OPTS_PROP, NAE_KEY_NAMES, NAE_KEYS } from '../decorators/entity-tokens';
+import { EntityIdentity } from '../types/entity-identity';
+import { IEntityState } from './entity-state';
 import { buildFacade } from './facade-builder';
 import { makeEntity } from './make-entity';
 import { IModelClass, IModelState } from './model-state';

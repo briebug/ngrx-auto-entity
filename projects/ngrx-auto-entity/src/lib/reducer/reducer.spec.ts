@@ -1,31 +1,28 @@
 import 'jest-extended';
-import {
-  CreateManySuccess,
-  CreateSuccess,
-  DeleteByKeySuccess,
-  DeleteManyByKeysSuccess,
-  DeleteManySuccess,
-  DeleteSuccess, DeselectAll, DeselectMany, DeselectManyByKeys, EditByKey,
-  LoadAllSuccess,
-  LoadManySuccess,
-  LoadPageSuccess,
-  LoadRangeSuccess,
-  ReplaceManySuccess,
-  ReplaceSuccess, Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore,
-  SelectMoreByKeys,
-  UpdateSuccess,
-  UpsertManySuccess,
-  UpsertSuccess
-} from '../..';
 
-import {
-  Clear
-} from '../actions/actions';
-import { Deselect } from '../actions/deselection-actions';
-import { Edit } from '../actions/edit-actions';
+import { Clear } from '../actions/actions';
+import { CreateManySuccess, CreateSuccess } from '../actions/create-actions';
+import { DeleteManySuccess, DeleteSuccess } from '../actions/delete-actions';
+import { DeleteByKeySuccess, DeleteManyByKeysSuccess } from '../actions/delete-by-key-actions';
+import { Deselect, DeselectAll, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
+import { Edit, EditByKey } from '../actions/edit-actions';
 import { Load, LoadSuccess } from '../actions/load-actions';
-import { UpdateManySuccess } from '../actions/update-actions';
-import { Key } from '../decorators/key';
+import { LoadAllSuccess } from '../actions/load-all-actions';
+import { LoadManySuccess } from '../actions/load-many-actions';
+import { LoadPageSuccess } from '../actions/load-page-actions';
+import { LoadRangeSuccess } from '../actions/load-range-actions';
+import { ReplaceManySuccess, ReplaceSuccess } from '../actions/replace-actions';
+import {
+  Select,
+  SelectByKey,
+  SelectMany,
+  SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys
+} from '../actions/selection-actions';
+import { UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
+import { UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
+import { Key } from '../decorators/key-decorator';
 import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
 
 class TestEntity {
@@ -180,7 +177,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           new LoadAllSuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }])
         );
 
-        expect(newState).toEqual({
+        expect(newState).toMatchObject({
           testEntity: {
             currentPage: 1,
             entities: {
@@ -243,19 +240,17 @@ describe('NgRX Auto-Entity: Reducer', () => {
         const metaReducer = autoEntityMetaReducer(rootReducer);
         const newState = metaReducer(
           state,
-          new LoadAllSuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }])
+          new LoadManySuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }])
         );
 
         expect(newState).toEqual({
           testEntity: {
-            currentPage: 1,
             entities: {
               1: { identity: 1 },
               2: { identity: 2 },
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            totalPageableCount: 3,
             isLoading: false,
             loadedAt: expect.toBeNumber()
           }

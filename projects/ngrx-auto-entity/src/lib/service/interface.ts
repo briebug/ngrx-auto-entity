@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
+import { EntityIdentity } from '../types/entity-identity';
 
 import { IEntityInfo } from '../actions/entity-info';
 import { Page, Range } from '../models';
-import { EntityIdentity } from '../util/entity-state';
 import { IEntityWithPageInfo, IEntityWithRangeInfo } from './wrapper-models';
 
 // prettier-ignore

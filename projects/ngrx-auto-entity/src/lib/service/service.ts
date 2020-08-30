@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { IEntityInfo } from '../actions/entity-info';
 import { Page, Range } from '../models';
-import { EntityIdentity } from '../util/entity-state';
+import { EntityIdentity } from '../types/entity-identity';
 import { IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from './refs';
 import { callService } from './service-invocation';
 import {

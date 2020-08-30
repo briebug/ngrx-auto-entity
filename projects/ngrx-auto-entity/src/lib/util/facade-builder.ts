@@ -1,33 +1,31 @@
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  Change,
-  Create,
-  Delete,
-  DeleteByKey, DeselectManyByKeys, EditByKey, EndEdit,
-  Load,
-  LoadMany,
-  LoadPage,
-  Replace,
-  ReplaceMany, Select, SelectMany,
-  SelectMore,
-  Upsert,
-  UpsertMany
-} from '../..';
-import {
-  Clear
-} from '../actions/actions';
-import { CreateMany } from '../actions/create-actions';
-import { DeleteMany } from '../actions/delete-actions';
-import { DeleteManyByKeys } from '../actions/delete-by-key-actions';
-import { Deselect, DeselectAll, DeselectMany } from '../actions/deselection-actions';
-import { Edit } from '../actions/edit-actions';
+
+import { Clear } from '../actions/actions';
+import { Create, CreateMany } from '../actions/create-actions';
+import { Delete, DeleteMany } from '../actions/delete-actions';
+import { DeleteByKey, DeleteManyByKeys } from '../actions/delete-by-key-actions';
+import { Deselect, DeselectAll, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
+import { Change, Edit, EditByKey, EndEdit } from '../actions/edit-actions';
+import { Load } from '../actions/load-actions';
 import { LoadAll } from '../actions/load-all-actions';
+import { LoadMany } from '../actions/load-many-actions';
+import { LoadPage } from '../actions/load-page-actions';
 import { LoadRange } from '../actions/load-range-actions';
-import { SelectByKey, SelectManyByKeys, SelectMoreByKeys } from '../actions/selection-actions';
+import { Replace, ReplaceMany } from '../actions/replace-actions';
+import {
+  Select,
+  SelectByKey,
+  SelectMany,
+  SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys
+} from '../actions/selection-actions';
 import { Update, UpdateMany } from '../actions/update-actions';
+import { Upsert, UpsertMany } from '../actions/upsert-actions';
 import { Page, Range } from '../models';
-import { EntityIdentity, IEntityDictionary } from './entity-state';
+import { EntityIdentity } from '../types/entity-identity';
+import { IEntityDictionary } from './entity-state';
 import { IEntityFacade } from './facade';
 import { ISelectorMap } from './selector-map';
 
@@ -133,6 +131,7 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     customSorted$(name: string): Observable<TModel[]> {
       return this.store.select(selectors.selectCustomSorted, { name });
     }
+
     // endregion
 
     // region Dispatches

@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
+import { EntityIdentity } from '../types/entity-identity';
 
 import { Page, Range } from '../models';
-import { EntityIdentity, IEntityDictionary } from './entity-state';
+import { IEntityDictionary } from './entity-state';
 
 /**
  * The definition of an Auto-Entity facade class

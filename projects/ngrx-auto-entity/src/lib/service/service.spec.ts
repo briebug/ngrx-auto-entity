@@ -4,10 +4,10 @@ import { Injectable, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { EntityIdentity } from '../types/entity-identity';
 
 import { IEntityInfo } from '../actions/entity-info';
 import { Page, Range } from '../models';
-import { EntityIdentity } from '../util/entity-state';
 import { logAndThrow, logErrorDetails, logServiceLocateFailure, notAFunction, notImplemented } from './error-handling';
 import { IAutoEntityService } from './interface';
 import { NgrxAutoEntityService } from './service';

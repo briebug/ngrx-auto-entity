@@ -1,4 +1,4 @@
-import { EntityIdentity } from '../util/entity-state';
+import { EntityIdentity } from '../types/entity-identity';
 import { EntityActionTypes } from './action-types';
 import { EntityAction } from './entity-action';
 

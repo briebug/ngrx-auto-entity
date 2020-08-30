@@ -1,11 +1,19 @@
-import { Entity } from './entity';
-import { entityComparer, entityTransforms, nameOfEntity, pluralNameOfEntity, uriNameOfEntity } from './entity-util';
-import { Key } from './key';
+import { Entity } from './entity-decorator';
+import {
+  entityComparer,
+  entityMaxAge,
+  entityTransforms,
+  nameOfEntity,
+  pluralNameOfEntity,
+  uriNameOfEntity
+} from './entity-util';
+import { Key } from './key-decorator';
 
 @Entity({
   modelName: 'TestEntity',
   pluralName: 'TestEntities',
   uriName: 'test-entities',
+  defaultMaxAge: 600,
   comparer: (a: any, b: any) => a.id - b.id,
   comparers: {
     default: 'id',
@@ -39,7 +47,7 @@ describe('nameOfEntity()', () => {
 
   it('should return nullish if entity null', () => {
     const name = nameOfEntity(null);
-    expect(name).toBeNull();
+    expect(name).toBeUndefined();
   });
 
   it('should return nullish if entity undefined', () => {
@@ -66,7 +74,7 @@ describe('uriNameOfEntity()', () => {
 
   it('should return nullish if entity null', () => {
     const name = uriNameOfEntity(null);
-    expect(name).toBeNull();
+    expect(name).toBeUndefined();
   });
 
   it('should return nullish if entity undefined', () => {
@@ -93,7 +101,7 @@ describe('pluralNameOfEntity()', () => {
 
   it('should return nullish if entity null', () => {
     const name = pluralNameOfEntity(null);
-    expect(name).toBeNull();
+    expect(name).toBeUndefined();
   });
 
   it('should return nullish if entity undefined', () => {
@@ -134,7 +142,7 @@ describe('entityComparer()', () => {
 
   it('should return nullish if entity null', () => {
     const name = entityComparer(null);
-    expect(name).toBeNull();
+    expect(name).toBeUndefined();
   });
 
   it('should return nullish if entity undefined', () => {
@@ -165,7 +173,7 @@ describe('entityTransforms()', () => {
 
   it('should return nullish if entity null', () => {
     const transforms = entityTransforms(null);
-    expect(transforms).toBeNull();
+    expect(transforms).toBeUndefined();
   });
 
   it('should return nullish if entity undefined', () => {
@@ -175,6 +183,33 @@ describe('entityTransforms()', () => {
 
   it('should return nullish if entity is not decorated', () => {
     const transforms = entityTransforms(new NotAnEntity());
+    expect(transforms).toBeUndefined();
+  });
+});
+
+describe('entityMaxAge()', () => {
+  it('should return max age of entity type if decorated', () => {
+    const maxAge = entityMaxAge(TestEntity);
+    expect(maxAge).toBe(600);
+  });
+
+  it('should return max age of entity instance if decorated', () => {
+    const maxAge = entityMaxAge(new TestEntity());
+    expect(maxAge).toBe(600);
+  });
+
+  it('should return nullish if entity null', () => {
+    const transforms = entityMaxAge(null);
+    expect(transforms).toBeUndefined();
+  });
+
+  it('should return nullish if entity undefined', () => {
+    const transforms = entityMaxAge(undefined);
+    expect(transforms).toBeUndefined();
+  });
+
+  it('should return nullish if entity is not decorated', () => {
+    const transforms = entityMaxAge(new NotAnEntity());
     expect(transforms).toBeUndefined();
   });
 });

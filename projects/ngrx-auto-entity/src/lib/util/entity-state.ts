@@ -1,4 +1,5 @@
 import { Page, Range } from '../models';
+import { EntityIdentity } from '../types/entity-identity';
 
 /**
  * Structure for how entities are stored within the `entities` state property:
@@ -7,8 +8,6 @@ import { Page, Range } from '../models';
 export interface IEntityDictionary<TModel> {
   [key: string]: TModel;
 }
-
-export type EntityIdentity = string | number;
 
 /**
  * Structure for how entities are stored, including useful computed properties

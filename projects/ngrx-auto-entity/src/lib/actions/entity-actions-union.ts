@@ -1,6 +1,4 @@
-import {
-  Clear
-} from './actions';
+import { Clear } from './actions';
 import {
   Create,
   CreateFailure,
@@ -19,7 +17,8 @@ import {
 } from './delete-actions';
 import {
   DeleteByKey,
-  DeleteByKeyFailure, DeleteByKeySuccess,
+  DeleteByKeyFailure,
+  DeleteByKeySuccess,
   DeleteManyByKeys,
   DeleteManyByKeysFailure,
   DeleteManyByKeysSuccess

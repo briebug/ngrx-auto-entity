@@ -1,5 +1,5 @@
-import { Entity } from '../decorators/entity';
-import { Key } from '../decorators/key';
+import { Entity } from '../decorators/entity-decorator';
+import { Key } from '../decorators/key-decorator';
 import { buildState, NO_ENTITY_DECORATOR_MSG, NO_ENTITY_KEY_MSG, NO_MODEL_NAME_MSG } from './state-builder';
 
 @Entity({ modelName: 'Test' })

@@ -10,6 +10,8 @@ export const tap = (fn: (x) => void) => data => {
 
 export const noop = () => void 0;
 
+export const not = (fn: (...args: any[]) => any) => value => fn(!value);
+
 export const isUndefined = value => value === undefined;
 
 export const throwError = (message: string) => () => {

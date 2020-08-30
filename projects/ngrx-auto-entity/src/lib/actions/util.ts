@@ -1,7 +1,7 @@
 import { pascalCase } from '../../util/case';
-import { IEntityOptions } from '../decorators/entity';
+import { IEntityOptions } from '../decorators/entity-options';
 import { ENTITY_OPTS_PROP } from '../decorators/entity-tokens';
-import { checkKeyName } from '../decorators/key';
+import { checkKeyName } from '../decorators/key-util';
 import { IEntityInfo } from './entity-info';
 
 /**

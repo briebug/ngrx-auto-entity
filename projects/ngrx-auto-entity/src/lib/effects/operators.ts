@@ -21,7 +21,8 @@ import {
 } from '../actions/delete-actions';
 import {
   DeleteByKey,
-  DeleteByKeyFailure, DeleteByKeySuccess,
+  DeleteByKeyFailure,
+  DeleteByKeySuccess,
   DeleteManyByKeys,
   DeleteManyByKeysFailure,
   DeleteManyByKeysSuccess
@@ -53,7 +54,8 @@ import {
   SelectByKey,
   Selected,
   SelectedMany,
-  SelectedMore, SelectMany,
+  SelectedMore,
+  SelectMany,
   SelectManyByKeys,
   SelectMore,
   SelectMoreByKeys

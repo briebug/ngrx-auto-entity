@@ -1,14 +1,15 @@
-import { getKey, getKeyFromModel, Load, LoadAll } from '../..';
+import { Load } from '../actions/load-actions';
+import { LoadAll } from '../actions/load-all-actions';
 import { makeEntity } from '../util/make-entity';
+import { Key } from './key-decorator';
 import {
+  getKey,
   getKeyFromEntity,
+  getKeyFromModel,
   getKeyNames,
   getKeyNamesFromEntity,
-  getKeyNamesFromModel,
-  Key,
-  NAE_KEY_NAMES,
-  NAE_KEYS
-} from './key';
+  getKeyNamesFromModel
+} from './key-util';
 
 class TestEntity {
   @Key id: number;
@@ -21,40 +22,6 @@ class CompositeEntity {
 
 const makeTestEntity = makeEntity(TestEntity);
 const makeCompositeEntity = makeEntity(CompositeEntity);
-
-describe('Function: Key', () => {
-  test(`should attach ${NAE_KEYS} property to target`, () => {
-    const myEntity = {};
-    Key(myEntity, 'test');
-    expect(myEntity[NAE_KEYS]).toBeDefined();
-  });
-});
-
-describe('Decorator: @Key', () => {
-  test(`should attach ${NAE_KEYS} property to target`, () => {
-    const myEntity = new TestEntity();
-    expect(myEntity[NAE_KEYS]).toBeDefined();
-  });
-
-  test(`should return name key property`, () => {
-    const myEntity = new TestEntity();
-    const keyNames = myEntity[NAE_KEYS];
-    expect(keyNames.length).toBe(1);
-    expect(keyNames[0]).toBe('id');
-  });
-});
-
-describe('Constant: NAE_KEYS', () => {
-  test('should equal "__nae_keys"', () => {
-    expect(NAE_KEYS).toBe('__nae_keys');
-  });
-});
-
-describe('Constant: NAE_KEY_NAMES', () => {
-  test('should equal "__nae_key_names"', () => {
-    expect(NAE_KEY_NAMES).toBe('__nae_key_names');
-  });
-});
 
 describe('Function: getKeyNames()', () => {
   it('should log a console error and return empty array if action is falsy', () => {

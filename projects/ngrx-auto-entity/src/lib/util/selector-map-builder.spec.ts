@@ -2,7 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { hot } from 'jasmine-marbles';
-import { Entity, ISelectorMap, Key } from '../..';
+import { Entity } from '../decorators/entity-decorator';
+import { Key } from '../decorators/key-decorator';
+import { ISelectorMap } from '../util/selector-map';
 import { IEntityState } from './entity-state';
 import { makeEntity } from './make-entity';
 import {

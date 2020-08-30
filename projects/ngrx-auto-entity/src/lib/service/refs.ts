@@ -1,6 +1,6 @@
 import { IEntityInfo } from '../actions/entity-info';
 import { IPageInfo, IRangeInfo } from '../models';
-import { EntityIdentity } from '../util/entity-state';
+import { EntityIdentity } from '../types/entity-identity';
 
 export interface IEntityRef<TModel> {
   info: IEntityInfo;

@@ -1,22 +1,6 @@
 import { IEntityAction } from '../actions/entity-action';
-import { EntityIdentity } from '../util/entity-state';
-
-// NOTE: The following two constants should be Symbol() to avoid any potential conflict with
-// any user-defined properties on the entity models. However, use of Symbol() here causes
-// problems with the Jest test runner at the current time
-export const NAE_KEYS = '__nae_keys';
-export const NAE_KEY_NAMES = '__nae_key_names';
-
-/**
- * Used to designate the key property for the entity
- *
- * @param target the entity's class
- * @param keyName the key's name
- */
-export function Key(target, keyName: string | symbol): void {
-  target[NAE_KEY_NAMES] = target[NAE_KEY_NAMES] ? [...target[NAE_KEY_NAMES], keyName] : [keyName];
-  Object.defineProperty(target, NAE_KEYS, { get: () => target[NAE_KEY_NAMES] });
-}
+import { EntityIdentity } from '../types/entity-identity';
+import { NAE_KEYS } from './entity-tokens';
 
 export function checkKeyName(type: any, modelName: string): boolean {
   const keys = type.prototype[NAE_KEYS];

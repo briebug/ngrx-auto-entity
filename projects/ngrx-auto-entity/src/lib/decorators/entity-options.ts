@@ -1,6 +1,5 @@
 import { EntityActionTypes } from '../actions/action-types';
 import { IEffectExclusions } from './effect-exclusions';
-import { ENTITY_OPTS_PROP } from './entity-tokens';
 
 /**
  * Defines effect exceptions for the decorated model.
@@ -18,6 +17,7 @@ export interface IEntityTransformer {
 }
 
 export type EntityComparer = (a, b) => number;
+
 export interface IEntityComparerMap {
   [key: string]: EntityComparer | string;
 }
@@ -28,27 +28,29 @@ export interface IEntityNames {
   uriName?: string;
 }
 
+export enum EntityAge {
+  Minute = 60,
+  Hour = EntityAge.Minute * 60,
+  QuarterDay = EntityAge.Hour * 6,
+  HalfDay = EntityAge.Hour * 12,
+  Day = EntityAge.Hour * 24,
+  Week = EntityAge.Day * 7
+}
+
 /**
  * The options that may be configured for a decorated entity model.
+ *
+ * @property comparer - (optional) A default comparer for sorting entities on selection
+ * @property comparers - (optional) A set of comparer functions or named comparer references for sorting entities
+ * @property transform - (optional) A set of entity transform objects that may be composed, in order, to transform the entity
+ * @property excludeEffects - (optional) The effect exclusion config
+ *   @see IEffectExclusions
+ * @property defaultMaxAge - (optional) A default maximum age, in seconds, after which load*IfNecessary actions will always load
  */
 export interface IEntityOptions extends IEntityNames {
   comparer?: EntityComparer;
   comparers?: IEntityComparerMap;
   transform?: IEntityTransformer[];
   excludeEffects?: IEffectExclusions | IEffectExcept;
-}
-
-/**
- * Entity decorator for configuring each entity model.
- *
- * @param options The configuration options to apply.
- */
-export function Entity(options: IEntityOptions) {
-  return function entityDecorator(constructor: any) {
-    const descriptor = Object.create(null);
-    descriptor.value = options;
-    Object.defineProperty(constructor, ENTITY_OPTS_PROP, descriptor);
-
-    return constructor;
-  };
+  defaultMaxAge?: number | EntityAge;
 }

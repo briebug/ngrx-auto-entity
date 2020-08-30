@@ -3,14 +3,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 
-import { Entity } from '../decorators/entity';
-import { Key } from '../decorators/key';
+import { Entity } from '../decorators/entity-decorator';
+import { Key } from '../decorators/key-decorator';
 import { IEntityError } from '../service/wrapper-models';
 import { fromEntityActions, ofEntityAction, ofEntityType } from './action-operators';
 import { EntityActionTypes } from './action-types';
-import {
-  Clear
-} from './actions';
+import { Clear } from './actions';
 import {
   Create,
   CreateFailure,

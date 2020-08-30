@@ -1,6 +1,7 @@
 import { MemoizedSelector } from '@ngrx/store';
 import { Page, Range } from '../models';
-import { EntityIdentity, IEntityDictionary } from './entity-state';
+import { EntityIdentity } from '../types/entity-identity';
+import { IEntityDictionary } from './entity-state';
 
 /**
  * Structure of a Selector Map defining all the selectors that may
