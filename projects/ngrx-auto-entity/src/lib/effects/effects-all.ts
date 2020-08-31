@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { ofEntityAction } from '../actions/action-operators';
 import { EntityActionTypes } from '../actions/action-types';
+import { EntityIfNecessaryOperators } from './if-necessary-operators';
 import { EntityOperators } from './operators';
 
 /**
@@ -14,9 +15,15 @@ import { EntityOperators } from './operators';
 @Injectable()
 export class EntityEffects {
   @Effect()
-  load$: Observable<Action> = this.actions$.pipe(
+  load$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Load),
     this.ops.load()
+  );
+
+  @Effect()
+  loadIfNecessary$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadIfNecessary),
+    this.ifnOps.loadIfNecessary()
   );
 
   @Effect()
@@ -26,9 +33,21 @@ export class EntityEffects {
   );
 
   @Effect()
+  loadAllIfNecessary$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadAllIfNecessary),
+    this.ifnOps.loadAllIfNecessary()
+  );
+
+  @Effect()
   loadMany$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.LoadMany),
     this.ops.loadMany()
+  );
+
+  @Effect()
+  loadManyIfNecessary$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadManyIfNecessary),
+    this.ifnOps.loadManyIfNecessary()
   );
 
   @Effect()
@@ -38,9 +57,21 @@ export class EntityEffects {
   );
 
   @Effect()
+  loadPageIfNecessary$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadPageIfNecessary),
+    this.ifnOps.loadPageIfNecessary()
+  );
+
+  @Effect()
   loadRange$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.LoadRange),
     this.ops.loadRange()
+  );
+
+  @Effect()
+  loadRangeIfNecessary$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.LoadRangeIfNecessary),
+    this.ifnOps.loadRangeIfNecessary()
   );
 
   @Effect()
@@ -115,5 +146,5 @@ export class EntityEffects {
     this.ops.deleteManyByKey()
   );
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  constructor(private actions$: Actions, private ops: EntityOperators, private ifnOps: EntityIfNecessaryOperators) {}
 }

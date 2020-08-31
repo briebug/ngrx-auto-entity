@@ -1,3 +1,4 @@
+import { camelCase } from '../../util/case';
 import { pipe } from '../../util/func';
 import { TNew } from '../actions/model-constructor';
 import { EntityComparer, IEntityOptions, IEntityTransformer } from './entity-options';
@@ -22,6 +23,8 @@ export const entityOptions = <TModel>(entityOrType: TNew<TModel> | TModel | TMod
     getEntityOptions
   )(entityOrType);
 
+export const entityStateName = (modelName: string): string => camelCase(modelName);
+
 export const nameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | undefined =>
   entityOptions(entityOrType).modelName;
 
@@ -30,6 +33,9 @@ export const uriNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): st
 
 export const pluralNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | null | undefined =>
   entityOptions(entityOrType).pluralName;
+
+export const stateNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | null | undefined =>
+  entityStateName(entityOptions(entityOrType).modelName);
 
 export const mapComparer = (options: IEntityOptions, name: string): EntityComparer =>
   !!options.comparers

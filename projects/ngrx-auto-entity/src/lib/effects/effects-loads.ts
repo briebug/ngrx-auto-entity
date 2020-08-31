@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import { ofEntityAction } from '../actions/action-operators';
 import { EntityActionTypes } from '../actions/action-types';
@@ -10,7 +8,7 @@ import { EntityOperators } from './operators';
 @Injectable()
 export class LoadEffects {
   @Effect()
-  load$: Observable<Action> = this.actions$.pipe(
+  load$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Load),
     this.ops.load()
   );

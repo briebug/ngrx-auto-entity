@@ -14,7 +14,7 @@ import { EntityAction } from './entity-action';
  * @param criteria - (optional) The custom criteria for this action
  * @param correlationId - (optional) A custom correlation id for this action; Use to correlate subsequent result actions
  */
-export class LoadAllIfNecessary<TModel> extends EntityAction<TModel> {
+export class LoadManyIfNecessary<TModel> extends EntityAction<TModel> {
   constructor(type: new () => TModel, public maxAge?: number, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadManyIfNecessary, correlationId);
   }

@@ -23,6 +23,7 @@
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --runInBand --testResultsProcessor='jest-junit'",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "json-server": "json-server --watch data/db.json --routes data/routes.json",
     "link": "ng build ngrx-auto-entity && npm link dist/ngrx-auto-entity",
     "link:ci": "ng build ngrx-auto-entity && sudo npm link dist/ngrx-auto-entity",

@@ -16,10 +16,7 @@ export const setInfo = (type: any): IEntityInfo => {
   checkKeyName(type, modelName);
   return {
     modelType: type,
-    modelName,
-    pluralName: opts.pluralName,
-    uriName: opts.uriName,
-    transform: opts.transform
+    ...opts
   };
 };
 

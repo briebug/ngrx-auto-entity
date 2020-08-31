@@ -1,8 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import { camelCase } from '../../util/case';
 import { IEntityOptions } from '../decorators/entity-options';
 import { ENTITY_OPTS_PROP, NAE_KEY_NAMES, NAE_KEYS } from '../decorators/entity-tokens';
+import { entityStateName } from '../decorators/entity-util';
 import { EntityIdentity } from '../types/entity-identity';
 import { IEntityState } from './entity-state';
 import { buildFacade } from './facade-builder';
@@ -82,17 +81,17 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState ext
   const opts = type[ENTITY_OPTS_PROP];
   ensureModelName(opts);
 
-  const modelName = camelCase(opts.modelName);
+  const stateName = entityStateName(opts.modelName);
 
   const getState = (state: TParentState): TState & TExtra => {
-    const modelState = state[modelName];
+    const modelState = state[stateName];
     if (!modelState) {
-      const message = `State for model ${opts.modelName} could not be found! Make sure you add your entity state to the parent state with a property named exactly '${modelName}'.`;
+      const message = `State for model ${opts.modelName} could not be found! Make sure you add your entity state to the parent state with a property named exactly '${stateName}'.`;
       const example = ` Example app state:
 
 export interface AppState {
   // ... other states ...
-  ${modelName}: IEntityState<${opts.modelName}>,
+  ${stateName}: IEntityState<${opts.modelName}>,
   // ... other states ...
 }`;
       console.error('[NGRX-AE] ! ' + message + example);
@@ -145,7 +144,7 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
   const opts = type[ENTITY_OPTS_PROP];
   ensureModelName(opts);
 
-  const modelName = camelCase(opts.modelName);
+  const stateName = entityStateName(opts.modelName);
 
   (type as any)[FEATURE_AFFINITY] = featureStateName;
 
@@ -153,20 +152,20 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
     selectParentState,
     (state: TParentState) => {
       if (!state) {
-        const message = `Could not retrieve feature state ${featureStateName} for model ${opts.modelName}! Make sure you add your entity state to the feature state with a property named exactly '${modelName}'.`;
+        const message = `Could not retrieve feature state ${featureStateName} for model ${opts.modelName}! Make sure you add your entity state to the feature state with a property named exactly '${stateName}'.`;
         const example = ` Example app state:
 
 export interface FeatureState {
   // ... other states ...
-  ${modelName}: IEntityState<${opts.modelName}>,
+  ${stateName}: IEntityState<${opts.modelName}>,
   // ... other states ...
 }`;
         console.error('[NGRX-AE] ! ' + message + example);
         throw new Error(message);
       }
-      const modelState = state[modelName];
+      const modelState = state[stateName];
       if (!modelState) {
-        const message = `State for model ${modelName} in feature ${featureStateName} could not be found!`;
+        const message = `State for model ${opts.modelName} in feature ${featureStateName} could not be found!`;
         console.error('[NGRX-AE] ! ' + message);
         throw new Error(message);
       }

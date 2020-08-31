@@ -4,6 +4,7 @@ import { META_REDUCERS } from '@ngrx/store';
 
 import { EntityEffects } from './effects/effects-all';
 import { ExtraEffects } from './effects/effects-extra';
+import { EntityIfNecessaryOperators } from './effects/if-necessary-operators';
 import { EntityOperators } from './effects/operators';
 import { autoEntityMetaReducer } from './reducer/reducer';
 import { NgrxAutoEntityService } from './service/service';
@@ -21,6 +22,7 @@ export interface NgRxAutoEntityModuleConfig {
 @NgModule({
   providers: [
     EntityOperators,
+    EntityIfNecessaryOperators,
     EntityEffects,
     ExtraEffects,
     { provide: META_REDUCERS, useFactory: getNgRxAutoEntityMetaReducer, multi: true }
@@ -50,6 +52,7 @@ export class NgRxAutoEntityRootModuleWithEffects {
 @NgModule({
   providers: [
     EntityOperators,
+    EntityIfNecessaryOperators,
     ExtraEffects,
     { provide: META_REDUCERS, useFactory: getNgRxAutoEntityMetaReducer, multi: true }
   ]
@@ -77,6 +80,7 @@ export class NgRxAutoEntityRootModuleNoEntityEffects {
 @NgModule({
   providers: [
     EntityOperators,
+    EntityIfNecessaryOperators,
     ExtraEffects,
     { provide: META_REDUCERS, useFactory: getNgRxAutoEntityMetaReducer, multi: true }
   ]
