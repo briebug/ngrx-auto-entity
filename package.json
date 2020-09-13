@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
+    "start": "concurrently --prefix-colors white.bgRed,white.bgBlue --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
     "serve": "ng serve --source-map",
     "serve:prod": "ng serve --prod --source-map",
     "serve-proxy": "ng serve --prod --source-map --proxy-config proxy.conf.json",
