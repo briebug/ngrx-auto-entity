@@ -9,7 +9,7 @@ import { OrdersPreviewComponent } from '../orders-preview/orders-preview.compone
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('ordersPreview', { static: false }) ordersPreview: OrdersPreviewComponent;
+  @ViewChild('ordersPreview') ordersPreview: OrdersPreviewComponent;
 
   constructor() {}
 

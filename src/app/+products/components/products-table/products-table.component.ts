@@ -30,7 +30,7 @@ export class ProductsTableComponent implements OnChanges, OnInit, OnDestroy {
   @Output() edit = new EventEmitter<Product>();
   @Output() select = new EventEmitter<Product[]>();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay = ['id', 'name', 'details', 'price', 'dateAdded', 'actions'];
   dataSource = new MatTableDataSource();

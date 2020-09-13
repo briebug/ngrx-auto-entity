@@ -13,7 +13,7 @@ export class CustomersTableComponent implements OnChanges, OnInit {
   @Output() delete = new EventEmitter<Customer>();
   @Output() edit = new EventEmitter<Customer>();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay = ['name', 'isActive', 'actions'];
   dataSource = new MatTableDataSource();
