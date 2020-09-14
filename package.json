@@ -25,7 +25,7 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "json-server": "json-server --watch data/db.json --routes data/routes.json",
-    "link": "npm run build:lib && cd dist/ngrx-auto-entity && npm link @briebug/ngrx-auto-entity && cd ../../projects/showcase npm link @briebug/ngrx-auto-entity",
+    "link": "npm run build:lib && cd dist/ngrx-auto-entity && npm link @briebug/ngrx-auto-entity && cd ../../projects/test-app npm link @briebug/ngrx-auto-entity",
     "link:ci": "ng build ngrx-auto-entity && sudo npm link dist/ngrx-auto-entity",
     "postinstall": "if test \"$NODE_ENV\" = \"ci\" ; then npm run link:ci ; else npm run link ; fi",
     "prettier": "prettier --write \"./**/*.ts\""
