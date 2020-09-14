@@ -3,7 +3,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/src/tsconfig.spec.json',
+      tsConfig: '<rootDir>/projects/test-app/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.html$',
       astTransformers: [
         require.resolve('jest-preset-angular/InlineHtmlStripStylesTransformer')

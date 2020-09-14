@@ -6,11 +6,7 @@
     "start": "concurrently --prefix-colors white.bgRed,white.bgBlue --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
     "serve": "ng serve --source-map",
     "serve:prod": "ng serve --prod --source-map",
-    "serve:test": "ng serve test-app --source-map",
-    "serve:test:prod": "ng serve test-app --source-map",
     "serve-proxy": "ng serve --prod --source-map --proxy-config proxy.conf.json",
-    "serve-proxy:test": "ng serve test-app --source-map --proxy-config proxy.conf.json",
-    "serve-proxy:test:prod": "ng serve test-app --prod --source-map --proxy-config proxy.conf.json",
     "build": "ng build --prod",
     "build:watch": "ng build --prod --watch",
     "build:app": "ng build ngrx-auto-entity-app --prod",
@@ -94,38 +90,6 @@
     "projects/ngrx-auto-entity/src/lib/**/*.ts": [
       "tslint --config tslint.json --project tsconfig.json --fix",
       "git add"
-    ]
-  },
-  "jest": {
-    "preset": "jest-preset-angular",
-    "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
-    "testMatch": [
-      "**/+(*.)+(spec|test).+(ts)?(x)"
-    ],
-    "coverageReporters": [
-      "html",
-      "text"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/*.module.ts",
-      "!src/main.ts",
-      "!src/polyfills.ts",
-      "!src/environments/*.ts",
-      "projects/ngrx-auto-entity/src/lib/**/*.ts",
-      "!projects/ngrx-auto-entity/src/lib/**/*.module.ts",
-      "!projects/ngrx-auto-entity/src/lib/index.ts",
-      "!<rootDir>/setup-jest.ts",
-      "!<rootDir>/jestGlobalMocks.ts"
-    ],
-    "moduleNameMapper": {
-      "^ngrx-auto-entity/(.*)": "<rootDir>/projects/ngrx-auto-entity/$1",
-      "^state/(.*)": "<rootDir>/src/app/state/$1",
-      "^core/(.*)": "<rootDir>/src/app/core/$1",
-      "^models/(.*)": "<rootDir>/src/app/models/$1"
-    },
-    "modulePathIgnorePatterns": [
-      "<rootDir>/dist"
     ]
   }
 }
