@@ -239,7 +239,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectAll', () => {
     it('should return empty array if no state', () => {
-      const store: MockStore<{}> = TestBed.get(Store);
+      const store: MockStore<{}> = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({});
@@ -252,7 +252,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return empty array if no entities in state', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({
@@ -270,7 +270,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return entities in state order', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       const entity1 = makeTestModel({ id: 1 });
       const entity2 = makeTestModel({ id: 2 });
@@ -296,7 +296,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectAllSorted', () => {
     it('should return empty array if no state', () => {
-      const store: MockStore<{}> = TestBed.get(Store);
+      const store: MockStore<{}> = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({});
@@ -309,7 +309,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return empty array if no entities in state', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({
@@ -327,7 +327,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return entities in default sorted order', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       const entity1 = makeTestModel({ id: 1 });
       const entity2 = makeTestModel({ id: 2 });
@@ -351,7 +351,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return entities in state order if no default comparer exists', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       const entity1 = makeAltModel({ id: 1 });
       const entity2 = makeAltModel({ id: 2 });
@@ -381,7 +381,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectCustomSorted', () => {
     it('should return empty array if no state', () => {
-      const store: MockStore<{}> = TestBed.get(Store);
+      const store: MockStore<{}> = TestBed.inject(MockStore);
 
       store.setState({});
 
@@ -393,7 +393,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return empty array if no entities in state', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       store.setState({
         test: {
@@ -410,7 +410,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return entities in custom sorted order', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       const entity1 = makeTestModel({ id: 1, name: 'Test 1' });
       const entity2 = makeTestModel({ id: 2, name: 'Test 2' });
@@ -434,7 +434,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return entities in state order if named comparer does not exist', () => {
-      const store: MockStore<ITestState> = TestBed.get(Store);
+      const store: MockStore<ITestState> = TestBed.inject(MockStore);
 
       const entity1 = makeTestModel({ id: 1, name: 'Test 1' });
       const entity2 = makeTestModel({ id: 2, name: 'Test 2' });

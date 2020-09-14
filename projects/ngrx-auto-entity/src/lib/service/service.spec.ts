@@ -335,13 +335,13 @@ describe('NgRX Auto-Entity: Service', () => {
         imports: [HttpClientModule, CommonModule],
         providers: [{ provide: TestModel, useClass: TestModelService }, NgrxAutoEntityService]
       });
-      entityService = TestBed.get(NgrxAutoEntityService);
+      entityService = TestBed.inject(NgrxAutoEntityService);
     });
 
     describe('Function: getService', () => {
       let injector: Injector;
       beforeEach(() => {
-        injector = TestBed.get(Injector);
+        injector = TestBed.inject(Injector);
       });
 
       test('Should resolve service with default injector', () => {
@@ -354,7 +354,7 @@ describe('NgRX Auto-Entity: Service', () => {
     describe('Function: resolveService', () => {
       let injector: Injector;
       beforeEach(() => {
-        injector = TestBed.get(Injector);
+        injector = TestBed.inject(Injector);
       });
 
       test('Should resolve service with default injector', () => {
@@ -367,7 +367,7 @@ describe('NgRX Auto-Entity: Service', () => {
     describe('Function: resolveServiceDeep', () => {
       let injector: Injector;
       beforeEach(() => {
-        injector = TestBed.get(Injector);
+        injector = TestBed.inject(Injector);
       });
 
       test('Should resolve service with default injector', () => {

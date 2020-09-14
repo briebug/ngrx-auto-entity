@@ -53,7 +53,7 @@ describe('EntityIfNecessaryOperators', () => {
 
   describe('loadIfNecessary()', () => {
     test('should filter out action if no loadedAt or entities in state', () => {
-      const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
+      const operators: EntityIfNecessaryOperators = TestBed.inject(EntityIfNecessaryOperators);
       const action = new LoadIfNecessary(Test, 123);
       actions$ = hot('-a', { a: action });
 
@@ -64,8 +64,8 @@ describe('EntityIfNecessaryOperators', () => {
     });
 
     test('should filter out action if loadedAt set but no entities in state', () => {
-      const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
-      const store: MockStore<any> = TestBed.get(Store);
+      const operators: EntityIfNecessaryOperators = TestBed.inject(EntityIfNecessaryOperators);
+      const store: MockStore<any> = TestBed.inject(MockStore);
       const action = new LoadIfNecessary(Test, 123);
       actions$ = hot('-a', { a: action });
 
@@ -84,8 +84,8 @@ describe('EntityIfNecessaryOperators', () => {
     });
 
     test('should filter out action if loadedAt and entities in state but expired by maxAge', () => {
-      const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
-      const store: MockStore<any> = TestBed.get(Store);
+      const operators: EntityIfNecessaryOperators = TestBed.inject(EntityIfNecessaryOperators);
+      const store: MockStore<any> = TestBed.inject(MockStore);
       const action = new LoadIfNecessary(Test, 123, 600);
       actions$ = hot('-a', { a: action });
 
@@ -104,7 +104,7 @@ describe('EntityIfNecessaryOperators', () => {
     });
 
     test('should filter out action if loadedAt and entities in state but expired by defaultMaxAge', () => {
-      const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
+      const operators: EntityIfNecessaryOperators = TestBed.inject(EntityIfNecessaryOperators);
       const action = new LoadIfNecessary(TestMaxAge, 123);
       actions$ = hot('-a', { a: action });
 
@@ -115,8 +115,8 @@ describe('EntityIfNecessaryOperators', () => {
     });
 
     test('should emit new Load action if all state present and maxAge not met', () => {
-      const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
-      const store: MockStore<any> = TestBed.get(Store);
+      const operators: EntityIfNecessaryOperators = TestBed.inject(EntityIfNecessaryOperators);
+      const store: MockStore<any> = TestBed.inject(MockStore);
       const action = new LoadIfNecessary(Test, 123, 600);
       actions$ = hot('-a', { a: action });
 
