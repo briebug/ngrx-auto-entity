@@ -17,4 +17,4 @@ export const appReducer: ActionReducerMap<AppState> = {
   customer: customerReducer
 };
 
-export const appMetaReducers: Array<MetaReducer<AppState>> = !environment.production ? [] : [];
+export const appMetaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

@@ -93,7 +93,7 @@ export class Selected<TModel> extends EntityAction<TModel> {
  * Indicates the selection of many entities in the store
  */
 export class SelectedMany<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>, correlationId?: string) {
+  constructor(type: new () => TModel, public entities: (TModel | EntityIdentity)[], correlationId?: string) {
     super(type, EntityActionTypes.SelectedMany, correlationId);
 
     if (!Array.isArray(entities)) {
@@ -106,7 +106,7 @@ export class SelectedMany<TModel> extends EntityAction<TModel> {
  * Indicates the selection of more entities in the store
  */
 export class SelectedMore<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>, correlationId?: string) {
+  constructor(type: new () => TModel, public entities: (TModel | EntityIdentity)[], correlationId?: string) {
     super(type, EntityActionTypes.SelectedMore, correlationId);
 
     if (!Array.isArray(entities)) {

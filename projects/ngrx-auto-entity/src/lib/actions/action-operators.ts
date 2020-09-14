@@ -49,7 +49,7 @@ export function ofEntityType<TModel, T extends EntityAction<TModel>>(
  */
 export function fromEntityActions<T extends EntityAction<any>>(
   actions$: Actions,
-  entity: Array<new () => any>,
+  entity: (new () => any)[],
   ...allowedActionTypes: EntityActionTypes[]
 ): Observable<Action> {
   const entityActions = entity.map(e => actions$.pipe(ofEntityType(e, ...allowedActionTypes)));
