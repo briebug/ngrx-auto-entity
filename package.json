@@ -17,7 +17,7 @@
     "build:app:watch": "ng build ngrx-auto-entity-app --prod --watch",
     "build:lib": "ng build ngrx-auto-entity --prod",
     "build:lib:watch": "ng build ngrx-auto-entity --prod --watch",
-    "build:ci": "ng build --prod --aot --no-progress",
+    "build:ci": "ng build ngrx-auto-entity --prod",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

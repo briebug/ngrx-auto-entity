@@ -8,7 +8,6 @@ jobs:
     steps:
       - checkout
       - run: NODE_ENV=ci npm install
-      - run: npm run build:ci
       - run: npm run lint
       - run:
           command: npm run test:ci

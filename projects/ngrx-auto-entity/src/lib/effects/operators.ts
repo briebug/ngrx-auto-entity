@@ -122,7 +122,7 @@ export class EntityOperators {
           return this.entityService.load(info, keys, criteria).pipe(
             map(
               (ref: IEntityRef<TModel>) =>
-                new LoadSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)
+                new LoadSuccess<TModel>(ref.info.modelType, ref.entity, keys, criteria, correlationId)
             ),
             catchError((error: IEntityError) =>
               handleError(
