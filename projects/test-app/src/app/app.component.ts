@@ -10,8 +10,10 @@ import { CustomerFacade } from './state/customer.facade';
 })
 export class AppComponent {
   constructor(public customers: CustomerFacade, public accounts: AccountFacade) {
-    accounts.loadAll();
-    customers.loadAll();
+    // accounts.loadAll();
+    customers.loadAllIfNecessary();
+    customers.loadAllIfNecessary();
+    setTimeout(() => customers.loadAllIfNecessary(), 3000);
     // setTimeout(() => customers.clear(), 3000);
     //
     // setTimeout(() => {

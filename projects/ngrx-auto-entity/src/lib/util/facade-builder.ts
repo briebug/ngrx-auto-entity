@@ -7,11 +7,11 @@ import { Delete, DeleteMany } from '../actions/delete-actions';
 import { DeleteByKey, DeleteManyByKeys } from '../actions/delete-by-key-actions';
 import { Deselect, DeselectAll, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
 import { Change, Edit, EditByKey, EndEdit } from '../actions/edit-actions';
-import { Load } from '../actions/load-actions';
-import { LoadAll } from '../actions/load-all-actions';
-import { LoadMany } from '../actions/load-many-actions';
-import { LoadPage } from '../actions/load-page-actions';
-import { LoadRange } from '../actions/load-range-actions';
+import { Load, LoadIfNecessary } from '../actions/load-actions';
+import { LoadAll, LoadAllIfNecessary } from '../actions/load-all-actions';
+import { LoadMany, LoadManyIfNecessary } from '../actions/load-many-actions';
+import { LoadPage, LoadPageIfNecessary } from '../actions/load-page-actions';
+import { LoadRange, LoadRangeIfNecessary } from '../actions/load-range-actions';
 import { Replace, ReplaceMany } from '../actions/replace-actions';
 import {
   Select,
@@ -225,8 +225,20 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       return action.correlationId;
     }
 
+    loadIfNecessary(keys?: any, criteria?: any, maxAge?: number, correlationId?: string): string {
+      const action = new LoadIfNecessary(this.modelType, keys, maxAge, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
     loadMany(criteria?: any, correlationId?: string): string {
       const action = new LoadMany(this.modelType, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
+    loadManyIfNecessary(criteria?: any, maxAge?: number, correlationId?: string): string {
+      const action = new LoadManyIfNecessary(this.modelType, maxAge, criteria, correlationId);
       this.store.dispatch(action);
       return action.correlationId;
     }
@@ -237,14 +249,32 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       return action.correlationId;
     }
 
+    loadAllIfNecessary(criteria?: any, maxAge?: number, correlationId?: string): string {
+      const action = new LoadAllIfNecessary(this.modelType, maxAge, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
     loadPage(page: Page, criteria?: any, correlationId?: string): string {
       const action = new LoadPage(this.modelType, page, criteria, correlationId);
       this.store.dispatch(action);
       return action.correlationId;
     }
 
+    loadPageIfNecessary(page: Page, criteria?: any, maxAge?: number, correlationId?: string): string {
+      const action = new LoadPageIfNecessary(this.modelType, page, maxAge, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
     loadRange(range: Range, criteria?: any, correlationId?: string): string {
       const action = new LoadRange(this.modelType, range, criteria, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
+    loadRangeIfNecessary(range: Range, criteria?: any, maxAge?: number, correlationId?: string): string {
+      const action = new LoadRangeIfNecessary(this.modelType, range, maxAge, criteria, correlationId);
       this.store.dispatch(action);
       return action.correlationId;
     }

@@ -33,11 +33,11 @@ import {
 } from './deselection-actions';
 import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EndEdit } from './edit-actions';
 import { IEntityAction } from './entity-action';
-import { Load, LoadFailure, LoadSuccess } from './load-actions';
-import { LoadAll, LoadAllFailure, LoadAllSuccess } from './load-all-actions';
-import { LoadMany, LoadManyFailure, LoadManySuccess } from './load-many-actions';
-import { LoadPage, LoadPageFailure, LoadPageSuccess } from './load-page-actions';
-import { LoadRange, LoadRangeFailure, LoadRangeSuccess } from './load-range-actions';
+import { Load, LoadFailure, LoadIfNecessary, LoadSuccess } from './load-actions';
+import { LoadAll, LoadAllFailure, LoadAllIfNecessary, LoadAllSuccess } from './load-all-actions';
+import { LoadMany, LoadManyFailure, LoadManyIfNecessary, LoadManySuccess } from './load-many-actions';
+import { LoadPage, LoadPageFailure, LoadPageIfNecessary, LoadPageSuccess } from './load-page-actions';
+import { LoadRange, LoadRangeFailure, LoadRangeIfNecessary, LoadRangeSuccess } from './load-range-actions';
 import {
   Replace,
   ReplaceFailure,
@@ -69,18 +69,23 @@ import {
  */
 export type EntityActions<TModel> =
   | Load<TModel>
+  | LoadIfNecessary<TModel>
   | LoadFailure<TModel>
   | LoadSuccess<TModel>
   | LoadMany<TModel>
+  | LoadManyIfNecessary<TModel>
   | LoadManyFailure<TModel>
   | LoadManySuccess<TModel>
   | LoadAll<TModel>
+  | LoadAllIfNecessary<TModel>
   | LoadAllFailure<TModel>
   | LoadAllSuccess<TModel>
   | LoadPage<TModel>
+  | LoadPageIfNecessary<TModel>
   | LoadPageFailure<TModel>
   | LoadPageSuccess<TModel>
   | LoadRange<TModel>
+  | LoadRangeIfNecessary<TModel>
   | LoadRangeFailure<TModel>
   | LoadRangeSuccess<TModel>
   | Create<TModel>
@@ -143,18 +148,23 @@ export type EntityActions<TModel> =
 
 export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof Load ||
+  action instanceof LoadIfNecessary ||
   action instanceof LoadSuccess ||
   action instanceof LoadFailure ||
   action instanceof LoadMany ||
+  action instanceof LoadManyIfNecessary ||
   action instanceof LoadManySuccess ||
   action instanceof LoadManyFailure ||
   action instanceof LoadAll ||
+  action instanceof LoadAllIfNecessary ||
   action instanceof LoadAllSuccess ||
   action instanceof LoadAllFailure ||
   action instanceof LoadPage ||
+  action instanceof LoadPageIfNecessary ||
   action instanceof LoadPageSuccess ||
   action instanceof LoadPageFailure ||
   action instanceof LoadRange ||
+  action instanceof LoadRangeIfNecessary ||
   action instanceof LoadRangeSuccess ||
   action instanceof LoadRangeFailure ||
   action instanceof Create ||

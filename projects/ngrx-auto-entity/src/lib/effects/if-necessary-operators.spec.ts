@@ -52,18 +52,24 @@ describe('EntityIfNecessaryOperators', () => {
   );
 
   describe('loadIfNecessary()', () => {
-    test('should filter out action if no loadedAt or entities in state', () => {
+    test('should dispatch action if no loadedAt or entities in state', () => {
       const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
       const action = new LoadIfNecessary(Test, 123);
       actions$ = hot('-a', { a: action });
 
       const operated = actions$.pipe(operators.loadIfNecessary());
 
-      const expected = hot('--');
+      const expected = hot('-b', {
+        b: expect.objectContaining({
+          actionType: '[Entity] (Generic) Load',
+          keys: 123,
+          type: '[Test] (Generic) Load'
+        })
+      });
       expect(operated).toBeObservable(expected);
     });
 
-    test('should filter out action if loadedAt set but no entities in state', () => {
+    test('should dispatch action if loadedAt set but no entities in state', () => {
       const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
       const store: MockStore<any> = TestBed.get(Store);
       const action = new LoadIfNecessary(Test, 123);
@@ -79,11 +85,17 @@ describe('EntityIfNecessaryOperators', () => {
 
       const operated = actions$.pipe(operators.loadIfNecessary());
 
-      const expected = hot('--');
+      const expected = hot('-b', {
+        b: expect.objectContaining({
+          actionType: '[Entity] (Generic) Load',
+          keys: 123,
+          type: '[Test] (Generic) Load'
+        })
+      });
       expect(operated).toBeObservable(expected);
     });
 
-    test('should filter out action if loadedAt and entities in state but expired by maxAge', () => {
+    test('should dispatch action if loadedAt and entities in state but expired by maxAge', () => {
       const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
       const store: MockStore<any> = TestBed.get(Store);
       const action = new LoadIfNecessary(Test, 123, 600);
@@ -99,22 +111,34 @@ describe('EntityIfNecessaryOperators', () => {
 
       const operated = actions$.pipe(operators.loadIfNecessary());
 
-      const expected = hot('--');
+      const expected = hot('-b', {
+        b: expect.objectContaining({
+          actionType: '[Entity] (Generic) Load',
+          keys: 123,
+          type: '[Test] (Generic) Load'
+        })
+      });
       expect(operated).toBeObservable(expected);
     });
 
-    test('should filter out action if loadedAt and entities in state but expired by defaultMaxAge', () => {
+    test('should dispatch action if loadedAt and entities in state but expired by defaultMaxAge', () => {
       const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
       const action = new LoadIfNecessary(TestMaxAge, 123);
       actions$ = hot('-a', { a: action });
 
       const operated = actions$.pipe(operators.loadIfNecessary());
 
-      const expected = hot('--');
+      const expected = hot('-b', {
+        b: expect.objectContaining({
+          actionType: '[Entity] (Generic) Load',
+          keys: 123,
+          type: '[TestMaxAge] (Generic) Load'
+        })
+      });
       expect(operated).toBeObservable(expected);
     });
 
-    test('should emit new Load action if all state present and maxAge not met', () => {
+    test('should filter out action if all state present and maxAge not met', () => {
       const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
       const store: MockStore<any> = TestBed.get(Store);
       const action = new LoadIfNecessary(Test, 123, 600);
@@ -130,13 +154,27 @@ describe('EntityIfNecessaryOperators', () => {
 
       const operated = actions$.pipe(operators.loadIfNecessary());
 
-      const expected = hot('-b', {
-        b: expect.objectContaining({
-          actionType: '[Entity] (Generic) Load',
-          keys: 123,
-          type: '[Test] (Generic) Load'
-        })
+      const expected = hot('--');
+      expect(operated).toBeObservable(expected);
+    });
+
+    test('should filter out action if isLoading set for entity', () => {
+      const operators: EntityIfNecessaryOperators = TestBed.get(EntityIfNecessaryOperators);
+      const store: MockStore<any> = TestBed.get(Store);
+      const action = new LoadIfNecessary(Test, 123, 600);
+      actions$ = hot('-a', { a: action });
+
+      store.setState({
+        test: {
+          entities: {},
+          ids: [],
+          isLoading: true
+        }
       });
+
+      const operated = actions$.pipe(operators.loadIfNecessary());
+
+      const expected = hot('--');
       expect(operated).toBeObservable(expected);
     });
   });

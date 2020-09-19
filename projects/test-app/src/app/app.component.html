@@ -1,3 +1,8 @@
+
+<ul>
+  <li *ngFor="let customer of customers.all$ | async">{{customer.name}}</li>
+</ul>
+
 <button (click)="customers.editByKey(1)">Edit</button>
 <button (click)="customers.endEdit()">End Edit</button>
 

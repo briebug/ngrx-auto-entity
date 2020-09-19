@@ -49,10 +49,15 @@ export interface IEntityFacade<TModel> {
   endEdit(correlationId?: string): string;
 
   load(keys?: any, criteria?: any, correlationId?: string): string;
-  loadMany(criteria: any, correlationId?: string): string;
+  loadIfNecessary(keys?: any, criteria?: any, maxAge?: number, correlationId?: string): string;
+  loadMany(criteria?: any, correlationId?: string): string;
+  loadManyIfNecessary(criteria?: any, maxAge?: number, correlationId?: string): string;
   loadAll(criteria?: any, correlationId?: string): string;
+  loadAllIfNecessary(criteria?: any, maxAge?: number, correlationId?: string): string;
   loadPage(page: Page, criteria?: any, correlationId?: string): string;
+  loadPageIfNecessary(page: Page, criteria?: any, maxAge?: number, correlationId?: string): string;
   loadRange(range: Range, criteria?: any, correlationId?: string): string;
+  loadRangeIfNecessary(range: Range, criteria?: any, maxAge?: number, correlationId?: string): string;
 
   create(entity: TModel, criteria?: any, correlationId?: string): string;
   createMany(entities: TModel[], criteria?: any, correlationId?: string): string;
