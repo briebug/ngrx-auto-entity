@@ -31,10 +31,10 @@ other NgRX application.
 
 What Auto-Entity does do is provide a set of ready-made, generic actions for handling all of
 the standard CRUD operations for entities, so you neither have to write nor generate any of that
-code yourself. Auto-Entity generates **pre-fabricated facades** around NgRx and the store/state, providing
-a cohesive, logical and simplified API into your state. Auto-Entity presents a flexible framework
-that you may use in its entirety for all of your entity needs, or use piecemeal as necessary in
-order to achieve your specific goals.
+code yourself. Auto-Entity generates **pre-fabricated facades** around NgRx and the store/state,
+providing a cohesive, logical and simplified API into your state. Auto-Entity presents a flexible
+framework that you may use in its entirety for all of your entity needs, or use piecemeal as 
+necessary in order to achieve your specific goals.
 
 While it is not required and Auto-Entity is an entirely independent library that solely depends
 on Angular and NgRX, Auto-Entity manages state in a manner that is compatible with @ngrx/entity
@@ -43,7 +43,7 @@ custom reducers.
 
 # Dependencies
 
-NgRx Auto-Entity currently depends on Angular 8, NgRx 8 and RxJs 6. 
+NgRx Auto-Entity currently depends on Angular 8+, NgRx 8+ and RxJs 6. 
 
 
 [![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E8.x-blue.svg)](https://github.com/angular/angular)
@@ -59,7 +59,7 @@ Install @briebug/ngrx-auto-entity from npm:
 
 If you have not already, install the required peer dependencies as well:
 
-`npm install @ngrx/{effects,store,store-devtools} ngrx-store-freeze` or `yarn add @ngrx/{effects,store,store-devtools} ngrx-store-freeze`
+`npm install @ngrx/{effects,store,store-devtools}` or `yarn add @ngrx/{effects,store,store-devtools}`
 
 ## Quick Start
 
@@ -91,6 +91,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [x] Enhanced IEntityInfo interface with naming utilities
 - [x] Filtering of entities effects handle
 - [x] Custom transformation of data to and from the server (i.e. ISO date to Date())
+- [x] Optional data loading it not already present, with max age
 - [ ] Normalization of API with NgRx 8 functional/factory function architecture
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
@@ -99,14 +100,14 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 # Contributors
 
 [![Follow-BB](https://img.shields.io/twitter/follow/briebugsoftware.svg?style=flat)](https://twitter.com/briebugsoftware)
-[![Follow-BB](https://img.shields.io/twitter/follow/JesseS_BrieBug.svg?style=flat)](https://twitter.com/JesseS_BrieBug)
 [![Follow-BB](https://img.shields.io/twitter/follow/jonristadev.svg?style=flat)](https://twitter.com/JonRistaDev)
 [![Follow-BB](https://img.shields.io/twitter/follow/kevinschuchard.svg?style=flat)](https://twitter.com/kevinschuchard)
 [![Follow-BB](https://img.shields.io/twitter/follow/anthonyjones519.svg?style=flat)](https://twitter.com/anthonyjones519)
 
 - [Jesse Sanders](https://github.com/jessesanders): Evil Mastermind!
 - [Jon Rista](https://github.com/jrista): Design, Architecture & Implementation
+- [Kevin Schuchard](https://github.com/schuchard): Design & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
-- [Alice Paquette](https://github.com/paquettealice): Alice Paquette 
-- [Patrice Paquette](https://github.com/patpaquette): Patrice Paquette
+- [Alice Paquette](https://github.com/paquettealice): Implementation 
+- [Patrice Paquette](https://github.com/patpaquette): Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
