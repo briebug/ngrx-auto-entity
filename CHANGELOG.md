@@ -1,3 +1,96 @@
+<a name="0.5.0"></a>
+
+# [0.5.0](https://github.com/briebug/ngrx-auto-entity/compare/0.4.2...0.5.0) Beta (2020-10-16)
+
+Auto-Entity version 0.5 introduces several major enhancements over version 0.4. These features include
+the addition of several new actions, including support for Upsert-style changes &amp; optional loading.
+Result actions (success/failure) have been enhanced with additional data, providing all original params
+and criteria passed to their corresponding initiating actions.
+
+Optional loading, or "if necessary" actions, have been added to support more efficient loading of entities
+by skipping the actual load, if the data has already been loaded and is in state. These actions require
+access to entity state, which necessitated the addition of a new configuration provider injection token,
+NGRX_AUTO_ENTITY_APP_STORE, that must be configured by the app to allow auto-entity to check state in
+*IfNecessary effects. Without proper configuration of the app store injection token, the *IfNecessary
+effects will fail to function properly. Graceful fallback to descriptive errors will occur if the 
+necessary config has not been performed by the developer. 
+
+A range of new utility functions have been added to support the developer's utilization of entity meta-
+data that is configured via the `@Entity` and `@Key` directives. This includes functions to retrieve the
+various entity names, comparers, transformers, and other metadata. 
+
+Several enhancements to the internal reducer have been made to improve reliability, enhance performance, and
+provide richer error messaging to the developer. When the reducer cannot perform its job due to mis-configuration
+of any automatic entity, additional errors will be reported to the browser console. These enhancements extend
+to additional error reporting by the `buildState` functions as well, in an attempt to identify mis-configuration
+as early as possible. Any misconfiguration that can be detected will now be reported to the browser console,
+along with instructions to fix (with example code) whenever possible. 
+
+Internal code cleanup and restructuring has been performed to achieve better organization and support long-term
+maintenance of the project as well. Internal re-org breaks previously very large code files into much smaller
+files, such as actions, operators, decorators and support code, utility functions, etc. 
+
+NOTE: Internal restructuring may potentially be **breaking** to consumers of NgRx Auto-Entity if they are by 
+chance importing anything from internal (non public-api) paths in the library!
+
+NgRx Auto-Entity has been verified to work with Angular 8 and 9. Angular 10 may work, depending on the use
+cases and exact configuration of Angular. Further testing will be performed for Angular 10 support, and 
+updates may be forthcoming to add deeper support for Angular 10.
+
+NgRx Auto-Entity is now properly licensed under the MIT Open Source License!
+
+### Features
+- **actions:** Add `Upsert`/`UpsertMany` actions to support upsert style changes (#109)
+- **service:** Add `upsert`/`upsertMany` handlers to entity service (#109)
+- **reducer:** Add support for upsert style changes (#109)
+- **facades:** Add support for `upsert`/`upsertMany` (#109)
+- **actions:** Add optional `key` params for load actions (#99)
+- **facades:** Add optional `key` params for load methods on facades (#99)
+- **facades:** Correlation Id passed to/created by facade methods now returned (#124)
+- **decorators:** Add utility functions for retrieving metadata configured by `@Entity` decorator (#107) 
+- **decorators:** Add utility functions for retrieving entity key directly from properly prototyped entity object (#140) 
+- **service:** Add utility functions for applying entity transformations by developer (#95)
+- **decorators:** Add support for named comparers for custom sorting (#138)
+- **selectors:** Add parameterized selectors for custom sorted entities (#138)
+- **facades:** Add parameterized selection for custom sorted entities (#138)
+- **util:** Add `makeEntity` utility function for converting POJOs to prototyped entity objects (#139)
+- **actions:** Add `EditByKey` action to support initiating edits by entity key, if entity is in state (#145)
+- **facades:** Add `editByKey` method to support initiating editd by entity key (#145)
+- **actions:** Add new actions to support loading (of all kinds), only "if necessary" (#144)
+- **decorators:** Add `defaultMaxAge` to `@Entity` decorator for "if necessary" support (#144)
+- **decorators:** Add `EntityAge` enum with set of predefined common ages for use with "if necessary" ages (#144)
+- **decorators:** Add support for "simplified" `@Entity` decorator usage of passing model name as string only (#141)
+
+### Enhancements
+- **service:** Will now pass `criteria` as optional parameter to all data transformers (#93)
+- **selectors:** Clarified return types on selectors where `null` was a possibility for stronger typing
+- **reducer:** Refactored reductions to use local (non-observable) mutations for significant performance improvements (#94)
+- **actions:** Success & Failure actions now include all relevant original params & criteria passed to initiation actions (#115, #129)
+
+### Internal
+- **all:** Clean up internal imports to avoid `../..` reference
+- **selectors:** Extracted all selector projection mappers to discrete functions
+- **actions:** Break out all actions into discrete files for each set of initiating/result actions
+- **actions:** Break out action support types and operators into their own files
+- **decorators:** Break out decorators into discrete files
+- **decorators:** Break out support types, utils, etc. for decorators into their own files
+
+### Bug Fix
+- **state:** Convert all timestamps in state to unix times (`number`) to resolve serialization issues (#98)
+- **reducer:** Resolved issues where reducer attempted to modify immutable entity and ids (#94)
+- **selectors:** Update selectors to convert unix times to `Date` to maintain public API (#98)
+- **selectors:** Resolved issues with "Invalid Date" errors from timestamp selectors (#112)
+- **selectors:** Refactored `all` and `sorted` selectors to be based off other selectors to avoid unnecessary re-emissions (#113)
+- **util:** Updated key retrieval functions to log console errors if keys cannot be retrieved due to config issues (#134)
+- **reducer:** Updated reducer to log console errors and NOT update state if keys may not be retrieved safely (#134)
+- **util:** Updated `buildState` functions to log console errors and throw if entities are mis-configured
+- **reducer:** Updated Edit reduction to preserve prior state if entity key matches existing edit (#143)
+- **actions:** Resolve issue where some result actions were not properly correlating to their initiating actions (#153)
+
+### Breaking Changes !!
+- **all:** Major internal code restructuring may break consumers that import from anywhere other than public api
+
+
 <a name="0.4.2"></a>
 
 # [0.4.2](https://github.com/briebug/ngrx-auto-entity/compare/0.4.1...0.4.2) Beta (2020-02-13)
@@ -21,7 +114,7 @@ Transforms must be configured for each entity. No global transformations are sup
 Resolves #59 
 
 ### Features
-- **actions**:** Includes `transform` in `IEntityInfo` attached to every auto-entity action
+- **actions:** Includes `transform` in `IEntityInfo` attached to every auto-entity action
 - **service:** Refactored to handle transformation of all data, to and from server, for all entities, if configured via `@Entity`
 - **service:** Extended `IAutoEntityService` interface to include support for `originalEntity` (pre-transformation)
 - **decorators:** Add new, optional `transform` property that accepts an array of `IEntityTransformation` implementations
