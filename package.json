@@ -1,6 +1,21 @@
 {
   "name": "ngrx-auto-entity-app",
   "version": "0.0.0",
+  "licnese": "MIT",
+  "author": {
+    "name": "BrieBug",
+    "url": "https://briebug.com"
+  },
+  "contributors": [
+    {
+      "name": "Jon Rista",
+      "url": "https://github.com/jrista"
+    },
+    {
+      "name": "Kevin Schuchard",
+      "url": "https://github.com/schuchard"
+    }
+  ],
   "scripts": {
     "ng": "ng",
     "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
