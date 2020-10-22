@@ -7,7 +7,7 @@ import { CreateManySuccess, CreateSuccess } from '../actions/create-actions';
 import { DeleteManySuccess, DeleteSuccess } from '../actions/delete-actions';
 import { DeleteByKeySuccess, DeleteManyByKeysSuccess } from '../actions/delete-by-key-actions';
 import { DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
-import { Change, Edit, EditByKey } from '../actions/edit-actions';
+import { Change, Edit, EditByKey, EditNew } from '../actions/edit-actions';
 import { IEntityAction } from '../actions/entity-action';
 import { EntityActions } from '../actions/entity-actions-union';
 import { LoadSuccess } from '../actions/load-actions';
@@ -891,6 +891,21 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         return next;
       }
 
+      case EntityActionTypes.EditNew: {
+        const editEntity = (action as EditNew<any>).entity || {};
+        if (!editEntity) {
+          return state;
+        }
+
+        const newState = {
+          ...entityState,
+          editedEntity: { ...editEntity },
+          isDirty: false
+        };
+
+        const next = setNewState(featureName, stateName, state, newState);
+        return next;
+      }
       case EntityActionTypes.Edit: {
         const editEntity = (action as Edit<any>).entity;
         if (!editEntity) {

@@ -6,7 +6,7 @@ import { Create, CreateMany } from '../actions/create-actions';
 import { Delete, DeleteMany } from '../actions/delete-actions';
 import { DeleteByKey, DeleteManyByKeys } from '../actions/delete-by-key-actions';
 import { Deselect, DeselectAll, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
-import { Change, Edit, EditByKey, EndEdit } from '../actions/edit-actions';
+import { Change, Edit, EditByKey, EditNew, EndEdit } from '../actions/edit-actions';
 import { Load, LoadIfNecessary } from '../actions/load-actions';
 import { LoadAll, LoadAllIfNecessary } from '../actions/load-all-actions';
 import { LoadMany, LoadManyIfNecessary } from '../actions/load-many-actions';
@@ -156,6 +156,12 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
 
     edit(entity: Partial<TModel>, correlationId?: string): string {
       const action = new Edit(this.modelType, entity, correlationId);
+      this.store.dispatch(action);
+      return action.correlationId;
+    }
+
+    editNew(entity?: Partial<TModel>, correlationId?: string): string {
+      const action = new EditNew(this.modelType, entity, correlationId);
       this.store.dispatch(action);
       return action.correlationId;
     }

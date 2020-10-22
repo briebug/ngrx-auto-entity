@@ -99,7 +99,17 @@ export {
   SelectMoreByKeys
 } from './lib/actions/selection-actions';
 export { Deselected, DeselectAll, DeselectManyByKeys, DeselectMany, Deselect } from './lib/actions/deselection-actions';
-export { EditEnded, EndEdit, Changed, Change, EditedByKey, Edited, EditByKey, Edit } from './lib/actions/edit-actions';
+export {
+  EditEnded,
+  EndEdit,
+  Changed,
+  Change,
+  EditedByKey,
+  Edited,
+  EditByKey,
+  Edit,
+  EditNew
+} from './lib/actions/edit-actions';
 export { Clear } from './lib/actions/actions';
 
 /*

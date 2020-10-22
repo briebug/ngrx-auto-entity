@@ -35,7 +35,17 @@ import {
   DeselectMany,
   DeselectManyByKeys
 } from '../actions/deselection-actions';
-import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EndEdit } from '../actions/edit-actions';
+import {
+  Change,
+  Changed,
+  Edit,
+  EditByKey,
+  Edited,
+  EditedByKey,
+  EditEnded,
+  EditNew,
+  EndEdit
+} from '../actions/edit-actions';
 import { Load, LoadFailure, LoadSuccess } from '../actions/load-actions';
 import { LoadAll, LoadAllFailure, LoadAllSuccess } from '../actions/load-all-actions';
 import { LoadMany, LoadManyFailure, LoadManySuccess } from '../actions/load-many-actions';
@@ -551,6 +561,14 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         map(({ info, correlationId }) => new DeselectedMany<TModel>(info.modelType, null, correlationId))
+      );
+  }
+
+  editNew<TModel>() {
+    return (source: Observable<EditNew<TModel>>) =>
+      source.pipe(
+        shouldApplyEffect(),
+        map(({ info, entity, correlationId }) => new Edited<TModel>(info.modelType, entity, correlationId))
       );
   }
 

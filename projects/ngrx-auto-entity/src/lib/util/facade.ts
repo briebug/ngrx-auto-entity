@@ -43,6 +43,7 @@ export interface IEntityFacade<TModel> {
   deselectManyByKeys(keys: EntityIdentity[], correlationId?: string): string;
   deselectAll(correlationId?: string): string;
 
+  editNew(entity?: Partial<TModel>, correlationId?: string): string;
   edit(entity: Partial<TModel>, correlationId?: string): string;
   editByKey(key: EntityIdentity, correlationId?: string): string;
   change(entity: Partial<TModel>, correlationId?: string): string;

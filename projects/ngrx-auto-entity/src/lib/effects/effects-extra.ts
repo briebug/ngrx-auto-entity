@@ -68,6 +68,12 @@ export class ExtraEffects {
   );
 
   @Effect()
+  editNew$ = this.actions$.pipe(
+    ofEntityAction(EntityActionTypes.EditNew),
+    this.ops.editNew()
+  );
+
+  @Effect()
   edit$ = this.actions$.pipe(
     ofEntityAction(EntityActionTypes.Edit),
     this.ops.edit()

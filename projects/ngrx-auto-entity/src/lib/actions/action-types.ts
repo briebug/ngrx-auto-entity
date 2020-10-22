@@ -93,6 +93,7 @@ export enum EntityActionTypes {
   DeselectAll = '[Entity] (Generic) Deselect of All',
   DeselectedMany = '[Entity] (Generic) Deselection of Many',
 
+  EditNew = '[Entity] (Generic) Edit New',
   Edit = '[Entity] (Generic) Edit',
   EditByKey = '[Entity] (Generic) Edit by Key',
   Edited = '[Entity] (Generic) Edited',

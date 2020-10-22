@@ -3,6 +3,15 @@ import { EntityActionTypes } from './action-types';
 import { EntityAction } from './entity-action';
 
 /**
+ * Tracks a new entity as being edited in the store
+ */
+export class EditNew<TModel> extends EntityAction<TModel> {
+  constructor(type: new () => TModel, public entity?: Partial<TModel>, correlationId?: string) {
+    super(type, EntityActionTypes.EditNew, correlationId);
+  }
+}
+
+/**
  * Tracks an entity as being edited in the store
  */
 export class Edit<TModel> extends EntityAction<TModel> {
