@@ -60,6 +60,12 @@ describe('Utilities', () => {
             test: {
               entities: {},
               ids: []
+            },
+            feature: {
+              test: {
+                entities: {},
+                ids: []
+              }
             }
           }
         })

@@ -41,100 +41,59 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     constructor(modelType: new () => TModel, store: Store<any>) {
       this.modelType = modelType;
       this.store = store;
+
+      this.all$ = this.store.select(selectors.selectAll);
+      this.sorted$ = this.store.select(selectors.selectAllSorted);
+      this.entities$ = this.store.select(selectors.selectEntities);
+      this.ids$ = this.store.select(selectors.selectIds);
+      this.total$ = this.store.select(selectors.selectTotal);
+      this.current$ = this.store.select(selectors.selectCurrentEntity);
+      this.currentKey$ = this.store.select(selectors.selectCurrentEntityKey);
+      this.currentSet$ = this.store.select(selectors.selectCurrentEntities);
+      this.currentSetKeys$ = this.store.select(selectors.selectCurrentEntitiesKeys);
+      this.edited$ = this.store.select(selectors.selectEditedEntity);
+      this.isDirty$ = this.store.select(selectors.selectIsDirty);
+      this.currentPage$ = this.store.select(selectors.selectCurrentPage);
+      this.currentRange$ = this.store.select(selectors.selectCurrentRange);
+      this.totalPageable$ = this.store.select(selectors.selectTotalPageable);
+      this.isLoading$ = this.store.select(selectors.selectIsLoading);
+      this.isSaving$ = this.store.select(selectors.selectIsSaving);
+      this.isDeleting$ = this.store.select(selectors.selectIsDeleting);
+      this.loadedAt$ = this.store.select(selectors.selectLoadedAt);
+      this.savedAt$ = this.store.select(selectors.selectSavedAt);
+      this.createdAt$ = this.store.select(selectors.selectCreatedAt);
+      this.deletedAt$ = this.store.select(selectors.selectDeletedAt);
     }
 
     // region Selections
-    get all$(): Observable<TModel[]> {
-      return this.store.select(selectors.selectAll);
-    }
-
-    get sorted$(): Observable<TModel[]> {
-      return this.store.select(selectors.selectAllSorted);
-    }
-
-    get entities$(): Observable<IEntityDictionary<TModel>> {
-      return this.store.select(selectors.selectEntities);
-    }
-
-    get ids$(): Observable<EntityIdentity[]> {
-      return this.store.select(selectors.selectIds);
-    }
-
-    get total$(): Observable<number> {
-      return this.store.select(selectors.selectTotal);
-    }
-
-    get current$(): Observable<TModel> {
-      return this.store.select(selectors.selectCurrentEntity);
-    }
-
-    get currentKey$(): Observable<EntityIdentity> {
-      return this.store.select(selectors.selectCurrentEntityKey);
-    }
-
-    get currentSet$(): Observable<TModel[]> {
-      return this.store.select(selectors.selectCurrentEntities);
-    }
-
-    get currentSetKeys$(): Observable<EntityIdentity[]> {
-      return this.store.select(selectors.selectCurrentEntitiesKeys);
-    }
-
-    get edited$(): Observable<Partial<TModel>> {
-      return this.store.select(selectors.selectEditedEntity);
-    }
-
-    get isDirty$(): Observable<boolean> {
-      return this.store.select(selectors.selectIsDirty);
-    }
-
-    get currentPage$(): Observable<Page> {
-      return this.store.select(selectors.selectCurrentPage);
-    }
-
-    get currentRange$(): Observable<Range> {
-      return this.store.select(selectors.selectCurrentRange);
-    }
-
-    get totalPageable$(): Observable<number> {
-      return this.store.select(selectors.selectTotalPageable);
-    }
-
-    get isLoading$(): Observable<boolean> {
-      return this.store.select(selectors.selectIsLoading);
-    }
-
-    get isSaving$(): Observable<boolean> {
-      return this.store.select(selectors.selectIsSaving);
-    }
-
-    get isDeleting$(): Observable<boolean> {
-      return this.store.select(selectors.selectIsDeleting);
-    }
-
-    get loadedAt$(): Observable<Date> {
-      return this.store.select(selectors.selectLoadedAt);
-    }
-
-    get savedAt$(): Observable<Date> {
-      return this.store.select(selectors.selectSavedAt);
-    }
-
-    get createdAt$(): Observable<Date> {
-      return this.store.select(selectors.selectCreatedAt);
-    }
-
-    get deletedAt$(): Observable<Date> {
-      return this.store.select(selectors.selectDeletedAt);
-    }
+    all$: Observable<TModel[]>;
+    sorted$: Observable<TModel[]>;
+    entities$: Observable<IEntityDictionary<TModel>>;
+    ids$: Observable<EntityIdentity[]>;
+    total$: Observable<number>;
+    current$: Observable<TModel>;
+    currentKey$: Observable<EntityIdentity>;
+    currentSet$: Observable<TModel[]>;
+    currentSetKeys$: Observable<EntityIdentity[]>;
+    edited$: Observable<Partial<TModel>>;
+    isDirty$: Observable<boolean>;
+    currentPage$: Observable<Page>;
+    currentRange$: Observable<Range>;
+    totalPageable$: Observable<number>;
+    isLoading$: Observable<boolean>;
+    isSaving$: Observable<boolean>;
+    isDeleting$: Observable<boolean>;
+    loadedAt$: Observable<Date>;
+    savedAt$: Observable<Date>;
+    createdAt$: Observable<Date>;
+    deletedAt$: Observable<Date>;
 
     customSorted$(name: string): Observable<TModel[]> {
       return this.store.select(selectors.selectCustomSorted, { name });
     }
-
     // endregion
 
-    // region Dispatches
+    // region Activities
     select(entity: TModel, correlationId?: string): string {
       const action = new Select(this.modelType, entity, correlationId);
       this.store.dispatch(action);
@@ -356,7 +315,6 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.store.dispatch(action);
       return action.correlationId;
     }
-
     // endregion
   };
 
