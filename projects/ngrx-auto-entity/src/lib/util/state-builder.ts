@@ -3,6 +3,7 @@ import { IEntityOptions } from '../decorators/entity-options';
 import { ENTITY_OPTS_PROP, NAE_KEY_NAMES, NAE_KEYS } from '../decorators/entity-tokens';
 import { entityStateName } from '../decorators/entity-util';
 import { EntityIdentity } from '../types/entity-identity';
+import { buildActionMap } from './action-map-builder';
 import { IEntityState } from './entity-state';
 import { buildFacade } from './facade-builder';
 import { makeEntity } from './make-entity';
@@ -106,6 +107,7 @@ export interface AppState {
     ...extraInitialState
   } as TState & TExtra;
 
+  const actions = buildActionMap(type);
   const selectors = buildSelectorMap<TParentState, TState, TModel, TExtra>(getState);
   const facade = buildFacade<TModel, TParentState>(selectors);
   const reducer = (state = initialState): IEntityState<TModel> & TExtra => {
@@ -116,6 +118,7 @@ export interface AppState {
 
   return {
     initialState,
+    actions,
     selectors,
     reducer,
     facade,
@@ -179,6 +182,7 @@ export interface FeatureState {
     ...extraInitialState
   } as TState & TExtra;
 
+  const actions = buildActionMap(type);
   const selectors = buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState);
   const facade = buildFacade<TModel, TParentState>(selectors);
   const reducer = (state = initialState): IEntityState<TModel> & TExtra => {
@@ -189,6 +193,7 @@ export interface FeatureState {
 
   return {
     initialState,
+    actions,
     selectors,
     reducer,
     facade,
