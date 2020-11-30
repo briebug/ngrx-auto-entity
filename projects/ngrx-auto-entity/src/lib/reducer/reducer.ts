@@ -11,22 +11,19 @@ import { Change, Edit, EditByKey, EditNew } from '../actions/edit-actions';
 import { IEntityAction } from '../actions/entity-action';
 import { EntityActions } from '../actions/entity-actions-union';
 import { LoadSuccess } from '../actions/load-actions';
+import { LoadAllSuccess } from '../actions/load-all-actions';
+import { LoadManySuccess } from '../actions/load-many-actions';
 import { LoadPageSuccess } from '../actions/load-page-actions';
 import { LoadRangeSuccess } from '../actions/load-range-actions';
 import { ReplaceManySuccess, ReplaceSuccess } from '../actions/replace-actions';
-import {
-  Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
-  SelectMore,
-  SelectMoreByKeys
-} from '../actions/selection-actions';
+import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMoreByKeys } from '../actions/selection-actions';
 import { UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
 import { UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
 import { getKey } from '../decorators/key-util';
 import { EntityIdentity } from '../types/entity-identity';
 import { FEATURE_AFFINITY } from '../util/util-tokens';
+
+// tslint:disable:no-redundant-jsdoc
 
 export function stateNameFromAction(action: IEntityAction): string {
   return camelCase(action.info.modelName);
@@ -49,6 +46,7 @@ export const safeGetKey = <TModel>(action: IEntityAction, entity: TModel): Entit
     iif(
       isUndefined,
       throwError(
+        // tslint:disable-next-line:max-line-length
         `[NGRX-AE] ! Entity key for \'${action.info.modelName}\' could not be found on this entity instance! Make sure your entity is properly decorated with the necessary key metadata. State will NOT be updated due to misconfiguration of your entity.`
       ),
       key => key
@@ -59,14 +57,9 @@ export const cloneEntities = (original: any | null) => (!!original ? { ...origin
 
 export const cloneIds = (ids: EntityIdentity[] | null) => (!!ids ? [...ids] : []);
 
-export const mergeSingle = (currentEntities, entityKey, newEntity) => (
-  (currentEntities[entityKey] = newEntity), currentEntities
-);
+export const mergeSingle = (currentEntities, entityKey, newEntity) => ((currentEntities[entityKey] = newEntity), currentEntities);
 export const mergeMany = (currentEntities, newEntities, action) =>
-  newEntities.reduce(
-    (entities, entity) => ((entities[safeGetKey(action, entity)] = entity), entities),
-    currentEntities
-  );
+  newEntities.reduce((entities, entity) => ((entities[safeGetKey(action, entity)] = entity), entities), currentEntities);
 
 export const deleteSingle = (currentEntities, entityKey) => (delete currentEntities[entityKey], currentEntities);
 export const deleteMany = (currentEntities, entityKeys) => (
@@ -87,20 +80,20 @@ export const has = (array, value) => array.indexOf(value) > -1;
 export const pushIfMissing = (currentEntities, currentIds, entityKey) =>
   entityKey in currentEntities ? noop() : currentIds.push(entityKey);
 
-export const pushUnique = (currentEntities, currentIds, entityKey) => (
-  pushIfMissing(currentEntities, currentIds, entityKey), currentIds
-);
+export const pushUnique = (currentEntities, currentIds, entityKey) => (pushIfMissing(currentEntities, currentIds, entityKey), currentIds);
 export const pushManyUnique = (currentEntities, currentIds, entityKeys) => (
   entityKeys.forEach(entityKey => pushIfMissing(currentEntities, currentIds, entityKey)), currentIds
 );
 
 export const warnMissingPageInfo = (action: IEntityAction) =>
   console.log(
+    // tslint:disable-next-line:max-line-length
     `[NGRX-AE] Page information for '${action.info.modelName}' was not provided! Page info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );
 
 export const warnMissingRangeInfo = (action: IEntityAction) =>
   console.log(
+    // tslint:disable-next-line:max-line-length
     `[NGRX-AE] Range information for '${action.info.modelName}' was not provided! Range info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );
 
@@ -243,7 +236,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         return next;
       }
       case EntityActionTypes.LoadManySuccess: {
-        const loadManyEntities = action['entities'];
+        const loadManyEntities = (action as LoadManySuccess<any>).entities;
         const loadedIds = loadManyEntities.map(entity => safeGetKey(action, entity));
         const entities = cloneEntities(entityState.entities);
         const ids = cloneIds(entityState.ids);
@@ -279,7 +272,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         return next;
       }
       case EntityActionTypes.LoadAllSuccess: {
-        const loadAllEntities = action['entities'];
+        const loadAllEntities = (action as LoadAllSuccess<any>).entities;
         const loadedIds = loadAllEntities.map(entity => safeGetKey(action, entity));
 
         const newState = {
@@ -315,7 +308,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         return next;
       }
       case EntityActionTypes.LoadPageSuccess: {
-        const loadPageEntities = action['entities'];
+        const loadPageEntities = (action as LoadPageSuccess<any>).entities;
         const loadedIds = loadPageEntities.map(entity => safeGetKey(action, entity));
         const pageInfo = (action as LoadPageSuccess<any>).pageInfo;
         if (!pageInfo) {
@@ -355,7 +348,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         return next;
       }
       case EntityActionTypes.LoadRangeSuccess: {
-        const loadRangeEntities = action['entities'];
+        const loadRangeEntities = (action as LoadRangeSuccess<any>).entities;
         const entities = cloneEntities(entityState.entities);
         const ids = cloneIds(entityState.ids);
         const rangeInfo = (action as LoadRangeSuccess<any>).rangeInfo;
@@ -830,10 +823,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         const selectMoreByKeysKeys = (action as SelectMoreByKeys<any>).entitiesKeys || [];
         const selectMoreByKeysGuaranteedKeys = Array.isArray(selectMoreByKeysKeys) ? selectMoreByKeysKeys : [];
         const selectMoreByKeysCurrentKeys = entityState.currentEntitiesKeys || [];
-        const selectMoreByKeysCombinedKeys = new Set([
-          ...selectMoreByKeysCurrentKeys,
-          ...selectMoreByKeysGuaranteedKeys
-        ]);
+        const selectMoreByKeysCombinedKeys = new Set([...selectMoreByKeysCurrentKeys, ...selectMoreByKeysGuaranteedKeys]);
         const newState = {
           ...entityState,
           currentEntitiesKeys: [...selectMoreByKeysCombinedKeys]
@@ -873,9 +863,7 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
 
         const newState = {
           ...entityState,
-          currentEntitiesKeys: deselectManyByKeysCurrentKeys.filter(
-            key => !deselectManyByKeysGuaranteedKeys.some(k => k === key)
-          )
+          currentEntitiesKeys: deselectManyByKeysCurrentKeys.filter(key => !deselectManyByKeysGuaranteedKeys.some(k => k === key))
         };
 
         const next = setNewState(featureName, stateName, state, newState);

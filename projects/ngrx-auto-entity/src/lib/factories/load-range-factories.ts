@@ -4,7 +4,7 @@ import { TNew } from '../actions/model-constructor';
 import { setActionType } from '../actions/util';
 import { Range } from '../models';
 import { cacheOnType, defineTypedFactoryFunction, StandardProps } from './util';
-import { LoadRange, LoadRangeFailure, LoadRangeIfNecessary, LoadRangeSuccess } from '../actions/load-Range-actions';
+import { LoadRange, LoadRangeFailure, LoadRangeIfNecessary, LoadRangeSuccess } from '../actions/load-range-actions';
 
 export interface LoadRangeProps extends  StandardProps {
   range: Range;

@@ -39,6 +39,7 @@ const isSubsequentRange = (a: any, b: any) =>
 
 const warnIfMissingStore = () =>
   console.warn(
+    // tslint:disable-next-line:max-line-length
     '[NGRX-AE] Warning! The NGRX_AUTO_ENTITY_APP_STORE provider has not been configured! *IfNecessary actions require accessing your store in order to function properly!'
   );
 

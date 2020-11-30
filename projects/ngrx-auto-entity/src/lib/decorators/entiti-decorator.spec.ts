@@ -29,6 +29,7 @@ describe('Decorator: @Entity', () => {
     expect(Model[ENTITY_OPTS_PROP].modelName).toBe('Model');
   });
 
+  // tslint:disable-next-line
   test('should add required modelName and additional options properties to entity options from string name and additional options object', () => {
     @Entity('Model', {
       pluralName: 'Models',

@@ -30,6 +30,7 @@ describe('buildState()', () => {
     expect(() => buildState(NoModelName)).toThrow(NO_MODEL_NAME_MSG);
   });
 
+  // tslint:disable-next-line:max-line-length
   it('should return an object with initial state, selectors, the root entity state, a makeEntity function, a reducer and a base facade class', () => {
     const state = buildState(Test);
 
@@ -85,7 +86,8 @@ describe('buildState()', () => {
     it('should throw exception if parent state does not have a property matching the name of camelCase(@Entity.modelName)', () => {
       const state = buildState(Test);
       expect(() => state.entityState({})).toThrow(
-        "State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly 'test'."
+        // tslint:disable-next-line:max-line-length
+        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.'
       );
     });
   });

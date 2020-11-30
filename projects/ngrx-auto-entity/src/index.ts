@@ -122,6 +122,7 @@ export { Key } from './lib/decorators/key-decorator';
 /*
  * Entity Metadata and Management
  */
+export { NAE_TYPE_ACTION_CACHE } from './lib/factories/util';
 export { ENTITY_OPTS_PROP } from './lib/decorators/entity-tokens';
 export { IEffectExcept, IEntityOptions, IEntityTransformer, EntityAge } from './lib/decorators/entity-options';
 export { IEffectExclusions } from './lib/decorators/effect-exclusions';
