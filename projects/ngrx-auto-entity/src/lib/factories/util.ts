@@ -13,7 +13,7 @@ export const cacheOnType = <TModel, TAction extends EntityAction<TModel>, T exte
   actionName: string,
   creatorCallback: () => ActionCreator<T, (props: object) => TAction>
 ) => (
-  (Type[NAE_TYPE_ACTION_CACHE] = Type[NAE_TYPE_ACTION_CACHE] || {}),
+  (Type[NAE_TYPE_ACTION_CACHE] = Type[NAE_TYPE_ACTION_CACHE] || Object.create(null)),
   (Type[NAE_TYPE_ACTION_CACHE][actionName] = Type[NAE_TYPE_ACTION_CACHE][actionName] || creatorCallback()),
   Type[NAE_TYPE_ACTION_CACHE][actionName]
 );

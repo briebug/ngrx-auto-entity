@@ -55,34 +55,3 @@ export const createLoadFailureAction = <TModel, T extends string, P extends Load
     ({ error, keys, criteria, correlationId }: LoadFailureProps<TModel>) =>
       new LoadFailure(Type, error, keys, criteria, correlationId)
   ));
-
-// @Entity('Customer')
-// export class Customer {
-//   @Key id: number;
-// }
-//
-// const loadCustomer = createLoadAction(Customer);
-// const loadCustomerSuccess = createLoadSuccessAction(Customer);
-//
-// const action = loadCustomer({ keys: 1, criteria: {} });
-// const action2 = loadCustomerSuccess({ entity: { id: 1 } });
-//
-// const reduce = createReducer(
-//   {},
-//   on(loadCustomer, (state, { keys }) => ({ ...state })),
-//   on(loadCustomerSuccess, (state, { entity }) => ({ ...state }))
-// );
-//
-// class Effects {
-//   constructor(private actions$: Actions) {
-//   }
-//
-//   test$ = createEffect(
-//     () =>
-//       this.actions$.pipe(
-//         ofType(loadCustomerSuccess),
-//         map(({ entity }) => entity.id)
-//       ),
-//     { dispatch: false }
-//   );
-// }
