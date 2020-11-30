@@ -1,5 +1,21 @@
 import { TNew } from '../actions/model-constructor';
 import {
+  createCreateAction,
+  createCreateFailureAction,
+  createCreateManyAction,
+  createCreateManyFailureAction,
+  createCreateManySuccessAction,
+  createCreateSuccessAction
+} from '../factories/create-factories';
+import {
+  createDeleteAction,
+  createDeleteFailureAction,
+  createDeleteManyAction,
+  createDeleteManyFailureAction,
+  createDeleteManySuccessAction,
+  createDeleteSuccessAction
+} from '../factories/delete-factories';
+import {
   createLoadAllAction,
   createLoadAllFailureAction,
   createLoadAllIfNecessaryAction,
@@ -29,6 +45,30 @@ import {
   createLoadRangeIfNecessaryAction,
   createLoadRangeSuccessAction
 } from '../factories/load-range-factories';
+import {
+  createReplaceAction,
+  createReplaceFailureAction,
+  createReplaceManyAction,
+  createReplaceManyFailureAction,
+  createReplaceManySuccessAction,
+  createReplaceSuccessAction
+} from '../factories/replace-factories';
+import {
+  createUpdateAction,
+  createUpdateFailureAction,
+  createUpdateManyAction,
+  createUpdateManyFailureAction,
+  createUpdateManySuccessAction,
+  createUpdateSuccessAction
+} from '../factories/update-factories';
+import {
+  createUpsertAction,
+  createUpsertFailureAction,
+  createUpsertManyAction,
+  createUpsertManyFailureAction,
+  createUpsertManySuccessAction,
+  createUpsertSuccessAction
+} from '../factories/upsert-factories';
 import { IActionMap } from './action-map';
 
 export const buildActionMap = <TModel>(Type: TNew<TModel>): IActionMap<TModel> => {
@@ -111,6 +151,126 @@ export const buildActionMap = <TModel>(Type: TNew<TModel>): IActionMap<TModel> =
 
     get loadRangeFailure() {
       return createLoadRangeFailureAction(Type);
+    }
+
+    get create() {
+      return createCreateAction(Type);
+    }
+
+    get createSuccess() {
+      return createCreateSuccessAction(Type);
+    }
+
+    get createFailure() {
+      return createCreateFailureAction(Type);
+    }
+
+    get createMany() {
+      return createCreateManyAction(Type);
+    }
+
+    get createManySuccess() {
+      return createCreateManySuccessAction(Type);
+    }
+
+    get createManyFailure() {
+      return createCreateManyFailureAction(Type);
+    }
+
+    get update() {
+      return createUpdateAction(Type);
+    }
+
+    get updateSuccess() {
+      return createUpdateSuccessAction(Type);
+    }
+
+    get updateFailure() {
+      return createUpdateFailureAction(Type);
+    }
+
+    get updateMany() {
+      return createUpdateManyAction(Type);
+    }
+
+    get updateManySuccess() {
+      return createUpdateManySuccessAction(Type);
+    }
+
+    get updateManyFailure() {
+      return createUpdateManyFailureAction(Type);
+    }
+
+    get upsert() {
+      return createUpsertAction(Type);
+    }
+
+    get upsertSuccess() {
+      return createUpsertSuccessAction(Type);
+    }
+
+    get upsertFailure() {
+      return createUpsertFailureAction(Type);
+    }
+
+    get upsertMany() {
+      return createUpsertManyAction(Type);
+    }
+
+    get upsertManySuccess() {
+      return createUpsertManySuccessAction(Type);
+    }
+
+    get upsertManyFailure() {
+      return createUpsertManyFailureAction(Type);
+    }
+
+    get replace() {
+      return createReplaceAction(Type);
+    }
+
+    get replaceSuccess() {
+      return createReplaceSuccessAction(Type);
+    }
+
+    get replaceFailure() {
+      return createReplaceFailureAction(Type);
+    }
+
+    get replaceMany() {
+      return createReplaceManyAction(Type);
+    }
+
+    get replaceManySuccess() {
+      return createReplaceManySuccessAction(Type);
+    }
+
+    get replaceManyFailure() {
+      return createReplaceManyFailureAction(Type);
+    }
+
+    get delete() {
+      return createDeleteAction(Type);
+    }
+
+    get deleteSuccess() {
+      return createDeleteSuccessAction(Type);
+    }
+
+    get deleteFailure() {
+      return createDeleteFailureAction(Type);
+    }
+
+    get deleteMany() {
+      return createDeleteManyAction(Type);
+    }
+
+    get deleteManySuccess() {
+      return createDeleteManySuccessAction(Type);
+    }
+
+    get deleteManyFailure() {
+      return createDeleteManyFailureAction(Type);
     }
   }
 
