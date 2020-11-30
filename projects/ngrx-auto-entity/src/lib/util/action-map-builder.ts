@@ -16,6 +16,26 @@ import {
   createDeleteSuccessAction
 } from '../factories/delete-factories';
 import {
+  createDeselectAction,
+  createDeselectAllAction,
+  createDeselectedAction,
+  createDeselectedManyAction,
+  createDeselectManyAction,
+  createDeselectManyByKeysAction
+} from '../factories/deselection-factories';
+import {
+  createChangeAction,
+  createChangedAction,
+  createEditAction,
+  createEditByKeyAction,
+  createEditedAction,
+  createEditedByKeyAction,
+  createEditEndedAction,
+  createEditNewAction,
+  createEndEditAction
+} from '../factories/edit-factories';
+import { createClearAction } from '../factories/factories';
+import {
   createLoadAllAction,
   createLoadAllFailureAction,
   createLoadAllIfNecessaryAction,
@@ -53,6 +73,17 @@ import {
   createReplaceManySuccessAction,
   createReplaceSuccessAction
 } from '../factories/replace-factories';
+import {
+  createSelectAction,
+  createSelectByKeyAction,
+  createSelectedAction,
+  createSelectedManyAction,
+  createSelectedMoreAction,
+  createSelectManyAction,
+  createSelectManyByKeysAction,
+  createSelectMoreAction,
+  createSelectMoreByKeysAction
+} from '../factories/selection-factories';
 import {
   createUpdateAction,
   createUpdateFailureAction,
@@ -249,6 +280,10 @@ export const buildActionMap = <TModel>(Type: TNew<TModel>): IActionMap<TModel> =
       return createReplaceManyFailureAction(Type);
     }
 
+    get clear() {
+      return createClearAction(Type);
+    }
+
     get delete() {
       return createDeleteAction(Type);
     }
@@ -271,6 +306,102 @@ export const buildActionMap = <TModel>(Type: TNew<TModel>): IActionMap<TModel> =
 
     get deleteManyFailure() {
       return createDeleteManyFailureAction(Type);
+    }
+
+    get deselect() {
+      return createDeselectAction(Type);
+    }
+
+    get deselectMany() {
+      return createDeselectManyAction(Type);
+    }
+
+    get deselectManyByKeys() {
+      return createDeselectManyByKeysAction(Type);
+    }
+
+    get deselectAll() {
+      return createDeselectAllAction(Type);
+    }
+
+    get deselected() {
+      return createDeselectedAction(Type);
+    }
+
+    get deselectedMany() {
+      return createDeselectedManyAction(Type);
+    }
+
+    get select() {
+      return createSelectAction(Type);
+    }
+
+    get selectByKey() {
+      return createSelectByKeyAction(Type);
+    }
+
+    get selectMany() {
+      return createSelectManyAction(Type);
+    }
+
+    get selectMore() {
+      return createSelectMoreAction(Type);
+    }
+
+    get selectManyByKeys() {
+      return createSelectManyByKeysAction(Type);
+    }
+
+    get selectMoreByKeys() {
+      return createSelectMoreByKeysAction(Type);
+    }
+
+    get selected() {
+      return createSelectedAction(Type);
+    }
+
+    get selectedMany() {
+      return createSelectedManyAction(Type);
+    }
+
+    get selectedMore() {
+      return createSelectedMoreAction(Type);
+    }
+
+    get editNew() {
+      return createEditNewAction(Type);
+    }
+
+    get edit() {
+      return createEditAction(Type);
+    }
+
+    get editByKey() {
+      return createEditByKeyAction(Type);
+    }
+
+    get edited() {
+      return createEditedAction(Type);
+    }
+
+    get editedByKey() {
+      return createEditedByKeyAction(Type);
+    }
+
+    get change() {
+      return createChangeAction(Type);
+    }
+
+    get changed() {
+      return createChangedAction(Type);
+    }
+
+    get endEdit() {
+      return createEndEditAction(Type);
+    }
+
+    get editEnded() {
+      return createEditEndedAction(Type);
     }
   }
 

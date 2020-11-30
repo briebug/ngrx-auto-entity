@@ -2,9 +2,12 @@ import { ActionCreator, Creator } from '@ngrx/store';
 import { EntityAction } from '../..';
 import { TNew } from '../actions/model-constructor';
 
-export interface StandardProps {
-  criteria?: any;
+export interface CorrelatedProps {
   correlationId?: string;
+}
+
+export interface StandardProps extends CorrelatedProps {
+  criteria?: any;
 }
 
 export const NAE_TYPE_ACTION_CACHE = '__nae_type_action_cache';

@@ -1,4 +1,5 @@
 import { ActionCreator } from '@ngrx/store';
+import { Clear } from '../actions/actions';
 import {
   Create,
   CreateFailure,
@@ -15,6 +16,25 @@ import {
   DeleteManySuccess,
   DeleteSuccess
 } from '../actions/delete-actions';
+import {
+  Deselect,
+  DeselectAll,
+  Deselected,
+  DeselectedMany,
+  DeselectMany,
+  DeselectManyByKeys
+} from '../actions/deselection-actions';
+import {
+  Change,
+  Changed,
+  Edit,
+  EditByKey,
+  Edited,
+  EditedByKey,
+  EditEnded,
+  EditNew,
+  EndEdit
+} from '../actions/edit-actions';
 import { Load, LoadFailure, LoadIfNecessary, LoadSuccess } from '../actions/load-actions';
 import { LoadAll, LoadAllFailure, LoadAllIfNecessary, LoadAllSuccess } from '../actions/load-all-actions';
 import { LoadMany, LoadManyFailure, LoadManyIfNecessary, LoadManySuccess } from '../actions/load-many-actions';
@@ -28,6 +48,17 @@ import {
   ReplaceManySuccess,
   ReplaceSuccess
 } from '../actions/replace-actions';
+import {
+  Select,
+  SelectByKey,
+  Selected,
+  SelectedMany,
+  SelectedMore,
+  SelectMany,
+  SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys
+} from '../actions/selection-actions';
 import {
   Update,
   UpdateFailure,
@@ -56,6 +87,8 @@ import {
   DeleteManyProps,
   DeleteProps
 } from '../factories/delete-factories';
+import { DeselectedManyProps, DeselectManyByKeysProps, DeselectManyProps } from '../factories/deselection-factories';
+import { EditByKeyProps, EditNewProps, EditProps } from '../factories/edit-factories';
 import { LoadAllFailureProps, LoadAllIfNecessaryProps, LoadAllSuccessProps } from '../factories/load-all-factories';
 import { LoadFailureProps, LoadIfNecessaryProps, LoadProps, LoadSuccessProps } from '../factories/load-factories';
 import { LoadManyFailureProps, LoadManyIfNecessaryProps, LoadManySuccessProps } from '../factories/load-many-factories';
@@ -78,6 +111,12 @@ import {
   ReplaceProps
 } from '../factories/replace-factories';
 import {
+  SelectByKeyProps,
+  SelectedManyProps,
+  SelectManyByKeysProps,
+  SelectManyProps
+} from '../factories/selection-factories';
+import {
   UpdateFailureProps,
   UpdateManyFailureProps,
   UpdateManyProps,
@@ -89,7 +128,7 @@ import {
   UpsertManyProps,
   UpsertProps
 } from '../factories/upsert-factories';
-import { StandardProps } from '../factories/util';
+import { CorrelatedProps, StandardProps } from '../factories/util';
 
 export interface IActionMap<TModel> {
   loadIfNecessary: ActionCreator<string, (props: LoadIfNecessaryProps) => LoadIfNecessary<TModel>>;
@@ -151,4 +190,33 @@ export interface IActionMap<TModel> {
   deleteMany: ActionCreator<string, (props: DeleteManyProps<TModel>) => DeleteMany<TModel>>;
   deleteManySuccess: ActionCreator<string, (props: DeleteManyProps<TModel>) => DeleteManySuccess<TModel>>;
   deleteManyFailure: ActionCreator<string, (props: DeleteManyFailureProps<TModel>) => DeleteManyFailure<TModel>>;
+
+  clear: ActionCreator<string, (props: CorrelatedProps) => Clear<TModel>>;
+
+  deselect: ActionCreator<string, (props: CorrelatedProps) => Deselect<TModel>>;
+  deselectMany: ActionCreator<string, (props: DeselectManyProps<TModel>) => DeselectMany<TModel>>;
+  deselectManyByKeys: ActionCreator<string, (props: DeselectManyByKeysProps) => DeselectManyByKeys<TModel>>;
+  deselectAll: ActionCreator<string, (props: CorrelatedProps) => DeselectAll<TModel>>;
+  deselected: ActionCreator<string, (props: CorrelatedProps) => Deselected<TModel>>;
+  deselectedMany: ActionCreator<string, (props: DeselectedManyProps<TModel>) => DeselectedMany<TModel>>;
+
+  select: ActionCreator<string, (props: CorrelatedProps) => Select<TModel>>;
+  selectByKey: ActionCreator<string, (props: SelectByKeyProps) => SelectByKey<TModel>>;
+  selectMany: ActionCreator<string, (props: SelectManyProps<TModel>) => SelectMany<TModel>>;
+  selectMore: ActionCreator<string, (props: SelectManyProps<TModel>) => SelectMore<TModel>>;
+  selectManyByKeys: ActionCreator<string, (props: SelectManyByKeysProps) => SelectManyByKeys<TModel>>;
+  selectMoreByKeys: ActionCreator<string, (props: SelectManyByKeysProps) => SelectMoreByKeys<TModel>>;
+  selected: ActionCreator<string, (props: CorrelatedProps) => Selected<TModel>>;
+  selectedMany: ActionCreator<string, (props: SelectedManyProps<TModel>) => SelectedMany<TModel>>;
+  selectedMore: ActionCreator<string, (props: SelectedManyProps<TModel>) => SelectedMore<TModel>>;
+
+  editNew: ActionCreator<string, (props: EditNewProps<TModel>) => EditNew<TModel>>;
+  edit: ActionCreator<string, (props: EditProps<TModel>) => Edit<TModel>>;
+  editByKey: ActionCreator<string, (props: EditByKeyProps) => EditByKey<TModel>>;
+  edited: ActionCreator<string, (props: EditProps<TModel>) => Edited<TModel>>;
+  editedByKey: ActionCreator<string, (props: EditByKeyProps) => EditedByKey<TModel>>;
+  change: ActionCreator<string, (props: EditProps<TModel>) => Change<TModel>>;
+  changed: ActionCreator<string, (props: EditProps<TModel>) => Changed<TModel>>;
+  endEdit: ActionCreator<string, (props: CorrelatedProps) => EndEdit<TModel>>;
+  editEnded: ActionCreator<string, (props: CorrelatedProps) => EditEnded<TModel>>;
 }
