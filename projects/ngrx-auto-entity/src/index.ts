@@ -45,6 +45,7 @@ export { ISelectorMap } from './lib/util/selector-map';
  * Builders
  */
 export { buildFacade } from './lib/util/facade-builder';
+export { buildActionMap } from './lib/util/action-map-builder';
 export { buildSelectorMap } from './lib/util/selector-map-builder';
 export { buildFeatureState, buildState } from './lib/util/state-builder';
 
