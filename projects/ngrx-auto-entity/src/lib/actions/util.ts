@@ -3,6 +3,7 @@ import { IEntityOptions } from '../decorators/entity-options';
 import { ENTITY_OPTS_PROP } from '../decorators/entity-tokens';
 import { checkKeyName } from '../decorators/key-util';
 import { IEntityInfo } from './entity-info';
+import { TNew } from './model-constructor';
 
 /**
  * Sets the entity info for a given model.
@@ -31,4 +32,10 @@ export const setType = (actionType: string, info: IEntityInfo): string => {
   const entity = pascalCase(name);
 
   return actionType.replace('Entity', entity);
+};
+
+export const setActionType = <TModel, T extends string>(actionType: string, type: TNew<TModel>): T => {
+  const info = setInfo(type);
+  const typedType = setType(actionType, info) as T;
+  return typedType;
 };

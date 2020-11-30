@@ -81,7 +81,7 @@ export class LoadFailure<TModel> extends EntityAction<TModel> {
   constructor(
     type: new () => TModel,
     public error: any,
-    public keys: any,
+    public keys?: any,
     public criteria?: any,
     correlationId?: string
   ) {
