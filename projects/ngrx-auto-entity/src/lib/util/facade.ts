@@ -13,6 +13,8 @@ export interface IEntityFacade<TModel> {
   entities$: Observable<IEntityDictionary<TModel>>;
   ids$: Observable<EntityIdentity[]>;
   total$: Observable<number>;
+  hasEntities$: Observable<boolean>;
+  hasNoEntities$: Observable<boolean>;
   current$: Observable<TModel>;
   currentKey$: Observable<EntityIdentity>;
   currentSet$: Observable<TModel[]>;
@@ -28,6 +30,8 @@ export interface IEntityFacade<TModel> {
   loadedAt$: Observable<Date>;
   savedAt$: Observable<Date>;
   createdAt$: Observable<Date>;
+  updatedAt$: Observable<Date>;
+  replacedAt$: Observable<Date>;
   deletedAt$: Observable<Date>;
   customSorted$(name: string): Observable<TModel[]>;
 

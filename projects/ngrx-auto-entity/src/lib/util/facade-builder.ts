@@ -47,6 +47,9 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.entities$ = this.store.select(selectors.selectEntities);
       this.ids$ = this.store.select(selectors.selectIds);
       this.total$ = this.store.select(selectors.selectTotal);
+      this.hasEntities$ = this.store.select(selectors.selectHasEntities);
+      this.hasNoEntities$ = this.store.select(selectors.selectHasNoEntities);
+      this.total$ = this.store.select(selectors.selectTotal);
       this.current$ = this.store.select(selectors.selectCurrentEntity);
       this.currentKey$ = this.store.select(selectors.selectCurrentEntityKey);
       this.currentSet$ = this.store.select(selectors.selectCurrentEntities);
@@ -62,6 +65,8 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.loadedAt$ = this.store.select(selectors.selectLoadedAt);
       this.savedAt$ = this.store.select(selectors.selectSavedAt);
       this.createdAt$ = this.store.select(selectors.selectCreatedAt);
+      this.updatedAt$ = this.store.select(selectors.selectUpdatedAt);
+      this.replacedAt$ = this.store.select(selectors.selectReplacedAt);
       this.deletedAt$ = this.store.select(selectors.selectDeletedAt);
     }
 
@@ -71,6 +76,8 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     entities$: Observable<IEntityDictionary<TModel>>;
     ids$: Observable<EntityIdentity[]>;
     total$: Observable<number>;
+    hasEntities$: Observable<boolean>;
+    hasNoEntities$: Observable<boolean>;
     current$: Observable<TModel>;
     currentKey$: Observable<EntityIdentity>;
     currentSet$: Observable<TModel[]>;
@@ -86,6 +93,8 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     loadedAt$: Observable<Date>;
     savedAt$: Observable<Date>;
     createdAt$: Observable<Date>;
+    updatedAt$: Observable<Date>;
+    replacedAt$: Observable<Date>;
     deletedAt$: Observable<Date>;
 
     customSorted$(name: string): Observable<TModel[]> {

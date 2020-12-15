@@ -29,5 +29,7 @@ export interface IEntityState<TModel> {
   loadedAt?: number;
   savedAt?: number;
   createdAt?: number;
+  updatedAt?: number;
+  replacedAt?: number;
   deletedAt?: number;
 }

@@ -397,7 +397,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ...entityState,
           entities: mergeSingle(entities, updateKey, updateEntity),
           isSaving: false,
-          savedAt: Date.now()
+          savedAt: Date.now(),
+          updatedAt: Date.now()
         };
 
         const next = setNewState(featureName, stateName, state, newState);
@@ -430,7 +431,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ...entityState,
           entities: mergeMany(entities, updateManyEntities, action),
           isSaving: false,
-          savedAt: Date.now()
+          savedAt: Date.now(),
+          updatedAt: Date.now()
         };
 
         const next = setNewState(featureName, stateName, state, newState);
@@ -535,7 +537,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ...entityState,
           entities: mergeSingle(entities, replaceKey, replaceEntity),
           isSaving: false,
-          savedAt: Date.now()
+          savedAt: Date.now(),
+          replacedAt: Date.now()
         };
 
         const next = setNewState(featureName, stateName, state, newState);
@@ -568,7 +571,8 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
           ...entityState,
           entities: mergeMany(entities, replaceManyEntities, action),
           isSaving: false,
-          savedAt: Date.now()
+          savedAt: Date.now(),
+          replacedAt: Date.now()
         };
 
         const next = setNewState(featureName, stateName, state, newState);

@@ -522,7 +522,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             },
             ids: [1],
             isSaving: false,
-            savedAt: expect.toBeNumber()
+            savedAt: expect.toBeNumber(),
+            updatedAt: expect.toBeNumber()
           }
         });
       });
@@ -554,7 +555,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             },
             ids: [1, 2, 3],
             isSaving: false,
-            savedAt: expect.toBeNumber()
+            savedAt: expect.toBeNumber(),
+            updatedAt: expect.toBeNumber()
           }
         });
       });
@@ -667,7 +669,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             },
             ids: [1],
             isSaving: false,
-            savedAt: expect.toBeNumber()
+            savedAt: expect.toBeNumber(),
+            replacedAt: expect.toBeNumber()
           }
         });
       });
@@ -699,7 +702,8 @@ describe('NgRX Auto-Entity: Reducer', () => {
             },
             ids: [1, 2, 3],
             isSaving: false,
-            savedAt: expect.toBeNumber()
+            savedAt: expect.toBeNumber(),
+            replacedAt: expect.toBeNumber()
           }
         });
       });

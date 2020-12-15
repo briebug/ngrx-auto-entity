@@ -8,5 +8,6 @@ import { NAE_KEY_NAMES, NAE_KEYS } from './entity-tokens';
  */
 export function Key(target, keyName: string | symbol): void {
   target[NAE_KEY_NAMES] = target[NAE_KEY_NAMES] ? [...target[NAE_KEY_NAMES], keyName] : [keyName];
-  Object.defineProperty(target, NAE_KEYS, { get: () => target[NAE_KEY_NAMES] });
+  // tslint:disable-next-line:no-unused-expression
+  !target[NAE_KEYS] && Object.defineProperty(target, NAE_KEYS, { get: () => target[NAE_KEY_NAMES] });
 }

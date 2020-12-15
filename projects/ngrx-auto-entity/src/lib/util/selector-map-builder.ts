@@ -36,6 +36,16 @@ export const mapToTotal =
     !state || !state.ids ? 0 : state.ids.length;
 
 // prettier-ignore
+export const mapToHasEntities =
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): boolean =>
+    !state || !state.ids ? false : !!state.ids.length;
+
+// prettier-ignore
+export const mapToHasNoEntities =
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): boolean =>
+    !state || !state.ids ? true : !state.ids.length;
+
+// prettier-ignore
 export const mapToCurrentEntity =
   <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): TModel | null =>
     !state || !state.entities || !state.currentEntityKey ? null : state.entities[state.currentEntityKey];
@@ -113,6 +123,16 @@ export const mapToCreatedAt =
     (!state || !state.createdAt ? null : new Date(state.createdAt));
 
 // prettier-ignore
+export const mapToUpdatedAt =
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): Date | null =>
+    (!state || !state.updatedAt ? null : new Date(state.updatedAt));
+
+// prettier-ignore
+export const mapToReplacedAt =
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): Date | null =>
+    (!state || !state.replacedAt ? null : new Date(state.replacedAt));
+
+// prettier-ignore
 export const mapToDeletedAt =
   <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): Date | null =>
     (!state || !state.deletedAt ? null : new Date(state.deletedAt));
@@ -124,6 +144,8 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
   const selectEntities = createSelector(getState, mapToEntities);
   const selectIds = createSelector(getState, mapToIds);
   const selectTotal = createSelector(getState, mapToTotal);
+  const selectHasEntities = createSelector(getState, mapToHasEntities);
+  const selectHasNoEntities = createSelector(getState, mapToHasNoEntities);
   const selectAll = createSelector(selectEntities, selectIds, mapToEntityArray);
   const selectAllSorted = createSelector(selectAll, mapToSortedEntityArray);
   const selectCustomSorted = createSelector(selectAll, mapToCustomSortedEntityArray);
@@ -142,6 +164,8 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
   const selectLoadedAt = createSelector(getState, mapToLoadedAt);
   const selectSavedAt = createSelector(getState, mapToSavedAt);
   const selectCreatedAt = createSelector(getState, mapToCreatedAt);
+  const selectUpdatedAt = createSelector(getState, mapToUpdatedAt);
+  const selectReplacedAt = createSelector(getState, mapToReplacedAt);
   const selectDeletedAt = createSelector(getState, mapToDeletedAt);
 
   return {
@@ -151,6 +175,8 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
     selectEntities,
     selectIds,
     selectTotal,
+    selectHasEntities,
+    selectHasNoEntities,
     selectCurrentEntity,
     selectCurrentEntityKey,
     selectCurrentEntities,
@@ -166,6 +192,8 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
     selectLoadedAt,
     selectSavedAt,
     selectCreatedAt,
+    selectUpdatedAt,
+    selectReplacedAt,
     selectDeletedAt
   } as ISelectorMap<TParentState, TModel>;
 };

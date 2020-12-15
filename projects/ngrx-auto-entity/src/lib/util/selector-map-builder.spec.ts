@@ -14,9 +14,47 @@ import {
   mapToDeletedAt,
   mapToEntityArray,
   mapToLoadedAt,
+  mapToReplacedAt,
   mapToSavedAt,
-  mapToSortedEntityArray
+  mapToSortedEntityArray,
+  mapToUpdatedAt
 } from './selector-map-builder';
+
+expect.extend({
+  toBeMemoizedSelector(received) {
+    const isFunction = typeof received === 'function';
+    const hasProjector = !!received.projector;
+    const hasRelease = !!received.release;
+    const hasSetResult = !!received.setResult;
+
+    const pass = isFunction && hasProjector && hasRelease && hasSetResult;
+
+    const opts = { isNot: this ? this.isNot : false };
+    const message = pass
+      ? () => this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
+        '\n\n' +
+        `Expected: not [Function memoized]` +
+        `Received: ${this.utils.printReceived(received)}`
+      : () => this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
+        '\n\n' +
+        `Expected: [Function memoized]` +
+        `Received: ${this.utils.printReceived(received)}`;
+
+    return { actual: received, message, pass };
+  }
+});
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeMemoizedSelector(): R;
+    }
+
+    interface Expect {
+      toBeMemoizedSelector(): any;
+    }
+  }
+}
 
 @Entity({
   modelName: 'Test',
@@ -143,6 +181,42 @@ describe('mapToCreatedAt()', () => {
   });
 });
 
+describe('mapToUpdatedAt()', () => {
+  it('should return null if state falsy', () => {
+    const ts = mapToUpdatedAt(null);
+    expect(ts).toBeNull();
+  });
+
+  it('should return null if updatedAt state is falsy', () => {
+    const ts = mapToUpdatedAt({ entities: {}, ids: [] });
+    expect(ts).toBeNull();
+  });
+
+  it('should return Date', () => {
+    const now = Date.now();
+    const ts = mapToUpdatedAt({ entities: {}, ids: [], updatedAt: now });
+    expect(ts).toStrictEqual(new Date(now));
+  });
+});
+
+describe('mapToReplacedAt()', () => {
+  it('should return null if state falsy', () => {
+    const ts = mapToReplacedAt(null);
+    expect(ts).toBeNull();
+  });
+
+  it('should return null if replacedAt state is falsy', () => {
+    const ts = mapToReplacedAt({ entities: {}, ids: [] });
+    expect(ts).toBeNull();
+  });
+
+  it('should return Date', () => {
+    const now = Date.now();
+    const ts = mapToReplacedAt({ entities: {}, ids: [], replacedAt: now });
+    expect(ts).toStrictEqual(new Date(now));
+  });
+});
+
 describe('mapToDeletedAt()', () => {
   it('should return null if state falsy', () => {
     const ts = mapToDeletedAt(null);
@@ -167,53 +241,61 @@ interface ITestState {
 }
 
 const testSelectorMap: ISelectorMap<ITestState, Test> = {
-  selectAll: expect.any(Function),
-  selectAllSorted: expect.any(Function),
-  selectCustomSorted: expect.any(Function),
-  selectEntities: expect.any(Function),
-  selectIds: expect.any(Function),
-  selectTotal: expect.any(Function),
-  selectCurrentEntity: expect.any(Function),
-  selectCurrentEntityKey: expect.any(Function),
-  selectCurrentEntities: expect.any(Function),
-  selectCurrentEntitiesKeys: expect.any(Function),
-  selectEditedEntity: expect.any(Function),
-  selectIsDirty: expect.any(Function),
-  selectCurrentPage: expect.any(Function),
-  selectCurrentRange: expect.any(Function),
-  selectTotalPageable: expect.any(Function),
-  selectIsLoading: expect.any(Function),
-  selectIsSaving: expect.any(Function),
-  selectIsDeleting: expect.any(Function),
-  selectLoadedAt: expect.any(Function),
-  selectSavedAt: expect.any(Function),
-  selectCreatedAt: expect.any(Function),
-  selectDeletedAt: expect.any(Function)
+  selectAll: expect.toBeMemoizedSelector(),
+  selectAllSorted: expect.toBeMemoizedSelector(),
+  selectCustomSorted: expect.toBeMemoizedSelector(),
+  selectEntities: expect.toBeMemoizedSelector(),
+  selectIds: expect.toBeMemoizedSelector(),
+  selectTotal: expect.toBeMemoizedSelector(),
+  selectHasEntities: expect.toBeMemoizedSelector(),
+  selectHasNoEntities: expect.toBeMemoizedSelector(),
+  selectCurrentEntity: expect.toBeMemoizedSelector(),
+  selectCurrentEntityKey: expect.toBeMemoizedSelector(),
+  selectCurrentEntities: expect.toBeMemoizedSelector(),
+  selectCurrentEntitiesKeys: expect.toBeMemoizedSelector(),
+  selectEditedEntity: expect.toBeMemoizedSelector(),
+  selectIsDirty: expect.toBeMemoizedSelector(),
+  selectCurrentPage: expect.toBeMemoizedSelector(),
+  selectCurrentRange: expect.toBeMemoizedSelector(),
+  selectTotalPageable: expect.toBeMemoizedSelector(),
+  selectIsLoading: expect.toBeMemoizedSelector(),
+  selectIsSaving: expect.toBeMemoizedSelector(),
+  selectIsDeleting: expect.toBeMemoizedSelector(),
+  selectLoadedAt: expect.toBeMemoizedSelector(),
+  selectSavedAt: expect.toBeMemoizedSelector(),
+  selectCreatedAt: expect.toBeMemoizedSelector(),
+  selectUpdatedAt: expect.toBeMemoizedSelector(),
+  selectReplacedAt: expect.toBeMemoizedSelector(),
+  selectDeletedAt: expect.toBeMemoizedSelector()
 };
 
 const altSelectorMap: ISelectorMap<ITestState, Alt> = {
-  selectAll: expect.any(Function),
-  selectAllSorted: expect.any(Function),
-  selectCustomSorted: expect.any(Function),
-  selectEntities: expect.any(Function),
-  selectIds: expect.any(Function),
-  selectTotal: expect.any(Function),
-  selectCurrentEntity: expect.any(Function),
-  selectCurrentEntityKey: expect.any(Function),
-  selectCurrentEntities: expect.any(Function),
-  selectCurrentEntitiesKeys: expect.any(Function),
-  selectEditedEntity: expect.any(Function),
-  selectIsDirty: expect.any(Function),
-  selectCurrentPage: expect.any(Function),
-  selectCurrentRange: expect.any(Function),
-  selectTotalPageable: expect.any(Function),
-  selectIsLoading: expect.any(Function),
-  selectIsSaving: expect.any(Function),
-  selectIsDeleting: expect.any(Function),
-  selectLoadedAt: expect.any(Function),
-  selectSavedAt: expect.any(Function),
-  selectCreatedAt: expect.any(Function),
-  selectDeletedAt: expect.any(Function)
+  selectAll: expect.toBeMemoizedSelector(),
+  selectAllSorted: expect.toBeMemoizedSelector(),
+  selectCustomSorted: expect.toBeMemoizedSelector(),
+  selectEntities: expect.toBeMemoizedSelector(),
+  selectIds: expect.toBeMemoizedSelector(),
+  selectTotal: expect.toBeMemoizedSelector(),
+  selectHasEntities: expect.toBeMemoizedSelector(),
+  selectHasNoEntities: expect.toBeMemoizedSelector(),
+  selectCurrentEntity: expect.toBeMemoizedSelector(),
+  selectCurrentEntityKey: expect.toBeMemoizedSelector(),
+  selectCurrentEntities: expect.toBeMemoizedSelector(),
+  selectCurrentEntitiesKeys: expect.toBeMemoizedSelector(),
+  selectEditedEntity: expect.toBeMemoizedSelector(),
+  selectIsDirty: expect.toBeMemoizedSelector(),
+  selectCurrentPage: expect.toBeMemoizedSelector(),
+  selectCurrentRange: expect.toBeMemoizedSelector(),
+  selectTotalPageable: expect.toBeMemoizedSelector(),
+  selectIsLoading: expect.toBeMemoizedSelector(),
+  selectIsSaving: expect.toBeMemoizedSelector(),
+  selectIsDeleting: expect.toBeMemoizedSelector(),
+  selectLoadedAt: expect.toBeMemoizedSelector(),
+  selectSavedAt: expect.toBeMemoizedSelector(),
+  selectCreatedAt: expect.toBeMemoizedSelector(),
+  selectUpdatedAt: expect.toBeMemoizedSelector(),
+  selectReplacedAt: expect.toBeMemoizedSelector(),
+  selectDeletedAt: expect.toBeMemoizedSelector()
 };
 
 describe('buildSelectorMap()', () => {
@@ -455,6 +537,120 @@ describe('buildSelectorMap()', () => {
       const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
       const entities = store.select(selectCustomSorted, { name: 'nope' });
       expect(entities).toBeObservable(hot('a', { a: [entity2, entity1] }));
+    });
+  });
+
+  describe('selectHasEntities', () => {
+    it('should return false if no state', () => {
+      const store: MockStore<{}> = TestBed.get(Store);
+
+      store.resetSelectors();
+      store.setState({});
+
+      const getState = state => state.test;
+
+      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const entities = store.select(selectHasEntities);
+      expect(entities).toBeObservable(hot('a', { a: false }));
+    });
+
+    it('should return false if no entities in state', () => {
+      const store: MockStore<ITestState> = TestBed.get(Store);
+
+      store.resetSelectors();
+      store.setState({
+        test: {
+          entities: {},
+          ids: []
+        }
+      });
+
+      const getState = state => state.test;
+
+      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const entities = store.select(selectHasEntities);
+      expect(entities).toBeObservable(hot('a', { a: false }));
+    });
+
+    it('should return true if entities in state', () => {
+      const store: MockStore<ITestState> = TestBed.get(Store);
+
+      const entity1 = makeTestModel({ id: 1 });
+      const entity2 = makeTestModel({ id: 2 });
+
+      store.resetSelectors();
+      store.setState({
+        test: {
+          entities: {
+            1: entity1,
+            2: entity2
+          },
+          ids: [2, 1]
+        }
+      });
+
+      const getState = state => state.test;
+
+      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const entities = store.select(selectHasEntities);
+      expect(entities).toBeObservable(hot('a', { a: true }));
+    });
+  });
+
+  describe('selectHasNoEntities', () => {
+    it('should return true if no state', () => {
+      const store: MockStore<{}> = TestBed.get(Store);
+
+      store.resetSelectors();
+      store.setState({});
+
+      const getState = state => state.test;
+
+      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const entities = store.select(selectHasNoEntities);
+      expect(entities).toBeObservable(hot('a', { a: true }));
+    });
+
+    it('should return true if no entities in state', () => {
+      const store: MockStore<ITestState> = TestBed.get(Store);
+
+      store.resetSelectors();
+      store.setState({
+        test: {
+          entities: {},
+          ids: []
+        }
+      });
+
+      const getState = state => state.test;
+
+      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const entities = store.select(selectHasNoEntities);
+      expect(entities).toBeObservable(hot('a', { a: true }));
+    });
+
+    it('should return false if entities in state', () => {
+      const store: MockStore<ITestState> = TestBed.get(Store);
+
+      const entity1 = makeTestModel({ id: 1 });
+      const entity2 = makeTestModel({ id: 2 });
+
+      store.resetSelectors();
+      store.setState({
+        test: {
+          entities: {
+            1: entity1,
+            2: entity2
+          },
+          ids: [2, 1]
+        }
+      });
+
+      const getState = state => state.test;
+
+      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const entities = store.select(selectHasNoEntities);
+      expect(entities).toBeObservable(hot('a', { a: false }));
     });
   });
 });

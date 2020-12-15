@@ -14,6 +14,8 @@ export interface ISelectorMap<TParentState, TModel> {
   selectAllSorted: MemoizedSelector<object | TParentState, TModel[]>;
   selectCustomSorted: MemoizedSelector<object | TParentState, TModel[]>;
   selectTotal: MemoizedSelector<object | TParentState, number>;
+  selectHasEntities: MemoizedSelector<object | TParentState, boolean>;
+  selectHasNoEntities: MemoizedSelector<object | TParentState, boolean>;
   selectCurrentEntity: MemoizedSelector<object | TParentState, TModel | null>;
   selectCurrentEntityKey: MemoizedSelector<object | TParentState, EntityIdentity | null>;
   selectCurrentEntities: MemoizedSelector<object | TParentState, TModel[]>;
@@ -29,5 +31,7 @@ export interface ISelectorMap<TParentState, TModel> {
   selectLoadedAt: MemoizedSelector<object | TParentState, Date | null>;
   selectSavedAt: MemoizedSelector<object | TParentState, Date | null>;
   selectCreatedAt: MemoizedSelector<object | TParentState, Date | null>;
+  selectUpdatedAt: MemoizedSelector<object | TParentState, Date | null>;
+  selectReplacedAt: MemoizedSelector<object | TParentState, Date | null>;
   selectDeletedAt: MemoizedSelector<object | TParentState, Date | null>;
 }
