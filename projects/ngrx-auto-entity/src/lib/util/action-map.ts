@@ -114,7 +114,7 @@ import {
   SelectByKeyProps,
   SelectedManyProps,
   SelectManyByKeysProps,
-  SelectManyProps
+  SelectManyProps, SelectProps
 } from '../factories/selection-factories';
 import {
   UpdateFailureProps,
@@ -200,7 +200,7 @@ export interface IActionMap<TModel> {
   deselected: ActionCreator<string, (props: CorrelatedProps) => Deselected<TModel>>;
   deselectedMany: ActionCreator<string, (props: DeselectedManyProps<TModel>) => DeselectedMany<TModel>>;
 
-  select: ActionCreator<string, (props: CorrelatedProps) => Select<TModel>>;
+  select: ActionCreator<string, (props: SelectProps<TModel>) => Select<TModel>>;
   selectByKey: ActionCreator<string, (props: SelectByKeyProps) => SelectByKey<TModel>>;
   selectMany: ActionCreator<string, (props: SelectManyProps<TModel>) => SelectMany<TModel>>;
   selectMore: ActionCreator<string, (props: SelectManyProps<TModel>) => SelectMore<TModel>>;
