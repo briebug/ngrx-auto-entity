@@ -11,7 +11,7 @@ export const createLoadAllAction = <TModel, T extends string, P extends Standard
   cacheOnType(Type, EntityActionTypes.LoadAll, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadAll, Type),
-      ({ criteria, correlationId }: StandardProps) => new LoadAll(Type, criteria, correlationId)
+      ({ criteria, correlationId }: StandardProps = {}) => new LoadAll(Type, criteria, correlationId)
     )
   );
 

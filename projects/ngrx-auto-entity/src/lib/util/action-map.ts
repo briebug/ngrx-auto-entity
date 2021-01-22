@@ -63,7 +63,7 @@ export interface IActionMap<TModel> {
   loadManyFailure: ActionCreator<string, (props: LoadManyFailureProps<TModel>) => LoadManyFailure<TModel>>;
 
   loadPageIfNecessary: ActionCreator<string, (props: LoadPageIfNecessaryProps) => LoadPageIfNecessary<TModel>>;
-  loadPage: ActionCreator<string, (props?: LoadPageProps) => LoadPage<TModel>>;
+  loadPage: ActionCreator<string, (props: LoadPageProps) => LoadPage<TModel>>;
   loadPageSuccess: ActionCreator<string, (props: LoadPageSuccessProps<TModel>) => LoadPageSuccess<TModel>>;
   loadPageFailure: ActionCreator<string, (props: LoadPageFailureProps<TModel>) => LoadPageFailure<TModel>>;
 

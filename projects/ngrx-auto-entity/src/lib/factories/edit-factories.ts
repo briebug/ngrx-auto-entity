@@ -94,7 +94,7 @@ export const createEndEditAction = <TModel, T extends string, P extends Correlat
   cacheOnType(Type, EntityActionTypes.EndEdit, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.EndEdit, Type),
-      ({ correlationId }: CorrelatedProps) => new EndEdit(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new EndEdit(Type, correlationId)
     )
   );
 
@@ -104,6 +104,6 @@ export const createEditEndedAction = <TModel, T extends string, P extends Correl
   cacheOnType(Type, EntityActionTypes.EditEnded, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.EditEnded, Type),
-      ({ correlationId }: CorrelatedProps) => new EditEnded(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new EditEnded(Type, correlationId)
     )
   );

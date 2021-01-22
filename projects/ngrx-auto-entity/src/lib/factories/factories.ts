@@ -11,6 +11,6 @@ export const createClearAction = <TModel, T extends string, P extends Correlated
   cacheOnType(Type, EntityActionTypes.Clear, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Clear, Type),
-      ({ correlationId }: CorrelatedProps) => new Clear(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new Clear(Type, correlationId)
     )
   );

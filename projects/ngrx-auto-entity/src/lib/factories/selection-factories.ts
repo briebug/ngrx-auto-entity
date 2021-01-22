@@ -98,7 +98,7 @@ export const createSelectedAction = <TModel, T extends string, P extends Correla
   cacheOnType(Type, EntityActionTypes.Selected, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Selected, Type),
-      ({ correlationId }: CorrelatedProps) => new Selected(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new Selected(Type, correlationId)
     )
   );
 

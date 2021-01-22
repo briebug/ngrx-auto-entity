@@ -12,7 +12,7 @@ export const createDeselectAction = <TModel, T extends string, P extends Correla
   cacheOnType(Type, EntityActionTypes.Deselect, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Deselect, Type),
-      ({ correlationId }: CorrelatedProps) => new Deselect(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new Deselect(Type, correlationId)
     )
   );
 
@@ -50,7 +50,7 @@ export const createDeselectAllAction = <TModel, T extends string, P extends Corr
   cacheOnType(Type, EntityActionTypes.DeselectAll, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.DeselectAll, Type),
-      ({ correlationId }: CorrelatedProps) => new DeselectAll(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new DeselectAll(Type, correlationId)
     )
   );
 
@@ -60,7 +60,7 @@ export const createDeselectedAction = <TModel, T extends string, P extends Corre
   cacheOnType(Type, EntityActionTypes.Deselected, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Deselected, Type),
-      ({ correlationId }: CorrelatedProps) => new Deselected(Type, correlationId)
+      ({ correlationId }: CorrelatedProps = {}) => new Deselected(Type, correlationId)
     )
   );
 
