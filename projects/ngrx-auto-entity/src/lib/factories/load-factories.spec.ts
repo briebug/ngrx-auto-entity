@@ -51,8 +51,7 @@ describe('createLoadAction()', () => {
     const action = loadTest({ keys: 101 });
 
     class Effects {
-      constructor(private actions$: Actions) {
-      }
+      constructor(private actions$: Actions) {}
 
       test$ = createEffect(
         () =>

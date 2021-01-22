@@ -11,15 +11,7 @@ import { toCurrencyString } from 'shared/libs/currency.lib';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { OrderManagerService } from 'src/app/+orders/services/order-manager.service';
 
-const DEFAULT_COLUMNS: IOrdersPreviewTableColumns[] = [
-  'id',
-  'customer',
-  'dateOfOrder',
-  'numberOfItems',
-  'total',
-  'status',
-  'userActions'
-];
+const DEFAULT_COLUMNS: IOrdersPreviewTableColumns[] = ['id', 'customer', 'dateOfOrder', 'numberOfItems', 'total', 'status', 'userActions'];
 
 const EDITABLE_STATUSES: OrderStatus[] = [OrderStatus.open, OrderStatus.pending];
 
@@ -95,11 +87,4 @@ export class OrdersPreviewTableComponent implements OnInit, OnDestroy {
   }
 }
 
-export type IOrdersPreviewTableColumns =
-  | 'id'
-  | 'customer'
-  | 'dateOfOrder'
-  | 'status'
-  | 'numberOfItems'
-  | 'total'
-  | 'userActions';
+export type IOrdersPreviewTableColumns = 'id' | 'customer' | 'dateOfOrder' | 'status' | 'numberOfItems' | 'total' | 'userActions';

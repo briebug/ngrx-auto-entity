@@ -18,13 +18,7 @@ import { EntityAction } from './entity-action';
  * @param correlationId - (optional) A custom correlation id for this action; Use to correlate subsequent result actions
  */
 export class LoadPageIfNecessary<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public page: Page,
-    public maxAge?: number,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public page: Page, public maxAge?: number, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadPageIfNecessary, correlationId);
   }
 }
@@ -81,13 +75,7 @@ export class LoadPageSuccess<TModel> extends EntityAction<TModel> {
  * @param correlationId - (optional) The correlationId for this action; correlates to initial load page action
  */
 export class LoadPageFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public page: Page,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public page: Page, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadPageFailure, correlationId);
   }
 }

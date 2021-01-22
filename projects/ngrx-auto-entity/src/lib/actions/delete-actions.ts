@@ -17,13 +17,7 @@ export class DeleteSuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class DeleteFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entity: TModel,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entity: TModel, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.DeleteFailure, correlationId);
   }
 }
@@ -44,13 +38,7 @@ export class DeleteManySuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class DeleteManyFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entities: TModel[],
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entities: TModel[], public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.DeleteManyFailure, correlationId);
   }
 }

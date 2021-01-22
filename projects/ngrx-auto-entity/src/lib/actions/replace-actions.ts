@@ -19,13 +19,7 @@ export class ReplaceSuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class ReplaceFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entity: TModel,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entity: TModel, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.ReplaceFailure, correlationId);
   }
 }
@@ -48,13 +42,7 @@ export class ReplaceManySuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class ReplaceManyFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entities: TModel[],
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entities: TModel[], public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.ReplaceManyFailure, correlationId);
   }
 }

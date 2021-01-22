@@ -17,13 +17,7 @@ export class CreateSuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class CreateFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entity: TModel,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entity: TModel, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.CreateFailure, correlationId);
   }
 }
@@ -44,13 +38,7 @@ export class CreateManySuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class CreateManyFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entities: TModel[],
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entities: TModel[], public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.CreateManyFailure, correlationId);
   }
 }

@@ -13,14 +13,7 @@ import { LoadMany, LoadManyIfNecessary } from '../actions/load-many-actions';
 import { LoadPage, LoadPageIfNecessary } from '../actions/load-page-actions';
 import { LoadRange, LoadRangeIfNecessary } from '../actions/load-range-actions';
 import { Replace, ReplaceMany } from '../actions/replace-actions';
-import {
-  Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
-  SelectMore,
-  SelectMoreByKeys
-} from '../actions/selection-actions';
+import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMoreByKeys } from '../actions/selection-actions';
 import { Update, UpdateMany } from '../actions/update-actions';
 import { Upsert, UpsertMany } from '../actions/upsert-actions';
 import { Page, Range } from '../models';

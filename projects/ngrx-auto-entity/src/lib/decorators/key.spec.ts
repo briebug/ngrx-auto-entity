@@ -2,14 +2,7 @@ import { Load } from '../actions/load-actions';
 import { LoadAll } from '../actions/load-all-actions';
 import { makeEntity } from '../util/make-entity';
 import { Key } from './key-decorator';
-import {
-  getKey,
-  getKeyFromEntity,
-  getKeyFromModel,
-  getKeyNames,
-  getKeyNamesFromEntity,
-  getKeyNamesFromModel
-} from './key-util';
+import { getKey, getKeyFromEntity, getKeyFromModel, getKeyNames, getKeyNamesFromEntity, getKeyNamesFromModel } from './key-util';
 
 class TestEntity {
   @Key id: number;

@@ -20,23 +20,17 @@ export const transformSingleFromServer = <TModel>(entityInfo: IEntityInfo, crite
   return applyTransforms(transforms, criteria)(entity);
 };
 
-export const transformArrayFromServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (
-  entities: TModel[]
-): TModel[] => {
+export const transformArrayFromServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (entities: TModel[]): TModel[] => {
   const transforms = getTransforms(entityInfo.transform, FROM);
   return entities.map(applyTransforms(transforms, criteria));
 };
 
-export const transformSingleToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (
-  originalEntity: TModel
-): any => {
+export const transformSingleToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (originalEntity: TModel): any => {
   const transforms = getTransforms(entityInfo.transform, TO);
   return applyTransforms(transforms, criteria)(originalEntity);
 };
 
-export const transformArrayToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (
-  entities: TModel[]
-): any[] => {
+export const transformArrayToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (entities: TModel[]): any[] => {
   const transforms = getTransforms(entityInfo.transform, TO);
   return entities.map(applyTransforms(transforms, criteria));
 };
@@ -46,11 +40,8 @@ export const transformArrayToServer = <TModel>(entityInfo: IEntityInfo, criteria
 export const transformEntityFromServer = <TModel>(entityInfo: IEntityInfo, entity: any, criteria?: any): TModel =>
   transformSingleFromServer<TModel>(entityInfo, criteria)(entity);
 
-export const transformEntitiesFromServer = <TModel>(
-  entityInfo: IEntityInfo,
-  entities: any[],
-  criteria?: any
-): TModel[] => transformArrayFromServer<TModel>(entityInfo, criteria)(entities);
+export const transformEntitiesFromServer = <TModel>(entityInfo: IEntityInfo, entities: any[], criteria?: any): TModel[] =>
+  transformArrayFromServer<TModel>(entityInfo, criteria)(entities);
 
 export const transformEntityToServer = <TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): any =>
   transformSingleToServer<TModel>(entityInfo, criteria)(entity);

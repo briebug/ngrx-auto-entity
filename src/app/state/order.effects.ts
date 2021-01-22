@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import {
-  Create,
-  CreateSuccess,
-  EntityActionTypes,
-  EntityOperators,
-  ofEntityType,
-  Update,
-  UpdateSuccess
-} from '@briebug/ngrx-auto-entity';
+import { Create, CreateSuccess, EntityActionTypes, EntityOperators, ofEntityType, Update, UpdateSuccess } from '@briebug/ngrx-auto-entity';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { AccountFacade } from 'facades/account.facade';
@@ -59,9 +51,7 @@ export class OrderEffects {
           if (order.accountId) {
             return of({ order, orderItems, correlationId });
           } else {
-            this.store.dispatch(
-              new Create(Account, AccountFacade.getNewPersonalTab(order.customerId), undefined, correlationId)
-            );
+            this.store.dispatch(new Create(Account, AccountFacade.getNewPersonalTab(order.customerId), undefined, correlationId));
 
             return this.actions$.pipe(
               ofEntityType(Account, EntityActionTypes.CreateSuccess),
@@ -111,10 +101,5 @@ export class OrderEffects {
     { dispatch: false }
   );
 
-  constructor(
-    private actions$: Actions,
-    private ops: EntityOperators,
-    private matSnackBar: MatSnackBar,
-    private store: Store<AppState>
-  ) {}
+  constructor(private actions$: Actions, private ops: EntityOperators, private matSnackBar: MatSnackBar, private store: Store<AppState>) {}
 }

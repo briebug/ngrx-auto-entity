@@ -1,12 +1,5 @@
 import { Entity } from './entity-decorator';
-import {
-  entityComparer,
-  entityMaxAge,
-  entityTransforms,
-  nameOfEntity,
-  pluralNameOfEntity,
-  uriNameOfEntity
-} from './entity-util';
+import { entityComparer, entityMaxAge, entityTransforms, nameOfEntity, pluralNameOfEntity, uriNameOfEntity } from './entity-util';
 import { Key } from './key-decorator';
 
 @Entity({

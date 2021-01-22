@@ -16,13 +16,7 @@ import { EntityAction } from './entity-action';
  * @param correlationId - (optional) A custom correlation id for this action; Use to correlate subsequent result actions
  */
 export class LoadIfNecessary<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public keys?: any,
-    public maxAge?: number,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public keys?: any, public maxAge?: number, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadIfNecessary, correlationId);
   }
 }
@@ -56,13 +50,7 @@ export class Load<TModel> extends EntityAction<TModel> {
  * @param correlationId - (optional) The correlationId for this action; correlates to initial load action
  */
 export class LoadSuccess<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public entity: TModel,
-    public keys?: any,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public entity: TModel, public keys?: any, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadSuccess, correlationId);
   }
 }
@@ -78,13 +66,7 @@ export class LoadSuccess<TModel> extends EntityAction<TModel> {
  * @param correlationId - (optional) The correlationId for this action; correlates to initial load action
  */
 export class LoadFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public keys?: any,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public keys?: any, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadFailure, correlationId);
   }
 }

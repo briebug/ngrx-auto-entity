@@ -25,8 +25,7 @@ export const entityOptions = <TModel>(entityOrType: TNew<TModel> | TModel | TMod
 
 export const entityStateName = (modelName: string): string => camelCase(modelName);
 
-export const nameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | undefined =>
-  entityOptions(entityOrType).modelName;
+export const nameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | undefined => entityOptions(entityOrType).modelName;
 
 export const uriNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | null | undefined =>
   entityOptions(entityOrType).uriName;
@@ -44,8 +43,7 @@ export const mapComparer = (options: IEntityOptions, name: string): EntityCompar
       : (options.comparers[name] as EntityComparer)
     : undefined;
 
-export const defaultComparer = (options: IEntityOptions): EntityComparer =>
-  options.comparer || mapComparer(options, 'default');
+export const defaultComparer = (options: IEntityOptions): EntityComparer => options.comparer || mapComparer(options, 'default');
 
 export const namedComparer = (options: IEntityOptions, name: string): EntityComparer =>
   !!options.comparers
@@ -57,14 +55,10 @@ export const namedComparer = (options: IEntityOptions, name: string): EntityComp
 export const getComparer = (options: IEntityOptions, name?: string): EntityComparer =>
   !!options ? (!!name ? namedComparer(options, name) : defaultComparer(options)) : undefined;
 
-export const entityComparer = <TModel>(
-  entityOrType: TNew<TModel> | TModel | TModel[],
-  name?: string
-): EntityComparer | null | undefined => getComparer(entityOptions(entityOrType), name);
+export const entityComparer = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[], name?: string): EntityComparer | null | undefined =>
+  getComparer(entityOptions(entityOrType), name);
 
-export const entityTransforms = <TModel>(
-  entityOrType: TNew<TModel> | TModel
-): IEntityTransformer[] | null | undefined => entityOptions(entityOrType).transform;
+export const entityTransforms = <TModel>(entityOrType: TNew<TModel> | TModel): IEntityTransformer[] | null | undefined =>
+  entityOptions(entityOrType).transform;
 
-export const entityMaxAge = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): number =>
-  entityOptions(entityOrType).defaultMaxAge;
+export const entityMaxAge = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): number => entityOptions(entityOrType).defaultMaxAge;

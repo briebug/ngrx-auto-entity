@@ -18,11 +18,8 @@ export const throwError = (message: string) => () => {
   throw new Error(message);
 };
 
-export const iif = (
-  predicate: (value: any) => boolean,
-  whenTrue: (value: any) => any,
-  whenFalse: (value: any) => any
-) => value => (predicate(value) ? whenTrue(value) : whenFalse(value));
+export const iif = (predicate: (value: any) => boolean, whenTrue: (value: any) => any, whenFalse: (value: any) => any) => value =>
+  predicate(value) ? whenTrue(value) : whenFalse(value);
 
 export const asString = (value: any): string => (value == null ? '' : String(value));
 

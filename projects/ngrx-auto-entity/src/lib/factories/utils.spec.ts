@@ -24,13 +24,14 @@ describe('defineTypedFactoryFunction()', () => {
   });
 });
 
-
 describe('cacheOnType()', () => {
   it(`should attach ${NAE_TYPE_ACTION_CACHE} property to specified entity model class`, () => {
-    const factory = cacheOnType(Test, EntityActionTypes.Load, () => defineTypedFactoryFunction(
-      setActionType(EntityActionTypes.Load, Test),
-      ({ keys, criteria, correlationId }: LoadProps) => new Load(Test, keys, criteria, correlationId)
-    ));
+    const factory = cacheOnType(Test, EntityActionTypes.Load, () =>
+      defineTypedFactoryFunction(
+        setActionType(EntityActionTypes.Load, Test),
+        ({ keys, criteria, correlationId }: LoadProps) => new Load(Test, keys, criteria, correlationId)
+      )
+    );
 
     expect(factory).toBeTruthy();
     expect(factory).toBeFunction();
@@ -39,10 +40,12 @@ describe('cacheOnType()', () => {
   });
 
   it(`should return an action factory that creates the appropriate action object`, () => {
-    const factory = cacheOnType(Test, EntityActionTypes.Load, () => defineTypedFactoryFunction(
-      setActionType(EntityActionTypes.Load, Test),
-      ({ keys, criteria, correlationId }: LoadProps) => new Load(Test, keys, criteria, correlationId)
-    ));
+    const factory = cacheOnType(Test, EntityActionTypes.Load, () =>
+      defineTypedFactoryFunction(
+        setActionType(EntityActionTypes.Load, Test),
+        ({ keys, criteria, correlationId }: LoadProps) => new Load(Test, keys, criteria, correlationId)
+      )
+    );
 
     const action = factory({ keys: 101, criteria: { order: -1 }, correlationId: 'test123' });
 

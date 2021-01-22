@@ -3,9 +3,13 @@ import { EntityActionTypes } from '../actions/action-types';
 import {
   Select,
   Selected,
-  SelectedMany, SelectedMore,
+  SelectedMany,
+  SelectedMore,
   SelectMany,
-  SelectManyByKeys, SelectMore, SelectMoreByKeys, SelectByKey
+  SelectManyByKeys,
+  SelectMore,
+  SelectMoreByKeys,
+  SelectByKey
 } from '../actions/selection-actions';
 import { TNew } from '../actions/model-constructor';
 import { setActionType } from '../actions/util';

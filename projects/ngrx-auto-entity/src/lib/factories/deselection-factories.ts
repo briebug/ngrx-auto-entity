@@ -1,13 +1,6 @@
 import { ActionCreator } from '@ngrx/store';
 import { EntityActionTypes } from '../actions/action-types';
-import {
-  Deselect,
-  DeselectAll,
-  Deselected,
-  DeselectedMany,
-  DeselectMany,
-  DeselectManyByKeys
-} from '../actions/deselection-actions';
+import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
 import { TNew } from '../actions/model-constructor';
 import { setActionType } from '../actions/util';
 import { EntityIdentity } from '../types/entity-identity';

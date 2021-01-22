@@ -11,10 +11,7 @@ import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 export class OrderFormDialogComponent implements OnInit {
   handleSaveClick = (...args) => {};
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: IOrderFormDialogData,
-    public dialogRef: MatDialogRef<OrderFormDialogComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: IOrderFormDialogData, public dialogRef: MatDialogRef<OrderFormDialogComponent>) {
     this.handleSaveClick = data.handleSaveClick || this.handleSaveClick;
   }
 

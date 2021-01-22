@@ -8,6 +8,4 @@ import { ENTITY_OPTS_PROP } from './entity-tokens';
  * Operator that determines if an effect should run for the given model type and action.
  */
 export const shouldApplyEffect = <TModel, TAction extends EntityAction<TModel>>() => (source: Observable<TAction>) =>
-  source.pipe(
-    filter(({ actionType, info }) => !((info.modelType[ENTITY_OPTS_PROP] || {}).excludeEffects || {})[actionType])
-  );
+  source.pipe(filter(({ actionType, info }) => !((info.modelType[ENTITY_OPTS_PROP] || {}).excludeEffects || {})[actionType]));

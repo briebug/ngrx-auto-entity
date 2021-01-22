@@ -12,14 +12,7 @@ import { LoadManySuccess } from '../actions/load-many-actions';
 import { LoadPageSuccess } from '../actions/load-page-actions';
 import { LoadRangeSuccess } from '../actions/load-range-actions';
 import { ReplaceManySuccess, ReplaceSuccess } from '../actions/replace-actions';
-import {
-  Select,
-  SelectByKey,
-  SelectMany,
-  SelectManyByKeys,
-  SelectMore,
-  SelectMoreByKeys
-} from '../actions/selection-actions';
+import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMoreByKeys } from '../actions/selection-actions';
 import { UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
 import { UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
 import { Key } from '../decorators/key-decorator';
@@ -172,10 +165,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
         };
         const rootReducer = jest.fn();
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(
-          state,
-          new LoadAllSuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }])
-        );
+        const newState = metaReducer(state, new LoadAllSuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }]));
 
         expect(newState).toMatchObject({
           testEntity: {
@@ -206,10 +196,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
         };
         const rootReducer = jest.fn();
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(
-          state,
-          new LoadAllSuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }])
-        );
+        const newState = metaReducer(state, new LoadAllSuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }]));
 
         expect(newState).toEqual({
           testEntity: {
@@ -238,10 +225,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
         };
         const rootReducer = jest.fn();
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(
-          state,
-          new LoadManySuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }])
-        );
+        const newState = metaReducer(state, new LoadManySuccess(TestEntity, [{ identity: 1 }, { identity: 2 }, { identity: 3 }]));
 
         expect(newState).toEqual({
           testEntity: {
@@ -270,10 +254,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
         };
         const rootReducer = jest.fn();
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(
-          state,
-          new LoadManySuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }])
-        );
+        const newState = metaReducer(state, new LoadManySuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }]));
 
         expect(newState).toEqual({
           testEntity: {

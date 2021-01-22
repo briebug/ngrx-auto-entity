@@ -337,9 +337,7 @@ describe('EntityOperators', () => {
       const effect = actions$.pipe(ops.loadRange());
 
       const expected = hot('-s-', {
-        s: expect.objectContaining(
-          new LoadRangeSuccess(TestEntity, [entity], rangeInfo, undefined, action.correlationId)
-        )
+        s: expect.objectContaining(new LoadRangeSuccess(TestEntity, [entity], rangeInfo, undefined, action.correlationId))
       });
 
       expect(effect).toBeObservable(expected);

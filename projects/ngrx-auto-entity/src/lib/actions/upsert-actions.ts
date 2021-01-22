@@ -18,13 +18,7 @@ export class UpsertSuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class UpsertFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entity: TModel,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entity: TModel, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.UpsertFailure, correlationId);
   }
 }
@@ -46,13 +40,7 @@ export class UpsertManySuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class UpsertManyFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entities: TModel[],
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entities: TModel[], public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.UpsertManyFailure, correlationId);
   }
 }

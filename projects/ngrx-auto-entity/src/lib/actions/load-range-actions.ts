@@ -18,13 +18,7 @@ import { EntityAction } from './entity-action';
  * @param correlationId - (optional) A custom correlation id for this action; Use to correlate subsequent result actions
  */
 export class LoadRangeIfNecessary<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public range: Range,
-    public maxAge?: number,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public range: Range, public maxAge?: number, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadRangeIfNecessary, correlationId);
   }
 }
@@ -82,13 +76,7 @@ export class LoadRangeSuccess<TModel> extends EntityAction<TModel> {
  * @param correlationId - (optional) The correlationId for this action; correlates to initial load range action
  */
 export class LoadRangeFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public range: Range,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public range: Range, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.LoadRangeFailure, correlationId);
   }
 }

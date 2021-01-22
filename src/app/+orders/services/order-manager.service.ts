@@ -11,10 +11,7 @@ import { Order, OrderStatus } from 'models/order.model';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { omitByKeys } from 'shared/libs/util.lib';
-import {
-  IOrderFormDialogData,
-  OrderFormDialogComponent
-} from 'src/app/+orders/exports/order-form-dialog/order-form-dialog.component';
+import { IOrderFormDialogData, OrderFormDialogComponent } from 'src/app/+orders/exports/order-form-dialog/order-form-dialog.component';
 import { IOrderFormItem, IOrderFormValue } from 'src/app/+orders/exports/order-form/order-form.component';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 import { AppState } from 'state/app.state';
@@ -60,9 +57,7 @@ export class OrderManagerService {
                     customerName: customerOrder.customer ? customerOrder.customer.name : '<unknown>',
                     dateLocaleString: new Date(customerOrder.order.dateOfOrder).toLocaleString(),
                     total: customerOrder.items.reduce((total: number, item: OrderItem) => {
-                      return productsById[item.productId]
-                        ? total + +productsById[item.productId].price * item.quantity
-                        : total;
+                      return productsById[item.productId] ? total + +productsById[item.productId].price * item.quantity : total;
                     }, 0)
                   };
                 }

@@ -22,14 +22,16 @@ expect.extend({
 
     const opts = { isNot: this ? this.isNot : false };
     const message = pass
-      ? () => this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-        '\n\n' +
-        `Expected: not [Function memoized]` +
-        `Received: ${this.utils.printReceived(received)}`
-      : () => this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-        '\n\n' +
-        `Expected: [Function memoized]` +
-        `Received: ${this.utils.printReceived(received)}`;
+      ? () =>
+          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
+          '\n\n' +
+          `Expected: not [Function memoized]` +
+          `Received: ${this.utils.printReceived(received)}`
+      : () =>
+          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
+          '\n\n' +
+          `Expected: [Function memoized]` +
+          `Received: ${this.utils.printReceived(received)}`;
 
     return { actual: received, message, pass };
   }
@@ -157,11 +159,7 @@ describe('Utilities', () => {
       const store = TestBed.get(Store) as Store<ITestFeatureState>;
       const featureSelector = createFeatureSelector('feature');
 
-      const { initialState, selectors, facade: FacadeBase, reducer, entityState } = buildFeatureState(
-        Test,
-        'feature',
-        featureSelector
-      );
+      const { initialState, selectors, facade: FacadeBase, reducer, entityState } = buildFeatureState(Test, 'feature', featureSelector);
 
       const facade = new FacadeBase(Test, store);
 

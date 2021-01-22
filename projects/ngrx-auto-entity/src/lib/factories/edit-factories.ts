@@ -1,16 +1,6 @@
 import { ActionCreator } from '@ngrx/store';
 import { EntityActionTypes } from '../actions/action-types';
-import {
-  Change,
-  Changed,
-  Edit,
-  EditByKey,
-  Edited,
-  EditedByKey,
-  EditEnded,
-  EditNew,
-  EndEdit
-} from '../actions/edit-actions';
+import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EditNew, EndEdit } from '../actions/edit-actions';
 import { TNew } from '../actions/model-constructor';
 import { setActionType } from '../actions/util';
 import { EntityIdentity } from '../types/entity-identity';

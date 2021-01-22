@@ -12,10 +12,7 @@ export const failResolution = (error: any, entityInfo: IEntityInfo): void => {
   throw error;
 };
 
-export const resolveService = <TModel>(
-  entityInfo: Readonly<IEntityInfo>,
-  injector: Injector
-): IAutoEntityService<TModel> => {
+export const resolveService = <TModel>(entityInfo: Readonly<IEntityInfo>, injector: Injector): IAutoEntityService<TModel> => {
   return injector.get(entityInfo.modelType);
 };
 

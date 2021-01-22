@@ -13,13 +13,9 @@ import { setType } from './util';
  *
  * @param allowedActionTypes One or more action type string constants
  */
-export function ofEntityAction<T extends IEntityAction>(
-  ...allowedActionTypes: EntityActionTypes[]
-): OperatorFunction<Action, T> {
+export function ofEntityAction<T extends IEntityAction>(...allowedActionTypes: EntityActionTypes[]): OperatorFunction<Action, T> {
   return filter((action: IEntityAction): action is T => {
-    return isEntityActionInstance(action)
-      ? allowedActionTypes.some(type => setType(type, action.info) === action.type)
-      : false;
+    return isEntityActionInstance(action) ? allowedActionTypes.some(type => setType(type, action.info) === action.type) : false;
   });
 }
 

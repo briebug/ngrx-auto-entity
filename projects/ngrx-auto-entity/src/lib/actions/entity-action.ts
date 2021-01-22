@@ -22,11 +22,7 @@ export abstract class EntityAction<TModel> implements IEntityAction {
   type: string;
   info: IEntityInfo;
 
-  protected constructor(
-    type: TNew<TModel>,
-    public actionType: EntityActionTypes,
-    public correlationId: string = uuid()
-  ) {
+  protected constructor(type: TNew<TModel>, public actionType: EntityActionTypes, public correlationId: string = uuid()) {
     this.info = setInfo(type);
     this.type = setType(this.actionType, this.info);
   }

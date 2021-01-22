@@ -1,20 +1,6 @@
 import { Clear } from './actions';
-import {
-  Create,
-  CreateFailure,
-  CreateMany,
-  CreateManyFailure,
-  CreateManySuccess,
-  CreateSuccess
-} from './create-actions';
-import {
-  Delete,
-  DeleteFailure,
-  DeleteMany,
-  DeleteManyFailure,
-  DeleteManySuccess,
-  DeleteSuccess
-} from './delete-actions';
+import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from './create-actions';
+import { Delete, DeleteFailure, DeleteMany, DeleteManyFailure, DeleteManySuccess, DeleteSuccess } from './delete-actions';
 import {
   DeleteByKey,
   DeleteByKeyFailure,
@@ -23,14 +9,7 @@ import {
   DeleteManyByKeysFailure,
   DeleteManyByKeysSuccess
 } from './delete-by-key-actions';
-import {
-  Deselect,
-  DeselectAll,
-  Deselected,
-  DeselectedMany,
-  DeselectMany,
-  DeselectManyByKeys
-} from './deselection-actions';
+import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, DeselectManyByKeys } from './deselection-actions';
 import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EditNew, EndEdit } from './edit-actions';
 import { IEntityAction } from './entity-action';
 import { Load, LoadFailure, LoadIfNecessary, LoadSuccess } from './load-actions';
@@ -38,31 +17,10 @@ import { LoadAll, LoadAllFailure, LoadAllIfNecessary, LoadAllSuccess } from './l
 import { LoadMany, LoadManyFailure, LoadManyIfNecessary, LoadManySuccess } from './load-many-actions';
 import { LoadPage, LoadPageFailure, LoadPageIfNecessary, LoadPageSuccess } from './load-page-actions';
 import { LoadRange, LoadRangeFailure, LoadRangeIfNecessary, LoadRangeSuccess } from './load-range-actions';
-import {
-  Replace,
-  ReplaceFailure,
-  ReplaceMany,
-  ReplaceManyFailure,
-  ReplaceManySuccess,
-  ReplaceSuccess
-} from './replace-actions';
+import { Replace, ReplaceFailure, ReplaceMany, ReplaceManyFailure, ReplaceManySuccess, ReplaceSuccess } from './replace-actions';
 import { Select, SelectByKey, Selected, SelectedMany, SelectMany, SelectManyByKeys } from './selection-actions';
-import {
-  Update,
-  UpdateFailure,
-  UpdateMany,
-  UpdateManyFailure,
-  UpdateManySuccess,
-  UpdateSuccess
-} from './update-actions';
-import {
-  Upsert,
-  UpsertFailure,
-  UpsertMany,
-  UpsertManyFailure,
-  UpsertManySuccess,
-  UpsertSuccess
-} from './upsert-actions';
+import { Update, UpdateFailure, UpdateMany, UpdateManyFailure, UpdateManySuccess, UpdateSuccess } from './update-actions';
+import { Upsert, UpsertFailure, UpsertMany, UpsertManyFailure, UpsertManySuccess, UpsertSuccess } from './upsert-actions';
 
 /**
  * Union of all known entity action types

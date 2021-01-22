@@ -19,13 +19,7 @@ export class UpdateSuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class UpdateFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entity: TModel,
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entity: TModel, public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.UpdateFailure, correlationId);
   }
 }
@@ -48,13 +42,7 @@ export class UpdateManySuccess<TModel> extends EntityAction<TModel> {
 }
 
 export class UpdateManyFailure<TModel> extends EntityAction<TModel> {
-  constructor(
-    type: new () => TModel,
-    public error: any,
-    public entities: TModel[],
-    public criteria?: any,
-    correlationId?: string
-  ) {
+  constructor(type: new () => TModel, public error: any, public entities: TModel[], public criteria?: any, correlationId?: string) {
     super(type, EntityActionTypes.UpdateManyFailure, correlationId);
   }
 }

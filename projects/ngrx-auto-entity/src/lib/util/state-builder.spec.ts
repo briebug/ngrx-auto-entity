@@ -13,14 +13,16 @@ expect.extend({
 
     const opts = { isNot: this ? this.isNot : false };
     const message = pass
-      ? () => this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-        '\n\n' +
-        `Expected: not [Function memoized]` +
-        `Received: ${this.utils.printReceived(received)}`
-      : () => this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-        '\n\n' +
-        `Expected: [Function memoized]` +
-        `Received: ${this.utils.printReceived(received)}`;
+      ? () =>
+          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
+          '\n\n' +
+          `Expected: not [Function memoized]` +
+          `Received: ${this.utils.printReceived(received)}`
+      : () =>
+          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
+          '\n\n' +
+          `Expected: [Function memoized]` +
+          `Received: ${this.utils.printReceived(received)}`;
 
     return { actual: received, message, pass };
   }
@@ -127,7 +129,7 @@ describe('buildState()', () => {
       const state = buildState(Test);
       expect(() => state.entityState({})).toThrow(
         // tslint:disable-next-line:max-line-length
-        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.'
+        "State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly 'test'."
       );
     });
   });

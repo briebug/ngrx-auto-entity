@@ -15,9 +15,7 @@ export function getKeyNames(action: IEntityAction): string[] {
   const keys = action && action.info && action.info.modelType.prototype[NAE_KEYS];
   if (keys === undefined) {
     console.error(
-      `[NGRX-AE] [getKeyNames()] Entity model '${action &&
-        action.info &&
-        action.info.modelName}' does not have a key specified!`
+      `[NGRX-AE] [getKeyNames()] Entity model '${action && action.info && action.info.modelName}' does not have a key specified!`
     );
   }
   return keys || [];
@@ -25,9 +23,7 @@ export function getKeyNames(action: IEntityAction): string[] {
 
 export function getKeyNamesFromModel<TModel>(type: new () => TModel): string[] {
   if (type === undefined) {
-    console.error(
-      '[NGRX-AE] [getKeyNamesFromModel()] Specified type does not exist! Please provide a valid auto-entity model type.'
-    );
+    console.error('[NGRX-AE] [getKeyNamesFromModel()] Specified type does not exist! Please provide a valid auto-entity model type.');
     return [];
   }
 
@@ -37,9 +33,7 @@ export function getKeyNamesFromModel<TModel>(type: new () => TModel): string[] {
 
 export function getKeyNamesFromEntity<TModel>(entity: TModel): string[] {
   if (!entity) {
-    console.error(
-      '[NGRX-AE] [getKeyNamesFromEntity()] Specified entity does not exist! Please provide a valid auto-entity entity object.'
-    );
+    console.error('[NGRX-AE] [getKeyNamesFromEntity()] Specified entity does not exist! Please provide a valid auto-entity entity object.');
     return [];
   }
 

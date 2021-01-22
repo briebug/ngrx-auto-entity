@@ -34,8 +34,7 @@ const hasEntitiesLoaded = (info: IEntityInfo) => fpipe(getEntityState(info), get
 
 const addSeconds = (date: Date, seconds: number): Date => (date.setSeconds(date.getSeconds() + seconds), date);
 const nowAfterExpiry = (expiry: Date): boolean => expiry < new Date();
-const isSubsequentRange = (a: any, b: any) =>
-  (a.start || a.first || a.skip + a.take) > (b.end || b.last || b.skip + b.take);
+const isSubsequentRange = (a: any, b: any) => (a.start || a.first || a.skip + a.take) > (b.end || b.last || b.skip + b.take);
 
 const warnIfMissingStore = () =>
   console.warn(
@@ -97,9 +96,7 @@ export class EntityIfNecessaryOperators {
             })),
             filter(
               ({ isLoading, missing, checkAge, loadedAt, defaultMaxAge }) =>
-                !isLoading &&
-                (missing ||
-                  (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
             ),
             map(() => new Load(info.modelType, keys, criteria, correlationId))
           )
@@ -138,10 +135,7 @@ export class EntityIfNecessaryOperators {
             filter(
               ({ isLoading, missing, checkAge, loadedAt, defaultMaxAge }) =>
                 !isLoading &&
-                (missing ||
-                  (checkAge
-                    ? nowAfterExpiry(addSeconds(new Date(loadedAt as number), maxAge || defaultMaxAge))
-                    : missing))
+                (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt as number), maxAge || defaultMaxAge)) : missing))
             ),
             map(() => new LoadAll(info.modelType, criteria, correlationId))
           )
@@ -179,9 +173,7 @@ export class EntityIfNecessaryOperators {
             })),
             filter(
               ({ isLoading, missing, checkAge, loadedAt, defaultMaxAge }) =>
-                !isLoading &&
-                (missing ||
-                  (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
             ),
             map(() => new LoadMany(info.modelType, criteria, correlationId))
           )
@@ -225,9 +217,7 @@ export class EntityIfNecessaryOperators {
             filter(
               ({ isLoading, missing, samePage, checkAge, loadedAt, defaultMaxAge }) =>
                 !isLoading &&
-                (missing ||
-                  !samePage ||
-                  (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                (missing || !samePage || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
             ),
             map(() => new LoadPage(info.modelType, page, criteria, correlationId))
           )

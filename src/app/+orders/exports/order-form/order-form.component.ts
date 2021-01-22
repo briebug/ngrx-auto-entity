@@ -247,10 +247,7 @@ export class OrderFormComponent implements OnInit, OnDestroy {
   }
 
   private initTotal$() {
-    this.total$ = combineLatest([
-      this.itemsFormArray.valueChanges.pipe(startWith(this.itemsFormArray.value)),
-      this.productsById$
-    ]).pipe(
+    this.total$ = combineLatest([this.itemsFormArray.valueChanges.pipe(startWith(this.itemsFormArray.value)), this.productsById$]).pipe(
       map(([items, productsById]: [IOrderFormItem[], Record<number, Product>]) => {
         return items.reduce((total: number, item: IOrderFormItem) => {
           return productsById[item.productId] ? total + +productsById[item.productId].price * item.quantity : total;

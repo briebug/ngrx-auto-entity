@@ -22,10 +22,7 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   update(entityInfo: IEntityInfo, entity: any): Observable<any> {
-    return this.http.patch<any>(
-      `${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`,
-      entity
-    );
+    return this.http.patch<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`, entity);
   }
 
   updateMany(entityInfo: IEntityInfo, entities: any[], criteria?: any): Observable<any[]> {
@@ -37,9 +34,7 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   delete(entityInfo: IEntityInfo, entity: any): Observable<any> {
-    return this.http
-      .delete<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`)
-      .pipe(map(() => entity));
+    return this.http.delete<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`).pipe(map(() => entity));
   }
 
   deleteByKey(entityInfo: IEntityInfo, entityKey: string | number, criteria?: any): Observable<EntityIdentity> {
@@ -48,11 +43,7 @@ export class EntityService implements IAutoEntityService<any> {
       .pipe(map(() => entityKey));
   }
 
-  deleteManyByKeys(
-    entityInfo: IEntityInfo,
-    entityKeys: EntityIdentity[],
-    criteria?: any
-  ): Observable<EntityIdentity[]> {
+  deleteManyByKeys(entityInfo: IEntityInfo, entityKeys: EntityIdentity[], criteria?: any): Observable<EntityIdentity[]> {
     const deleteRequests = entityKeys.map(key => this.deleteByKey(entityInfo, key, criteria));
     return forkJoin(deleteRequests);
   }

@@ -9,44 +9,16 @@ import { IEntityError } from '../service/wrapper-models';
 import { fromEntityActions, ofEntityAction, ofEntityType } from './action-operators';
 import { EntityActionTypes } from './action-types';
 import { Clear } from './actions';
-import {
-  Create,
-  CreateFailure,
-  CreateMany,
-  CreateManyFailure,
-  CreateManySuccess,
-  CreateSuccess
-} from './create-actions';
-import {
-  Deselect,
-  DeselectAll,
-  Deselected,
-  DeselectedMany,
-  DeselectMany,
-  DeselectManyByKeys
-} from './deselection-actions';
+import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from './create-actions';
+import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, DeselectManyByKeys } from './deselection-actions';
 import { Load, LoadFailure, LoadSuccess } from './load-actions';
 import { LoadAll, LoadAllFailure, LoadAllSuccess } from './load-all-actions';
 import { LoadMany, LoadManyFailure, LoadManySuccess } from './load-many-actions';
 import { LoadPage, LoadPageSuccess } from './load-page-actions';
 import { LoadRange, LoadRangeFailure, LoadRangeSuccess } from './load-range-actions';
-import {
-  Replace,
-  ReplaceFailure,
-  ReplaceMany,
-  ReplaceManyFailure,
-  ReplaceManySuccess,
-  ReplaceSuccess
-} from './replace-actions';
+import { Replace, ReplaceFailure, ReplaceMany, ReplaceManyFailure, ReplaceManySuccess, ReplaceSuccess } from './replace-actions';
 import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMoreByKeys } from './selection-actions';
-import {
-  Update,
-  UpdateFailure,
-  UpdateMany,
-  UpdateManyFailure,
-  UpdateManySuccess,
-  UpdateSuccess
-} from './update-actions';
+import { Update, UpdateFailure, UpdateMany, UpdateManyFailure, UpdateManySuccess, UpdateSuccess } from './update-actions';
 
 const xform = {
   fromServer: data => data,
@@ -1404,12 +1376,7 @@ describe('NgRX Auto-Entity: Actions', () => {
 
       actions = hot('-a-b-c-d', { a: action1, b: action2, c: action3, d: action4 });
       const expected = hot('-a-b-c-d', { a: action1, b: action2, c: action3, d: action4 });
-      const result = fromEntityActions(
-        actions,
-        [TestEntity, AltEntity],
-        EntityActionTypes.Load,
-        EntityActionTypes.LoadAll
-      );
+      const result = fromEntityActions(actions, [TestEntity, AltEntity], EntityActionTypes.Load, EntityActionTypes.LoadAll);
 
       expect(result).toBeObservable(expected);
     });
@@ -1424,12 +1391,7 @@ describe('NgRX Auto-Entity: Actions', () => {
 
       actions = hot('-a-b-c-d-e-f', { a: action1, b: action2, c: action3, d: action4, e: action5, f: action6 });
       const expected = hot('-a---c-d-e--', { a: action1, c: action3, d: action4, e: action5 });
-      const result = fromEntityActions(
-        actions,
-        [TestEntity, AltEntity],
-        EntityActionTypes.Load,
-        EntityActionTypes.LoadAll
-      );
+      const result = fromEntityActions(actions, [TestEntity, AltEntity], EntityActionTypes.Load, EntityActionTypes.LoadAll);
 
       expect(result).toBeObservable(expected);
     });

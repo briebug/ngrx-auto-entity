@@ -6,12 +6,7 @@ import { Page, Range } from '../models';
 import { EntityIdentity } from '../types/entity-identity';
 import { IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from './refs';
 import { callService } from './service-invocation';
-import {
-  transformArrayFromServer,
-  transformArrayToServer,
-  transformSingleFromServer,
-  transformSingleToServer
-} from './transformation';
+import { transformArrayFromServer, transformArrayToServer, transformSingleFromServer, transformSingleToServer } from './transformation';
 import { IEntityWithPageInfo, IEntityWithRangeInfo } from './wrapper-models';
 
 /**
@@ -206,11 +201,7 @@ export class NgrxAutoEntityService {
     );
   }
 
-  deleteManyByKey<TModel>(
-    entityInfo: IEntityInfo,
-    keys: EntityIdentity[],
-    criteria?: any
-  ): Observable<IEntityIdentitiesRef> {
+  deleteManyByKey<TModel>(entityInfo: IEntityInfo, keys: EntityIdentity[], criteria?: any): Observable<IEntityIdentitiesRef> {
     return callService<TModel, EntityIdentity[], IEntityIdentitiesRef>(
       'deleteManyByKeys',
       entityInfo,
