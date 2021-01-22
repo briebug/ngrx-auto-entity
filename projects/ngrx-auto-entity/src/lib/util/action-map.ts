@@ -1,53 +1,17 @@
 import { ActionCreator } from '@ngrx/store';
+import { DeleteByKey, DeleteManyByKeysFailure } from '../..';
 import { Clear } from '../actions/actions';
-import {
-  Create,
-  CreateFailure,
-  CreateMany,
-  CreateManyFailure,
-  CreateManySuccess,
-  CreateSuccess
-} from '../actions/create-actions';
-import {
-  Delete,
-  DeleteFailure,
-  DeleteMany,
-  DeleteManyFailure,
-  DeleteManySuccess,
-  DeleteSuccess
-} from '../actions/delete-actions';
-import {
-  Deselect,
-  DeselectAll,
-  Deselected,
-  DeselectedMany,
-  DeselectMany,
-  DeselectManyByKeys
-} from '../actions/deselection-actions';
-import {
-  Change,
-  Changed,
-  Edit,
-  EditByKey,
-  Edited,
-  EditedByKey,
-  EditEnded,
-  EditNew,
-  EndEdit
-} from '../actions/edit-actions';
+import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from '../actions/create-actions';
+import { Delete, DeleteFailure, DeleteMany, DeleteManyFailure, DeleteManySuccess, DeleteSuccess } from '../actions/delete-actions';
+import { DeleteManyByKeys, DeleteManyByKeysSuccess } from '../actions/delete-by-key-actions';
+import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
+import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EditNew, EndEdit } from '../actions/edit-actions';
 import { Load, LoadFailure, LoadIfNecessary, LoadSuccess } from '../actions/load-actions';
 import { LoadAll, LoadAllFailure, LoadAllIfNecessary, LoadAllSuccess } from '../actions/load-all-actions';
 import { LoadMany, LoadManyFailure, LoadManyIfNecessary, LoadManySuccess } from '../actions/load-many-actions';
 import { LoadPage, LoadPageFailure, LoadPageIfNecessary, LoadPageSuccess } from '../actions/load-page-actions';
 import { LoadRange, LoadRangeFailure, LoadRangeIfNecessary, LoadRangeSuccess } from '../actions/load-range-actions';
-import {
-  Replace,
-  ReplaceFailure,
-  ReplaceMany,
-  ReplaceManyFailure,
-  ReplaceManySuccess,
-  ReplaceSuccess
-} from '../actions/replace-actions';
+import { Replace, ReplaceFailure, ReplaceMany, ReplaceManyFailure, ReplaceManySuccess, ReplaceSuccess } from '../actions/replace-actions';
 import {
   Select,
   SelectByKey,
@@ -59,75 +23,27 @@ import {
   SelectMore,
   SelectMoreByKeys
 } from '../actions/selection-actions';
+import { Update, UpdateFailure, UpdateMany, UpdateManyFailure, UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
+import { Upsert, UpsertFailure, UpsertMany, UpsertManyFailure, UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
+import { CreateFailureProps, CreateManyFailureProps, CreateManyProps, CreateProps } from '../factories/create-factories';
 import {
-  Update,
-  UpdateFailure,
-  UpdateMany,
-  UpdateManyFailure,
-  UpdateManySuccess,
-  UpdateSuccess
-} from '../actions/update-actions';
-import {
-  Upsert,
-  UpsertFailure,
-  UpsertMany,
-  UpsertManyFailure,
-  UpsertManySuccess,
-  UpsertSuccess
-} from '../actions/upsert-actions';
-import {
-  CreateFailureProps,
-  CreateManyFailureProps,
-  CreateManyProps,
-  CreateProps
-} from '../factories/create-factories';
-import {
-  DeleteFailureProps,
-  DeleteManyFailureProps,
-  DeleteManyProps,
-  DeleteProps
-} from '../factories/delete-factories';
+  DeleteByKeyFailureProps,
+  DeleteByKeyProps,
+  DeleteManyByKeysFailureProps,
+  DeleteManyByKeysProps
+} from '../factories/delete-by-key-factories';
+import { DeleteFailureProps, DeleteManyFailureProps, DeleteManyProps, DeleteProps } from '../factories/delete-factories';
 import { DeselectedManyProps, DeselectManyByKeysProps, DeselectManyProps } from '../factories/deselection-factories';
 import { EditByKeyProps, EditNewProps, EditProps } from '../factories/edit-factories';
 import { LoadAllFailureProps, LoadAllIfNecessaryProps, LoadAllSuccessProps } from '../factories/load-all-factories';
 import { LoadFailureProps, LoadIfNecessaryProps, LoadProps, LoadSuccessProps } from '../factories/load-factories';
 import { LoadManyFailureProps, LoadManyIfNecessaryProps, LoadManySuccessProps } from '../factories/load-many-factories';
-import {
-  LoadPageFailureProps,
-  LoadPageIfNecessaryProps,
-  LoadPageProps,
-  LoadPageSuccessProps
-} from '../factories/load-page-factories';
-import {
-  LoadRangeFailureProps,
-  LoadRangeIfNecessaryProps,
-  LoadRangeProps,
-  LoadRangeSuccessProps
-} from '../factories/load-range-factories';
-import {
-  ReplaceFailureProps,
-  ReplaceManyFailureProps,
-  ReplaceManyProps,
-  ReplaceProps
-} from '../factories/replace-factories';
-import {
-  SelectByKeyProps,
-  SelectedManyProps,
-  SelectManyByKeysProps,
-  SelectManyProps, SelectProps
-} from '../factories/selection-factories';
-import {
-  UpdateFailureProps,
-  UpdateManyFailureProps,
-  UpdateManyProps,
-  UpdateProps
-} from '../factories/update-factories';
-import {
-  UpsertFailureProps,
-  UpsertManyFailureProps,
-  UpsertManyProps,
-  UpsertProps
-} from '../factories/upsert-factories';
+import { LoadPageFailureProps, LoadPageIfNecessaryProps, LoadPageProps, LoadPageSuccessProps } from '../factories/load-page-factories';
+import { LoadRangeFailureProps, LoadRangeIfNecessaryProps, LoadRangeProps, LoadRangeSuccessProps } from '../factories/load-range-factories';
+import { ReplaceFailureProps, ReplaceManyFailureProps, ReplaceManyProps, ReplaceProps } from '../factories/replace-factories';
+import { SelectByKeyProps, SelectedManyProps, SelectManyByKeysProps, SelectManyProps, SelectProps } from '../factories/selection-factories';
+import { UpdateFailureProps, UpdateManyFailureProps, UpdateManyProps, UpdateProps } from '../factories/update-factories';
+import { UpsertFailureProps, UpsertManyFailureProps, UpsertManyProps, UpsertProps } from '../factories/upsert-factories';
 import { CorrelatedProps, StandardProps } from '../factories/util';
 
 export interface IActionMap<TModel> {
@@ -190,6 +106,14 @@ export interface IActionMap<TModel> {
   deleteMany: ActionCreator<string, (props: DeleteManyProps<TModel>) => DeleteMany<TModel>>;
   deleteManySuccess: ActionCreator<string, (props: DeleteManyProps<TModel>) => DeleteManySuccess<TModel>>;
   deleteManyFailure: ActionCreator<string, (props: DeleteManyFailureProps<TModel>) => DeleteManyFailure<TModel>>;
+
+  deleteByKey: ActionCreator<string, (props: DeleteByKeyProps<TModel>) => DeleteByKey<TModel>>;
+  deleteByKeySuccess: ActionCreator<string, (props: DeleteByKeyProps<TModel>) => DeleteByKey<TModel>>;
+  deleteByKeyFailure: ActionCreator<string, (props: DeleteByKeyFailureProps<TModel>) => DeleteByKey<TModel>>;
+
+  deleteManyByKeys: ActionCreator<string, (props: DeleteManyByKeysProps<TModel>) => DeleteManyByKeys<TModel>>;
+  deleteManyByKeysSuccess: ActionCreator<string, (props: DeleteManyByKeysProps<TModel>) => DeleteManyByKeysSuccess<TModel>>;
+  deleteManyByKeysFailure: ActionCreator<string, (props: DeleteManyByKeysFailureProps<TModel>) => DeleteManyByKeysFailure<TModel>>;
 
   clear: ActionCreator<string, (props?: CorrelatedProps) => Clear<TModel>>;
 

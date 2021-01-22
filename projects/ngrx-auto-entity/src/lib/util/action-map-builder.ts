@@ -8,6 +8,14 @@ import {
   createCreateSuccessAction
 } from '../factories/create-factories';
 import {
+  createDeleteByKeyAction,
+  createDeleteByKeyFailureAction,
+  createDeleteByKeySuccessAction,
+  createDeleteManyByKeysAction,
+  createDeleteManyByKeysFailureAction,
+  createDeleteManyByKeysSuccessAction
+} from '../factories/delete-by-key-factories';
+import {
   createDeleteAction,
   createDeleteFailureAction,
   createDeleteManyAction,
@@ -306,6 +314,30 @@ export const buildActionMap = <TModel>(Type: TNew<TModel>): IActionMap<TModel> =
 
     get deleteManyFailure() {
       return createDeleteManyFailureAction(Type);
+    }
+
+    get deleteByKey() {
+      return createDeleteByKeyAction(Type);
+    }
+
+    get deleteByKeySuccess() {
+      return createDeleteByKeySuccessAction(Type);
+    }
+
+    get deleteByKeyFailure() {
+      return createDeleteByKeyFailureAction(Type);
+    }
+
+    get deleteManyByKeys() {
+      return createDeleteManyByKeysAction(Type);
+    }
+
+    get deleteManyByKeysSuccess() {
+      return createDeleteManyByKeysSuccessAction(Type);
+    }
+
+    get deleteManyByKeysFailure() {
+      return createDeleteManyByKeysFailureAction(Type);
     }
 
     get deselect() {
