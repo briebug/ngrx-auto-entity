@@ -137,17 +137,17 @@ export interface IActionMap<TModel> {
   loadFailure: ActionCreator<string, (props: LoadFailureProps<TModel>) => LoadFailure<TModel>>;
 
   loadAllIfNecessary: ActionCreator<string, (props: LoadAllIfNecessaryProps) => LoadAllIfNecessary<TModel>>;
-  loadAll: ActionCreator<string, (props: StandardProps) => LoadAll<TModel>>;
+  loadAll: ActionCreator<string, (props?: StandardProps) => LoadAll<TModel>>;
   loadAllSuccess: ActionCreator<string, (props: LoadAllSuccessProps<TModel>) => LoadAllSuccess<TModel>>;
   loadAllFailure: ActionCreator<string, (props: LoadAllFailureProps<TModel>) => LoadAllFailure<TModel>>;
 
   loadManyIfNecessary: ActionCreator<string, (props: LoadManyIfNecessaryProps) => LoadManyIfNecessary<TModel>>;
-  loadMany: ActionCreator<string, (props: StandardProps) => LoadMany<TModel>>;
+  loadMany: ActionCreator<string, (props?: StandardProps) => LoadMany<TModel>>;
   loadManySuccess: ActionCreator<string, (props: LoadManySuccessProps<TModel>) => LoadManySuccess<TModel>>;
   loadManyFailure: ActionCreator<string, (props: LoadManyFailureProps<TModel>) => LoadManyFailure<TModel>>;
 
   loadPageIfNecessary: ActionCreator<string, (props: LoadPageIfNecessaryProps) => LoadPageIfNecessary<TModel>>;
-  loadPage: ActionCreator<string, (props: LoadPageProps) => LoadPage<TModel>>;
+  loadPage: ActionCreator<string, (props?: LoadPageProps) => LoadPage<TModel>>;
   loadPageSuccess: ActionCreator<string, (props: LoadPageSuccessProps<TModel>) => LoadPageSuccess<TModel>>;
   loadPageFailure: ActionCreator<string, (props: LoadPageFailureProps<TModel>) => LoadPageFailure<TModel>>;
 
@@ -191,13 +191,13 @@ export interface IActionMap<TModel> {
   deleteManySuccess: ActionCreator<string, (props: DeleteManyProps<TModel>) => DeleteManySuccess<TModel>>;
   deleteManyFailure: ActionCreator<string, (props: DeleteManyFailureProps<TModel>) => DeleteManyFailure<TModel>>;
 
-  clear: ActionCreator<string, (props: CorrelatedProps) => Clear<TModel>>;
+  clear: ActionCreator<string, (props?: CorrelatedProps) => Clear<TModel>>;
 
-  deselect: ActionCreator<string, (props: CorrelatedProps) => Deselect<TModel>>;
+  deselect: ActionCreator<string, (props?: CorrelatedProps) => Deselect<TModel>>;
   deselectMany: ActionCreator<string, (props: DeselectManyProps<TModel>) => DeselectMany<TModel>>;
   deselectManyByKeys: ActionCreator<string, (props: DeselectManyByKeysProps) => DeselectManyByKeys<TModel>>;
-  deselectAll: ActionCreator<string, (props: CorrelatedProps) => DeselectAll<TModel>>;
-  deselected: ActionCreator<string, (props: CorrelatedProps) => Deselected<TModel>>;
+  deselectAll: ActionCreator<string, (props?: CorrelatedProps) => DeselectAll<TModel>>;
+  deselected: ActionCreator<string, (props?: CorrelatedProps) => Deselected<TModel>>;
   deselectedMany: ActionCreator<string, (props: DeselectedManyProps<TModel>) => DeselectedMany<TModel>>;
 
   select: ActionCreator<string, (props: SelectProps<TModel>) => Select<TModel>>;
@@ -206,7 +206,7 @@ export interface IActionMap<TModel> {
   selectMore: ActionCreator<string, (props: SelectManyProps<TModel>) => SelectMore<TModel>>;
   selectManyByKeys: ActionCreator<string, (props: SelectManyByKeysProps) => SelectManyByKeys<TModel>>;
   selectMoreByKeys: ActionCreator<string, (props: SelectManyByKeysProps) => SelectMoreByKeys<TModel>>;
-  selected: ActionCreator<string, (props: CorrelatedProps) => Selected<TModel>>;
+  selected: ActionCreator<string, (props?: CorrelatedProps) => Selected<TModel>>;
   selectedMany: ActionCreator<string, (props: SelectedManyProps<TModel>) => SelectedMany<TModel>>;
   selectedMore: ActionCreator<string, (props: SelectedManyProps<TModel>) => SelectedMore<TModel>>;
 
@@ -217,6 +217,6 @@ export interface IActionMap<TModel> {
   editedByKey: ActionCreator<string, (props: EditByKeyProps) => EditedByKey<TModel>>;
   change: ActionCreator<string, (props: EditProps<TModel>) => Change<TModel>>;
   changed: ActionCreator<string, (props: EditProps<TModel>) => Changed<TModel>>;
-  endEdit: ActionCreator<string, (props: CorrelatedProps) => EndEdit<TModel>>;
-  editEnded: ActionCreator<string, (props: CorrelatedProps) => EditEnded<TModel>>;
+  endEdit: ActionCreator<string, (props?: CorrelatedProps) => EndEdit<TModel>>;
+  editEnded: ActionCreator<string, (props?: CorrelatedProps) => EditEnded<TModel>>;
 }
