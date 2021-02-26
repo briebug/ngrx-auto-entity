@@ -97,17 +97,7 @@ export const warnMissingRangeInfo = (action: IEntityAction) =>
     `[NGRX-AE] Range information for '${action.info.modelName}' was not provided! Range info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );
 
-export function autoEntityReducer(reducer: ActionReducer<any>, state, action: EntityActions<any>) {
-  let stateName: string;
-  let featureName: string;
-  let entityState: any;
-
-  if (Object.values(EntityActionTypes).includes(action.actionType)) {
-    stateName = stateNameFromAction(action);
-    featureName = featureNameFromAction(action);
-    entityState = featureName ? state[featureName][stateName] : state[stateName];
-  }
-
+export const reduceAutoEntityAction = (state, entityState: any, action: EntityActions<any>, stateName: string, featureName: string) => {
   try {
     switch (action.actionType) {
       case EntityActionTypes.Create: {
@@ -969,6 +959,9 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
         const next = setNewState(featureName, stateName, state, newState);
         return next;
       }
+      default: {
+        return state;
+      }
     }
   } catch (err) {
     if (err.message && err.message.startsWith('[NGRX-AE]')) {
@@ -977,8 +970,22 @@ export function autoEntityReducer(reducer: ActionReducer<any>, state, action: En
     }
     throw err;
   }
+};
 
-  return reducer(state, action);
+export function autoEntityReducer(reducer: ActionReducer<any>, state, action: EntityActions<any>) {
+  let stateName: string;
+  let featureName: string;
+  let entityState: any;
+
+  if (Object.values(EntityActionTypes).includes(action.actionType)) {
+    stateName = stateNameFromAction(action);
+    featureName = featureNameFromAction(action);
+    entityState = featureName ? state[featureName][stateName] : state[stateName];
+  }
+
+  const nextState = reduceAutoEntityAction(state, entityState, action, stateName, featureName);
+
+  return reducer(nextState || state, action);
 }
 
 /**

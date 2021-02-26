@@ -17,6 +17,10 @@ export class EntityService implements IAutoEntityService<any> {
     return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`);
   }
 
+  loadMany(entityInfo: IEntityInfo): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`);
+  }
+
   create(entityInfo: IEntityInfo, entity: any): Observable<any> {
     return this.http.post<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
   }
