@@ -1,4 +1,4 @@
-import { MemoizedSelector } from '@ngrx/store';
+import { MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
 import { Page, Range } from '../models';
 import { EntityIdentity } from '../types/entity-identity';
 import { IEntityDictionary } from './entity-state';
@@ -12,7 +12,7 @@ export interface ISelectorMap<TParentState, TModel> {
   selectEntities: MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
   selectAll: MemoizedSelector<object | TParentState, TModel[]>;
   selectAllSorted: MemoizedSelector<object | TParentState, TModel[]>;
-  selectCustomSorted: MemoizedSelector<object | TParentState, TModel[]>;
+  selectCustomSorted: MemoizedSelectorWithProps<object | TParentState, { readonly name?: any }, TModel[]>;
   selectTotal: MemoizedSelector<object | TParentState, number>;
   selectHasEntities: MemoizedSelector<object | TParentState, boolean>;
   selectHasNoEntities: MemoizedSelector<object | TParentState, boolean>;

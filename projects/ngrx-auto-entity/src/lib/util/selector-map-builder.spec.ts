@@ -3,21 +3,9 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { hot } from 'jasmine-marbles';
 import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
-import { ISelectorMap } from '../util/selector-map';
 import { IEntityState } from './entity-state';
 import { makeEntity } from './make-entity';
-import {
-  buildSelectorMap,
-  mapToCreatedAt,
-  mapToCustomSortedEntityArray,
-  mapToDeletedAt,
-  mapToEntityArray,
-  mapToLoadedAt,
-  mapToReplacedAt,
-  mapToSavedAt,
-  mapToSortedEntityArray,
-  mapToUpdatedAt
-} from './selector-map-builder';
+import { buildSelectorMap } from './selector-map-builder';
 
 expect.extend({
   toBeMemoizedSelector(received) {
@@ -80,233 +68,41 @@ class Alt {
 const makeTestModel = makeEntity(Test);
 const makeAltModel = makeEntity(Alt);
 
-describe('mapToEntityArray()', () => {
-  it('should return empty array if entities is falsy', () => {
-    const entities = mapToEntityArray(null, []);
-    expect(entities).toEqual([]);
-  });
-
-  it('should return empty array if ids is falsy', () => {
-    const entities = mapToEntityArray({}, null);
-    expect(entities).toEqual([]);
-  });
-
-  it('should return empty array if ids is empty', () => {
-    const entities = mapToEntityArray({ 1: { id: 1, name: 'test' } }, []);
-    expect(entities).toEqual([]);
-  });
-
-  it('should return array of entity objects', () => {
-    const entities = mapToEntityArray({ 1: { id: 1, name: 'test 1' }, 2: { id: 2, name: 'test 2' } }, [1, 2]);
-    expect(entities).toEqual([
-      { id: 1, name: 'test 1' },
-      { id: 2, name: 'test 2' }
-    ]);
-  });
-});
-
-describe('mapToSortedEntityArray()', () => {
-  it('should return empty array if all array is falsy', () => {
-    const entities = mapToSortedEntityArray(null);
-    expect(entities).toEqual([]);
-  });
-
-  it('should return sorted array of entity objects', () => {
-    const all = [makeTestModel({ id: 2, name: 'test 2' }), makeTestModel({ id: 1, name: 'test 1' })];
-    const entities = mapToSortedEntityArray(all);
-    expect(entities).toEqual([
-      { id: 1, name: 'test 1' },
-      { id: 2, name: 'test 2' }
-    ]);
-  });
-});
-
-describe('mapToCustomSortedEntityArray()', () => {
-  it('should return empty array if all array is falsy', () => {
-    const entities = mapToCustomSortedEntityArray(null, { name: '' });
-    expect(entities).toEqual([]);
-  });
-
-  it('should return sorted array of entity objects', () => {
-    const all = [makeTestModel({ id: 2, name: 'test 2' }), makeTestModel({ id: 1, name: 'test 1' })];
-    const entities = mapToCustomSortedEntityArray(all, { name: 'test' });
-    expect(entities).toEqual([
-      { id: 1, name: 'test 1' },
-      { id: 2, name: 'test 2' }
-    ]);
-  });
-});
-
-describe('mapToLoadedAt()', () => {
-  it('should return null if state falsy', () => {
-    const ts = mapToLoadedAt(null);
-    expect(ts).toBeNull();
-  });
-
-  it('should return null if loadedAt state is falsy', () => {
-    const ts = mapToLoadedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
-  });
-
-  it('should return Date', () => {
-    const now = Date.now();
-    const ts = mapToLoadedAt({ entities: {}, ids: [], loadedAt: now });
-    expect(ts).toStrictEqual(new Date(now));
-  });
-});
-
-describe('mapToSavedAt()', () => {
-  it('should return null if state falsy', () => {
-    const ts = mapToSavedAt(null);
-    expect(ts).toBeNull();
-  });
-
-  it('should return null if savedAt state is falsy', () => {
-    const ts = mapToSavedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
-  });
-
-  it('should return Date', () => {
-    const now = Date.now();
-    const ts = mapToSavedAt({ entities: {}, ids: [], savedAt: now });
-    expect(ts).toStrictEqual(new Date(now));
-  });
-});
-
-describe('mapToCreatedAt()', () => {
-  it('should return null if state falsy', () => {
-    const ts = mapToCreatedAt(null);
-    expect(ts).toBeNull();
-  });
-
-  it('should return null if createdAt state is falsy', () => {
-    const ts = mapToCreatedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
-  });
-
-  it('should return Date', () => {
-    const now = Date.now();
-    const ts = mapToCreatedAt({ entities: {}, ids: [], createdAt: now });
-    expect(ts).toStrictEqual(new Date(now));
-  });
-});
-
-describe('mapToUpdatedAt()', () => {
-  it('should return null if state falsy', () => {
-    const ts = mapToUpdatedAt(null);
-    expect(ts).toBeNull();
-  });
-
-  it('should return null if updatedAt state is falsy', () => {
-    const ts = mapToUpdatedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
-  });
-
-  it('should return Date', () => {
-    const now = Date.now();
-    const ts = mapToUpdatedAt({ entities: {}, ids: [], updatedAt: now });
-    expect(ts).toStrictEqual(new Date(now));
-  });
-});
-
-describe('mapToReplacedAt()', () => {
-  it('should return null if state falsy', () => {
-    const ts = mapToReplacedAt(null);
-    expect(ts).toBeNull();
-  });
-
-  it('should return null if replacedAt state is falsy', () => {
-    const ts = mapToReplacedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
-  });
-
-  it('should return Date', () => {
-    const now = Date.now();
-    const ts = mapToReplacedAt({ entities: {}, ids: [], replacedAt: now });
-    expect(ts).toStrictEqual(new Date(now));
-  });
-});
-
-describe('mapToDeletedAt()', () => {
-  it('should return null if state falsy', () => {
-    const ts = mapToDeletedAt(null);
-    expect(ts).toBeNull();
-  });
-
-  it('should return null if deletedAt state is falsy', () => {
-    const ts = mapToDeletedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
-  });
-
-  it('should return Date', () => {
-    const now = Date.now();
-    const ts = mapToDeletedAt({ entities: {}, ids: [], deletedAt: now });
-    expect(ts).toStrictEqual(new Date(now));
-  });
-});
-
 interface ITestState {
   test: IEntityState<Test>;
   alt?: IEntityState<Alt>;
 }
 
-const testSelectorMap: ISelectorMap<ITestState, Test> = {
-  selectAll: expect.toBeMemoizedSelector(),
-  selectAllSorted: expect.toBeMemoizedSelector(),
-  selectCustomSorted: expect.toBeMemoizedSelector(),
-  selectEntities: expect.toBeMemoizedSelector(),
-  selectIds: expect.toBeMemoizedSelector(),
-  selectTotal: expect.toBeMemoizedSelector(),
-  selectHasEntities: expect.toBeMemoizedSelector(),
-  selectHasNoEntities: expect.toBeMemoizedSelector(),
-  selectCurrentEntity: expect.toBeMemoizedSelector(),
-  selectCurrentEntityKey: expect.toBeMemoizedSelector(),
-  selectCurrentEntities: expect.toBeMemoizedSelector(),
-  selectCurrentEntitiesKeys: expect.toBeMemoizedSelector(),
-  selectEditedEntity: expect.toBeMemoizedSelector(),
-  selectIsDirty: expect.toBeMemoizedSelector(),
-  selectCurrentPage: expect.toBeMemoizedSelector(),
-  selectCurrentRange: expect.toBeMemoizedSelector(),
-  selectTotalPageable: expect.toBeMemoizedSelector(),
-  selectIsLoading: expect.toBeMemoizedSelector(),
-  selectIsSaving: expect.toBeMemoizedSelector(),
-  selectIsDeleting: expect.toBeMemoizedSelector(),
-  selectLoadedAt: expect.toBeMemoizedSelector(),
-  selectSavedAt: expect.toBeMemoizedSelector(),
-  selectCreatedAt: expect.toBeMemoizedSelector(),
-  selectUpdatedAt: expect.toBeMemoizedSelector(),
-  selectReplacedAt: expect.toBeMemoizedSelector(),
-  selectDeletedAt: expect.toBeMemoizedSelector()
-};
+const selectorProperties = [
+  'selectAll',
+  'selectAllSorted',
+  'selectCustomSorted',
+  'selectEntities',
+  'selectIds',
+  'selectTotal',
+  'selectHasEntities',
+  'selectHasNoEntities',
+  'selectCurrentEntity',
+  'selectCurrentEntityKey',
+  'selectCurrentEntities',
+  'selectCurrentEntitiesKeys',
+  'selectEditedEntity',
+  'selectIsDirty',
+  'selectCurrentPage',
+  'selectCurrentRange',
+  'selectTotalPageable',
+  'selectIsLoading',
+  'selectIsSaving',
+  'selectIsDeleting',
+  'selectLoadedAt',
+  'selectSavedAt',
+  'selectCreatedAt',
+  'selectUpdatedAt',
+  'selectReplacedAt',
+  'selectDeletedAt'
+];
 
-const altSelectorMap: ISelectorMap<ITestState, Alt> = {
-  selectAll: expect.toBeMemoizedSelector(),
-  selectAllSorted: expect.toBeMemoizedSelector(),
-  selectCustomSorted: expect.toBeMemoizedSelector(),
-  selectEntities: expect.toBeMemoizedSelector(),
-  selectIds: expect.toBeMemoizedSelector(),
-  selectTotal: expect.toBeMemoizedSelector(),
-  selectHasEntities: expect.toBeMemoizedSelector(),
-  selectHasNoEntities: expect.toBeMemoizedSelector(),
-  selectCurrentEntity: expect.toBeMemoizedSelector(),
-  selectCurrentEntityKey: expect.toBeMemoizedSelector(),
-  selectCurrentEntities: expect.toBeMemoizedSelector(),
-  selectCurrentEntitiesKeys: expect.toBeMemoizedSelector(),
-  selectEditedEntity: expect.toBeMemoizedSelector(),
-  selectIsDirty: expect.toBeMemoizedSelector(),
-  selectCurrentPage: expect.toBeMemoizedSelector(),
-  selectCurrentRange: expect.toBeMemoizedSelector(),
-  selectTotalPageable: expect.toBeMemoizedSelector(),
-  selectIsLoading: expect.toBeMemoizedSelector(),
-  selectIsSaving: expect.toBeMemoizedSelector(),
-  selectIsDeleting: expect.toBeMemoizedSelector(),
-  selectLoadedAt: expect.toBeMemoizedSelector(),
-  selectSavedAt: expect.toBeMemoizedSelector(),
-  selectCreatedAt: expect.toBeMemoizedSelector(),
-  selectUpdatedAt: expect.toBeMemoizedSelector(),
-  selectReplacedAt: expect.toBeMemoizedSelector(),
-  selectDeletedAt: expect.toBeMemoizedSelector()
-};
+const testSelectorMap = selectors => selectorProperties.every(prop => selectors.__proto__.hasOwnProperty(prop));
 
 describe('buildSelectorMap()', () => {
   beforeEach(() => {
@@ -326,7 +122,7 @@ describe('buildSelectorMap()', () => {
 
   it('should create a selector map for the specified state', () => {
     const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
-    expect(selectorMap).toEqual(testSelectorMap);
+    expect(selectorMap).toSatisfy(testSelectorMap);
   });
 
   describe('selectAll', () => {

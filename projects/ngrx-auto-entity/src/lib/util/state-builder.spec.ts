@@ -70,44 +70,50 @@ describe('buildState()', () => {
 
   // tslint:disable-next-line:max-line-length
   it('should return an object with initial state, selectors, the root entity state, a makeEntity function, a reducer and a base facade class', () => {
-    const state = buildState(Test);
+    const built = buildState(Test);
 
-    expect(state.initialState).toEqual({
+    expect(built.initialState).toEqual({
       entities: {},
       ids: []
     });
-    expect(state.selectors).toEqual({
-      selectAll: expect.toBeMemoizedSelector(),
-      selectAllSorted: expect.toBeMemoizedSelector(),
-      selectCustomSorted: expect.toBeMemoizedSelector(),
-      selectEntities: expect.toBeMemoizedSelector(),
-      selectIds: expect.toBeMemoizedSelector(),
-      selectTotal: expect.toBeMemoizedSelector(),
-      selectHasEntities: expect.toBeMemoizedSelector(),
-      selectHasNoEntities: expect.toBeMemoizedSelector(),
-      selectCurrentEntity: expect.toBeMemoizedSelector(),
-      selectCurrentEntityKey: expect.toBeMemoizedSelector(),
-      selectCurrentEntities: expect.toBeMemoizedSelector(),
-      selectCurrentEntitiesKeys: expect.toBeMemoizedSelector(),
-      selectEditedEntity: expect.toBeMemoizedSelector(),
-      selectIsDirty: expect.toBeMemoizedSelector(),
-      selectCurrentPage: expect.toBeMemoizedSelector(),
-      selectCurrentRange: expect.toBeMemoizedSelector(),
-      selectTotalPageable: expect.toBeMemoizedSelector(),
-      selectIsLoading: expect.toBeMemoizedSelector(),
-      selectIsSaving: expect.toBeMemoizedSelector(),
-      selectIsDeleting: expect.toBeMemoizedSelector(),
-      selectLoadedAt: expect.toBeMemoizedSelector(),
-      selectSavedAt: expect.toBeMemoizedSelector(),
-      selectCreatedAt: expect.toBeMemoizedSelector(),
-      selectUpdatedAt: expect.toBeMemoizedSelector(),
-      selectReplacedAt: expect.toBeMemoizedSelector(),
-      selectDeletedAt: expect.toBeMemoizedSelector()
-    });
-    expect(state.reducer).toEqual(expect.any(Function));
-    expect(state.entityState).toEqual(expect.any(Function));
-    expect(state.makeEntity).toEqual(expect.any(Function));
-    expect(state.facade).toBeTruthy();
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectAll'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectAllSorted'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCustomSorted'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectEntities'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIds'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectTotal'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectHasEntities'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectHasNoEntities'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntity'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntityKey'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntities'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntitiesKeys'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectEditedEntity'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsDirty'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentPage'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentRange'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectTotalPageable'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsLoading'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsSaving'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsDeleting'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectLoadedAt'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectSavedAt'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCreatedAt'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectUpdatedAt'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectReplacedAt'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectDeletedAt'));
+
+    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('reducer'));
+    expect(built.reducer).toEqual(expect.any(Function));
+
+    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('entityState'));
+    expect(built.entityState).toEqual(expect.any(Function));
+
+    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('makeEntity'));
+    expect(built.makeEntity).toEqual(expect.any(Function));
+
+    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('facade'));
+    expect(built.facade).toBeTruthy();
   });
 
   it('should include extra state in initial state', () => {

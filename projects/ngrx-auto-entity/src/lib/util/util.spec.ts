@@ -64,34 +64,36 @@ interface ITestFeatureState {
   };
 }
 
-const testSelectorMap: ISelectorMap<ITestState, Test> = {
-  selectAll: expect.toBeMemoizedSelector(),
-  selectAllSorted: expect.toBeMemoizedSelector(),
-  selectCustomSorted: expect.toBeMemoizedSelector(),
-  selectEntities: expect.toBeMemoizedSelector(),
-  selectIds: expect.toBeMemoizedSelector(),
-  selectTotal: expect.toBeMemoizedSelector(),
-  selectHasEntities: expect.toBeMemoizedSelector(),
-  selectHasNoEntities: expect.toBeMemoizedSelector(),
-  selectCurrentEntity: expect.toBeMemoizedSelector(),
-  selectCurrentEntityKey: expect.toBeMemoizedSelector(),
-  selectCurrentEntities: expect.toBeMemoizedSelector(),
-  selectCurrentEntitiesKeys: expect.toBeMemoizedSelector(),
-  selectEditedEntity: expect.toBeMemoizedSelector(),
-  selectIsDirty: expect.toBeMemoizedSelector(),
-  selectCurrentPage: expect.toBeMemoizedSelector(),
-  selectCurrentRange: expect.toBeMemoizedSelector(),
-  selectTotalPageable: expect.toBeMemoizedSelector(),
-  selectIsLoading: expect.toBeMemoizedSelector(),
-  selectIsSaving: expect.toBeMemoizedSelector(),
-  selectIsDeleting: expect.toBeMemoizedSelector(),
-  selectLoadedAt: expect.toBeMemoizedSelector(),
-  selectSavedAt: expect.toBeMemoizedSelector(),
-  selectCreatedAt: expect.toBeMemoizedSelector(),
-  selectUpdatedAt: expect.toBeMemoizedSelector(),
-  selectReplacedAt: expect.toBeMemoizedSelector(),
-  selectDeletedAt: expect.toBeMemoizedSelector()
-};
+const selectorProperties = [
+  'selectAll',
+  'selectAllSorted',
+  'selectCustomSorted',
+  'selectEntities',
+  'selectIds',
+  'selectTotal',
+  'selectHasEntities',
+  'selectHasNoEntities',
+  'selectCurrentEntity',
+  'selectCurrentEntityKey',
+  'selectCurrentEntities',
+  'selectCurrentEntitiesKeys',
+  'selectEditedEntity',
+  'selectIsDirty',
+  'selectCurrentPage',
+  'selectCurrentRange',
+  'selectTotalPageable',
+  'selectIsLoading',
+  'selectIsSaving',
+  'selectIsDeleting',
+  'selectLoadedAt',
+  'selectSavedAt',
+  'selectCreatedAt',
+  'selectUpdatedAt',
+  'selectReplacedAt',
+  'selectDeletedAt'
+];
+
+const testSelectorMap = selectors => selectorProperties.every(prop => selectors.__proto__.hasOwnProperty(prop));
 
 describe('Utilities', () => {
   beforeEach(() => {
@@ -118,7 +120,7 @@ describe('Utilities', () => {
   describe('Function: buildSelectorMap', () => {
     it('should create a selector map for the specified state', () => {
       const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
-      expect(selectorMap).toEqual(testSelectorMap);
+      expect(selectorMap).toSatisfy(testSelectorMap);
     });
   });
 
@@ -146,7 +148,7 @@ describe('Utilities', () => {
         entities: {},
         ids: []
       });
-      expect(selectors).toEqual(testSelectorMap);
+      expect(selectors).toSatisfy(testSelectorMap);
       expect(FacadeBase.constructor).toBeTruthy();
       expect(facade).toBeInstanceOf(FacadeBase);
       expect(reducer).toEqual(expect.any(Function));
@@ -169,7 +171,7 @@ describe('Utilities', () => {
         entities: {},
         ids: []
       });
-      expect(selectors).toEqual(testSelectorMap);
+      expect(selectors).toSatisfy(testSelectorMap);
       expect(FacadeBase.constructor).toBeTruthy();
       expect(facade).toBeInstanceOf(FacadeBase);
       expect(reducer).toEqual(expect.any(Function));

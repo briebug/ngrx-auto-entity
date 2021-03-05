@@ -1,13 +1,15 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Action, createSelector, MemoizedSelector } from '@ngrx/store';
 import { IEntityOptions } from '../decorators/entity-options';
 import { ENTITY_OPTS_PROP, NAE_KEY_NAMES, NAE_KEYS } from '../decorators/entity-tokens';
 import { entityStateName } from '../decorators/entity-util';
 import { EntityIdentity } from '../types/entity-identity';
+import { IActionMap } from './action-map';
 import { buildActionMap } from './action-map-builder';
 import { IEntityState } from './entity-state';
 import { buildFacade } from './facade-builder';
 import { makeEntity } from './make-entity';
 import { IModelClass, IModelState } from './model-state';
+import { ISelectorMap } from './selector-map';
 import { buildSelectorMap } from './selector-map-builder';
 import { FEATURE_AFFINITY } from './util-tokens';
 
@@ -111,24 +113,56 @@ export interface AppState {
     ...extraInitialState
   } as TState & TExtra;
 
-  const actions = buildActionMap(type);
-  const selectors = buildSelectorMap<TParentState, TState, TModel, TExtra>(getState);
-  const facade = buildFacade<TModel, TParentState>(selectors);
-  const reducer = (state = initialState): IEntityState<TModel> & TExtra => {
-    return state;
-  };
+  // tslint:disable:variable-name
+  let _actions: IActionMap<TModel>;
+  let _selectors: ISelectorMap<TParentState, TModel>;
+  let _facade;
+  let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = getState as (state: TParentState) => TState & TExtra;
+  const _makeEntity = makeEntity(type);
+  // tslint:enable:variable-name
 
-  return {
-    initialState,
-    actions,
-    selectors,
-    reducer,
-    facade,
-    entityState,
-    makeEntity: makeEntity(type)
-  };
+  class StateBuilder {
+    get entityState() {
+      return entityState;
+    }
+
+    get initialState() {
+      return initialState;
+    }
+
+    get actions() {
+      _actions = _actions || buildActionMap(type);
+      return _actions;
+    }
+
+    get selectors() {
+      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(getState);
+      return _selectors;
+    }
+
+    get reducer() {
+      _reducer =
+        _reducer ||
+        ((state = initialState): IEntityState<TModel> & TExtra => {
+          return state;
+        });
+      return _reducer;
+    }
+
+    get makeEntity() {
+      return _makeEntity;
+    }
+
+    get facade() {
+      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors);
+      return _facade;
+    }
+  }
+
+  const built = new StateBuilder();
+  return built;
 };
 
 /**
@@ -184,22 +218,54 @@ export interface FeatureState {
     ...extraInitialState
   } as TState & TExtra;
 
-  const actions = buildActionMap(type);
-  const selectors = buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState);
-  const facade = buildFacade<TModel, TParentState>(selectors);
-  const reducer = (state = initialState): IEntityState<TModel> & TExtra => {
-    return state;
-  };
+  // tslint:disable:variable-name
+  let _actions: IActionMap<TModel>;
+  let _selectors: ISelectorMap<TParentState, TModel>;
+  let _facade;
+  let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = selectState as MemoizedSelector<object, any>;
+  const _makeEntity = makeEntity(type);
+  // tslint:enable:variable-name
 
-  return {
-    initialState,
-    actions,
-    selectors,
-    reducer,
-    facade,
-    entityState,
-    makeEntity: makeEntity(type)
-  };
+  class StateBuilder {
+    get entityState() {
+      return entityState;
+    }
+
+    get initialState() {
+      return initialState;
+    }
+
+    get actions() {
+      _actions = _actions || buildActionMap(type);
+      return _actions;
+    }
+
+    get selectors() {
+      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState);
+      return _selectors;
+    }
+
+    get reducer() {
+      _reducer =
+        _reducer ||
+        ((state = initialState): IEntityState<TModel> & TExtra => {
+          return state;
+        });
+      return _reducer;
+    }
+
+    get makeEntity() {
+      return _makeEntity;
+    }
+
+    get facade() {
+      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors);
+      return _facade;
+    }
+  }
+
+  const built = new StateBuilder();
+  return built;
 };
