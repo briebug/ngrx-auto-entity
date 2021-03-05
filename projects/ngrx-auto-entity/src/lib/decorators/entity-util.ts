@@ -17,11 +17,7 @@ export const getEntityOptions = <TModel>(entityOrType: TNew<TModel> | TModel | T
     EMPTY_OBJECT) as IEntityOptions;
 
 export const entityOptions = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): IEntityOptions =>
-  pipe(
-    getEntity,
-    ensureObject,
-    getEntityOptions
-  )(entityOrType);
+  pipe(getEntity, ensureObject, getEntityOptions)(entityOrType);
 
 export const entityStateName = (modelName: string): string => camelCase(modelName);
 

@@ -128,8 +128,8 @@ describe('buildState()', () => {
     it('should throw exception if parent state does not have a property matching the name of camelCase(@Entity.modelName)', () => {
       const state = buildState(Test);
       expect(() => state.entityState({})).toThrow(
-        // tslint:disable-next-line:max-line-length
-        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.'
+        // prettier-ignore
+        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.' // tslint:disable-line
       );
     });
   });

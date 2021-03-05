@@ -68,7 +68,11 @@ export const deleteMany = (currentEntities, entityKeys) => (
 
 export const pushSingle = (currentIds, entityKey) => (currentIds.push(entityKey), currentIds);
 export const pushMany = (currentIds, newEntities, action) => (
-  currentIds.push.apply(currentIds, newEntities.map(entity => safeGetKey(action, entity))), currentIds
+  currentIds.push.apply(
+    currentIds,
+    newEntities.map(entity => safeGetKey(action, entity))
+  ),
+  currentIds
 );
 export const combineUnique = (currentIds, currentEntities, modifiedEntities, action) => {
   const newIds = modifiedEntities.map(entity => safeGetKey(action, entity)).filter(key => !(key in currentEntities));

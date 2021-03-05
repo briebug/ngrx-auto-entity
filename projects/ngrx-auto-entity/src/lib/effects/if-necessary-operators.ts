@@ -30,23 +30,11 @@ export class EntityIfNecessaryOperators {
         getAppStore<LoadIfNecessary<TModel>>(this.injector),
         mergeMap(({ action: { info, keys, maxAge, criteria, correlationId }, store }) =>
           combineLatest([
-            store.pipe(
-              select(entityLoadedAt(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(entityIsLoading(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(hasEntitiesLoaded(info)),
-              take(1)
-            ),
+            store.pipe(select(entityLoadedAt(info)), take(1)),
+            store.pipe(select(entityIsLoading(info)), take(1)),
+            store.pipe(select(hasEntitiesLoaded(info)), take(1)),
             of(info.defaultMaxAge),
-            store.pipe(
-              select(entityIds(info)),
-              take(1)
-            )
+            store.pipe(select(entityIds(info)), take(1))
           ]).pipe(
             map(([loadedAt, isLoading, hasEntities, defaultMaxAge, ids]) => ({
               loadedAt,
@@ -72,18 +60,9 @@ export class EntityIfNecessaryOperators {
         getAppStore<LoadAllIfNecessary<TModel>>(this.injector),
         mergeMap(({ action: { info, maxAge, criteria, correlationId }, store }) =>
           combineLatest([
-            store.pipe(
-              select(entityLoadedAt(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(entityIsLoading(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(hasEntitiesLoaded(info)),
-              take(1)
-            ),
+            store.pipe(select(entityLoadedAt(info)), take(1)),
+            store.pipe(select(entityIsLoading(info)), take(1)),
+            store.pipe(select(hasEntitiesLoaded(info)), take(1)),
             of(info.defaultMaxAge)
           ]).pipe(
             map(([loadedAt, isLoading, hasEntities, defaultMaxAge]) => ({
@@ -111,18 +90,9 @@ export class EntityIfNecessaryOperators {
         getAppStore<LoadManyIfNecessary<TModel>>(this.injector),
         mergeMap(({ action: { info, maxAge, criteria, correlationId }, store }) =>
           combineLatest([
-            store.pipe(
-              select(entityLoadedAt(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(entityIsLoading(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(hasEntitiesLoaded(info)),
-              take(1)
-            ),
+            store.pipe(select(entityLoadedAt(info)), take(1)),
+            store.pipe(select(entityIsLoading(info)), take(1)),
+            store.pipe(select(hasEntitiesLoaded(info)), take(1)),
             of(info.defaultMaxAge)
           ]).pipe(
             map(([loadedAt, isLoading, hasEntities, defaultMaxAge]) => ({
@@ -149,23 +119,11 @@ export class EntityIfNecessaryOperators {
         getAppStore<LoadPageIfNecessary<TModel>>(this.injector),
         mergeMap(({ action: { info, page, maxAge, criteria, correlationId }, store }) =>
           combineLatest([
-            store.pipe(
-              select(entityLoadedAt(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(entityIsLoading(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(hasEntitiesLoaded(info)),
-              take(1)
-            ),
+            store.pipe(select(entityLoadedAt(info)), take(1)),
+            store.pipe(select(entityIsLoading(info)), take(1)),
+            store.pipe(select(hasEntitiesLoaded(info)), take(1)),
             of(info.defaultMaxAge),
-            store.pipe(
-              select(entityCurrentPage(info)),
-              take(1)
-            )
+            store.pipe(select(entityCurrentPage(info)), take(1))
           ]).pipe(
             map(([loadedAt, isLoading, hasEntities, defaultMaxAge, currentPage]) => ({
               loadedAt,
@@ -193,18 +151,9 @@ export class EntityIfNecessaryOperators {
         getAppStore<LoadRangeIfNecessary<TModel>>(this.injector),
         mergeMap(({ action: { info, range, maxAge, criteria, correlationId }, store }) =>
           combineLatest([
-            store.pipe(
-              select(entityLoadedAt(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(entityIsLoading(info)),
-              take(1)
-            ),
-            store.pipe(
-              select(hasEntitiesLoaded(info)),
-              take(1)
-            ),
+            store.pipe(select(entityLoadedAt(info)), take(1)),
+            store.pipe(select(entityIsLoading(info)), take(1)),
+            store.pipe(select(hasEntitiesLoaded(info)), take(1)),
             of(info.defaultMaxAge),
             store.pipe(
               select(entityCurrentRange(info)),

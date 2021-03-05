@@ -155,31 +155,28 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
 
   (type as any)[FEATURE_AFFINITY] = featureStateName;
 
-  const selectState = createSelector(
-    selectParentState,
-    (state: TParentState) => {
-      if (!state) {
-        // tslint:disable-next-line:max-line-length
-        const message = `Could not retrieve feature state ${featureStateName} for model ${opts.modelName}! Make sure you add your entity state to the feature state with a property named exactly '${stateName}'.`;
-        const example = ` Example app state:
+  const selectState = createSelector(selectParentState, (state: TParentState) => {
+    if (!state) {
+      // tslint:disable-next-line:max-line-length
+      const message = `Could not retrieve feature state ${featureStateName} for model ${opts.modelName}! Make sure you add your entity state to the feature state with a property named exactly '${stateName}'.`;
+      const example = ` Example app state:
 
 export interface FeatureState {
   // ... other states ...
   ${stateName}: IEntityState<${opts.modelName}>,
   // ... other states ...
 }`;
-        console.error('[NGRX-AE] ! ' + message + example);
-        throw new Error(message);
-      }
-      const modelState = state[stateName];
-      if (!modelState) {
-        const message = `State for model ${opts.modelName} in feature ${featureStateName} could not be found!`;
-        console.error('[NGRX-AE] ! ' + message);
-        throw new Error(message);
-      }
-      return modelState;
+      console.error('[NGRX-AE] ! ' + message + example);
+      throw new Error(message);
     }
-  );
+    const modelState = state[stateName];
+    if (!modelState) {
+      const message = `State for model ${opts.modelName} in feature ${featureStateName} could not be found!`;
+      console.error('[NGRX-AE] ! ' + message);
+      throw new Error(message);
+    }
+    return modelState;
+  });
 
   const initialState = {
     entities: {},

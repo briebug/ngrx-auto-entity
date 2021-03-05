@@ -11,29 +11,15 @@ const stripMatch = (replacement: string = ' ') => (match: string, index: number,
 
 const preserveNumbers = (preserve: boolean) => (str: string): string => (preserve ? str.replace(/ (?=\d)/g, '_') : str);
 
-export const lowerCase = (value: any): string =>
-  pipe(
-    asString,
-    (str: string) => str.toLowerCase()
-  )(value);
+export const lowerCase = (value: any): string => pipe(asString, (str: string) => str.toLowerCase())(value);
 
-export const upperCase = (value: any): string =>
-  pipe(
-    asString,
-    (str: string) => str.toUpperCase()
-  )(value);
+export const upperCase = (value: any): string => pipe(asString, (str: string) => str.toUpperCase())(value);
 
 export const lowerCaseFirst = (value: any): string =>
-  pipe(
-    asString,
-    (str: string) => (str ? str[0].toLowerCase() + str.substring(1) : str)
-  )(value);
+  pipe(asString, (str: string) => (str ? str[0].toLowerCase() + str.substring(1) : str))(value);
 
 export const upperCaseFirst = (value: any): string =>
-  pipe(
-    asString,
-    (str: string) => (str ? str[0].toUpperCase() + str.substring(1) : str)
-  )(value);
+  pipe(asString, (str: string) => (str ? str[0].toUpperCase() + str.substring(1) : str))(value);
 
 export const noCase = (str: string): string =>
   pipe(
