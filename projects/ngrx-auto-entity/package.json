@@ -1,5 +1,5 @@
 {
-  "version": "0.6.0-beta.1",
+  "version": "0.6.0",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "licnese": "MIT",
