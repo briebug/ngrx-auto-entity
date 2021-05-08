@@ -89,7 +89,7 @@
     "jest-preset-angular": "^7.1.1",
     "json-server": "^0.15.0",
     "lint-staged": "^7.2.0",
-    "ng-packagr": "^5.1.0",
+    "ng-packagr": "^10.1.1",
     "ngrx-store-freeze": "^0.2.4",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.0",
