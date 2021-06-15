@@ -1,9 +1,15 @@
 import { ActionCreator } from '@ngrx/store';
-import { DeleteByKey, DeleteManyByKeysFailure } from '../..';
 import { Clear } from '../actions/actions';
 import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from '../actions/create-actions';
 import { Delete, DeleteFailure, DeleteMany, DeleteManyFailure, DeleteManySuccess, DeleteSuccess } from '../actions/delete-actions';
-import { DeleteManyByKeys, DeleteManyByKeysSuccess } from '../actions/delete-by-key-actions';
+import {
+  DeleteByKey,
+  DeleteByKeyFailure,
+  DeleteByKeySuccess,
+  DeleteManyByKeys,
+  DeleteManyByKeysFailure,
+  DeleteManyByKeysSuccess
+} from '../actions/delete-by-key-actions';
 import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, DeselectManyByKeys } from '../actions/deselection-actions';
 import { Change, Changed, Edit, EditByKey, Edited, EditedByKey, EditEnded, EditNew, EndEdit } from '../actions/edit-actions';
 import { Load, LoadFailure, LoadIfNecessary, LoadSuccess } from '../actions/load-actions';
@@ -108,8 +114,8 @@ export interface IActionMap<TModel> {
   deleteManyFailure: ActionCreator<string, (props: DeleteManyFailureProps<TModel>) => DeleteManyFailure<TModel>>;
 
   deleteByKey: ActionCreator<string, (props: DeleteByKeyProps<TModel>) => DeleteByKey<TModel>>;
-  deleteByKeySuccess: ActionCreator<string, (props: DeleteByKeyProps<TModel>) => DeleteByKey<TModel>>;
-  deleteByKeyFailure: ActionCreator<string, (props: DeleteByKeyFailureProps<TModel>) => DeleteByKey<TModel>>;
+  deleteByKeySuccess: ActionCreator<string, (props: DeleteByKeyProps<TModel>) => DeleteByKeySuccess<TModel>>;
+  deleteByKeyFailure: ActionCreator<string, (props: DeleteByKeyFailureProps<TModel>) => DeleteByKeyFailure<TModel>>;
 
   deleteManyByKeys: ActionCreator<string, (props: DeleteManyByKeysProps<TModel>) => DeleteManyByKeys<TModel>>;
   deleteManyByKeysSuccess: ActionCreator<string, (props: DeleteManyByKeysProps<TModel>) => DeleteManyByKeysSuccess<TModel>>;
