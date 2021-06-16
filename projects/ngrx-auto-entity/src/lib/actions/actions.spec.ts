@@ -1125,6 +1125,17 @@ describe('NgRX Auto-Entity: Actions', () => {
       expect(action.entities).toEqual(scientists);
     });
 
+    it('should construct EntityAction if null is passed', () => {
+      const action = new DeselectedMany(TestEntity, null);
+
+      expect(action.type).toEqual('[TestEntity] (Generic) Deselection of Many');
+      expect(action.actionType).toEqual(EntityActionTypes.DeselectedMany);
+      expect(action.info.modelType).toEqual(TestEntity);
+      expect(action.info.modelName).toEqual('TestEntity');
+
+      expect(action.entities).toEqual(null);
+    });
+
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
         // tslint:disable-next-line:no-unused-expression
@@ -1132,10 +1143,10 @@ describe('NgRX Auto-Entity: Actions', () => {
       }).toThrow(new Error('[NGRX-AE] ! DeselectedMany action requires an array of entities or keys.'));
     });
 
-    it('should throw error during construction if non-array (null) passed', () => {
+    it('should throw error during construction if non-array (number) passed', () => {
       expect(() => {
         // tslint:disable-next-line:no-unused-expression
-        new DeselectedMany(TestEntity, null);
+        new DeselectedMany(TestEntity, 2 as any);
       }).toThrow(new Error('[NGRX-AE] ! DeselectedMany action requires an array of entities or keys.'));
     });
 
