@@ -59,10 +59,10 @@ export class Deselected<TModel> extends EntityAction<TModel> {
  * Indicates the de-selection of many entities in the store
  */
 export class DeselectedMany<TModel> extends EntityAction<TModel> {
-  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>, correlationId?: string) {
+  constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity> | null, correlationId?: string) {
     super(type, EntityActionTypes.DeselectedMany, correlationId);
 
-    if (!Array.isArray(entities)) {
+    if (!Array.isArray(entities) && entities !== null) {
       throw new Error('[NGRX-AE] ! DeselectedMany action requires an array of entities or keys.');
     }
   }
