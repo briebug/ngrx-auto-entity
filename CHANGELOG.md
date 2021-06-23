@@ -1,3 +1,14 @@
+<a name="0.6.1"></a>
+
+# [0.6.1](https://github.com/briebug/ngrx-auto-entity/compare/0.6.0...0.6.1) Beta (2021-06-24)
+
+Auto-Entity version 0.6.1 is a patch release to fix a couple bugs.
+
+### Bug Fixes
+
+- **facade:** Fix error when calling the `deselectAll()` method on a facade (#174)
+- **actions:** Fix type error when using `DeleteByKeyFailure` or `DeleteByKeySuccess` (#183)
+
 <a name="0.6.0"></a>
 
 # [0.6.0](https://github.com/briebug/ngrx-auto-entity/compare/0.5.0...0.6.0) Beta (2021-04-02)
