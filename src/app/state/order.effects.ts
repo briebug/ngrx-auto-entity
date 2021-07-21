@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Create, CreateSuccess, EntityActionTypes, EntityOperators, ofEntityType, Update, UpdateSuccess } from '@briebug/ngrx-auto-entity';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';

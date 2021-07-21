@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IOrderFormValue } from 'src/app/+orders/exports/order-form/order-form.component';
 import { OrderInfo } from 'src/app/+orders/models/order-info.model';
 

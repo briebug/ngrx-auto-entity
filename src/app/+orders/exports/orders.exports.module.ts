@@ -10,7 +10,6 @@ import { MaterialModule } from 'src/app/material.module';
 @NgModule({
   imports: [CommonModule, MaterialModule, ReactiveFormsModule, FlexLayoutModule],
   declarations: [OrderFormComponent, OrdersPreviewTableComponent, OrderFormDialogComponent],
-  exports: [OrderFormComponent, OrdersPreviewTableComponent],
-  entryComponents: [OrderFormDialogComponent]
+  exports: [OrderFormComponent, OrdersPreviewTableComponent]
 })
 export class OrdersExportsModule {}
