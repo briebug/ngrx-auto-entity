@@ -26,7 +26,7 @@ import { CustomRouterStateSerializer } from './shared/utils';
   ]
 })
 export class StateModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<StateModule> {
     return {
       ngModule: StateModule,
       providers: [{ provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }]
