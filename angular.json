@@ -41,7 +41,6 @@
                 "styles": true,
                 "vendor": true
               },
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -94,7 +93,7 @@
       "prefix": "ae",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngrx-auto-entity/tsconfig.lib.json",
             "project": "projects/ngrx-auto-entity/ng-package.json"
@@ -161,7 +160,6 @@
                 "styles": true,
                 "vendor": true
               },
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
