@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, createEffect } from '@ngrx/effects';
 
 import { ofEntityAction } from '../actions/action-operators';
 import { EntityActionTypes } from '../actions/action-types';
@@ -7,34 +7,39 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class LoadEffects {
-  @Effect()
-  load$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.Load),
-    this.ops.load()
+  load$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.Load),
+      this.ops.load()
+    )
   );
 
-  @Effect()
-  loadAll$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.LoadAll),
-    this.ops.loadAll()
+  loadAll$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.LoadAll),
+      this.ops.loadAll()
+    )
   );
 
-  @Effect()
-  loadMany$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.LoadMany),
-    this.ops.loadMany()
+  loadMany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.LoadMany),
+      this.ops.loadMany()
+    )
   );
 
-  @Effect()
-  loadPage$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.LoadPage),
-    this.ops.loadPage()
+  loadPage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.LoadPage),
+      this.ops.loadPage()
+    )
   );
 
-  @Effect()
-  loadRange$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.LoadRange),
-    this.ops.loadRange()
+  loadRange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.LoadRange),
+      this.ops.loadRange()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, createEffect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -9,10 +9,11 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class CreateEffect {
-  @Effect()
-  create$: Observable<Action> = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.Create),
-    this.ops.create()
+  create$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.Create),
+      this.ops.create()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -20,10 +21,11 @@ export class CreateEffect {
 
 @Injectable()
 export class CreateManyEffect {
-  @Effect()
-  createMany$: Observable<Action> = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.CreateMany),
-    this.ops.createMany()
+  createMany$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.CreateMany),
+      this.ops.createMany()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -31,10 +33,11 @@ export class CreateManyEffect {
 
 @Injectable()
 export class UpdateEffect {
-  @Effect()
-  update$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.Update),
-    this.ops.update()
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.Update),
+      this.ops.update()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -42,10 +45,11 @@ export class UpdateEffect {
 
 @Injectable()
 export class UpdateManyEffect {
-  @Effect()
-  updateMany$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.UpdateMany),
-    this.ops.updateMany()
+  updateMany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.UpdateMany),
+      this.ops.updateMany()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -53,10 +57,11 @@ export class UpdateManyEffect {
 
 @Injectable()
 export class UpsertEffect {
-  @Effect()
-  update$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.Upsert),
-    this.ops.upsert()
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.Upsert),
+      this.ops.upsert()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -64,10 +69,11 @@ export class UpsertEffect {
 
 @Injectable()
 export class UpsertManyEffect {
-  @Effect()
-  updateMany$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.UpsertMany),
-    this.ops.upsertMany()
+  updateMany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.UpsertMany),
+      this.ops.upsertMany()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -75,10 +81,11 @@ export class UpsertManyEffect {
 
 @Injectable()
 export class ReplaceEffect {
-  @Effect()
-  replace$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.Replace),
-    this.ops.replace()
+  replace$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.Replace),
+      this.ops.replace()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -86,10 +93,11 @@ export class ReplaceEffect {
 
 @Injectable()
 export class ReplaceManyEffect {
-  @Effect()
-  replaceMany$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.ReplaceMany),
-    this.ops.replaceMany()
+  replaceMany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.ReplaceMany),
+      this.ops.replaceMany()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -97,10 +105,11 @@ export class ReplaceManyEffect {
 
 @Injectable()
 export class DeleteEffect {
-  @Effect()
-  delete$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.Delete),
-    this.ops.delete()
+  delete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.Delete),
+      this.ops.delete()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -108,10 +117,11 @@ export class DeleteEffect {
 
 @Injectable()
 export class DeleteManyEffect {
-  @Effect()
-  deleteMany$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.DeleteMany),
-    this.ops.deleteMany()
+  deleteMany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.DeleteMany),
+      this.ops.deleteMany()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -119,10 +129,11 @@ export class DeleteManyEffect {
 
 @Injectable()
 export class DeleteByKeyEffect {
-  @Effect()
-  deleteByKey$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.DeleteByKey),
-    this.ops.deleteByKey()
+  deleteByKey$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.DeleteByKey),
+      this.ops.deleteByKey()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
@@ -130,10 +141,11 @@ export class DeleteByKeyEffect {
 
 @Injectable()
 export class DeleteManyByKeysEffect {
-  @Effect()
-  deleteManyByKeys$ = this.actions$.pipe(
-    ofEntityAction(EntityActionTypes.DeleteManyByKeys),
-    this.ops.deleteManyByKey()
+  deleteManyByKeys$ = createEffect(() =>
+    this.actions$.pipe(
+      ofEntityAction(EntityActionTypes.DeleteManyByKeys),
+      this.ops.deleteManyByKey()
+    )
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
