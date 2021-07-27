@@ -26,12 +26,12 @@ export const transformArrayFromServer = <TModel>(entityInfo: IEntityInfo, criter
 };
 
 export const transformSingleToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (originalEntity: TModel): any => {
-  const transforms = getTransforms(entityInfo.transform, TO);
+  const transforms = getTransforms(entityInfo.transform, TO).reverse();
   return applyTransforms(transforms, criteria)(originalEntity);
 };
 
 export const transformArrayToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (entities: TModel[]): any[] => {
-  const transforms = getTransforms(entityInfo.transform, TO);
+  const transforms = getTransforms(entityInfo.transform, TO).reverse();
   return entities.map(applyTransforms(transforms, criteria));
 };
 
