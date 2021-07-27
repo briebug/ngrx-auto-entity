@@ -25,8 +25,8 @@ export function defineTypedFactoryFunction<TModel, TAction extends EntityAction<
   type: T,
   creator: Creator
 ): ActionCreator<T, (props: object) => TAction> {
-  return Object.defineProperty(creator, 'type', {
+  return Object.defineProperty(creator as (props: object) => TAction, 'type', {
     value: type,
     writable: false
-  });
+  }) as ActionCreator<T, (props: object) => TAction>;
 }

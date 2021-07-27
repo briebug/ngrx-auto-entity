@@ -17,5 +17,5 @@ export function createCorrelatedAction<T extends string, P extends object>(
     },
     'type',
     { value: type, writable: false }
-  );
+  ) as ActionCreator<T, (props: P) => P & TypedAction<T> & ICorrelatedAction>;
 }
