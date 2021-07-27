@@ -1,11 +1,11 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 .filter-input {
   width: 100%;
 }
 
 mat-row:hover {
-  background-color: mat-color($mat-grey, 200);
+  background-color: mat.get-color-from-palette(mat.$grey-palette, 200);
   cursor: pointer;
 }
 

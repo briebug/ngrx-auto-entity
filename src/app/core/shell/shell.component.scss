@@ -1,9 +1,9 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 :host {
   display: flex;
   flex: 1;
-  background-color: mat-color($mat-grey, 800);
+  background-color: mat.get-color-from-palette(mat.$grey-palette, 800);
 
   .container {
     position: absolute;
@@ -19,7 +19,7 @@
 
   mat-sidenav {
     min-width: 200px;
-    background: mat-color($mat-grey, 900);
+    background: mat.get-color-from-palette(mat.$grey-palette, 900);
 
     .mat-list {
       padding-top: 0;
@@ -27,11 +27,11 @@
 
     .mat-list-item {
       text-decoration: none;
-      color: mat-color($mat-blue-grey, 200);
+      color: mat.get-color-from-palette(mat.$blue-grey-palette, 200);
 
       &:hover {
-        color: mat-color($mat-blue-grey, 50);
-        background: mat-color($mat-grey, 800);
+        color: mat.get-color-from-palette(mat.$blue-grey-palette, 50);
+        background: mat.get-color-from-palette(mat.$grey-palette, 800);
       }
     }
   }

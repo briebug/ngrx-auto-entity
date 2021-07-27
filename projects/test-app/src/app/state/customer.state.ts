@@ -9,20 +9,25 @@ export interface ICustomerState extends IEntityState<Customer> {
 export const {
   initialState,
   facade: CustomerFacadeBase,
-  actions: { loadManySuccess: loadManyCustomersSuccess }
+  selectors: {
+    selectAllSorted: allCustomers,
+  },
+  actions: {
+    loadMany: manyCustomersLoading,
+    loadManySuccess: manyCustomersLoadedSuccessfully,
+    editByKey: customerEditedById,
+    endEdit: customerEditEnded
+  }
 } = buildState(Customer, {
   recentlyLoadedIds: []
 } as ICustomerState);
 
-const onSuccess = on(
-  loadManyCustomersSuccess,
-  (state: ICustomerState, { entities }): ICustomerState => ({
-    ...state,
-    recentlyLoadedIds: entities.map(entity => entity.id)
-  })
-);
+export const trackRecentlyLoadedIds = (state: ICustomerState, { entities }): ICustomerState => ({
+  ...state,
+  recentlyLoadedIds: entities.map(entity => entity.id)
+});
 
-const reduce = createReducer(initialState, onSuccess);
+const reduce = createReducer(initialState, on(manyCustomersLoadedSuccessfully, trackRecentlyLoadedIds));
 
 export function customerReducer(state = initialState, action: Action): ICustomerState {
   return reduce(state, action);

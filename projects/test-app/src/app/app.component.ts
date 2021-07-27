@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { distinctUntilChanged, first, map } from 'rxjs/operators';
-import { AccountFacade } from './state/account.facade';
-import { CustomerFacade } from './state/customer.facade';
+import { Store } from '@ngrx/store';
+import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoading } from './state/customer.state';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,13 @@ import { CustomerFacade } from './state/customer.facade';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public customers: CustomerFacade, public accounts: AccountFacade) {
+  all$ = this.store.select(allCustomers);
+
+  constructor(private store: Store) {
     // accounts.loadAll();
-    customers.loadMany();
+    // customers.loadMany();
+
+    this.store.dispatch(manyCustomersLoading());
 
     // setTimeout(() => customers.clear(), 3000);
     //
@@ -78,5 +81,13 @@ export class AppComponent {
     //       })
     //     );
     // }, 250);
+  }
+
+  editByKey(id: number) {
+    this.store.dispatch(customerEditedById({ key: id }));
+  }
+
+  endEdit() {
+    this.store.dispatch(customerEditEnded());
   }
 }
