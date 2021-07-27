@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,7 +17,7 @@ export function provideAppStore(store: Store<any>) {
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule, StateModule],
+  imports: [CommonModule, BrowserModule, HttpClientModule, StateModule],
   providers: [
     { provide: Customer, useClass: EntityService },
     { provide: Account, useClass: EntityService },
