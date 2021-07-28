@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/ngrx-auto-entity
     docker:
-      - image: circleci/node:12.0-browsers
+      - image: circleci/node:14.15-browsers
     steps:
       - checkout
       - run: NODE_ENV=ci npm install
