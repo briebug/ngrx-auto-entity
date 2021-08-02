@@ -1,3 +1,39 @@
+<a name="0.7.0"></a>
+
+# [0.7.0](https://github.com/briebug/ngrx-auto-entity/compare/0.6.1...0.7.0) Beta (2021-08-02)
+
+This release officially adds support for Angular 12 and NgRx 12! With the advent of Ivy, and its 
+continued progress towards replacing View Engine, supporting Angular 12 required a bit more active
+work to support. Currently, the library is built with `enableIvy` set to false, which allows the
+library to be built with support for View Engine versions of Angular. 
+
+Research and planning has begun on supporting Angular 13, however this will be a
+more challenging task than supporting Angular 12 due to the fact that View Engine will be dropped
+entirely from Ng 13, which will affect our ability to build a library that supports older versions
+of Angular. We hope to have a plan in place for this scenario soon.
+
+This release also updates some internal usage of NgRx to drop use of legacy or fully deprecated
+features, such as the `@Entity` decorator. 
+
+### Internal
+
+- **effects:** All effects have dropped use of the legacy `@Effect()` decorator, and are now using
+the current and recommended `createEffect()` function. This is to ensure support with NgRx 12+.
+- **actions:** Action factories have been updated with more explicit typing. Increased type strictness
+that comes with Ng 12 revealed cases where types were not specified, or insufficiently specified. These
+types have been strengthened to be more accurate and clear. These changes should not impact
+normal use of action factories. 
+
+
+### Breaking Changes !!
+
+- **library:** Support for Angular 8 has been dropped! While the library may still work with Angular
+8 applications, due to changes in Angular 12 build tools, as well as changes in NgRx 8, there are
+no guarantees that Auto-Entity will continue to work in Angular 8 applications.  
+- **build:** Library is now being built with TypeScript 4. While we are not yet explicitly using
+any TypeScript 4.x features, and thus should still support TypeScript 3.x, this change in underlying
+build tools for the library may have impacts on builds for dependent projects. 
+
 <a name="0.6.1"></a>
 
 # [0.6.1](https://github.com/briebug/ngrx-auto-entity/compare/0.6.0...0.6.1) Beta (2021-06-24)

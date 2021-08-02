@@ -10,16 +10,21 @@
 
 Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
 
+**Announcing: ANGULAR 12 is now supported! NgRx Auto-Entity has been updated to support the latest
+versions of Angular, as well as NgRx through version 12. With this update, we have also dropped
+support for Angular 8, meaning the supported versions of angular are 9-12.**
+
+**NOTE: Angular 13 support is being researched. Starting with Ng 13, all View Engine support will
+be dropped from the platform completely. One of our goals with Auto-Entity has been to support
+older versions of angular as long as possible, given the often slower upgrade times for many 
+companies. With Ng 13 putting the burden on library developers to support Ivy, that forces
+groups like ourselves to build our library to target specific instruction sets. That will
+increase the challenge of supporting older versions of Angular. As such, we are actively looking
+for ways to deal with that scenario, and hope to be prepared when the time comes.**
+
 **NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
 enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
 find any errors in this documentation, or bugs within the library, please let us know!**
-
-**APOLOGIES: For those using NgRx Auto-Entity, we apologize for issues with the recent v0.3.0
-release! We used an npm module, uuidv4, and back in november our usage of it was working. It 
-appears as though that library was changed fairly significantly since then, with the default
-import removed. That lead to issues for some people, depending on the version of uuidv4 they 
-installed/had installed. We have dropped uuidv4 and are now using a small, fast built-in function
-instead in v0.3.1 and onward, which should resolve the issues. Again, we apologize for the inconvenience!**
 
 ## What is it?
 
@@ -29,10 +34,12 @@ NgRX itself. This library is not a replacement for or alternative to NgRX. It wo
 standard paradigm that NgRX has set forth, making use of actions, reducers & effects like any
 other NgRX application.
 
-What Auto-Entity does do is provide a set of ready-made, generic actions for handling all of
-the standard CRUD operations for entities, so you neither have to write nor generate any of that
-code yourself. Auto-Entity generates **pre-fabricated facades** around NgRx and the store/state,
-providing a cohesive, logical and simplified API into your state. Auto-Entity presents a flexible
+What Auto-Entity does do is provide a set of ready-made actions, selectors, effects & a core
+metareducer for handling all of the standard CRUD functionality for entities, so you neither
+have to write nor generate any of that code yourself. Auto-Entity supports implementing applications
+with recommended best practices, including good action hygiene. Auto-Entity also generates 
+**pre-fabricated facades** around NgRx and the store/state, providing a cohesive, logical and
+simplified API into your state for those who prefer facades. Auto-Entity presents a flexible
 framework that you may use in its entirety for all of your entity needs, or use piecemeal as 
 necessary in order to achieve your specific goals.
 
@@ -43,12 +50,12 @@ custom reducers.
 
 # Dependencies
 
-NgRx Auto-Entity currently depends on Angular 8+, NgRx 8+ and RxJs 6. 
+NgRx Auto-Entity currently depends on Angular 9+, NgRx 9+ and RxJs 6. 
 
 
-[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E8.x-blue.svg)](https://github.com/angular/angular)
-[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E8.x-blue.svg)](https://github.com/angular/angular)
-[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E8.x-blue.svg)](https://github.com/ngrx/platform)
+[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E9.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E9.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E9.x-blue.svg)](https://github.com/ngrx/platform)
 [![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)](https://github.com/reactivex/rxjs)
 
 # Installation
@@ -85,6 +92,8 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [x] Built-in saving indicator tracking
 - [x] Built-in deleting indicator tracking
 - [x] Built-in entity selection support
+- [x] Dynamically generated per-entity actions
+- [x] Dynamically generated per-entity selectors
 - [x] Pre-fabricated facade generation
 - [x] Generated stub reducers
 - [x] Automatic correlation of related initiating and result actions
@@ -92,7 +101,8 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [x] Filtering of entities effects handle
 - [x] Custom transformation of data to and from the server (i.e. ISO date to Date())
 - [x] Optional data loading it not already present, with max age
-- [ ] Normalization of API with NgRx 8 functional/factory function architecture
+- [x] Normalization of API with NgRx 8 functional/factory function architecture
+- [ ] Dynamic generate-only-on-use design
 - [ ] Extended effects for loading indicator display, toasts or snackbars, etc.
 - [ ] Filtering of entities meta reducer handles
 - [ ] Pre-fabricated, ready-to-go, reusable entity services
@@ -108,6 +118,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [Jon Rista](https://github.com/jrista): Design, Architecture & Implementation
 - [Kevin Schuchard](https://github.com/schuchard): Design & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
+- [Jesse Wells](https://github.com/Wells-Codes): Implementation
 - [Alice Paquette](https://github.com/paquettealice): Implementation 
 - [Patrice Paquette](https://github.com/patpaquette): Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
