@@ -1,7 +1,7 @@
 {
   "name": "ngrx-auto-entity-app",
   "version": "0.0.0",
-  "licnese": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "BrieBug",
     "url": "https://briebug.com"
@@ -14,6 +14,14 @@
     {
       "name": "Kevin Schuchard",
       "url": "https://github.com/schuchard"
+    },
+    {
+      "name": "Patrice Paquette",
+      "url": "https://github.com/patpaquette"
+    },
+    {
+      "name": "Jesse Wells",
+      "url": "https://github.com/Wells-Codes"
     }
   ],
   "scripts": {

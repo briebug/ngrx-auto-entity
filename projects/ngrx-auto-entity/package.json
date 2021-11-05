@@ -1,8 +1,8 @@
 {
-  "version": "0.7.0",
+  "version": "0.7.1",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
-  "licnese": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "BrieBug",
     "url": "https://briebug.com"
@@ -15,6 +15,14 @@
     {
       "name": "Kevin Schuchard",
       "url": "https://github.com/schuchard"
+    },
+    {
+      "name": "Patrice Paquette",
+      "url": "https://github.com/patpaquette"
+    },
+    {
+      "name": "Jesse Wells",
+      "url": "https://github.com/Wells-Codes"
     }
   ],
   "keywords": [

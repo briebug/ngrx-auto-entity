@@ -1,3 +1,10 @@
+<a name="0.7.1"></a>
+
+# [0.7.1](https://github.com/briebug/ngrx-auto-entity/compare/0.7.0...0.7.1) Beta (2021-11-05)
+
+Resolve license field issues in package.json. Update packages based on security alerts. No other
+or breaking changes in this release. 
+
 <a name="0.7.0"></a>
 
 # [0.7.0](https://github.com/briebug/ngrx-auto-entity/compare/0.6.1...0.7.0) Beta (2021-08-02)
