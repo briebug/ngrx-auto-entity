@@ -13,7 +13,7 @@ export interface IModelState<TParentState, TState, TModel, TExtra> {
   actions: IActionMap<TModel>;
   selectors: ISelectorMap<TParentState, TModel>;
   reducer: (state: TState & TExtra) => IEntityState<TModel> & TExtra;
-  facade: new (type: new () => TModel, store: Store<any>) => IEntityFacade<TModel>;
+  facade: new (store: Store<any>) => IEntityFacade<TModel>;
   entityState: ((state: TParentState) => TState & TExtra) | MemoizedSelector<TParentState, TState & TExtra>;
   makeEntity: (obj: any) => TModel;
 }

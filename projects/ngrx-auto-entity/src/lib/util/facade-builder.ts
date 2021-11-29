@@ -20,19 +20,20 @@ import { Page, Range } from '../models';
 import { EntityIdentity } from '../types/entity-identity';
 import { IEntityDictionary } from './entity-state';
 import { IEntityFacade } from './facade';
+import { IModelClass } from './model-state';
 import { ISelectorMap } from './selector-map';
 
 /**
  * Builds a new facade class for the specified entity model and parent state.
  * @param selectors - the selector map for the specified entity
  */
-export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParentState, TModel>) => {
+export const buildFacade = <TModel, TParentState>(type: IModelClass<TModel>, selectors: ISelectorMap<TParentState, TModel>) => {
   const BaseFacade = class Facade implements IEntityFacade<TModel> {
     modelType: new () => TModel;
     store: Store<any>;
 
-    constructor(modelType: new () => TModel, store: Store<any>) {
-      this.modelType = modelType;
+    constructor(store: Store<any>) {
+      this.modelType = type;
       this.store = store;
 
       this.all$ = this.store.select(selectors.selectAll);

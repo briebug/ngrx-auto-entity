@@ -157,7 +157,7 @@ export interface AppState {
     }
 
     get facade() {
-      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors);
+      _facade = _facade || buildFacade<TModel, TParentState>(type, this.selectors);
       return _facade;
     }
   }
@@ -263,7 +263,7 @@ export interface FeatureState {
     }
 
     get facade() {
-      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors);
+      _facade = _facade || buildFacade<TModel, TParentState>(type, this.selectors);
       return _facade;
     }
   }

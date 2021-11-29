@@ -91,12 +91,12 @@ describe('Utilities', () => {
   describe('Function: buildFacade', () => {
     it('should create base facade class', () => {
       const selectors = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
-      const TestFacade = buildFacade<Test, ITestState>(selectors);
+      const TestFacade = buildFacade<Test, ITestState>(Test, selectors);
 
       expect(TestFacade.constructor).toBeTruthy();
 
       const store = TestBed.inject(Store) as Store<ITestState>;
-      const facadeInstance = new TestFacade(Test, store);
+      const facadeInstance = new TestFacade(store);
       expect(facadeInstance).toBeInstanceOf(TestFacade);
     });
   });
@@ -106,7 +106,7 @@ describe('Utilities', () => {
       const { initialState, selectors, facade: FacadeBase, reducer, entityState } = buildState(Test);
 
       const store = TestBed.inject(Store) as Store<ITestState>;
-      const facade = new FacadeBase(Test, store);
+      const facade = new FacadeBase(store);
 
       expect(initialState).toEqual({
         entities: {},
@@ -127,7 +127,7 @@ describe('Utilities', () => {
 
       const { initialState, selectors, facade: FacadeBase, reducer, entityState } = buildFeatureState(Test, 'feature', featureSelector);
 
-      const facade = new FacadeBase(Test, store);
+      const facade = new FacadeBase(store);
 
       expect(Test[FEATURE_AFFINITY]).toBe('feature');
 
