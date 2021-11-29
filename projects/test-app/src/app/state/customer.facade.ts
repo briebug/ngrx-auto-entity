@@ -10,6 +10,6 @@ import { CustomerFacadeBase } from './customer.state';
 })
 export class CustomerFacade extends CustomerFacadeBase {
   constructor(store: Store<AppState>) {
-    super(Customer, store);
+    super(store);
   }
 }

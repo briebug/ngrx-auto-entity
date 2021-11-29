@@ -9,6 +9,6 @@ import { AppState } from './app.state';
 })
 export class AccountFacade extends AccountFacadeBase {
   constructor(private store: Store<AppState>) {
-    super(Account, store);
+    super(store);
   }
 }
