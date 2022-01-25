@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { Account } from './models/account.model';
 import { Customer } from './models/customer.model';
 import { EntityService } from './services/entity.service';
+import { FeatureModule } from './state/feature/feature.module';
 import { StateModule } from './state/state.module';
 
 export function provideAppStore(store: Store<any>) {
@@ -17,7 +18,7 @@ export function provideAppStore(store: Store<any>) {
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [CommonModule, BrowserModule, HttpClientModule, StateModule],
+  imports: [CommonModule, BrowserModule, HttpClientModule, StateModule.forRoot(), FeatureModule],
   providers: [
     { provide: Customer, useClass: EntityService },
     { provide: Account, useClass: EntityService },

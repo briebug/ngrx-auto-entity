@@ -53,17 +53,17 @@ import { UpsertFailureProps, UpsertManyFailureProps, UpsertManyProps, UpsertProp
 import { CorrelatedProps, StandardProps } from '../factories/util';
 
 export interface IActionMap<TModel> {
-  loadIfNecessary: ActionCreator<string, (props: LoadIfNecessaryProps) => LoadIfNecessary<TModel>>;
-  load: ActionCreator<string, (props: LoadProps) => Load<TModel>>;
+  loadIfNecessary: ActionCreator<string, (props?: LoadIfNecessaryProps) => LoadIfNecessary<TModel>>;
+  load: ActionCreator<string, (props?: LoadProps) => Load<TModel>>;
   loadSuccess: ActionCreator<string, (props: LoadSuccessProps<TModel>) => LoadSuccess<TModel>>;
   loadFailure: ActionCreator<string, (props: LoadFailureProps<TModel>) => LoadFailure<TModel>>;
 
-  loadAllIfNecessary: ActionCreator<string, (props: LoadAllIfNecessaryProps) => LoadAllIfNecessary<TModel>>;
+  loadAllIfNecessary: ActionCreator<string, (props?: LoadAllIfNecessaryProps) => LoadAllIfNecessary<TModel>>;
   loadAll: ActionCreator<string, (props?: StandardProps) => LoadAll<TModel>>;
   loadAllSuccess: ActionCreator<string, (props: LoadAllSuccessProps<TModel>) => LoadAllSuccess<TModel>>;
   loadAllFailure: ActionCreator<string, (props: LoadAllFailureProps<TModel>) => LoadAllFailure<TModel>>;
 
-  loadManyIfNecessary: ActionCreator<string, (props: LoadManyIfNecessaryProps) => LoadManyIfNecessary<TModel>>;
+  loadManyIfNecessary: ActionCreator<string, (props?: LoadManyIfNecessaryProps) => LoadManyIfNecessary<TModel>>;
   loadMany: ActionCreator<string, (props?: StandardProps) => LoadMany<TModel>>;
   loadManySuccess: ActionCreator<string, (props: LoadManySuccessProps<TModel>) => LoadManySuccess<TModel>>;
   loadManyFailure: ActionCreator<string, (props: LoadManyFailureProps<TModel>) => LoadManyFailure<TModel>>;

@@ -19,8 +19,6 @@ export {
  * Injection Tokens
  */
 
-export { NGRX_AUTO_ENTITY_APP_STORE } from './lib/effects/if-necessary-operators';
-
 /*
  * Common models and types referenced throughout Auto-Entity
  */
@@ -187,3 +185,4 @@ export {
   UpsertEffect,
   UpsertManyEffect
 } from './lib/effects/effects-cud-discrete';
+export { NGRX_AUTO_ENTITY_APP_STORE } from './lib/effects/if-necessary-operator-utils';

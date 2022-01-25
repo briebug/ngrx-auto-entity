@@ -1,3 +1,21 @@
+<a name="0.7.2"></a>
+
+# [0.7.2](https://github.com/briebug/ngrx-auto-entity/compare/0.7.1...0.7.2) Beta (2022-01-24)
+
+Resolved a discrepancy in optional loading, where if the entity were a part of feature state, 
+and its state properties were nested underneath a feature state property on root state, the
+correct entity state property could not be found. 
+
+### Bug Fixes
+
+- **operators** Update getEntityState function to check if entity has feature affinity, and access from the appropriate feature if necessary.
+- **factories** Updated optional loading factories to support optional props where possible
+- **actions** Updated optional loading actions to support optional props where possible
+
+### Internal
+
+- **operators** Moved operator support utilities to their own code file
+
 <a name="0.7.1"></a>
 
 # [0.7.1](https://github.com/briebug/ngrx-auto-entity/compare/0.7.0...0.7.1) Beta (2021-11-05)

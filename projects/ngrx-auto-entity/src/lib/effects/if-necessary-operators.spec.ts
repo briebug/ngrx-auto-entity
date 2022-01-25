@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 import { LoadIfNecessary } from '../actions/load-actions';
 import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
-import { EntityIfNecessaryOperators, NGRX_AUTO_ENTITY_APP_STORE } from './if-necessary-operators';
+import { NGRX_AUTO_ENTITY_APP_STORE } from './if-necessary-operator-utils';
+import { EntityIfNecessaryOperators} from './if-necessary-operators';
 
 @Entity('Test')
 class Test {

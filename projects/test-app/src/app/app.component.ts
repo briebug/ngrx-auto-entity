@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoading } from './state/customer.state';
+import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoadingIfNecessary } from './state/feature/customer.state';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,9 @@ export class AppComponent {
     // accounts.loadAll();
     // customers.loadMany();
 
-    this.store.dispatch(manyCustomersLoading());
+    this.store.dispatch(manyCustomersLoadingIfNecessary());
+
+    setTimeout(() => this.store.dispatch(manyCustomersLoadingIfNecessary()), 2000);
 
     // setTimeout(() => customers.clear(), 3000);
     //

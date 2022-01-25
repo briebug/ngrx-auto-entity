@@ -1,62 +1,24 @@
-import { Injectable, InjectionToken, Injector } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of, pipe } from 'rxjs';
-import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
-import { pipe as fpipe } from '../../util/func';
-import { IEntityInfo } from '../actions/entity-info';
+import { Injectable, Injector } from '@angular/core';
+import { select } from '@ngrx/store';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, mergeMap, take } from 'rxjs/operators';
 import { Load, LoadIfNecessary } from '../actions/load-actions';
 import { LoadAll, LoadAllIfNecessary } from '../actions/load-all-actions';
 import { LoadMany, LoadManyIfNecessary } from '../actions/load-many-actions';
 import { LoadPage, LoadPageIfNecessary } from '../actions/load-page-actions';
 import { LoadRange, LoadRangeIfNecessary } from '../actions/load-range-actions';
-import { entityStateName } from '../decorators/entity-util';
-import { Page, Range } from '../models';
-import { EntityIdentity } from '../types/entity-identity';
-import { IEntityState } from '../util/entity-state';
-
-export const NGRX_AUTO_ENTITY_APP_STORE = new InjectionToken('@briebug/ngrx-auto-entity App Store');
-
-const getEntityState = (info: IEntityInfo) => (state: any): IEntityState<any> =>
-  state[entityStateName(info.modelName)] as IEntityState<any>;
-const getLoadedAt = (state: IEntityState<any>): number => state.loadedAt;
-const getIsLoading = (state: IEntityState<any>): boolean => state.isLoading;
-const getCurrentPage = (state: IEntityState<any>): Page => state.currentPage;
-const getCurrentRange = (state: IEntityState<any>): Range => state.currentRange;
-const getEntityIds = (state: IEntityState<any>): EntityIdentity[] => state.ids;
-const mapToHasEntities = (ids?: EntityIdentity[]): boolean => !!ids && !!ids.length;
-
-const entityLoadedAt = (info: IEntityInfo) => fpipe(getEntityState(info), getLoadedAt);
-const entityIsLoading = (info: IEntityInfo) => fpipe(getEntityState(info), getIsLoading);
-const entityCurrentPage = (info: IEntityInfo) => fpipe(getEntityState(info), getCurrentPage);
-const entityCurrentRange = (info: IEntityInfo) => fpipe(getEntityState(info), getCurrentRange);
-const entityIds = (info: IEntityInfo) => fpipe(getEntityState(info), getEntityIds);
-const hasEntitiesLoaded = (info: IEntityInfo) => fpipe(getEntityState(info), getEntityIds, mapToHasEntities);
-
-const addSeconds = (date: Date, seconds: number): Date => (date.setSeconds(date.getSeconds() + seconds), date);
-const nowAfterExpiry = (expiry: Date): boolean => expiry < new Date();
-const isSubsequentRange = (a: any, b: any) => (a.start || a.first || a.skip + a.take) > (b.end || b.last || b.skip + b.take);
-
-const warnIfMissingStore = () =>
-  console.warn(
-    // tslint:disable-next-line:max-line-length
-    '[NGRX-AE] Warning! The NGRX_AUTO_ENTITY_APP_STORE provider has not been configured! *IfNecessary actions require accessing your store in order to function properly!'
-  );
-
-const warnMissingStore = () => pipe(tap(([, store]) => (!store ? warnMissingStore() : null)));
-
-const getAppStore = <TAction>(injector: Injector) =>
-  pipe(
-    mergeMap((action: TAction) => {
-      try {
-        const store = injector.get(NGRX_AUTO_ENTITY_APP_STORE);
-        return of({ action, store } as { action: TAction; store: Store<any> });
-      } catch {
-        warnIfMissingStore();
-        return of({ action, store: undefined } as { action: TAction; store: Store<any> });
-      }
-    }),
-    filter(({ store }) => !!store)
-  );
+import {
+  addSeconds,
+  entityCurrentPage,
+  entityCurrentRange,
+  entityIds,
+  entityIsLoading,
+  entityLoadedAt,
+  getAppStore,
+  hasEntitiesLoaded,
+  isSubsequentRange,
+  nowAfterExpiry
+} from './if-necessary-operator-utils';
 
 @Injectable()
 export class EntityIfNecessaryOperators {
@@ -244,7 +206,10 @@ export class EntityIfNecessaryOperators {
               take(1)
             ),
             of(info.defaultMaxAge),
-            store.pipe(select(entityCurrentRange(info), take(1)))
+            store.pipe(
+              select(entityCurrentRange(info)),
+              take(1)
+            )
           ]).pipe(
             map(([loadedAt, isLoading, hasEntities, defaultMaxAge, currentRange]) => ({
               loadedAt,

@@ -25,7 +25,7 @@ export const createLoadManyIfNecessaryAction = <TModel, T extends string, P exte
   cacheOnType(Type, EntityActionTypes.LoadManyIfNecessary, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadManyIfNecessary, Type),
-      ({ maxAge, criteria, correlationId }: LoadManyIfNecessaryProps) => new LoadManyIfNecessary(Type, maxAge, criteria, correlationId)
+      ({ maxAge, criteria, correlationId }: LoadManyIfNecessaryProps = {}) => new LoadManyIfNecessary(Type, maxAge, criteria, correlationId)
     )
   );
 
