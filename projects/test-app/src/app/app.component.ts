@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { allAccounts, manyAccountsLoading } from './state/account.state';
 import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoadingIfNecessary } from './state/feature/customer.state';
 
 @Component({
@@ -8,14 +9,15 @@ import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoadi
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  all$ = this.store.select(allCustomers);
+  allCustomers$ = this.store.select(allCustomers);
+  allAccounts$ = this.store.select(allAccounts);
 
   constructor(private store: Store) {
     // accounts.loadAll();
     // customers.loadMany();
 
+    this.store.dispatch(manyAccountsLoading());
     this.store.dispatch(manyCustomersLoadingIfNecessary());
-
     setTimeout(() => this.store.dispatch(manyCustomersLoadingIfNecessary()), 2000);
 
     // setTimeout(() => customers.clear(), 3000);

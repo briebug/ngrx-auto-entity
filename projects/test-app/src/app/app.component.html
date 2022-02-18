@@ -1,7 +1,11 @@
-
-<ul>
-  <li *ngFor="let customer of all$ | async">{{customer.name}}</li>
-</ul>
+<div class="d-flex justify-content-around">
+  <ul>
+    <li *ngFor="let customer of allCustomers$ | async">{{customer.name}}</li>
+  </ul>
+  <ul>
+    <li *ngFor="let account of allAccounts$ | async">{{account.name}}</li>
+  </ul>
+</div>
 
 <button (click)="editByKey(1)">Edit</button>
 <button (click)="endEdit()">End Edit</button>

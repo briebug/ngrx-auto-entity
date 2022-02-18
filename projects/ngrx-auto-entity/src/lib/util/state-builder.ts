@@ -120,7 +120,7 @@ export interface AppState {
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = getState as (state: TParentState) => TState & TExtra;
-  const _makeEntity = makeEntity(type);
+  let _makeEntity: (obj: any) => TModel;
   // tslint:enable:variable-name
 
   class StateBuilder {
@@ -152,6 +152,7 @@ export interface AppState {
     }
 
     get makeEntity() {
+      _makeEntity = _makeEntity || makeEntity(type);
       return _makeEntity;
     }
 
@@ -224,8 +225,8 @@ export interface FeatureState {
   let _facade;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
-  const entityState = selectState as MemoizedSelector<object, any>;
-  const _makeEntity = makeEntity(type);
+  const entityState = selectState as MemoizedSelector<TParentState, TState & TExtra>;
+  let _makeEntity: (obj: any) => TModel;
   // tslint:enable:variable-name
 
   class StateBuilder {
@@ -257,6 +258,7 @@ export interface FeatureState {
     }
 
     get makeEntity() {
+      _makeEntity = _makeEntity || makeEntity(type);
       return _makeEntity;
     }
 

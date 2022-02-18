@@ -9,9 +9,7 @@ export interface ICustomerState extends IEntityState<Customer> {
 export const {
   initialState,
   facade: CustomerFacadeBase,
-  selectors: {
-    selectAllSorted: allCustomers,
-  },
+  selectors: { selectAllSorted: allCustomers },
   actions: {
     loadMany: manyCustomersLoading,
     loadManySuccess: manyCustomersLoadedSuccessfully,

@@ -9,88 +9,32 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class CUDEffects {
-  create$: Observable<Action> = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.Create),
-      this.ops.create()
-    )
-  );
+  create$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Create), this.ops.create()));
 
   createMany$: Observable<Action> = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.CreateMany),
-      this.ops.createMany()
-    )
+    this.actions$.pipe(ofEntityAction(EntityActionTypes.CreateMany), this.ops.createMany())
   );
 
-  update$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.Update),
-      this.ops.update()
-    )
-  );
+  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Update), this.ops.update()));
 
-  updateMany$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.UpdateMany),
-      this.ops.updateMany()
-    )
-  );
+  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpdateMany), this.ops.updateMany()));
 
-  upsert$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.Upsert),
-      this.ops.upsert()
-    )
-  );
+  upsert$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Upsert), this.ops.upsert()));
 
-  upsertMany$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.UpsertMany),
-      this.ops.upsertMany()
-    )
-  );
+  upsertMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpsertMany), this.ops.upsertMany()));
 
-  replace$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.Replace),
-      this.ops.replace()
-    )
-  );
+  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Replace), this.ops.replace()));
 
-  replaceMany$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.ReplaceMany),
-      this.ops.replaceMany()
-    )
-  );
+  replaceMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.ReplaceMany), this.ops.replaceMany()));
 
-  delete$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.Delete),
-      this.ops.delete()
-    )
-  );
+  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Delete), this.ops.delete()));
 
-  deleteMany$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.DeleteMany),
-      this.ops.deleteMany()
-    )
-  );
+  deleteMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteMany), this.ops.deleteMany()));
 
-  deleteByKey$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.DeleteByKey),
-      this.ops.deleteByKey()
-    )
-  );
+  deleteByKey$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteByKey), this.ops.deleteByKey()));
 
   deleteManyByKeys$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.DeleteManyByKeys),
-      this.ops.deleteManyByKey()
-    )
+    this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
   );
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}

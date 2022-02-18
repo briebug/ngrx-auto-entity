@@ -7,9 +7,11 @@ import {
   getCurrentPage,
   getCurrentRange,
   getEntityIds,
-  getEntityState, getIsLoading,
+  getEntityState,
+  getIsLoading,
   getLoadedAt,
-  mapToHasEntities, nowAfterExpiry,
+  mapToHasEntities,
+  nowAfterExpiry,
   warnIfMissingStore
 } from './if-necessary-operator-utils';
 

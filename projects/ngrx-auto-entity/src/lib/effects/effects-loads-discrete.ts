@@ -9,60 +9,35 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class LoadEffect {
-  load$: Observable<Action> = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.Load),
-      this.ops.load()
-    )
-  );
+  load$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Load), this.ops.load()));
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
 }
 
 @Injectable()
 export class LoadAllEffect {
-  loadAll$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.LoadAll),
-      this.ops.loadAll()
-    )
-  );
+  loadAll$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadAll), this.ops.loadAll()));
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
 }
 
 @Injectable()
 export class LoadManyEffect {
-  loadMany$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.LoadMany),
-      this.ops.loadMany()
-    )
-  );
+  loadMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadMany), this.ops.loadMany()));
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
 }
 
 @Injectable()
 export class LoadPageEffect {
-  loadPage$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.LoadPage),
-      this.ops.loadPage()
-    )
-  );
+  loadPage$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadPage), this.ops.loadPage()));
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
 }
 
 @Injectable()
 export class LoadRangeEffect {
-  loadRange$ = createEffect(() =>
-    this.actions$.pipe(
-      ofEntityAction(EntityActionTypes.LoadRange),
-      this.ops.loadRange()
-    )
-  );
+  loadRange$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadRange), this.ops.loadRange()));
 
   constructor(private actions$: Actions, private ops: EntityOperators) {}
 }

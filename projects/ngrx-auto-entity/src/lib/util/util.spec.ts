@@ -6,48 +6,9 @@ import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
 import { IEntityState } from './entity-state';
 import { buildFacade } from './facade-builder';
-import { ISelectorMap } from './selector-map';
 import { buildSelectorMap } from './selector-map-builder';
 import { buildFeatureState, buildState } from './state-builder';
 import { FEATURE_AFFINITY } from './util-tokens';
-
-expect.extend({
-  toBeMemoizedSelector(received) {
-    const isFunction = typeof received === 'function';
-    const hasProjector = !!received.projector;
-    const hasRelease = !!received.release;
-    const hasSetResult = !!received.setResult;
-
-    const pass = isFunction && hasProjector && hasRelease && hasSetResult;
-
-    const opts = { isNot: this ? this.isNot : false };
-    const message = pass
-      ? () =>
-          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-          '\n\n' +
-          `Expected: not [Function memoized]` +
-          `Received: ${this.utils.printReceived(received)}`
-      : () =>
-          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-          '\n\n' +
-          `Expected: [Function memoized]` +
-          `Received: ${this.utils.printReceived(received)}`;
-
-    return { actual: received, message, pass };
-  }
-});
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeMemoizedSelector(): R;
-    }
-
-    interface Expect {
-      toBeMemoizedSelector(): any;
-    }
-  }
-}
 
 @Entity({ modelName: 'Test' })
 class Test {

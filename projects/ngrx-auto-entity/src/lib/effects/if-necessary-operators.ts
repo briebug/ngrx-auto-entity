@@ -155,10 +155,7 @@ export class EntityIfNecessaryOperators {
             store.pipe(select(entityIsLoading(info)), take(1)),
             store.pipe(select(hasEntitiesLoaded(info)), take(1)),
             of(info.defaultMaxAge),
-            store.pipe(
-              select(entityCurrentRange(info)),
-              take(1)
-            )
+            store.pipe(select(entityCurrentRange(info)), take(1))
           ]).pipe(
             map(([loadedAt, isLoading, hasEntities, defaultMaxAge, currentRange]) => ({
               loadedAt,

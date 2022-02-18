@@ -7,44 +7,6 @@ import { IEntityState } from './entity-state';
 import { makeEntity } from './make-entity';
 import { buildSelectorMap } from './selector-map-builder';
 
-expect.extend({
-  toBeMemoizedSelector(received) {
-    const isFunction = typeof received === 'function';
-    const hasProjector = !!received.projector;
-    const hasRelease = !!received.release;
-    const hasSetResult = !!received.setResult;
-
-    const pass = isFunction && hasProjector && hasRelease && hasSetResult;
-
-    const opts = { isNot: this ? this.isNot : false };
-    const message = pass
-      ? () =>
-          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-          '\n\n' +
-          `Expected: not [Function memoized]` +
-          `Received: ${this.utils.printReceived(received)}`
-      : () =>
-          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-          '\n\n' +
-          `Expected: [Function memoized]` +
-          `Received: ${this.utils.printReceived(received)}`;
-
-    return { actual: received, message, pass };
-  }
-});
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeMemoizedSelector(): R;
-    }
-
-    interface Expect {
-      toBeMemoizedSelector(): any;
-    }
-  }
-}
-
 @Entity({
   modelName: 'Test',
   comparer: (a, b) => a.id - b.id,

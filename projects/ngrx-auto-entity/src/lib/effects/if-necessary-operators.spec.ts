@@ -8,7 +8,7 @@ import { LoadIfNecessary } from '../actions/load-actions';
 import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
 import { NGRX_AUTO_ENTITY_APP_STORE } from './if-necessary-operator-utils';
-import { EntityIfNecessaryOperators} from './if-necessary-operators';
+import { EntityIfNecessaryOperators } from './if-necessary-operators';
 
 @Entity('Test')
 class Test {

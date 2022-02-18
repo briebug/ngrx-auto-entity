@@ -2,47 +2,14 @@ import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
 import { buildState, NO_ENTITY_DECORATOR_MSG, NO_ENTITY_KEY_MSG, NO_MODEL_NAME_MSG } from './state-builder';
 
-expect.extend({
-  toBeMemoizedSelector(received) {
-    const isFunction = typeof received === 'function';
-    const hasProjector = !!received.projector;
-    const hasRelease = !!received.release;
-    const hasSetResult = !!received.setResult;
-
-    const pass = isFunction && hasProjector && hasRelease && hasSetResult;
-
-    const opts = { isNot: this ? this.isNot : false };
-    const message = pass
-      ? () =>
-          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-          '\n\n' +
-          `Expected: not [Function memoized]` +
-          `Received: ${this.utils.printReceived(received)}`
-      : () =>
-          this.utils.matcherHint('toBeMemoizedSelector', undefined, undefined, opts) +
-          '\n\n' +
-          `Expected: [Function memoized]` +
-          `Received: ${this.utils.printReceived(received)}`;
-
-    return { actual: received, message, pass };
-  }
-});
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeMemoizedSelector(): R;
-    }
-
-    interface Expect {
-      toBeMemoizedSelector(): any;
-    }
-  }
-}
-
 @Entity({ modelName: 'Test' })
 class Test {
   @Key id: number;
+}
+
+@Entity({ modelName: 'Test2' })
+class Test2 {
+  @Key key: string;
 }
 
 @Entity({ modelName: '' })
@@ -148,6 +115,114 @@ describe('buildState()', () => {
       });
 
       expect(Object.getPrototypeOf(entity)).toEqual(Test.prototype);
+    });
+  });
+
+  describe('Aspect: Concurrent Entities', () => {
+    it('should support proper use of multiple distinct entities created with buildState', () => {
+      const {
+        initialState: initialTestState,
+        entityState: testState,
+        facade: testFacadeBase,
+        makeEntity: makeTestEntity,
+        selectors: {
+          selectAllSorted: allTestSorted,
+          selectAll: allTest,
+          selectIds: testIds,
+          selectCurrentEntities: currentTestEntities,
+          selectCurrentEntitiesKeys: currentTestEntityKeys,
+          selectCurrentEntity: currentTestEntity,
+          selectCurrentEntityKey: currentTestEntityKey,
+          selectCurrentPage: currentTestPage,
+          selectCurrentRange: currentTestRange,
+          selectDeletedAt: testDeletedAt,
+          selectEditedEntity: testEditedEntity,
+          selectEntities: testEntities,
+          selectHasEntities: hasTestEntities,
+          selectHasNoEntities: hasNoTestEntities,
+          selectIsDeleting: testIsDeleting,
+          selectIsDirty: testIsDirty,
+          selectIsLoading: testIsLoading,
+          selectIsSaving: testIsSaving,
+          selectLoadedAt: testLoadedAt,
+          selectReplacedAt: testReplacedAt,
+          selectSavedAt: testSavedAt,
+          selectTotal: testTotal,
+          selectTotalPageable: testTotalPageable,
+          selectUpdatedAt: testUpdatedAt,
+          selectCreatedAt: testCreatedAt
+        }
+      } = buildState(Test);
+
+      const {
+        initialState: initialTest2State,
+        entityState: test2State,
+        facade: test2FacadeBase,
+        makeEntity: makeTest2Entity,
+        selectors: {
+          selectAllSorted: allTest2Sorted,
+          selectAll: allTest2,
+          selectIds: test2Ids,
+          selectCurrentEntities: currentTest2Entities,
+          selectCurrentEntitiesKeys: currentTest2EntityKeys,
+          selectCurrentEntity: currentTest2Entity,
+          selectCurrentEntityKey: currentTest2EntityKey,
+          selectCurrentPage: currentTest2Page,
+          selectCurrentRange: currentTest2Range,
+          selectDeletedAt: test2DeletedAt,
+          selectEditedEntity: test2EditedEntity,
+          selectEntities: test2Entities,
+          selectHasEntities: hasTest2Entities,
+          selectHasNoEntities: hasNoTest2Entities,
+          selectIsDeleting: test2IsDeleting,
+          selectIsDirty: test2IsDirty,
+          selectIsLoading: test2IsLoading,
+          selectIsSaving: test2IsSaving,
+          selectLoadedAt: test2LoadedAt,
+          selectReplacedAt: test2ReplacedAt,
+          selectSavedAt: test2SavedAt,
+          selectTotal: test2Total,
+          selectTotalPageable: test2TotalPageable,
+          selectUpdatedAt: test2UpdatedAt,
+          selectCreatedAt: test2CreatedAt
+        }
+      } = buildState(Test2);
+
+      const testEntity = makeTestEntity({ id: 1 });
+      const test2Entity = makeTest2Entity({ id: '123abc' });
+
+      expect(initialTestState).not.toBe(initialTest2State);
+      expect(testState).not.toBe(test2State);
+      expect(testFacadeBase).not.toEqual(test2FacadeBase);
+      expect(makeTestEntity).not.toEqual(makeTest2Entity);
+
+      expect(testEntity).not.toEqual(test2Entity);
+
+      expect(allTestSorted).not.toEqual(allTest2Sorted);
+      expect(allTest).not.toEqual(allTest2);
+      expect(testIds).not.toEqual(test2Ids);
+      expect(currentTestEntities).not.toEqual(currentTest2Entities);
+      expect(currentTestEntityKeys).not.toEqual(currentTest2EntityKeys);
+      expect(currentTestEntity).not.toEqual(currentTest2Entity);
+      expect(currentTestEntityKey).not.toEqual(currentTest2EntityKey);
+      expect(currentTestPage).not.toEqual(currentTest2Page);
+      expect(currentTestRange).not.toEqual(currentTest2Range);
+      expect(testDeletedAt).not.toEqual(test2DeletedAt);
+      expect(testEditedEntity).not.toEqual(test2EditedEntity);
+      expect(testEntities).not.toEqual(test2Entities);
+      expect(hasTestEntities).not.toEqual(hasTest2Entities);
+      expect(hasNoTestEntities).not.toEqual(hasNoTest2Entities);
+      expect(testIsDeleting).not.toEqual(test2IsDeleting);
+      expect(testIsDirty).not.toEqual(test2IsDirty);
+      expect(testIsLoading).not.toEqual(test2IsLoading);
+      expect(testIsSaving).not.toEqual(test2IsSaving);
+      expect(testLoadedAt).not.toEqual(test2LoadedAt);
+      expect(testReplacedAt).not.toEqual(test2ReplacedAt);
+      expect(testSavedAt).not.toEqual(test2SavedAt);
+      expect(testTotal).not.toEqual(test2Total);
+      expect(testTotalPageable).not.toEqual(test2TotalPageable);
+      expect(testUpdatedAt).not.toEqual(test2UpdatedAt);
+      expect(testCreatedAt).not.toEqual(test2CreatedAt);
     });
   });
 });
