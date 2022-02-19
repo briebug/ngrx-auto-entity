@@ -294,14 +294,25 @@ describe('warnIfMissingStore()', () => {
     try {
       const now = Date.now();
       const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(now);
+      console.log('now', new Date(now));
       const warnSpy = jest.spyOn(console, 'warn');
       warnIfMissingStore();
       warnIfMissingStore();
       const now2 = new Date(now);
-      nowSpy.mockReturnValue(new Date(now2.getHours(), now2.getMinutes(), now2.getSeconds() + 5).valueOf());
+      console.log('now2', now2);
+      nowSpy.mockReturnValue(
+        new Date(now2.getFullYear(), now2.getMonth(), now2.getDate(), now2.getHours(), now2.getMinutes(), now2.getSeconds() + 5).valueOf()
+      );
+      const now2a = new Date(Date.now());
+      console.log('now2a', now2a);
       warnIfMissingStore();
       const now3 = new Date(now);
-      nowSpy.mockReturnValue(new Date(now3.getHours(), now3.getMinutes(), now3.getSeconds() + 16).valueOf());
+      console.log('now3', now3);
+      nowSpy.mockReturnValue(
+        new Date(now3.getFullYear(), now3.getMonth(), now3.getDate(), now3.getHours(), now3.getMinutes(), now3.getSeconds() + 16).valueOf()
+      );
+      const now3a = new Date(Date.now());
+      console.log('now3a', now3a);
       warnIfMissingStore();
       expect(warnSpy).toHaveBeenCalledTimes(2);
     } finally {

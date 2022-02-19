@@ -43,7 +43,7 @@ export const nowAfterExpiry = (expiry: Date): boolean => expiry < new Date();
 export const isSubsequentRange = (a: any, b: any) => (a.start || a.first || a.skip + a.take) > (b.end || b.last || b.skip + b.take);
 
 export const warnIfMissingStore: (() => void) & { lastWarnTime?: number } = () =>
-  !warnIfMissingStore.lastWarnTime || new Date(warnIfMissingStore.lastWarnTime).getSeconds() - new Date(Date.now()).getSeconds() > 15
+  !warnIfMissingStore.lastWarnTime || Math.abs(new Date(warnIfMissingStore.lastWarnTime).valueOf() - new Date(Date.now()).valueOf()) > 15000
     ? (console.warn(
         // tslint:disable-next-line:max-line-length
         '[NGRX-AE] Warning! The NGRX_AUTO_ENTITY_APP_STORE provider has not been configured! *IfNecessary actions require accessing your store in order to function properly!'
