@@ -106,7 +106,7 @@ describe('EntityOperators', () => {
 
       expect(effect).toBeObservable(expected);
       expect(consoleSpy).toHaveBeenCalledWith(
-        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the TestEntityService',
+        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations (load) on the entity service configured for the TestEntity entity.',
         err.message
       );
     });
@@ -162,6 +162,7 @@ describe('EntityOperators', () => {
       );
 
       const consoleSpy = jest.spyOn(console, 'error');
+      consoleSpy.mockClear();
 
       const effect = actions$.pipe(ops.loadMany());
 
@@ -171,7 +172,7 @@ describe('EntityOperators', () => {
 
       expect(effect).toBeObservable(expected);
       expect(consoleSpy).toHaveBeenCalledWith(
-        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the TestEntityService',
+        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations (loadMany) on the entity service configured for the TestEntity entity.',
         err.message
       );
     });
@@ -227,6 +228,7 @@ describe('EntityOperators', () => {
       );
 
       const consoleSpy = jest.spyOn(console, 'error');
+      consoleSpy.mockClear();
 
       const effect = actions$.pipe(ops.loadAll());
 
@@ -236,7 +238,7 @@ describe('EntityOperators', () => {
 
       expect(effect).toBeObservable(expected);
       expect(consoleSpy).toHaveBeenCalledWith(
-        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the TestEntityService',
+        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations (loadAll) on the entity service configured for the TestEntity entity.',
         err.message
       );
     });
@@ -296,6 +298,7 @@ describe('EntityOperators', () => {
       );
 
       const consoleSpy = jest.spyOn(console, 'error');
+      consoleSpy.mockClear();
 
       const effect = actions$.pipe(ops.loadPage());
 
@@ -305,7 +308,7 @@ describe('EntityOperators', () => {
 
       expect(effect).toBeObservable(expected);
       expect(consoleSpy).toHaveBeenCalledWith(
-        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the TestEntityService',
+        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations (loadPage) on the entity service configured for the TestEntity entity.',
         err.message
       );
     });
@@ -365,6 +368,7 @@ describe('EntityOperators', () => {
       );
 
       const consoleSpy = jest.spyOn(console, 'error');
+      consoleSpy.mockClear();
 
       const effect = actions$.pipe(ops.loadRange());
 
@@ -374,7 +378,7 @@ describe('EntityOperators', () => {
 
       expect(effect).toBeObservable(expected);
       expect(consoleSpy).toHaveBeenCalledWith(
-        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations on the TestEntityService',
+        '[NGRX-AE] ! NgRxAutoEntityService Error: Unable to invoke required operations (loadRange) on the entity service configured for the TestEntity entity.',
         err.message
       );
     });
