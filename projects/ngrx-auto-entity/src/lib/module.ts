@@ -6,7 +6,7 @@ import { EntityEffects } from './effects/effects-all';
 import { ExtraEffects } from './effects/effects-extra';
 import { EntityIfNecessaryOperators } from './effects/if-necessary-operators';
 import { EntityOperators } from './effects/operators';
-import { autoEntityMetaReducer } from './reducer/reducer';
+import { autoEntityMetaReducer } from './reducer/meta-reducer';
 import { NgrxAutoEntityService } from './service/service';
 import { addInjector } from './service/service-injection';
 

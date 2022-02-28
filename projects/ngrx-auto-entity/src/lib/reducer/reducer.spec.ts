@@ -16,7 +16,9 @@ import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMo
 import { UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
 import { UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
 import { Key } from '../decorators/key-decorator';
-import { autoEntityMetaReducer, autoEntityReducer, stateNameFromAction } from './reducer';
+import { autoEntityMetaReducer } from './meta-reducer';
+import { autoEntityReducer} from './reducer';
+import { stateNameFromAction } from './reduction.utils';
 
 class TestEntity {
   @Key identity: number;
@@ -124,7 +126,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -150,7 +152,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -181,7 +183,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toMatchObject({
           testEntity: {
@@ -217,7 +219,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -251,7 +253,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -285,7 +287,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -326,7 +328,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -370,7 +372,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -407,7 +409,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -448,7 +450,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -485,7 +487,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -516,7 +518,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -548,7 +550,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -587,7 +589,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -620,7 +622,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -648,7 +650,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -686,7 +688,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -720,7 +722,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -759,7 +761,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -792,7 +794,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -822,7 +824,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -850,7 +852,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -880,7 +882,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -915,7 +917,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntityKey).toBe(1);
       });
@@ -939,7 +941,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntityKey).toBe(1);
       });
@@ -965,7 +967,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntityKey).toBeUndefined();
       });
@@ -991,7 +993,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1015,7 +1017,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1039,7 +1041,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
       });
@@ -1063,7 +1065,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
       });
@@ -1089,7 +1091,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1113,7 +1115,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([2, 1, 3]);
       });
@@ -1137,7 +1139,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1163,7 +1165,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1187,7 +1189,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1211,7 +1213,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
       });
@@ -1235,7 +1237,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
       });
@@ -1261,7 +1263,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1285,7 +1287,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([2, 1, 3]);
       });
@@ -1309,7 +1311,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
       });
@@ -1335,7 +1337,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([2]);
       });
@@ -1359,7 +1361,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 2, 3]);
       });
@@ -1385,7 +1387,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([2]);
       });
@@ -1409,7 +1411,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 2, 3]);
       });
@@ -1435,7 +1437,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity.currentEntitiesKeys).toBeUndefined();
       });
@@ -1461,7 +1463,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity).toEqual({
           entities: {},
@@ -1489,7 +1491,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState.testEntity).toEqual({
           entities: {},
@@ -1519,7 +1521,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -1557,7 +1559,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });
@@ -1581,7 +1583,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });
@@ -1607,7 +1609,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -1645,7 +1647,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });
@@ -1669,7 +1671,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-        const newState = metaReducer(state, action);
+       const newState: IEntityState<any> =metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });

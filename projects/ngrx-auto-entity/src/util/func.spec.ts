@@ -1,4 +1,4 @@
-import { asString, map, pipe, replace } from './func';
+import { asString, map, compose, replace } from './func';
 
 describe('map', () => {
   test('should return input as is when identity', () => {
@@ -19,10 +19,10 @@ describe('map', () => {
 
 describe('pipe', () => {
   test('should be identity if no functions', () => {
-    const idnull = pipe()(null);
-    const id1 = pipe()(1);
-    const idstr = pipe()('str');
-    const idtrue = pipe()(true);
+    const idnull = compose()(null);
+    const id1 = compose()(1);
+    const idstr = compose()('str');
+    const idtrue = compose()(true);
 
     expect(idnull).toBe(null);
     expect(id1).toBe(1);
@@ -31,7 +31,7 @@ describe('pipe', () => {
   });
 
   test('should apply anonymous functions in top-down order', () => {
-    const result = pipe(
+    const result = compose(
       val => val * 100,
       val => [Math.trunc(val), Math.trunc(val / 1000)],
       ([year, month]) => `${year}-0${month}-15`
@@ -41,7 +41,7 @@ describe('pipe', () => {
   });
 
   test('should apply curried functions in top-down order', () => {
-    const result = pipe(
+    const result = compose(
       map(val => val * 100),
       map(val => [Math.trunc(val), Math.trunc(val / 1000)]),
       map(([year, month]) => `${year}-0${month}-15`)

@@ -1,13 +1,11 @@
 import { Entity, Key, makeEntity } from '../..';
+import { mapToCustomSortedEntityArray, mapToEntityArray, mapToSortedEntityArray } from './entity.selectors';
 import {
   mapToCreatedAt,
-  mapToCustomSortedEntityArray,
   mapToDeletedAt,
-  mapToEntityArray,
   mapToLoadedAt,
   mapToReplacedAt,
   mapToSavedAt,
-  mapToSortedEntityArray,
   mapToUpdatedAt
 } from './selectors';
 

@@ -1,4 +1,4 @@
-export const pipe = (...fns) => data => fns.reduce((value, fn) => fn(value), data);
+export const compose = (...fns) => data => fns.reduce((value, fn) => fn(value), data);
 export const tpipe = <TInput>(fn1: (value: TInput) => any, ...fns: Array<(value: any) => any>) => data =>
   [fn1, ...fns].reduce((value, fn) => fn(value), data);
 

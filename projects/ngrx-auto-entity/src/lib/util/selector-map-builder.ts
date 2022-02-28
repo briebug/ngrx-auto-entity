@@ -1,33 +1,33 @@
 import { createSelector, MemoizedSelector, Selector } from '@ngrx/store';
+import { mapToEditedEntity, mapToIsDirty } from '../selectors/edits.selectors';
 import {
-  mapToCreatedAt,
-  mapToCurrentEntities,
-  mapToCurrentEntitiesKeys,
-  mapToCurrentEntity,
-  mapToCurrentEntityKey,
-  mapToCurrentPage,
-  mapToCurrentRange,
   mapToCustomSortedEntityArray,
-  mapToDeletedAt,
-  mapToEditedEntity,
-  mapToEntities,
   mapToEntityArray,
   mapToHasEntities,
   mapToHasNoEntities,
-  mapToIds,
+  mapToSortedEntityArray,
+  mapToTotal
+} from '../selectors/entity.selectors';
+import { mapToCurrentPage, mapToCurrentRange, mapToTotalPageable } from '../selectors/paging.selectors';
+import { mapToEdits, mapToEntities, mapToIds, mapToPaging, mapToSelections, mapToTracking } from '../selectors/root.selectors';
+import {
+  mapToCurrentEntities,
+  mapToCurrentEntitiesKeys,
+  mapToCurrentEntity,
+  mapToCurrentEntityKey
+} from '../selectors/selections.selectors';
+import {
+  mapToCreatedAt,
+  mapToDeletedAt,
   mapToIsDeleting,
-  mapToIsDirty,
   mapToIsLoading,
   mapToIsSaving,
   mapToLoadedAt,
   mapToReplacedAt,
   mapToSavedAt,
-  mapToSortedEntityArray,
-  mapToTotal,
-  mapToTotalPageable,
   mapToUpdatedAt
-} from '../selectors/selectors';
-import { IEntityDictionary, IEntityState } from './entity-state';
+} from '../selectors/tracking.selectors';
+import { IEntityDictionary, IEntityEdits, IEntityPaging, IEntitySelections, IEntityState, IEntityTracking } from './entity-state';
 import { ISelectorMap } from './selector-map';
 
 // prettier-ignore
@@ -35,6 +35,32 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
   getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>
 ): ISelectorMap<TParentState, TModel> => {
   class SelectorResolver implements ISelectorMap<TParentState, TModel> {
+    // State Roots:
+    get selectEntities() {
+      return createSelector(getState, mapToEntities) as MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
+    }
+
+    get selectIds() {
+      return createSelector(getState, mapToIds);
+    }
+
+    get selectSelections() {
+      return createSelector(getState, mapToSelections) as MemoizedSelector<object | TParentState, IEntitySelections>;
+    }
+
+    get selectEdits() {
+      return createSelector(getState, mapToEdits) as MemoizedSelector<object | TParentState, IEntityEdits<TModel>>;
+    }
+
+    get selectPaging() {
+      return createSelector(getState, mapToPaging) as MemoizedSelector<object | TParentState, IEntityPaging>;
+    }
+
+    get selectTracking() {
+      return createSelector(getState, mapToTracking) as MemoizedSelector<object | TParentState, IEntityTracking>;
+    }
+
+    // Entity:
     get selectAll() {
       return createSelector(this.selectEntities, this.selectIds, mapToEntityArray);
     }
@@ -47,96 +73,100 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
       return createSelector(this.selectAll, mapToCustomSortedEntityArray);
     }
 
-    get selectEntities() {
-      return createSelector(getState, mapToEntities) as MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
-    }
-
-    get selectIds() {
-      return createSelector(getState, mapToIds);
-    }
-
     get selectTotal() {
-      return createSelector(getState, mapToTotal);
+      return createSelector(this.selectIds, mapToTotal);
     }
 
     get selectHasEntities() {
-      return createSelector(getState, mapToHasEntities);
+      return createSelector(this.selectIds, mapToHasEntities);
     }
 
     get selectHasNoEntities() {
-      return createSelector(getState, mapToHasNoEntities);
+      return createSelector(this.selectIds, mapToHasNoEntities);
     }
 
+    // Selections:
     get selectCurrentEntity() {
-      return createSelector(getState, mapToCurrentEntity) as MemoizedSelector<object | TParentState, TModel | null>;
+      return createSelector(
+        this.selectSelections,
+        this.selectEntities,
+        mapToCurrentEntity
+      ) as MemoizedSelector<object | TParentState, TModel | null>;
     }
 
     get selectCurrentEntityKey() {
-      return createSelector(getState, mapToCurrentEntityKey);
+      return createSelector(this.selectSelections, mapToCurrentEntityKey);
     }
 
     get selectCurrentEntities() {
-      return createSelector(getState, mapToCurrentEntities) as MemoizedSelector<object | TParentState, TModel[]>;
+      return createSelector(
+        this.selectSelections,
+        this.selectEntities,
+        mapToCurrentEntities
+      ) as MemoizedSelector<object | TParentState, TModel[]>;
     }
 
     get selectCurrentEntitiesKeys() {
-      return createSelector(getState, mapToCurrentEntitiesKeys);
+      return createSelector(this.selectSelections, mapToCurrentEntitiesKeys);
     }
 
+    // Edits:
     get selectEditedEntity() {
-      return createSelector(getState, mapToEditedEntity);
+      return createSelector(this.selectEdits, mapToEditedEntity);
     }
 
     get selectIsDirty() {
-      return createSelector(getState, mapToIsDirty);
+      return createSelector(this.selectEdits, mapToIsDirty);
     }
 
+    // Paging:
     get selectCurrentPage() {
-      return createSelector(getState, mapToCurrentPage);
+      return createSelector(this.selectPaging, mapToCurrentPage);
     }
 
     get selectCurrentRange() {
-      return createSelector(getState, mapToCurrentRange);
+      return createSelector(this.selectPaging, mapToCurrentRange);
     }
 
     get selectTotalPageable() {
-      return createSelector(getState, mapToTotalPageable);
+      return createSelector(this.selectPaging, mapToTotalPageable);
     }
 
+    // Tracking:
     get selectIsLoading() {
-      return createSelector(getState, mapToIsLoading);
+      return createSelector(this.selectTracking, mapToIsLoading);
     }
 
     get selectIsSaving() {
-      return createSelector(getState, mapToIsSaving);
+      return createSelector(this.selectTracking, mapToIsSaving);
     }
 
     get selectIsDeleting() {
-      return createSelector(getState, mapToIsDeleting);
+      return createSelector(this.selectTracking, mapToIsDeleting);
     }
 
     get selectLoadedAt() {
-      return createSelector(getState, mapToLoadedAt);
+      return createSelector(this.selectTracking, mapToLoadedAt);
     }
 
     get selectSavedAt() {
-      return createSelector(getState, mapToSavedAt);
+      return createSelector(this.selectTracking, mapToSavedAt);
     }
 
     get selectCreatedAt() {
-      return createSelector(getState, mapToCreatedAt);
+      return createSelector(this.selectTracking, mapToCreatedAt);
     }
 
     get selectUpdatedAt() {
-      return createSelector(getState, mapToUpdatedAt);
+      return createSelector(this.selectTracking, mapToUpdatedAt);
     }
 
     get selectReplacedAt() {
-      return createSelector(getState, mapToReplacedAt);
+      return createSelector(this.selectTracking, mapToReplacedAt);
     }
 
     get selectDeletedAt() {
-      return createSelector(getState, mapToDeletedAt);
+      return createSelector(this.selectTracking, mapToDeletedAt);
     }
   }
 

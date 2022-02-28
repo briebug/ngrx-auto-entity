@@ -2,7 +2,7 @@ import { InjectionToken, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of, pipe } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
-import { pipe as fpipe } from '../../util/func';
+import { compose as fpipe } from '../../util/func';
 import { IEntityInfo } from '../actions/entity-info';
 import { entityStateName } from '../decorators/entity-util';
 import { Page, Range } from '../models';
@@ -16,10 +16,10 @@ export const getEntityState = (info: IEntityInfo) => (state: any): IEntityState<
   (info.modelType[FEATURE_AFFINITY]
     ? state[info.modelType[FEATURE_AFFINITY]][entityStateName(info.modelName)]
     : state[entityStateName(info.modelName)]) as IEntityState<any>;
-export const getLoadedAt = (state: IEntityState<any>): number | undefined => (state ? state.loadedAt : undefined);
-export const getIsLoading = (state: IEntityState<any>): boolean => !!state.isLoading;
-export const getCurrentPage = (state: IEntityState<any>): Page | undefined => state.currentPage;
-export const getCurrentRange = (state: IEntityState<any>): Range | undefined => state.currentRange;
+export const getLoadedAt = (state: IEntityState<any>): number | undefined => (state ? state.tracking.loadedAt : undefined);
+export const getIsLoading = (state: IEntityState<any>): boolean => !!state.tracking.isLoading;
+export const getCurrentPage = (state: IEntityState<any>): Page | undefined => state.paging.currentPage;
+export const getCurrentRange = (state: IEntityState<any>): Range | undefined => state.paging.currentRange;
 export const getEntityIds = (state: IEntityState<any>): EntityIdentity[] => (state && state.ids ? state.ids : []);
 export const mapToHasEntities = (ids?: EntityIdentity[]): boolean => !!ids && !!ids.length;
 
