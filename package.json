@@ -1,5 +1,6 @@
 {
   "name": "ngrx-auto-entity-app",
+  "private": true,
   "version": "0.0.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
@@ -27,17 +28,11 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently --prefix-colors white.bgBlue,white.bgRed --names angular,json-server --kill-others \"npm run serve-proxy\" \"npm run json-server\"",
-    "serve": "ng serve",
-    "serve:prod": "ng serve --configuration production",
-    "serve:test": "ng serve test-app",
-    "serve:test:prod": "ng serve test-app",
-    "serve-proxy": "ng serve --configuration production --proxy-config proxy.conf.json",
-    "serve-proxy:test": "ng serve test-app --proxy-config proxy.conf.json",
-    "serve-proxy:test:prod": "ng serve test-app --configuration production --proxy-config proxy.conf.json",
-    "build": "ng build --configuration production",
-    "build:watch": "ng build --configuration production --watch",
-    "build:app": "ng build ngrx-auto-entity-app --configuration production",
-    "build:app:watch": "ng build ngrx-auto-entity-app --configuration production --watch",
+    "serve": "ng serve test-app",
+    "serve:prod": "ng serve test-app --configuration production",
+    "serve-proxy": "ng serve test-app --configuration production --proxy-config proxy.conf.json",
+    "build": "ng build test-app --configuration production",
+    "build:watch": "ng build test-app --configuration production --watch",
     "build:lib": "ng build ngrx-auto-entity --configuration production",
     "build:lib:watch": "ng build ngrx-auto-entity --configuration production --watch",
     "build:ci": "ng build ngrx-auto-entity --configuration production",
@@ -53,7 +48,6 @@
     "postinstall": "if test \"$NODE_ENV\" = \"ci\" ; then npm run link:ci ; else npm run link ; fi",
     "prettier": "prettier --write \"./**/*.ts\""
   },
-  "private": true,
   "dependencies": {
     "@angular-devkit/core": "^12.1.3",
     "@angular/animations": "^12.1.3",
@@ -105,13 +99,13 @@
     "ts-node": "~5.0.1",
     "tsickle": "^0.39.1",
     "tslib": "^2.0.0",
-    "tslint": "~6.1.0",
+    "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^1.3.0",
     "typescript": "~4.3.5"
   },
   "lint-staged": {
-    "src/app/**/*.ts": [
+    "projects/test-app/**/*.ts": [
       "tslint --config tslint.json --project tsconfig.json --fix",
       "git add"
     ],
@@ -131,22 +125,17 @@
       "text"
     ],
     "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/*.module.ts",
-      "!src/main.ts",
-      "!src/polyfills.ts",
-      "!src/environments/*.ts",
       "projects/ngrx-auto-entity/src/lib/**/*.ts",
       "!projects/ngrx-auto-entity/src/lib/**/*.module.ts",
       "!projects/ngrx-auto-entity/src/lib/index.ts",
+      "projects/test-app/src/lib/**/*.ts",
+      "!projects/test-app/src/lib/**/*.module.ts",
+      "!projects/test-app/src/lib/index.ts",
       "!<rootDir>/setup-jest.ts",
       "!<rootDir>/jestGlobalMocks.ts"
     ],
     "moduleNameMapper": {
-      "^ngrx-auto-entity/(.*)": "<rootDir>/projects/ngrx-auto-entity/$1",
-      "^state/(.*)": "<rootDir>/src/app/state/$1",
-      "^core/(.*)": "<rootDir>/src/app/core/$1",
-      "^models/(.*)": "<rootDir>/src/app/models/$1"
+      "^ngrx-auto-entity/(.*)": "<rootDir>/projects/ngrx-auto-entity/$1"
     },
     "modulePathIgnorePatterns": [
       "<rootDir>/dist"

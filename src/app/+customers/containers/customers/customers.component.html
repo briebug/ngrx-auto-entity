@@ -1,7 +1,0 @@
-<div fxLayout="column" fxLayoutAlign="start stretch" class="customers">
-  <h2>Customers</h2>
-  <div class="actions" fxLayout="row" fxLayoutAlign="end">
-    <a mat-stroked-button routerLink="add" color="primary">Add Customer</a>
-  </div>
-  <app-customers-table [customers]="customers$ | async" (delete)="onDelete($event)" (edit)="onEdit($event)"></app-customers-table>
-</div>
