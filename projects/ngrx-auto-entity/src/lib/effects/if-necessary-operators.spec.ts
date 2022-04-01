@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -29,7 +30,9 @@ export function testStoreFactory(store: Store<any>) {
 describe('EntityIfNecessaryOperators', () => {
   let actions$: Observable<any>;
 
-  beforeEach(() =>
+  beforeEach(() => {
+    TestBed.resetTestEnvironment();
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
     TestBed.configureTestingModule({
       providers: [
         EntityIfNecessaryOperators,
@@ -44,13 +47,15 @@ describe('EntityIfNecessaryOperators', () => {
             testMaxAge: {
               entities: { 1: {}, 2: {} },
               ids: [1, 2],
-              loadedAt: new Date().setMinutes(new Date().getMinutes() - 6)
+              tracking: {
+                loadedAt: new Date().setMinutes(new Date().getMinutes() - 6)
+              }
             }
           }
         })
       ]
-    })
-  );
+    });
+  });
 
   describe('loadIfNecessary()', () => {
     test('should dispatch action if no loadedAt or entities in state', () => {
@@ -106,7 +111,9 @@ describe('EntityIfNecessaryOperators', () => {
         test: {
           entities: { 1: {}, 2: {} },
           ids: [1, 2],
-          loadedAt: new Date().setMinutes(new Date().getMinutes() - 11)
+          tracking: {
+            loadedAt: new Date().setMinutes(new Date().getMinutes() - 11)
+          }
         }
       });
 
@@ -149,7 +156,9 @@ describe('EntityIfNecessaryOperators', () => {
         test: {
           entities: { 1: {}, 2: {}, 123: {} },
           ids: [1, 2, 123],
-          loadedAt: new Date().setMinutes(new Date().getMinutes() - 8)
+          tracking: {
+            loadedAt: new Date().setMinutes(new Date().getMinutes() - 8)
+          }
         }
       });
 
@@ -169,7 +178,9 @@ describe('EntityIfNecessaryOperators', () => {
         test: {
           entities: {},
           ids: [],
-          isLoading: true
+          tracking: {
+            isLoading: true
+          }
         }
       });
 

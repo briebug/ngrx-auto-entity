@@ -1,13 +1,6 @@
 import { Entity, Key, makeEntity } from '../..';
 import { mapToCustomSortedEntityArray, mapToEntityArray, mapToSortedEntityArray } from './entity.selectors';
-import {
-  mapToCreatedAt,
-  mapToDeletedAt,
-  mapToLoadedAt,
-  mapToReplacedAt,
-  mapToSavedAt,
-  mapToUpdatedAt
-} from './selectors';
+import { mapToCreatedAt, mapToDeletedAt, mapToLoadedAt, mapToReplacedAt, mapToSavedAt, mapToUpdatedAt } from './tracking.selectors';
 
 @Entity({
   modelName: 'Test',
@@ -81,109 +74,109 @@ describe('mapToCustomSortedEntityArray()', () => {
 });
 
 describe('mapToLoadedAt()', () => {
-  it('should return null if state falsy', () => {
+  it('should return undefined if state falsy', () => {
     const ts = mapToLoadedAt(null);
-    expect(ts).toBeNull();
+    expect(ts).toBeUndefined();
   });
 
-  it('should return null if loadedAt state is falsy', () => {
-    const ts = mapToLoadedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
+  it('should return undefined if loadedAt state is falsy', () => {
+    const ts = mapToLoadedAt({});
+    expect(ts).toBeUndefined();
   });
 
   it('should return Date', () => {
     const now = Date.now();
-    const ts = mapToLoadedAt({ entities: {}, ids: [], loadedAt: now });
+    const ts = mapToLoadedAt({ loadedAt: now });
     expect(ts).toStrictEqual(new Date(now));
   });
 });
 
 describe('mapToSavedAt()', () => {
-  it('should return null if state falsy', () => {
+  it('should return undefined if state falsy', () => {
     const ts = mapToSavedAt(null);
-    expect(ts).toBeNull();
+    expect(ts).toBeUndefined();
   });
 
-  it('should return null if savedAt state is falsy', () => {
-    const ts = mapToSavedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
+  it('should return undefined if savedAt state is falsy', () => {
+    const ts = mapToSavedAt({});
+    expect(ts).toBeUndefined();
   });
 
   it('should return Date', () => {
     const now = Date.now();
-    const ts = mapToSavedAt({ entities: {}, ids: [], savedAt: now });
+    const ts = mapToSavedAt({ savedAt: now });
     expect(ts).toStrictEqual(new Date(now));
   });
 });
 
 describe('mapToCreatedAt()', () => {
-  it('should return null if state falsy', () => {
+  it('should return undefined if state falsy', () => {
     const ts = mapToCreatedAt(null);
-    expect(ts).toBeNull();
+    expect(ts).toBeUndefined();
   });
 
-  it('should return null if createdAt state is falsy', () => {
-    const ts = mapToCreatedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
+  it('should return undefined if createdAt state is falsy', () => {
+    const ts = mapToCreatedAt({});
+    expect(ts).toBeUndefined();
   });
 
   it('should return Date', () => {
     const now = Date.now();
-    const ts = mapToCreatedAt({ entities: {}, ids: [], createdAt: now });
+    const ts = mapToCreatedAt({ createdAt: now });
     expect(ts).toStrictEqual(new Date(now));
   });
 });
 
 describe('mapToUpdatedAt()', () => {
-  it('should return null if state falsy', () => {
+  it('should return undefined if state falsy', () => {
     const ts = mapToUpdatedAt(null);
-    expect(ts).toBeNull();
+    expect(ts).toBeUndefined();
   });
 
-  it('should return null if updatedAt state is falsy', () => {
-    const ts = mapToUpdatedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
+  it('should return undefined if updatedAt state is falsy', () => {
+    const ts = mapToUpdatedAt({});
+    expect(ts).toBeUndefined();
   });
 
   it('should return Date', () => {
     const now = Date.now();
-    const ts = mapToUpdatedAt({ entities: {}, ids: [], updatedAt: now });
+    const ts = mapToUpdatedAt({ updatedAt: now });
     expect(ts).toStrictEqual(new Date(now));
   });
 });
 
 describe('mapToReplacedAt()', () => {
-  it('should return null if state falsy', () => {
+  it('should return undefined if state falsy', () => {
     const ts = mapToReplacedAt(null);
-    expect(ts).toBeNull();
+    expect(ts).toBeUndefined();
   });
 
-  it('should return null if replacedAt state is falsy', () => {
-    const ts = mapToReplacedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
+  it('should return undefined if replacedAt state is falsy', () => {
+    const ts = mapToReplacedAt({});
+    expect(ts).toBeUndefined();
   });
 
   it('should return Date', () => {
     const now = Date.now();
-    const ts = mapToReplacedAt({ entities: {}, ids: [], replacedAt: now });
+    const ts = mapToReplacedAt({ replacedAt: now });
     expect(ts).toStrictEqual(new Date(now));
   });
 });
 
 describe('mapToDeletedAt()', () => {
-  it('should return null if state falsy', () => {
+  it('should return undefined if state falsy', () => {
     const ts = mapToDeletedAt(null);
-    expect(ts).toBeNull();
+    expect(ts).toBeUndefined();
   });
 
-  it('should return null if deletedAt state is falsy', () => {
-    const ts = mapToDeletedAt({ entities: {}, ids: [] });
-    expect(ts).toBeNull();
+  it('should return undefined if deletedAt state is falsy', () => {
+    const ts = mapToDeletedAt({});
+    expect(ts).toBeUndefined();
   });
 
   it('should return Date', () => {
     const now = Date.now();
-    const ts = mapToDeletedAt({ entities: {}, ids: [], deletedAt: now });
+    const ts = mapToDeletedAt({ deletedAt: now });
     expect(ts).toStrictEqual(new Date(now));
   });
 });

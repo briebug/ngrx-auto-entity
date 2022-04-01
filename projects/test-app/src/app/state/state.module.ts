@@ -21,7 +21,7 @@ import { CustomRouterStateSerializer } from './shared/utils';
       }
     }),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    StoreDevtoolsModule.instrument(),
     NgrxAutoEntityModule.forRoot()
   ]
 })

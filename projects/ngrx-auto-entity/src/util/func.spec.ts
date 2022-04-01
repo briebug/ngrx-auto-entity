@@ -1,6 +1,6 @@
 import { asString, map, compose, replace } from './func';
 
-describe('map', () => {
+describe('map()', () => {
   test('should return input as is when identity', () => {
     const result = map(value => value)(10);
     expect(result).toBe(10);
@@ -17,7 +17,7 @@ describe('map', () => {
   });
 });
 
-describe('pipe', () => {
+describe('compose()', () => {
   test('should be identity if no functions', () => {
     const idnull = compose()(null);
     const id1 = compose()(1);
@@ -51,7 +51,7 @@ describe('pipe', () => {
   });
 });
 
-describe('asString', () => {
+describe('asString()', () => {
   test('should convert string to string', () => {
     const result = asString('test');
     expect(result).toBe('test');
@@ -103,7 +103,7 @@ describe('asString', () => {
   });
 });
 
-describe('replace', () => {
+describe('replace()', () => {
   test('should replace match string with output string', () => {
     const result = replace('example', 'test')('my example string');
     expect(result).toBe('my test string');

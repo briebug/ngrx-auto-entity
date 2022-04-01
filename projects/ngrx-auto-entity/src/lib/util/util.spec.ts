@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { createFeatureSelector, Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -58,6 +59,8 @@ const testSelectorMap = selectors => selectorProperties.every(prop => selectors.
 
 describe('Utilities', () => {
   beforeEach(() => {
+    TestBed.resetTestEnvironment();
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({

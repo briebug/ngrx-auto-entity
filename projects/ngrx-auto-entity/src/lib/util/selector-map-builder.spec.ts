@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { hot } from 'jasmine-marbles';
 import { Entity } from '../decorators/entity-decorator';
@@ -68,6 +69,8 @@ const testSelectorMap = selectors => selectorProperties.every(prop => selectors.
 
 describe('buildSelectorMap()', () => {
   beforeEach(() => {
+    TestBed.resetTestEnvironment();
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({

@@ -20,12 +20,12 @@ export const mapToCustomSortedEntityArray =
 // prettier-ignore
 export const mapToHasEntities =
   (ids: EntityIdentity[]): boolean =>
-    !ids ? false : !!ids.length;
+    !!ids && !!ids.length;
 
 // prettier-ignore
 export const mapToHasNoEntities =
  (ids: EntityIdentity[]): boolean =>
-    ids ? true : !ids.length;
+    !ids || !ids.length;
 
 // prettier-ignore
 export const mapToTotal =

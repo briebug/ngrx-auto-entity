@@ -16,8 +16,9 @@ import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMo
 import { UpdateManySuccess, UpdateSuccess } from '../actions/update-actions';
 import { UpsertManySuccess, UpsertSuccess } from '../actions/upsert-actions';
 import { Key } from '../decorators/key-decorator';
+import { IEntityState } from '../util/entity-state';
 import { autoEntityMetaReducer } from './meta-reducer';
-import { autoEntityReducer} from './reducer';
+import { autoEntityReducer } from './reducer';
 import { stateNameFromAction } from './reduction.utils';
 
 class TestEntity {
@@ -25,9 +26,11 @@ class TestEntity {
   name?: string;
 }
 
+type TestState = { testEntity: IEntityState<any> };
+
 describe('NgRx Auto-Entity: Reducer Performance', () => {
   it('should test loading 10k items followed by 10k more in less than 50ms', () => {
-    const state = {
+    const state: { testEntity: IEntityState<any> } = {
       testEntity: {
         entities: {},
         ids: []
@@ -48,7 +51,7 @@ describe('NgRx Auto-Entity: Reducer Performance', () => {
   });
 
   it('should test loading 100k items followed by 100k more in less than 500ms', () => {
-    const state = {
+    const state: TestState = {
       testEntity: {
         entities: {},
         ids: []
@@ -69,7 +72,7 @@ describe('NgRx Auto-Entity: Reducer Performance', () => {
   });
 
   it('should test loading 1m items followed by 1m more in less than 2s', () => {
-    const state = {
+    const state: TestState = {
       testEntity: {
         entities: {},
         ids: []
@@ -94,7 +97,7 @@ describe('NgRx Auto-Entity: Reducer Performance', () => {
   });
 });
 
-describe('NgRX Auto-Entity: Reducer', () => {
+describe('NgRX Auto-Entity: Reducer (Integration)', () => {
   describe('stateNameFromAction', () => {
     it(`should convert PascalCase entity name to camelCase`, () => {
       const action = new Load(TestEntity, 1);
@@ -105,7 +108,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
   describe('autoEntityMetaReducer', () => {
     it(`should return the autoEntityReducer`, () => {
-      const metaReducer = autoEntityMetaReducer(({}, []) => {});
+      const metaReducer = autoEntityMetaReducer(({}, {}) => {});
       expect(metaReducer).toBeDefined();
     });
   });
@@ -113,7 +116,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
   describe('autoEntityReducer', () => {
     describe('Load', () => {
       it(`should reduce LoadSuccess and add entity to empty state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {},
             ids: []
@@ -126,20 +129,22 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
             entities: { 1: { identity: 1 } },
             ids: [1],
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce LoadSuccess and add entity to existing state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1 } },
             ids: [1]
@@ -152,7 +157,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -161,8 +166,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               2: { identity: 2 }
             },
             ids: [1, 2],
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -170,7 +177,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('LoadAll', () => {
       it(`should reduce LoadAllSuccess and add entities to empty state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {},
             ids: []
@@ -183,26 +190,26 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toMatchObject({
           testEntity: {
-            currentPage: 1,
             entities: {
               1: { identity: 1 },
               2: { identity: 2 },
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            totalPageableCount: 3,
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce LoadAllSuccess and replace entities in existing state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1 },
@@ -219,20 +226,20 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
-            currentPage: 1,
             entities: {
               4: { identity: 4 },
               5: { identity: 5 },
               6: { identity: 6 }
             },
             ids: [4, 5, 6],
-            totalPageableCount: 3,
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -240,7 +247,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('LoadMany', () => {
       it(`should reduce LoadManySuccess and add entities to empty state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {},
             ids: []
@@ -253,7 +260,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -263,14 +270,16 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce LoadManySuccess and update entities in existing state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1 },
@@ -287,7 +296,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -300,8 +309,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               6: { identity: 6 }
             },
             ids: [1, 2, 3, 4, 5, 6],
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -309,7 +320,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('LoadPage', () => {
       it(`should reduce LoadPageSuccess and add entities and page info to empty state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {},
             ids: []
@@ -328,7 +339,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -338,16 +349,20 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentPage: { page: 1, size: 3 },
-            totalPageableCount: 10,
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            paging: {
+              currentPage: { page: 1, size: 3 },
+              totalPageableCount: 10
+            },
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce LoadPageSuccess and replace entities and page info in existing state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1 },
@@ -355,8 +370,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentPage: 1,
-            totalPageableCount: 10
+            paging: {
+              currentPage: { page: 1, size: 3 },
+              totalPageableCount: 10
+            }
           }
         };
         const action = new LoadPageSuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }], {
@@ -372,7 +389,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -382,10 +399,14 @@ describe('NgRX Auto-Entity: Reducer', () => {
               6: { identity: 6 }
             },
             ids: [4, 5, 6],
-            currentPage: { page: 2, size: 3 },
-            totalPageableCount: 10,
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            paging: {
+              currentPage: { page: 2, size: 3 },
+              totalPageableCount: 10
+            },
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -393,7 +414,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('LoadRange', () => {
       it(`should reduce LoadRangeSuccess and add entities and range info to empty state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {},
             ids: []
@@ -409,7 +430,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -419,16 +440,20 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentRange: { first: 1, last: 3 },
-            totalPageableCount: 10,
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            paging: {
+              currentRange: { first: 1, last: 3 },
+              totalPageableCount: 10
+            },
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce LoadRangeSuccess and add entities and range info to existing state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1 },
@@ -436,8 +461,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentRange: { first: 1, last: 3 },
-            totalPageableCount: 10
+            paging: {
+              currentRange: { first: 1, last: 3 },
+              totalPageableCount: 10
+            }
           }
         };
         const action = new LoadRangeSuccess(TestEntity, [{ identity: 4 }, { identity: 5 }, { identity: 6 }], {
@@ -450,7 +477,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -463,10 +490,14 @@ describe('NgRX Auto-Entity: Reducer', () => {
               6: { identity: 6 }
             },
             ids: [1, 2, 3, 4, 5, 6],
-            currentRange: { first: 4, last: 6 }, // TODO: This is actually incorrect! Figure out how to merge current range info
-            totalPageableCount: 10,
-            isLoading: false,
-            loadedAt: expect.toBeNumber()
+            paging: {
+              currentRange: { first: 4, last: 6 }, // TODO: This is actually incorrect! Figure out how to merge current range info
+              totalPageableCount: 10
+            },
+            tracking: {
+              isLoading: false,
+              loadedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -474,7 +505,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Create', () => {
       it(`should reduce CreateSuccess and add new entity to state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1 } },
             ids: [1]
@@ -487,7 +518,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -496,14 +527,16 @@ describe('NgRX Auto-Entity: Reducer', () => {
               2: { identity: 2 }
             },
             ids: [1, 2],
-            isSaving: false,
-            createdAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              createdAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce CreateManySuccess and update existing entities in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 }
@@ -518,7 +551,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -528,8 +561,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [2, 1, 3],
-            isSaving: false,
-            createdAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              createdAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -537,7 +572,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Update', () => {
       it(`should reduce UpdateSuccess and update existing entity in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1, name: 'before' } },
             ids: [1]
@@ -550,7 +585,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -558,15 +593,17 @@ describe('NgRX Auto-Entity: Reducer', () => {
               1: { identity: 1, name: 'after' }
             },
             ids: [1],
-            isSaving: false,
-            savedAt: expect.toBeNumber(),
-            updatedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber(),
+              updatedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce UpdateManySuccess and update existing entities in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1, name: 'before1' },
@@ -589,7 +626,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -599,9 +636,11 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3, name: 'after3' }
             },
             ids: [1, 2, 3],
-            isSaving: false,
-            savedAt: expect.toBeNumber(),
-            updatedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber(),
+              updatedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -609,7 +648,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Upsert', () => {
       it(`should reduce UpsertSuccess and update existing entity in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1, name: 'before' } },
             ids: [1]
@@ -622,7 +661,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -630,14 +669,16 @@ describe('NgRX Auto-Entity: Reducer', () => {
               1: { identity: 1, name: 'after' }
             },
             ids: [1],
-            isSaving: false,
-            savedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce UpsertSuccess and insert new entity in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1, name: 'before' } },
             ids: [1]
@@ -650,7 +691,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -659,14 +700,16 @@ describe('NgRX Auto-Entity: Reducer', () => {
               2: { identity: 2, name: 'new' }
             },
             ids: [1, 2],
-            isSaving: false,
-            savedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce UpsertManySuccess and update existing and add new entities in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1, name: 'before1' },
@@ -688,7 +731,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -700,8 +743,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               5: { identity: 5, name: 'new2' }
             },
             ids: [1, 2, 3, 4, 5],
-            isSaving: false,
-            savedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -709,7 +754,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Replace', () => {
       it(`should reduce ReplaceSuccess and update existing entity in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1, name: 'before' } },
             ids: [1]
@@ -722,7 +767,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -730,15 +775,17 @@ describe('NgRX Auto-Entity: Reducer', () => {
               1: { identity: 1, name: 'after' }
             },
             ids: [1],
-            isSaving: false,
-            savedAt: expect.toBeNumber(),
-            replacedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber(),
+              replacedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce ReplaceManySuccess and update existing entities in state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               1: { identity: 1, name: 'before1' },
@@ -761,7 +808,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -771,9 +818,11 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3, name: 'after3' }
             },
             ids: [1, 2, 3],
-            isSaving: false,
-            savedAt: expect.toBeNumber(),
-            replacedAt: expect.toBeNumber()
+            tracking: {
+              isSaving: false,
+              savedAt: expect.toBeNumber(),
+              replacedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -781,7 +830,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Delete', () => {
       it(`should reduce DeleteSuccess and remove existing entity from state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1 } },
             ids: [1]
@@ -794,20 +843,22 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
             entities: {},
             ids: [],
-            isDeleting: false,
-            deletedAt: expect.toBeNumber()
+            tracking: {
+              isDeleting: false,
+              deletedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce DeleteManySuccess and remove existing entities from state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -824,7 +875,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -832,14 +883,16 @@ describe('NgRX Auto-Entity: Reducer', () => {
               2: { identity: 2 }
             },
             ids: [2],
-            isDeleting: false,
-            deletedAt: expect.toBeNumber()
+            tracking: {
+              isDeleting: false,
+              deletedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce DeleteByKeySuccess and remove existing entity from state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: { 1: { identity: 1 } },
             ids: [1]
@@ -852,20 +905,22 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
             entities: {},
             ids: [],
-            isDeleting: false,
-            deletedAt: expect.toBeNumber()
+            tracking: {
+              isDeleting: false,
+              deletedAt: expect.toBeNumber()
+            }
           }
         });
       });
 
       it(`should reduce DeleteManyByKeySuccess and remove existing entities from state`, () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -882,7 +937,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -890,8 +945,10 @@ describe('NgRX Auto-Entity: Reducer', () => {
               2: { identity: 2 }
             },
             ids: [2],
-            isDeleting: false,
-            deletedAt: expect.toBeNumber()
+            tracking: {
+              isDeleting: false,
+              deletedAt: expect.toBeNumber()
+            }
           }
         });
       });
@@ -899,7 +956,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Select', () => {
       it('should reduce Select and add entity key to currentEntityKey in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -907,7 +964,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntityKey: undefined
+            selections: {
+              currentEntityKey: undefined
+            }
           }
         };
         const action = new Select(TestEntity, { identity: 1 });
@@ -917,13 +976,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntityKey).toBe(1);
+        expect(newState.testEntity.selections.currentEntityKey).toBe(1);
       });
 
       it('should reduce SelectByKey and add entity key to currentEntityKey in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -931,7 +990,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntityKey: undefined
+            selections: {
+              currentEntityKey: undefined
+            }
           }
         };
         const action = new SelectByKey(TestEntity, 1);
@@ -941,15 +1002,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntityKey).toBe(1);
+        expect(newState.testEntity.selections.currentEntityKey).toBe(1);
       });
     });
 
     describe('Deselect', () => {
       it('should reduce Deselect and clear the currentEntityKey from state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -957,7 +1018,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntityKey: 1
+            selections: {
+              currentEntityKey: 1
+            }
           }
         };
         const action = new Deselect(TestEntity);
@@ -967,15 +1030,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntityKey).toBeUndefined();
+        expect(newState.testEntity.selections.currentEntityKey).toBeUndefined();
       });
     });
 
     describe('SelectMany', () => {
       it('should reduce SelectMany and set entity keys to currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -983,7 +1046,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: undefined
+            selections: {
+              currentEntitiesKeys: undefined
+            }
           }
         };
         const action = new SelectMany(TestEntity, [{ identity: 1 }, { identity: 3 }]);
@@ -993,13 +1058,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
 
       it('should reduce SelectMany and set entity keys replacing existing keys in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1007,7 +1072,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [2]
+            selections: {
+              currentEntitiesKeys: [2]
+            }
           }
         };
         const action = new SelectMany(TestEntity, [{ identity: 1 }, { identity: 3 }]);
@@ -1017,13 +1084,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
 
       it('should reduce SelectMany and set empty array to currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1031,7 +1098,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: undefined
+            selections: {
+              currentEntitiesKeys: undefined
+            }
           }
         };
         const action = new SelectMany(TestEntity, []);
@@ -1041,13 +1110,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([]);
       });
 
       it('should reduce SelectMany and set empty array replacing existing keys in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1055,7 +1124,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new SelectMany(TestEntity, []);
@@ -1065,15 +1136,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([]);
       });
     });
 
     describe('SelectMore', () => {
       it('should reduce SelectMore and set entity keys to currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1081,7 +1152,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: undefined
+            selections: {
+              currentEntitiesKeys: undefined
+            }
           }
         };
         const action = new SelectMore(TestEntity, [{ identity: 1 }, { identity: 3 }]);
@@ -1091,13 +1164,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
 
       it('should reduce SelectMore and add entity keys to existing keys in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1105,7 +1178,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [2]
+            selections: {
+              currentEntitiesKeys: [2]
+            }
           }
         };
         const action = new SelectMore(TestEntity, [{ identity: 1 }, { identity: 3 }]);
@@ -1115,13 +1190,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([2, 1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([2, 1, 3]);
       });
 
       it('should reduce SelectMore and add entity keys to existing empty array in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1129,7 +1204,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: []
+            selections: {
+              currentEntitiesKeys: []
+            }
           }
         };
         const action = new SelectMore(TestEntity, [{ identity: 1 }, { identity: 3 }]);
@@ -1139,15 +1216,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
     });
 
     describe('SelectManyByKeys', () => {
       it('should reduce SelectManyByKeys and set entity keys to currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1155,7 +1232,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: undefined
+            selections: {
+              currentEntitiesKeys: undefined
+            }
           }
         };
         const action = new SelectManyByKeys(TestEntity, [1, 3]);
@@ -1165,13 +1244,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
 
       it('should reduce SelectManyByKeys and set entity keys replacing existing keys in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1179,7 +1258,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [2]
+            selections: {
+              currentEntitiesKeys: [2]
+            }
           }
         };
         const action = new SelectManyByKeys(TestEntity, [1, 3]);
@@ -1189,13 +1270,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
 
       it('should reduce SelectManyByKeys and set empty array to currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1203,7 +1284,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: undefined
+            selections: {
+              currentEntitiesKeys: undefined
+            }
           }
         };
         const action = new SelectManyByKeys(TestEntity, []);
@@ -1213,13 +1296,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([]);
       });
 
       it('should reduce SelectManyByKeys and set empty array replacing existing keys in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1227,7 +1310,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new SelectManyByKeys(TestEntity, []);
@@ -1237,15 +1322,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([]);
       });
     });
 
     describe('SelectMoreByKeys', () => {
       it('should reduce SelectMoreByKeys and set entity keys to currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1253,7 +1338,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: undefined
+            selections: {
+              currentEntitiesKeys: undefined
+            }
           }
         };
         const action = new SelectMoreByKeys(TestEntity, [1, 3]);
@@ -1263,13 +1350,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
 
       it('should reduce SelectMoreByKeys and add entity keys to existing keys in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1277,7 +1364,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [2]
+            selections: {
+              currentEntitiesKeys: [2]
+            }
           }
         };
         const action = new SelectMoreByKeys(TestEntity, [1, 3]);
@@ -1287,13 +1376,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([2, 1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([2, 1, 3]);
       });
 
       it('should reduce SelectMoreByKeys and add entity keys to existing empty array in currentEntitiesKeys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1301,7 +1390,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: []
+            selections: {
+              currentEntitiesKeys: []
+            }
           }
         };
         const action = new SelectMoreByKeys(TestEntity, [1, 3]);
@@ -1311,15 +1402,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 3]);
       });
     });
 
     describe('DeselectMany', () => {
       it('should reduce DeselectMany with several entities and set currentEntitiesKeys to remaining keys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1327,7 +1418,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new DeselectMany(TestEntity, [{ identity: 1 }, { identity: 3 }]);
@@ -1337,13 +1430,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([2]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([2]);
       });
 
       it('should reduce DeselectMany with empty array and leave currentEntitiesKeys as-is in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1351,7 +1444,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new DeselectMany(TestEntity, []);
@@ -1361,15 +1456,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 2, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 2, 3]);
       });
     });
 
     describe('DeselectManyByKeys', () => {
       it('should reduce DeselectManyByKeys with several keys and set currentEntitiesKeys to remaining keys in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1377,7 +1472,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new DeselectManyByKeys(TestEntity, [1, 3]);
@@ -1387,13 +1484,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([2]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([2]);
       });
 
       it('should reduce DeselectManyByKeys with empty array and leave currentEntitiesKeys as-is in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1401,7 +1498,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new DeselectManyByKeys(TestEntity, []);
@@ -1411,15 +1510,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toEqual([1, 2, 3]);
+        expect(newState.testEntity.selections.currentEntitiesKeys).toEqual([1, 2, 3]);
       });
     });
 
     describe('DeselectAll', () => {
       it('should reduce DeselectAll and set currentEntitiesKeys to undefined in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1427,7 +1526,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new DeselectAll(TestEntity);
@@ -1437,15 +1538,15 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
-        expect(newState.testEntity.currentEntitiesKeys).toBeUndefined();
+        expect(newState.testEntity.selections.currentEntitiesKeys).toBeUndefined();
       });
     });
 
     describe('Clear', () => {
       it('should reduce Clear and reset auto-entity managed state to default, empty state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1453,7 +1554,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new Clear(TestEntity);
@@ -1463,7 +1566,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState.testEntity).toEqual({
           entities: {},
@@ -1472,7 +1575,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
       });
 
       it('should reduce Clear and leave custom user-defined properties alone while clearning auto-entity managed state', () => {
-        const state = {
+        const state: TestState & { testEntity: { customProperty: string } } = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1480,7 +1583,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3],
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            },
             customProperty: 'hello'
           }
         };
@@ -1491,7 +1596,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState & { testEntity: { customProperty: string } } = metaReducer(state, action);
 
         expect(newState.testEntity).toEqual({
           entities: {},
@@ -1503,7 +1608,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('Edit', () => {
       it('should set the edited entity in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1511,7 +1616,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new Edit(TestEntity, { identity: 1 });
@@ -1521,7 +1628,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -1531,15 +1638,19 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3],
-            editedEntity: { identity: 1 },
-            isDirty: false
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            },
+            edits: {
+              editedEntity: { identity: 1 },
+              isDirty: false
+            }
           }
         });
       });
 
       it('should not change state if the entity is already being edited', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1547,9 +1658,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3],
-            editedEntity: { identity: 1 },
-            isDirty: false
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            },
+            edits: {
+              editedEntity: { identity: 1 },
+              isDirty: false
+            }
           }
         };
         const action = new Edit(TestEntity, { identity: 1 });
@@ -1559,13 +1674,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });
 
       it('should not change state if no entity is referenced by the action', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1573,7 +1688,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new Edit(TestEntity, null);
@@ -1583,7 +1700,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });
@@ -1591,7 +1708,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
 
     describe('EditByKey', () => {
       it('should set the edited entity in state', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1599,7 +1716,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new EditByKey(TestEntity, 1);
@@ -1609,7 +1728,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toEqual({
           testEntity: {
@@ -1619,15 +1738,19 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3],
-            editedEntity: { identity: 1 },
-            isDirty: false
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            },
+            edits: {
+              editedEntity: { identity: 1 },
+              isDirty: false
+            }
           }
         });
       });
 
       it('should not change state if the entity is already being edited', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1635,9 +1758,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3],
-            editedEntity: { identity: 1 },
-            isDirty: false
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            },
+            edits: {
+              editedEntity: { identity: 1 },
+              isDirty: false
+            }
           }
         };
         const action = new EditByKey(TestEntity, 1);
@@ -1647,13 +1774,13 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });
 
       it('should not change state if no entity is referenced by the action', () => {
-        const state = {
+        const state: TestState = {
           testEntity: {
             entities: {
               2: { identity: 2 },
@@ -1661,7 +1788,9 @@ describe('NgRX Auto-Entity: Reducer', () => {
               3: { identity: 3 }
             },
             ids: [1, 2, 3],
-            currentEntitiesKeys: [1, 2, 3]
+            selections: {
+              currentEntitiesKeys: [1, 2, 3]
+            }
           }
         };
         const action = new EditByKey(TestEntity, null);
@@ -1671,7 +1800,7 @@ describe('NgRX Auto-Entity: Reducer', () => {
           return s;
         };
         const metaReducer = autoEntityMetaReducer(rootReducer);
-       const newState: IEntityState<any> =metaReducer(state, action);
+        const newState: TestState = metaReducer(state, action);
 
         expect(newState).toStrictEqual(state);
       });

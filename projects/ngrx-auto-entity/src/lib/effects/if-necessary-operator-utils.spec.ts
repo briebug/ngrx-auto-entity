@@ -92,7 +92,9 @@ describe('getLoadedAt()', () => {
           }
         },
         ids: ['abc'],
-        loadedAt: now
+        tracking: {
+          loadedAt: now
+        }
       }
     };
 
@@ -123,7 +125,9 @@ describe('getIsLoading()', () => {
       myEntity: {
         entities: {},
         ids: [],
-        isLoading: true
+        tracking: {
+          isLoading: true
+        }
       }
     };
 
@@ -154,9 +158,11 @@ describe('getCurrentPage()', () => {
       myEntity: {
         entities: {},
         ids: [],
-        currentPage: {
-          page: 2,
-          size: 10
+        paging: {
+          currentPage: {
+            page: 2,
+            size: 10
+          }
         }
       }
     };
@@ -191,9 +197,11 @@ describe('getCurrentRange()', () => {
       myEntity: {
         entities: {},
         ids: [],
-        currentRange: {
-          start: 10,
-          end: 19
+        paging: {
+          currentRange: {
+            start: 10,
+            end: 19
+          }
         }
       }
     };
@@ -232,7 +240,9 @@ describe('getEntityIds()', () => {
           }
         },
         ids: ['abc'],
-        loadedAt: Date.now()
+        tracking: {
+          loadedAt: Date.now()
+        }
       }
     };
 
@@ -268,7 +278,9 @@ describe('mapToHasEntities()', () => {
           }
         },
         ids: ['abc'],
-        loadedAt: Date.now()
+        tracking: {
+          loadedAt: Date.now()
+        }
       }
     };
 
@@ -299,20 +311,16 @@ describe('warnIfMissingStore()', () => {
       warnIfMissingStore();
       warnIfMissingStore();
       const now2 = new Date(now);
-      console.log('now2', now2);
       nowSpy.mockReturnValue(
         new Date(now2.getFullYear(), now2.getMonth(), now2.getDate(), now2.getHours(), now2.getMinutes(), now2.getSeconds() + 5).valueOf()
       );
       const now2a = new Date(Date.now());
-      console.log('now2a', now2a);
       warnIfMissingStore();
       const now3 = new Date(now);
-      console.log('now3', now3);
       nowSpy.mockReturnValue(
         new Date(now3.getFullYear(), now3.getMonth(), now3.getDate(), now3.getHours(), now3.getMinutes(), now3.getSeconds() + 16).valueOf()
       );
       const now3a = new Date(Date.now());
-      console.log('now3a', now3a);
       warnIfMissingStore();
       expect(warnSpy).toHaveBeenCalledTimes(2);
     } finally {

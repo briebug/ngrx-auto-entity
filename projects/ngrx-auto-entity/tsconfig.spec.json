@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/ngrx-auto-entity-lib-spec",
-    "types": ["jest", "node"]
+    "types": ["jest"],
+    "esModuleInterop": true
   },
-  "files": ["src/test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts", "./global.d.ts"]
 }

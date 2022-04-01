@@ -31,7 +31,7 @@ export const editsReducer = ({ state, action, stateName, featureName, entityStat
       }
 
       const editedKey = safeGetKey(action, editEntity);
-      const prevEditedKey = entityState.edits.editedEntity && getKey(action, entityState.edits.editedEntity);
+      const prevEditedKey = entityState.edits?.editedEntity && getKey(action, entityState.edits.editedEntity);
       if (editedKey === prevEditedKey) {
         return state;
       }
@@ -49,7 +49,7 @@ export const editsReducer = ({ state, action, stateName, featureName, entityStat
     }
     case EntityActionTypes.EditByKey: {
       const editedKey = (action as EditByKey<any>).key;
-      const prevEditedKey = entityState.edits.editedEntity && getKey(action, entityState.edits.editedEntity);
+      const prevEditedKey = entityState.edits?.editedEntity && getKey(action, entityState.edits.editedEntity);
       if (!editedKey || editedKey === prevEditedKey) {
         return state;
       }
@@ -72,7 +72,7 @@ export const editsReducer = ({ state, action, stateName, featureName, entityStat
     }
     case EntityActionTypes.Change: {
       const changeEntity = (action as Change<any>).entity;
-      if (!changeEntity || !entityState.edits.editedEntity) {
+      if (!changeEntity || !entityState.edits?.editedEntity) {
         return state;
       }
 
@@ -88,7 +88,7 @@ export const editsReducer = ({ state, action, stateName, featureName, entityStat
       return next;
     }
     case EntityActionTypes.EndEdit: {
-      if (entityState.edits.editedEntity === undefined) {
+      if (entityState.edits?.editedEntity === undefined) {
         return state;
       }
 

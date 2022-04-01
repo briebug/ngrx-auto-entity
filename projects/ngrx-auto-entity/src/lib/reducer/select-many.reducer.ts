@@ -13,7 +13,7 @@ export const selectManyReducer = ({ state, action, stateName, featureName, entit
       const newState: IEntityState<any> = {
         ...entityState,
         selections: {
-          ...entityState.selections,
+          ...(entityState.selections ?? {}),
           currentEntitiesKeys: selectManyKeys
         }
       };
@@ -25,12 +25,12 @@ export const selectManyReducer = ({ state, action, stateName, featureName, entit
       const selectMoreEntities = (action as SelectMore<any>).entities || [];
       const selectingEntities = Array.isArray(selectMoreEntities) ? selectMoreEntities : [];
       const selectMoreKeys = selectingEntities.map(entity => safeGetKey(action, entity));
-      const selectMoreCurrentKeys = entityState.selections.currentEntitiesKeys || [];
+      const selectMoreCurrentKeys = entityState.selections?.currentEntitiesKeys || [];
       const selectMoreCombinedKeys = new Set([...selectMoreCurrentKeys, ...selectMoreKeys]);
       const newState: IEntityState<any> = {
         ...entityState,
         selections: {
-          ...entityState.selections,
+          ...(entityState.selections ?? {}),
           currentEntitiesKeys: [...selectMoreCombinedKeys]
         }
       };
@@ -44,7 +44,7 @@ export const selectManyReducer = ({ state, action, stateName, featureName, entit
       const newState: IEntityState<any> = {
         ...entityState,
         selections: {
-          ...entityState.selections,
+          ...(entityState.selections ?? {}),
           currentEntitiesKeys: selectManyByKeysGuaranteedKeys
         }
       };
@@ -55,12 +55,12 @@ export const selectManyReducer = ({ state, action, stateName, featureName, entit
     case EntityActionTypes.SelectMoreByKeys: {
       const selectMoreByKeysKeys = (action as SelectMoreByKeys<any>).entitiesKeys || [];
       const selectMoreByKeysGuaranteedKeys = Array.isArray(selectMoreByKeysKeys) ? selectMoreByKeysKeys : [];
-      const selectMoreByKeysCurrentKeys = entityState.selections.currentEntitiesKeys || [];
+      const selectMoreByKeysCurrentKeys = entityState.selections?.currentEntitiesKeys || [];
       const selectMoreByKeysCombinedKeys = new Set([...selectMoreByKeysCurrentKeys, ...selectMoreByKeysGuaranteedKeys]);
       const newState: IEntityState<any> = {
         ...entityState,
         selections: {
-          ...entityState.selections,
+          ...(entityState.selections ?? {}),
           currentEntitiesKeys: [...selectMoreByKeysCombinedKeys]
         }
       };

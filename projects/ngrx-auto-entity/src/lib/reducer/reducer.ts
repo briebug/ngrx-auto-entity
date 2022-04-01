@@ -18,7 +18,7 @@ export type entityReducer = (basis: ReductionBasis) => any;
 
 export const runReducer = (reducer: entityReducer) => (basis: ReductionBasis) => {
   try {
-    reducer(basis);
+    return reducer(basis);
   } catch (err) {
     if (err.message && err.message.startsWith('[NGRX-AE]')) {
       console.error(err.message);
@@ -44,7 +44,7 @@ export const findEntityState = () => ({ state, action, stateName, featureName }:
 
 export const defaultReducer = ({ state }) => state;
 
-export const findEntityReducer = (action: EntityActions<any>) => ENTITY_ACTION_REDUCER_MAP[action.type] ?? defaultReducer;
+export const findEntityReducer = (action: EntityActions<any>) => ENTITY_ACTION_REDUCER_MAP[action.actionType] ?? defaultReducer;
 
 export const applyEntityReducer = () => (params: ReductionBasis) => runReducer(findEntityReducer(params.action))(params);
 

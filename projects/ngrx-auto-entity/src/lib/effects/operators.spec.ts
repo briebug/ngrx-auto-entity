@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { hot } from 'jasmine-marbles';
 import { Load, LoadFailure, LoadSuccess } from '../actions/load-actions';
 import { LoadAll, LoadAllFailure, LoadAllSuccess } from '../actions/load-all-actions';
@@ -17,7 +18,9 @@ class TestEntity {
 }
 
 describe('EntityOperators', () => {
-  beforeEach(() =>
+  beforeEach(() => {
+    TestBed.resetTestEnvironment();
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
     TestBed.configureTestingModule({
       providers: [
         EntityOperators,
@@ -44,8 +47,8 @@ describe('EntityOperators', () => {
           }
         }
       ]
-    })
-  );
+    });
+  });
 
   describe('load()', () => {
     it('should return LoadSuccess with a matching correlationId on success', () => {
