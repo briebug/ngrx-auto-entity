@@ -1,3 +1,31 @@
+<a name="0.8.0-beta.1"></a>
+
+# [0.7.2](https://github.com/briebug/ngrx-auto-entity/compare/0.7.2...0.8.1-beta.1) Beta (2022-04-05)
+
+Updated state builders to build all state functionality "on-demand" to limit memory footprint when
+lots of entities are used. This aligns selectors, facades, etc. with the way actions were implemented
+when they were introduced to the state builder. Selectors for any given entity are only created
+if they are accessed (i.e. destructured from the object returned by `buildState`), and the same goes
+for facades. 
+
+Performed a major internal refactor of the auto-entity reducer in order to break down the single monolithic
+reducer into a more modular design. Each set of related actions, such as loadAll, create, editing, selections,
+etc. have their own corresponding reducer. Actions are now mapped to the appropriate reducer through a 
+centralized mapping for action-to-reducer routing.
+
+These changes are internal, and should not present any breaking changes to the public API. That said,
+the changes are fairly extensive, and care should be used until 0.8 is officially released. 
+
+### Internal
+
+- **util:** Renamed internal functional `pipe` function to `compose`
+- **reducer:** Refactored monolithic reducer into modular design
+- **state:** Modified internal state structure to use nested objects (#111) 
+- **selectors:** Adjusted selectors to utilize more nested state structure (#111)
+- **selectors:** Updated selector builder to create selectors on-demand (#162)
+- **facades:** Updated facade builder to create new facade on-demand (#162)
+
+
 <a name="0.7.2"></a>
 
 # [0.7.2](https://github.com/briebug/ngrx-auto-entity/compare/0.7.1...0.7.2) Beta (2022-01-24)
@@ -8,13 +36,13 @@ correct entity state property could not be found.
 
 ### Bug Fixes
 
-- **operators** Update getEntityState function to check if entity has feature affinity, and access from the appropriate feature if necessary.
-- **factories** Updated optional loading factories to support optional props where possible
-- **actions** Updated optional loading actions to support optional props where possible
+- **operators:** Update getEntityState function to check if entity has feature affinity, and access from the appropriate feature if necessary.
+- **factories:** Updated optional loading factories to support optional props where possible
+- **actions:** Updated optional loading actions to support optional props where possible
 
 ### Internal
 
-- **operators** Moved operator support utilities to their own code file
+- **operators:** Moved operator support utilities to their own code file
 
 <a name="0.7.1"></a>
 
