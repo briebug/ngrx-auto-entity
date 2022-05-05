@@ -44,6 +44,8 @@ const selectorProperties = [
   'selectCurrentPage',
   'selectCurrentRange',
   'selectTotalPageable',
+  'selectHasBeenLoaded',
+  'selectLoadWasAttempted',
   'selectIsLoading',
   'selectIsSaving',
   'selectIsDeleting',

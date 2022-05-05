@@ -52,6 +52,8 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.currentPage$ = this.store.select(selectors.selectCurrentPage);
       this.currentRange$ = this.store.select(selectors.selectCurrentRange);
       this.totalPageable$ = this.store.select(selectors.selectTotalPageable);
+      this.hasBeenLoaded$ = this.store.select(selectors.selectHasBeenLoaded);
+      this.loadWasAttempted$ = this.store.select(selectors.selectLoadWasAttempted);
       this.isLoading$ = this.store.select(selectors.selectIsLoading);
       this.isSaving$ = this.store.select(selectors.selectIsSaving);
       this.isDeleting$ = this.store.select(selectors.selectIsDeleting);
@@ -80,6 +82,8 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     currentPage$: Observable<Page>;
     currentRange$: Observable<Range>;
     totalPageable$: Observable<number>;
+    hasBeenLoaded$: Observable<boolean>;
+    loadWasAttempted$: Observable<boolean>;
     isLoading$: Observable<boolean>;
     isSaving$: Observable<boolean>;
     isDeleting$: Observable<boolean>;

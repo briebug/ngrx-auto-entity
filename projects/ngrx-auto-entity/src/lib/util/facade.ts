@@ -24,6 +24,8 @@ export interface IEntityFacade<TModel> {
   currentPage$: Observable<Page>;
   currentRange$: Observable<Range>;
   totalPageable$: Observable<number>;
+  hasBeenLoaded$: Observable<boolean>;
+  loadWasAttempted$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   isSaving$: Observable<boolean>;
   isDeleting$: Observable<boolean>;

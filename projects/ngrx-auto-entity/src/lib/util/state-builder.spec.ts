@@ -60,6 +60,8 @@ describe('buildState()', () => {
     expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentPage'));
     expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentRange'));
     expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectTotalPageable'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectHasBeenLoaded'));
+    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectLoadWasAttempted'));
     expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsLoading'));
     expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsSaving'));
     expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsDeleting'));
@@ -142,6 +144,8 @@ describe('buildState()', () => {
           selectHasNoEntities: hasNoTestEntities,
           selectIsDeleting: testIsDeleting,
           selectIsDirty: testIsDirty,
+          selectHasBeenLoaded: testHasBeenLoaded,
+          selectLoadWasAttempted: testLoadWasAttempted,
           selectIsLoading: testIsLoading,
           selectIsSaving: testIsSaving,
           selectLoadedAt: testLoadedAt,
@@ -176,6 +180,8 @@ describe('buildState()', () => {
           selectHasNoEntities: hasNoTest2Entities,
           selectIsDeleting: test2IsDeleting,
           selectIsDirty: test2IsDirty,
+          selectHasBeenLoaded: test2HasBeenLoaded,
+          selectLoadWasAttempted: test2LoadWasAttempted,
           selectIsLoading: test2IsLoading,
           selectIsSaving: test2IsSaving,
           selectLoadedAt: test2LoadedAt,
@@ -214,6 +220,8 @@ describe('buildState()', () => {
       expect(hasNoTestEntities).not.toEqual(hasNoTest2Entities);
       expect(testIsDeleting).not.toEqual(test2IsDeleting);
       expect(testIsDirty).not.toEqual(test2IsDirty);
+      expect(testHasBeenLoaded).not.toEqual(test2HasBeenLoaded);
+      expect(testLoadWasAttempted).not.toEqual(test2LoadWasAttempted);
       expect(testIsLoading).not.toEqual(test2IsLoading);
       expect(testIsSaving).not.toEqual(test2IsSaving);
       expect(testLoadedAt).not.toEqual(test2LoadedAt);

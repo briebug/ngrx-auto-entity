@@ -1,6 +1,16 @@
 import { IEntityTracking } from '../util/entity-state';
 
 // prettier-ignore
+export const mapToHasBeenLoaded =
+  (tracking: IEntityTracking): boolean =>
+    tracking?.loadedAt != null;
+
+// prettier-ignore
+export const mapToLoadWasAttempted =
+  (tracking: IEntityTracking): boolean =>
+    tracking?.isLoading != null;
+
+// prettier-ignore
 export const mapToIsLoading =
   (tracking: IEntityTracking): boolean =>
     !tracking ? false : !!tracking.isLoading;

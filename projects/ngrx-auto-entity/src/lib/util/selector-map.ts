@@ -29,6 +29,8 @@ export interface ISelectorMap<TParentState, TModel> {
   selectCurrentPage: MemoizedSelector<object | TParentState, Page | undefined>;
   selectCurrentRange: MemoizedSelector<object | TParentState, Range | undefined>;
   selectTotalPageable: MemoizedSelector<object | TParentState, number>;
+  selectHasBeenLoaded: MemoizedSelector<object | TParentState, boolean>;
+  selectLoadWasAttempted: MemoizedSelector<object | TParentState, boolean>;
   selectIsLoading: MemoizedSelector<object | TParentState, boolean>;
   selectIsSaving: MemoizedSelector<object | TParentState, boolean>;
   selectIsDeleting: MemoizedSelector<object | TParentState, boolean>;

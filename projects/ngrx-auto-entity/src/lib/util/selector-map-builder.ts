@@ -19,10 +19,12 @@ import {
 import {
   mapToCreatedAt,
   mapToDeletedAt,
+  mapToHasBeenLoaded,
   mapToIsDeleting,
   mapToIsLoading,
   mapToIsSaving,
   mapToLoadedAt,
+  mapToLoadWasAttempted,
   mapToReplacedAt,
   mapToSavedAt,
   mapToUpdatedAt
@@ -133,6 +135,14 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
     }
 
     // Tracking:
+    get selectHasBeenLoaded() {
+      return createSelector(this.selectTracking, mapToHasBeenLoaded);
+    }
+
+    get selectLoadWasAttempted() {
+      return createSelector(this.selectTracking, mapToLoadWasAttempted);
+    }
+
     get selectIsLoading() {
       return createSelector(this.selectTracking, mapToIsLoading);
     }

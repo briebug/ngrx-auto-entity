@@ -54,6 +54,8 @@ const selectorProperties = [
   'selectCurrentPage',
   'selectCurrentRange',
   'selectTotalPageable',
+  'selectHasBeenLoaded',
+  'selectLoadWasAttempted',
   'selectIsLoading',
   'selectIsSaving',
   'selectIsDeleting',
@@ -422,6 +424,78 @@ describe('buildSelectorMap()', () => {
       const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
       const entities = store.select(selectHasNoEntities);
       expect(entities).toBeObservable(hot('a', { a: false }));
+    });
+  });
+
+  describe('selectHasBeenLoaded', () => {
+    it('should return true if the loadedAt date is non-nullish', () => {
+      const store: MockStore<{}> = TestBed.inject(MockStore);
+
+      store.resetSelectors();
+      store.setState({
+        test: {
+          tracking: {
+            loadedAt: Date.now()
+          }
+        }
+      });
+
+      const getState = state => state.test;
+
+      const { selectHasBeenLoaded } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const hasBeen = store.select(selectHasBeenLoaded);
+      expect(hasBeen).toBeObservable(hot('a', { a: true }));
+    });
+
+    it('should return false if the loadedAt date is nullish', () => {
+      const store: MockStore<{}> = TestBed.inject(MockStore);
+
+      store.resetSelectors();
+      store.setState({
+        test: {}
+      });
+
+      const getState = state => state.test;
+
+      const { selectHasBeenLoaded } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const hasBeen = store.select(selectHasBeenLoaded);
+      expect(hasBeen).toBeObservable(hot('a', { a: false }));
+    });
+  });
+
+  describe('selectLoadWasAttempted', () => {
+    it('should return true if the isLoading tracking flag is non-nullish', () => {
+      const store: MockStore<{}> = TestBed.inject(MockStore);
+
+      store.resetSelectors();
+      store.setState({
+        test: {
+          tracking: {
+            isLoading: false
+          }
+        }
+      });
+
+      const getState = state => state.test;
+
+      const { selectLoadWasAttempted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const hasBeen = store.select(selectLoadWasAttempted);
+      expect(hasBeen).toBeObservable(hot('a', { a: true }));
+    });
+
+    it('should return false if the isLoading tracking flag is nullish', () => {
+      const store: MockStore<{}> = TestBed.inject(MockStore);
+
+      store.resetSelectors();
+      store.setState({
+        test: {}
+      });
+
+      const getState = state => state.test;
+
+      const { selectLoadWasAttempted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const hasBeen = store.select(selectLoadWasAttempted);
+      expect(hasBeen).toBeObservable(hot('a', { a: false }));
     });
   });
 });

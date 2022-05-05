@@ -1,6 +1,24 @@
+<a name="0.8.1"></a>
+
+# [0.8.1](https://github.com/briebug/ngrx-auto-entity/compare/0.8.1-beta.1...0.8.1) Beta (2022-05-05)
+
+Added two new loading related selectors: hasBeenLoaded and loadWasAttempted. These selectors allow
+end developers to determine if a load has ever been attempted before, which is sometimes necessary
+to display the correct information in a UI component. Until a load has at least been attempted, it 
+would generally be inappropriate to display to the user that there are no Entities X, however as
+the current state of each entity currently stands, there is no way to determine that particular 
+state of an entity. You can determine if an entity is loading or not, which is useful for displaying
+a spinner, but other messaging requires more information.
+
+### Features
+
+- **selectors:** Added selectHasBeenLoaded to selector map
+- **selectors:** Added selectLoadWasAttempted to selector map
+
+
 <a name="0.8.0-beta.1"></a>
 
-# [0.7.2](https://github.com/briebug/ngrx-auto-entity/compare/0.7.2...0.8.1-beta.1) Beta (2022-04-05)
+# [0.8.0-beta.1](https://github.com/briebug/ngrx-auto-entity/compare/0.7.2...0.8.1-beta.1) Beta (2022-04-05)
 
 Updated state builders to build all state functionality "on-demand" to limit memory footprint when
 lots of entities are used. This aligns selectors, facades, etc. with the way actions were implemented
