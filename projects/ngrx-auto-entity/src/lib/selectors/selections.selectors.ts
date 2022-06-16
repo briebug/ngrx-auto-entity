@@ -16,7 +16,7 @@ export const mapToCurrentEntities =
   <TModel>(selections: IEntitySelections, entities: IEntityDictionary<TModel>): TModel[] =>
     (!selections || !selections.currentEntitiesKeys || !entities)
       ? []
-      : selections.currentEntitiesKeys.map(key => entities[key]);
+      : selections.currentEntitiesKeys.reduce((all, key) => entities[key] ? [...all, entities[key]] : all, []);
 
 // prettier-ignore
 export const mapToCurrentEntitiesKeys =
