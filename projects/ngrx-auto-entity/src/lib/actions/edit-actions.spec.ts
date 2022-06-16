@@ -20,6 +20,7 @@ class TestEntity {
 const makeTestEntity = makeEntity(TestEntity);
 
 describe('NgRX Auto-Entity: Actions', () => {
+  // tslint:disable-next-line:prefer-const
   let actions: Observable<any>;
 
   beforeEach(() => {

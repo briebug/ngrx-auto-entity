@@ -43,6 +43,7 @@ const developers: TestEntity[] = [brian, jon];
 const scientists: TestEntity[] = [fyneman, einstein];
 
 describe('NgRx Auto-Entity: Deselection Actions', () => {
+  // tslint:disable-next-line:prefer-const
   let actions: Observable<any>;
 
   beforeEach(() => {
