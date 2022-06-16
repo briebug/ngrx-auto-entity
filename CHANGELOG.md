@@ -1,3 +1,19 @@
+<a name="12.0.0-beta.1"></a>
+
+# [12.0.0-beta.1](https://github.com/briebug/ngrx-auto-entity/compare/0.8.1...12.0.0-beta.1) Beta (2022-05-05)
+
+More extensive unit testing, to expand the net for upgrading support to Angular 13 & 14 and the corresponding
+NgRx versions, as well as RxJs 7.
+
+Minor bug fixes.
+
+### Bug Fix
+
+- **selectors:** Resolved issue with mapToCurrentEntities returning undefined values in entries that do not map
+                 to known entities. Should only be an issue when stale keys are still tracked in a selection,
+                 after those entities have been removed from state.
+
+
 <a name="0.8.1"></a>
 
 # [0.8.1](https://github.com/briebug/ngrx-auto-entity/compare/0.8.1-beta.1...0.8.1) Beta (2022-05-05)

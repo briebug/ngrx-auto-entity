@@ -22,10 +22,6 @@ groups like ourselves to build our library to target specific instruction sets. 
 increase the challenge of supporting older versions of Angular. As such, we are actively looking
 for ways to deal with that scenario, and hope to be prepared when the time comes.**
 
-**NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
-enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
-find any errors in this documentation, or bugs within the library, please let us know!**
-
 ## What is it?
 
 NgRX Auto-Entity aims to provide a seamless means of dealing with standard entity actions and
@@ -50,13 +46,23 @@ custom reducers.
 
 # Dependencies
 
-NgRx Auto-Entity currently depends on Angular 9+, NgRx 9+ and RxJs 6. 
-
+NgRx Auto-Entity v12 currently supports Angular 9-12, and the corresponding NgRx versions. Base version
+support is as follows:
 
 [![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E9.x-blue.svg)](https://github.com/angular/angular)
 [![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E9.x-blue.svg)](https://github.com/angular/angular)
 [![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E9.x-blue.svg)](https://github.com/ngrx/platform)
 [![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)](https://github.com/reactivex/rxjs)
+
+NgRx Auto-Entity v13 beta is currently being developed. Upon release, we expect it to support the following base versions:
+
+[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E13.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E13.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E13.x-blue.svg)](https://github.com/ngrx/platform)
+[![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E7.x-blue.svg)](https://github.com/reactivex/rxjs)
+
+NgRx Auto-Entity v14 is currently being planned &amp; researched. We are hopeful that the next version of Auto-Entity
+will support both versions 13 and 14 of Angular & NgRx. 
 
 # Installation
 
