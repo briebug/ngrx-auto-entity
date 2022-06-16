@@ -100,7 +100,7 @@ export class NgRxAutoEntityFeatureModule {
       Injector.create({
         providers: [],
         parent: injector,
-        name: 'Injector' + INJECTOR_DEPTH
+        name: 'AutoEntityInjector' + INJECTOR_DEPTH
       })
     );
   }

@@ -3,7 +3,11 @@ import { IEntityInfo } from '../actions/entity-info';
 import { IAutoEntityService } from './interface';
 import { resolveServiceDeep } from './service-resolution';
 
-let INJECTORS: NonNullable<ReadonlyArray<Injector>> = [];
+let INJECTORS: NonNullable<ReadonlyArray<Injector>> = Object.freeze([]);
+
+export const getInjectors = () => INJECTORS;
+
+export const resetInjectors = () => (INJECTORS = Object.freeze([]));
 
 export const getService = <TModel>(entityInfo: IEntityInfo, injector: Injector): IAutoEntityService<TModel> =>
   resolveServiceDeep(entityInfo, injector, [...INJECTORS]);

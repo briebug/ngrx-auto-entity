@@ -1,13 +1,10 @@
 import { Injector } from '@angular/core';
-
-import { pascalCase } from '../../util/case';
 import { IEntityInfo } from '../actions/entity-info';
 import { logErrorDetails, logServiceLocateFailure } from './error-handling';
 import { IAutoEntityService } from './interface';
 
 export const failResolution = (error: any, entityInfo: IEntityInfo): void => {
-  const serviceName = `${pascalCase(entityInfo.modelName)}Service`;
-  logServiceLocateFailure(entityInfo, serviceName);
+  logServiceLocateFailure(entityInfo);
   logErrorDetails(error);
   throw error;
 };

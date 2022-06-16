@@ -12,7 +12,7 @@ export const logAndThrow = (method: string, err: any, entityInfo: IEntityInfo) =
   return throwError({ info: entityInfo, err });
 };
 
-export const logServiceLocateFailure = (entityInfo: IEntityInfo, serviceName: string): void =>
+export const logServiceLocateFailure = (entityInfo: IEntityInfo, serviceName?: string): void =>
   console.error(`[NGRX-AE] ! Error: Unable to locate entity service for model "${entityInfo.modelName}"`);
 
 export const logErrorDetails = (error: any): void => console.error(`[NGRX-AE] ! Error Details:`, error);
