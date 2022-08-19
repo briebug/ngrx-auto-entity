@@ -48,7 +48,7 @@ const page = { page: 2, size: 10 };
 const range = { start: 10, end: 20 };
 
 describe('NgRX Auto-Entity: Actions', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions: Observable<any>;
 
   beforeEach(() => {

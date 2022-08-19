@@ -43,7 +43,7 @@ const developers: TestEntity[] = [brian, jon];
 const scientists: TestEntity[] = [fyneman, einstein];
 
 describe('NgRx Auto-Entity: Deselection Actions', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions: Observable<any>;
 
   beforeEach(() => {
@@ -77,21 +77,21 @@ describe('NgRx Auto-Entity: Deselection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectMany(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! DeselectMany action requires an array of entities.'));
     });
 
     it('should throw error during construction if non-array (null) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectMany(TestEntity, null);
       }).toThrow(new Error('[NGRX-AE] ! DeselectMany action requires an array of entities.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectMany(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! DeselectMany action requires an array of entities.'));
     });
@@ -122,21 +122,21 @@ describe('NgRx Auto-Entity: Deselection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectManyByKeys(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! DeselectManyByKeys action requires an array of entity keys.'));
     });
 
     it('should throw error during construction if non-array (null) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectManyByKeys(TestEntity, null);
       }).toThrow(new Error('[NGRX-AE] ! DeselectManyByKeys action requires an array of entity keys.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectManyByKeys(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! DeselectManyByKeys action requires an array of entity keys.'));
     });
@@ -189,21 +189,21 @@ describe('NgRx Auto-Entity: Deselection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectedMany(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! DeselectedMany action requires an array of entities or keys.'));
     });
 
     it('should throw error during construction if non-array (number) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectedMany(TestEntity, 2 as any);
       }).toThrow(new Error('[NGRX-AE] ! DeselectedMany action requires an array of entities or keys.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new DeselectedMany(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! DeselectedMany action requires an array of entities or keys.'));
     });

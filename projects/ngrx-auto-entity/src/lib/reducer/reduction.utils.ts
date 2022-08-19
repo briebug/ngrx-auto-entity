@@ -27,7 +27,7 @@ export const safeGetKey = <TModel>(action: IEntityAction, entity: TModel): Entit
     iif(
       isUndefined,
       throwError(
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         `[NGRX-AE] ! Entity key for \'${action.info.modelName}\' could not be found on this entity instance! Make sure your entity is properly decorated with the necessary key metadata. State will NOT be updated due to misconfiguration of your entity.`
       ),
       key => key
@@ -78,12 +78,12 @@ export const pushManyUnique = (currentEntities, currentIds, entityKeys) => (
 
 export const warnMissingPageInfo = (action: IEntityAction) =>
   console.log(
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     `[NGRX-AE] Page information for '${action.info.modelName}' was not provided! Page info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );
 
 export const warnMissingRangeInfo = (action: IEntityAction) =>
   console.log(
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     `[NGRX-AE] Range information for '${action.info.modelName}' was not provided! Range info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );

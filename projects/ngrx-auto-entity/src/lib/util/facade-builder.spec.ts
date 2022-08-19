@@ -21,7 +21,9 @@ const makeTestModel = makeEntity(Test);
 describe('buildFacade()', () => {
   beforeEach(() => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    teardown: { destroyAfterEach: false }
+});
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({

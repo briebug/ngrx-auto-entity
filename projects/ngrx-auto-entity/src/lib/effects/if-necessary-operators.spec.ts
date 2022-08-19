@@ -32,7 +32,9 @@ describe('EntityIfNecessaryOperators', () => {
 
   beforeEach(() => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    teardown: { destroyAfterEach: false }
+});
     TestBed.configureTestingModule({
       providers: [
         EntityIfNecessaryOperators,

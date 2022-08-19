@@ -35,7 +35,7 @@ describe('buildState()', () => {
     expect(() => buildState(NoModelName)).toThrow(NO_MODEL_NAME_MSG);
   });
 
-  // tslint:disable-next-line:max-line-length
+  // eslint-disable-next-line max-len
   it('should return an object with initial state, selectors, the root entity state, a makeEntity function, a reducer and a base facade class', () => {
     const built = buildState(Test);
 
@@ -104,7 +104,7 @@ describe('buildState()', () => {
       const state = buildState(Test);
       expect(() => state.entityState({})).toThrow(
         // prettier-ignore
-        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.' // tslint:disable-line
+        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.' // eslint-disable-line
       );
     });
   });

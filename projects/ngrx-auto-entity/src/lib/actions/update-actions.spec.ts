@@ -42,7 +42,7 @@ const testError: IEntityError = {
 const criteria = { criteria: 'test' };
 
 describe('NgRX Auto-Entity: Actions', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions: Observable<any>;
 
   beforeEach(() => {

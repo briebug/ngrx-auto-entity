@@ -1,8 +1,6 @@
 import { EntityActionTypes } from '../actions/action-types';
 import { IEffectExclusions } from './effect-exclusions';
 
-// tslint:disable:no-redundant-jsdoc
-
 /**
  * Defines effect exceptions for the decorated model.
  */

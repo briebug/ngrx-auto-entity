@@ -44,7 +44,7 @@ const developers: TestEntity[] = [brian, jon];
 const scientists: TestEntity[] = [fyneman, einstein];
 
 describe('NgRx Auto-Entity: Selection Actions', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions: Observable<any>;
 
   beforeEach(() => {
@@ -80,21 +80,21 @@ describe('NgRx Auto-Entity: Selection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMany(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! SelectMany action requires an array of entities.'));
     });
 
     it('should throw error during construction if non-array (null) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMany(TestEntity, null);
       }).toThrow(new Error('[NGRX-AE] ! SelectMany action requires an array of entities.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMany(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! SelectMany action requires an array of entities.'));
     });
@@ -114,21 +114,21 @@ describe('NgRx Auto-Entity: Selection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMore(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! SelectMore action requires an array of entities.'));
     });
 
     it('should throw error during construction if non-array (null) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMore(TestEntity, null);
       }).toThrow(new Error('[NGRX-AE] ! SelectMore action requires an array of entities.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMore(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! SelectMore action requires an array of entities.'));
     });
@@ -183,21 +183,21 @@ describe('NgRx Auto-Entity: Selection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectManyByKeys(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! SelectManyByKeys action requires an array of entity keys.'));
     });
 
     it('should throw error during construction if non-array (null) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectManyByKeys(TestEntity, null);
       }).toThrow(new Error('[NGRX-AE] ! SelectManyByKeys action requires an array of entity keys.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectManyByKeys(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! SelectManyByKeys action requires an array of entity keys.'));
     });
@@ -228,21 +228,21 @@ describe('NgRx Auto-Entity: Selection Actions', () => {
 
     it('should throw error during construction if non-array (object) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMoreByKeys(TestEntity, {} as any);
       }).toThrow(new Error('[NGRX-AE] ! SelectMoreByKeys action requires an array of entity keys.'));
     });
 
     it('should throw error during construction if non-array (null) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMoreByKeys(TestEntity, null);
       }).toThrow(new Error('[NGRX-AE] ! SelectMoreByKeys action requires an array of entity keys.'));
     });
 
     it('should throw error during construction if non-array (undefined) passed', () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         new SelectMoreByKeys(TestEntity, undefined);
       }).toThrow(new Error('[NGRX-AE] ! SelectMoreByKeys action requires an array of entity keys.'));
     });

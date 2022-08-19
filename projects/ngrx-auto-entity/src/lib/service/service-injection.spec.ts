@@ -99,12 +99,14 @@ export class SubModule {}
 export class AltModule {}
 
 describe('Service Injection', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
 
   beforeEach(async () => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    teardown: { destroyAfterEach: false }
+});
     await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot(reducerMap), EffectsModule.forRoot([]), NgrxAutoEntityModule.forRoot(), SubModule, AltModule],
       providers: [provideMockActions(() => actions$), { provide: Test, useClass: TestEntityService }, Init]
