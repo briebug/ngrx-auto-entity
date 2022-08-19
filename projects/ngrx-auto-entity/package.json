@@ -1,5 +1,5 @@
 {
-  "version": "14.0.0",
+  "version": "14.0.0-beta.1",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -50,6 +50,6 @@
     "@angular/core": "13 - 14",
     "@ngrx/effects": "13 - 14",
     "@ngrx/store": "13 - 14",
-    "rxjs": "7.x"
+    "rxjs": "^7.4.0"
   }
 }

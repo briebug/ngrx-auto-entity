@@ -10,21 +10,11 @@
 
 Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
 
-**Announcing: ANGULAR 12 is now supported! NgRx Auto-Entity has been updated to support the latest
-versions of Angular, as well as NgRx through version 12. With this update, we have also dropped
-support for Angular 8, meaning the supported versions of angular are 9-12.**
-
-**NOTE: Angular 13 support is being researched. Starting with Ng 13, all View Engine support will
-be dropped from the platform completely. One of our goals with Auto-Entity has been to support
-older versions of angular as long as possible, given the often slower upgrade times for many 
-companies. With Ng 13 putting the burden on library developers to support Ivy, that forces
-groups like ourselves to build our library to target specific instruction sets. That will
-increase the challenge of supporting older versions of Angular. As such, we are actively looking
-for ways to deal with that scenario, and hope to be prepared when the time comes.**
-
-**NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
-enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
-find any errors in this documentation, or bugs within the library, please let us know!**
+**BETA: ANGULAR 13 & 14 support is in testing! You may install the beta tags of NgRx Auto-Entity v14.x
+to try out the library with the latest versions of Angular. In preliminary testing we have noticed
+no issues as of yet, however that does not mean there are none. In particular, we suspect that
+RxJs 7 may be an area that could potentially encounter issues. Use with caution for now, and please
+open issues on the Auto-Entity GitHib repo if you encounter any.**
 
 ## What is it?
 
@@ -37,10 +27,10 @@ other NgRX application.
 What Auto-Entity does do is provide a set of ready-made actions, selectors, effects & a core
 metareducer for handling all of the standard CRUD functionality for entities, so you neither
 have to write nor generate any of that code yourself. Auto-Entity supports implementing applications
-with recommended best practices, including good action hygiene. Auto-Entity also generates 
+with recommended best practices, including good action hygiene. Auto-Entity also generates
 **pre-fabricated facades** around NgRx and the store/state, providing a cohesive, logical and
 simplified API into your state for those who prefer facades. Auto-Entity presents a flexible
-framework that you may use in its entirety for all of your entity needs, or use piecemeal as 
+framework that you may use in its entirety for all of your entity needs, or use piecemeal as
 necessary in order to achieve your specific goals.
 
 While it is not required and Auto-Entity is an entirely independent library that solely depends
@@ -50,13 +40,26 @@ custom reducers.
 
 # Dependencies
 
-NgRx Auto-Entity currently depends on Angular 9+, NgRx 9+ and RxJs 6. 
+## Auto-Entity v9 to v12
 
+NgRx Auto-Entity v12 currently supports Angular 9-12, and the corresponding NgRx versions. Base version
+support is as follows:
 
 [![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E9.x-blue.svg)](https://github.com/angular/angular)
 [![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E9.x-blue.svg)](https://github.com/angular/angular)
 [![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E9.x-blue.svg)](https://github.com/ngrx/platform)
 [![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)](https://github.com/reactivex/rxjs)
+
+## Auto-Entity v13+
+
+NgRx Auto-Entity v13 & v14 is currently in beta release. While preliminary testing does not indicate any notable issues,
+we do not yet recommend this version of NgRx Auto-Entity for critical production releases. Testing and developmental
+releases may rely on NgRx Auto-Entity 14, with support for Angular & NgRx 13 and 14.
+
+[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E13.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E13.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E13.x-blue.svg)](https://github.com/ngrx/platform)
+[![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E7.4.x-blue.svg)](https://github.com/reactivex/rxjs)
 
 # Installation
 
@@ -119,7 +122,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [Kevin Schuchard](https://github.com/schuchard): Design & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
 - [Jesse Wells](https://github.com/Wells-Codes): Implementation
-- [Alice Paquette](https://github.com/paquettealice): Implementation 
+- [Alice Paquette](https://github.com/paquettealice): Implementation
 - [Patrice Paquette](https://github.com/patpaquette): Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
 
