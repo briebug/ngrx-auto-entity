@@ -1,3 +1,9 @@
+<a name="12.0.0"></a>
+
+# [12.0.0](https://github.com/briebug/ngrx-auto-entity/compare/12.0.0-beta.1...12.0.0) Release (2022-06-01)
+
+Official v12 release with support for Angular 12, 10, 11 and 9 as well as the corresponding NgRx versions.
+
 <a name="12.0.0-beta.1"></a>
 
 # [12.0.0-beta.1](https://github.com/briebug/ngrx-auto-entity/compare/0.8.1...12.0.0-beta.1) Beta (2022-05-05)
