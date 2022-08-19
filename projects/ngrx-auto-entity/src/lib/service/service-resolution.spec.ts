@@ -91,9 +91,6 @@ export class SubModule {}
 export class AltModule {}
 
 describe('Service Resolvers', () => {
-  // eslint-disable-next-line prefer-const
-  let actions$: Observable<any>;
-
   beforeEach(async () => {
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
@@ -101,7 +98,7 @@ describe('Service Resolvers', () => {
 });
     await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot(reducerMap), EffectsModule.forRoot([]), NgrxAutoEntityModule.forRoot(), SubModule, AltModule],
-      providers: [provideMockActions(() => actions$), { provide: Test, useClass: TestEntityService }, Init]
+      providers: [{ provide: Test, useClass: TestEntityService }, Init]
     }).compileComponents();
   });
 

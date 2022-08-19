@@ -1,5 +1,5 @@
 {
-  "version": "13.0.0",
+  "version": "14.0.0",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -46,10 +46,10 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "13.x",
-    "@angular/core": "13.x",
-    "@ngrx/effects": "13.x",
-    "@ngrx/store": "13.x",
+    "@angular/common": "13 - 14",
+    "@angular/core": "13 - 14",
+    "@ngrx/effects": "13 - 14",
+    "@ngrx/store": "13 - 14",
     "rxjs": "7.x"
   }
 }
