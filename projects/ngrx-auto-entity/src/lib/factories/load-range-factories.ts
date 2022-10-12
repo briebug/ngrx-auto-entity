@@ -2,7 +2,7 @@ import { ActionCreator } from '@ngrx/store';
 import { EntityActionTypes } from '../actions/action-types';
 import { TNew } from '../actions/model-constructor';
 import { setActionType } from '../actions/util';
-import { Range } from '../models';
+import { IRangeInfo, Range } from '../models';
 import { cacheOnType, defineTypedFactoryFunction, StandardProps } from './util';
 import { LoadRange, LoadRangeFailure, LoadRangeIfNecessary, LoadRangeSuccess } from '../actions/load-range-actions';
 
@@ -37,6 +37,7 @@ export const createLoadRangeIfNecessaryAction = <TModel, T extends string, P ext
 
 export interface LoadRangeSuccessProps<TModel> extends StandardProps {
   entities: TModel[];
+  rangeInfo: IRangeInfo;
 }
 
 export const createLoadRangeSuccessAction = <TModel, T extends string, P extends LoadRangeSuccessProps<TModel>>(
@@ -45,13 +46,14 @@ export const createLoadRangeSuccessAction = <TModel, T extends string, P extends
   cacheOnType(Type, EntityActionTypes.LoadRangeSuccess, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadRangeSuccess, Type),
-      ({ entities, criteria, correlationId }: LoadRangeSuccessProps<TModel>) =>
-        new LoadRangeSuccess(Type, entities, criteria, correlationId)
+      ({ entities, rangeInfo, criteria, correlationId }: LoadRangeSuccessProps<TModel>) =>
+        new LoadRangeSuccess(Type, entities, rangeInfo, criteria, correlationId)
     )
   );
 
 export interface LoadRangeFailureProps<TModel> extends StandardProps {
   error: any;
+  range: Range;
 }
 
 export const createLoadRangeFailureAction = <TModel, T extends string, P extends LoadRangeFailureProps<TModel>>(
@@ -60,6 +62,7 @@ export const createLoadRangeFailureAction = <TModel, T extends string, P extends
   cacheOnType(Type, EntityActionTypes.LoadRangeFailure, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadRangeFailure, Type),
-      ({ error, criteria, correlationId }: LoadRangeFailureProps<TModel>) => new LoadRangeFailure(Type, error, criteria, correlationId)
+      ({ error, range, criteria, correlationId }: LoadRangeFailureProps<TModel>) =>
+        new LoadRangeFailure(Type, error, range, criteria, correlationId)
     )
   );
