@@ -92,13 +92,17 @@ export const createSelectMoreByKeysAction = <TModel, T extends string, P extends
     )
   );
 
-export const createSelectedAction = <TModel, T extends string, P extends CorrelatedProps>(
+export interface SelectedProps<TModel> extends CorrelatedProps {
+  entity: TModel | EntityIdentity;
+}
+
+export const createSelectedAction = <TModel, T extends string, P extends SelectedProps<TModel>>(
   Type: TNew<TModel>
 ): ActionCreator<T, (props: CorrelatedProps) => Selected<TModel>> =>
   cacheOnType(Type, EntityActionTypes.Selected, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Selected, Type),
-      ({ correlationId }: CorrelatedProps = {}) => new Selected(Type, correlationId)
+      ({ entity, correlationId }: SelectedProps<TModel>) => new Selected(Type, entity, correlationId)
     )
   );
 

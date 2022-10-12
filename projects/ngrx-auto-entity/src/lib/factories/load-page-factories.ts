@@ -2,7 +2,7 @@ import { ActionCreator } from '@ngrx/store';
 import { EntityActionTypes } from '../actions/action-types';
 import { TNew } from '../actions/model-constructor';
 import { setActionType } from '../actions/util';
-import { Page } from '../models';
+import { IPageInfo, Page } from '../models';
 import { cacheOnType, defineTypedFactoryFunction, StandardProps } from './util';
 import { LoadPage, LoadPageFailure, LoadPageIfNecessary, LoadPageSuccess } from '../actions/load-page-actions';
 
@@ -37,6 +37,7 @@ export const createLoadPageIfNecessaryAction = <TModel, T extends string, P exte
 
 export interface LoadPageSuccessProps<TModel> extends StandardProps {
   entities: TModel[];
+  pageInfo: IPageInfo;
 }
 
 export const createLoadPageSuccessAction = <TModel, T extends string, P extends LoadPageSuccessProps<TModel>>(
@@ -45,12 +46,13 @@ export const createLoadPageSuccessAction = <TModel, T extends string, P extends 
   cacheOnType(Type, EntityActionTypes.LoadPageSuccess, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadPageSuccess, Type),
-      ({ entities, criteria, correlationId }: LoadPageSuccessProps<TModel>) => new LoadPageSuccess(Type, entities, criteria, correlationId)
+      ({ entities, pageInfo, criteria, correlationId }: LoadPageSuccessProps<TModel>) => new LoadPageSuccess(Type, entities, pageInfo, criteria, correlationId)
     )
   );
 
 export interface LoadPageFailureProps<TModel> extends StandardProps {
   error: any;
+  page: Page;
 }
 
 export const createLoadPageFailureAction = <TModel, T extends string, P extends LoadPageFailureProps<TModel>>(
@@ -59,6 +61,6 @@ export const createLoadPageFailureAction = <TModel, T extends string, P extends 
   cacheOnType(Type, EntityActionTypes.LoadPageFailure, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadPageFailure, Type),
-      ({ error, criteria, correlationId }: LoadPageFailureProps<TModel>) => new LoadPageFailure(Type, error, criteria, correlationId)
+      ({ error, page, criteria, correlationId }: LoadPageFailureProps<TModel>) => new LoadPageFailure(Type, error, criteria, correlationId)
     )
   );
