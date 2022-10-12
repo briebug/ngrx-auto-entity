@@ -1,3 +1,17 @@
+<a name="12.1.0"></a>
+
+# [12.1.0](https://github.com/briebug/ngrx-auto-entity/compare/12.0.0...12.1.0) Release (2022-10-11)
+
+Resolved discrepancies between class-based action constructor parameters and their corresponding action creator props.
+
+### Bug Fix
+
+- **factories:** Updated range loading success factory to include the missing rangeInfo parameter.
+- **factories:** Updated page loading success factory to include the missing pageInfo parameter.
+- **factories:** Updated range loading failure factory to include the missing range parameter.
+- **factories:** Updated page loading failure factory to include the missing page parameter.
+- **factories:** Updated selected factory to include the missing entity parameter.
+
 <a name="12.0.0"></a>
 
 # [12.0.0](https://github.com/briebug/ngrx-auto-entity/compare/12.0.0-beta.1...12.0.0) Release (2022-06-01)
