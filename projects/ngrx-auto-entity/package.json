@@ -1,5 +1,5 @@
 {
-  "version": "13.0.0",
+  "version": "13.0.1",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -11,6 +11,14 @@
     {
       "name": "Jon Rista",
       "url": "https://github.com/jrista"
+    },
+    {
+      "name": "Cole Sanders",
+      "url": "https://github.com/colesanders"
+    },
+    {
+      "name": "Stratton Whisler",
+      "url": "https://github.com/inventer99"
     },
     {
       "name": "Kevin Schuchard",

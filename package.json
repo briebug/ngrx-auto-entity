@@ -13,6 +13,14 @@
       "url": "https://github.com/jrista"
     },
     {
+      "name": "Cole Sanders",
+      "url": "https://github.com/colesanders"
+    },
+    {
+      "name": "Stratton Whisler",
+      "url": "https://github.com/inventer99"
+    },
+    {
       "name": "Kevin Schuchard",
       "url": "https://github.com/schuchard"
     },
@@ -33,8 +41,10 @@
     "serve-proxy": "ng serve test-app --proxy-config proxy.conf.json",
     "build": "ng build test-app --configuration production",
     "build:watch": "ng build test-app --configuration production --watch",
-    "build:lib": "ng build ngrx-auto-entity --configuration production",
-    "build:lib:watch": "ng build ngrx-auto-entity --configuration production --watch",
+    "build:lib:ae": "ng build ngrx-auto-entity --configuration production",
+    "build:lib:ae:watch": "ng build ngrx-auto-entity --configuration production --watch",
+    "build:lib:aes": "ng build ngrx-auto-entity-service --configuration production",
+    "build:lib:aes:watch": "ng build ngrx-auto-entity-service --configuration production --watch",
     "build:ci": "ng build ngrx-auto-entity --configuration production",
     "test": "jest",
     "test:watch": "jest --watch",

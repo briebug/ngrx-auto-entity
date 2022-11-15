@@ -1,11 +1,42 @@
 {
-  "name": "ngrx-auto-entity-service",
-  "version": "0.0.1",
-  "peerDependencies": {
-    "@angular/common": "^13.3.0",
-    "@angular/core": "^13.3.0"
+  "version": "13.0.0-alpha.1",
+  "name": "@briebug/ngrx-auto-entity-service",
+  "description": "Prefabricated reusable Entity Service for NgRx Auto-Entity",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": {
+    "name": "BrieBug",
+    "url": "https://briebug.com"
+  },
+  "contributors": [
+    {
+      "name": "Jon Rista",
+      "url": "https://github.com/jrista"
+    },
+    {
+      "name": "Cole Sanders",
+      "url": "https://github.com/colesanders"
+    }
+  ],
+  "keywords": [
+    "ngrx",
+    "ngrxae",
+    "ngrxaes",
+    "entity",
+    "auto-entity",
+    "automatic entities",
+    "entity service",
+    "service"
+  ],
+  "homepage": "https://briebug.gitbook.io/ngrx-auto-entity/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/briebug/ngrx-auto-entity.git"
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^13.3.0",
+    "@angular/core": "^13.3.0"
   }
 }
