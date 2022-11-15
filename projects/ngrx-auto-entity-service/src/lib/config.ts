@@ -1,5 +1,11 @@
 import { InjectionToken } from '@angular/core';
-import { RetryCriteria } from './critera.model';
+import { EntityCriteria, RetryCriteria } from './critera.model';
+import { IEntityInfo } from '@briebug/ngrx-auto-entity';
+import { Observable } from 'rxjs';
+
+export type DynamicAutoEntityServiceConfig = (...deps: any[]) => AutoEntityServiceConfig;
+
+export type APIPrefixResolver = (operation: string, info: IEntityInfo, criteria: EntityCriteria) => string | Promise<string> | Observable<string>
 
 export interface AutoEntityServiceConfig {
   /** API Host Endpoint. Entity url paths will be appended to the provided host.
@@ -36,7 +42,7 @@ export interface AutoEntityServiceConfig {
    *
    * ```
    */
-  host: string;
+  urlPrefix: string | APIPrefixResolver;
   // Default retry to use when setting `retry: true` in action criteria.
   // Defaults to { count: 3, delay: 1000 }
   defaultRetry?: RetryCriteria;

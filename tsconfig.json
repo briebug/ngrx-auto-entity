@@ -18,8 +18,7 @@
       "@briebug/ngrx-auto-entity": [
         "dist/ngrx-auto-entity"
       ],
-      "ngrx-auto-entity-service": [
-        "dist/ngrx-auto-entity-service/ngrx-auto-entity-service",
+      "@briebug/ngrx-auto-entity-service": [
         "dist/ngrx-auto-entity-service"
       ]
     }

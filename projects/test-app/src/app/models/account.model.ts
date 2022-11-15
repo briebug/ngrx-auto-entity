@@ -7,6 +7,7 @@ export const amountXform = {
 
 @Entity({
   modelName: 'Account',
+  uriName: 'accounts',
   transform: [amountXform]
 })
 export class Account {

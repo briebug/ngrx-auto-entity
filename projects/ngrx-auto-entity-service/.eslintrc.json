@@ -10,8 +10,8 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/ngrx-auto-entity-service/tsconfig.lib.json",
-          "projects/ngrx-auto-entity-service/tsconfig.spec.json"
+          "./tsconfig.lib.json",
+          "./tsconfig.spec.json"
         ],
         "createDefaultProgram": true
       },

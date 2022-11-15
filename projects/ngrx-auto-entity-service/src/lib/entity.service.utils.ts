@@ -36,7 +36,7 @@ export const buildUrl = (host: string, info: IEntityInfo, criteria?: EntityCrite
   const parentPaths = buildParentPaths(criteria);
   const entityPath = buildEntityPath(info, key, criteria);
   const query = buildQueryString(criteria);
-  const version = criteria.version ? `/v${criteria.version}` : '';
+  const version = criteria?.version ? `/v${criteria.version}` : '';
 
   const url = `${host}${version}${parentPaths}${entityPath}${query ? `?${query}` : ''}`;
 

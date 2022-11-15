@@ -53,8 +53,8 @@
     "lint": "ng lint ngrx-auto-entity",
     "lint:fix": "ng lint ngrx-auto-entity --fix",
     "json-server": "json-server --watch data/db.json --routes data/routes.json",
-    "link": "ng build ngrx-auto-entity && npm link ./dist/ngrx-auto-entity",
-    "link:ci": "ng build ngrx-auto-entity && sudo npm link ./dist/ngrx-auto-entity",
+    "link": "ng build ngrx-auto-entity && npm link ./dist/ngrx-auto-entity && ng build ngrx-auto-entity-service && npm link ./dist/ngrx-auto-entity-service",
+    "link:ci": "ng build ngrx-auto-entity && sudo npm link ./dist/ngrx-auto-entity && ng build ngrx-auto-entity-service && sudo npm link ./dist/ngrx-auto-entity-service",
     "postinstall": "if test \"$NODE_ENV\" = \"ci\" ; then npm run link:ci ; else npm run link ; fi",
     "prettier": "prettier --write \"./**/*.ts\"",
     "clean:ivy": "find ./dist/ngrx-auto-entity -type f -name \"*.__ivy_ngcc_bak\" -exec rm {} \\; && rm -rf ./dist/ngrx-auto-entity/__ivy_ngcc__"
@@ -71,6 +71,7 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "@briebug/ngrx-auto-entity": "file:./projects/ngrx-auto-entity",
+    "@briebug/ngrx-auto-entity-service": "file:./projects/ngrx-auto-entity-service",
     "@ngrx/effects": "^13.2.0",
     "@ngrx/router-store": "^13.2.0",
     "@ngrx/store": "^13.2.0",
