@@ -2,9 +2,7 @@ import { Injector, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { createReducer, StoreModule } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { setInfo } from '../actions/util';
 import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
@@ -99,17 +97,14 @@ export class SubModule {}
 export class AltModule {}
 
 describe('Service Injection', () => {
-  // eslint-disable-next-line prefer-const
-  let actions$: Observable<any>;
-
   beforeEach(async () => {
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-});
+      teardown: { destroyAfterEach: false }
+    });
     await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot(reducerMap), EffectsModule.forRoot([]), NgrxAutoEntityModule.forRoot(), SubModule, AltModule],
-      providers: [provideMockActions(() => actions$), { provide: Test, useClass: TestEntityService }, Init]
+      providers: [{ provide: Test, useClass: TestEntityService }, Init]
     }).compileComponents();
   });
 

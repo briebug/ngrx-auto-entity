@@ -54,14 +54,13 @@ describe('EntityOperators', () => {
 
   describe('load()', () => {
     it('should return LoadSuccess with a matching correlationId on success', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const entity = makeEntity(TestEntity)({
         id: 1
       });
       const action = new Load(TestEntity, 1);
       const actions$ = hot('-a-', { a: action });
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'load').mockReturnValue(
         hot('-e-', {
@@ -82,12 +81,11 @@ describe('EntityOperators', () => {
     });
 
     it('should return LoadFailure with a matching correlationId on error', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const action = new Load(TestEntity, 1);
       const actions$ = hot('-a-', { a: action });
       const err = new Error('Error occurred');
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'load').mockReturnValue(
         hot(
@@ -119,14 +117,13 @@ describe('EntityOperators', () => {
 
   describe('loadMany()', () => {
     it('should return LoadManySuccess with a matching correlationId on success', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const entity = makeEntity(TestEntity)({
         id: 1
       });
       const action = new LoadMany(TestEntity);
       const actions$ = hot('-a-', { a: action });
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadMany').mockReturnValue(
         hot('-e-', {
@@ -147,12 +144,11 @@ describe('EntityOperators', () => {
     });
 
     it('should return LoadManyFailure with a matching correlationId on error', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const action = new LoadMany(TestEntity);
       const actions$ = hot('-a-', { a: action });
       const err = new Error('Error occurred');
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadMany').mockReturnValue(
         hot(
@@ -185,14 +181,13 @@ describe('EntityOperators', () => {
 
   describe('loadAll()', () => {
     it('should return LoadAllSuccess with a matching correlationId on success', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const entity = makeEntity(TestEntity)({
         id: 1
       });
       const action = new LoadAll(TestEntity);
       const actions$ = hot('-a-', { a: action });
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadAll').mockReturnValue(
         hot('-e-', {
@@ -213,12 +208,11 @@ describe('EntityOperators', () => {
     });
 
     it('should return LoadAllFailure with a matching correlationId on error', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const action = new LoadAll(TestEntity);
       const actions$ = hot('-a-', { a: action });
       const err = new Error('Error occurred');
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadAll').mockReturnValue(
         hot(
@@ -251,9 +245,6 @@ describe('EntityOperators', () => {
 
   describe('loadPage()', () => {
     it('should return LoadPageSuccess with a matching correlationId on success', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const page = { page: 2, size: 10 };
       const pageInfo = { page, totalCount: 1100 };
       const entity = makeEntity(TestEntity)({
@@ -261,6 +252,8 @@ describe('EntityOperators', () => {
       });
       const action = new LoadPage(TestEntity, page);
       const actions$ = hot('-a-', { a: action });
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadPage').mockReturnValue(
         hot('-e-', {
@@ -282,13 +275,12 @@ describe('EntityOperators', () => {
     });
 
     it('should return LoadPageFailure with a matching correlationId on error', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const page = { page: 2, size: 10 };
       const action = new LoadPage(TestEntity, page);
       const actions$ = hot('-a-', { a: action });
       const err = new Error('Error occurred');
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadPage').mockReturnValue(
         hot(
@@ -321,9 +313,6 @@ describe('EntityOperators', () => {
 
   describe('loadRange()', () => {
     it('should return LoadRangeSuccess with a matching correlationId on success', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const range = { skip: 20, take: 10 };
       const rangeInfo = { range, totalCount: 1100 };
       const entity = makeEntity(TestEntity)({
@@ -331,6 +320,8 @@ describe('EntityOperators', () => {
       });
       const action = new LoadRange(TestEntity, range);
       const actions$ = hot('-a-', { a: action });
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadRange').mockReturnValue(
         hot('-e-', {
@@ -352,13 +343,12 @@ describe('EntityOperators', () => {
     });
 
     it('should return LoadRangeFailure with a matching correlationId on error', () => {
-      const ops = TestBed.inject(EntityOperators);
-      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
-
       const range = { skip: 20, take: 10 };
       const action = new LoadRange(TestEntity, range);
       const actions$ = hot('-a-', { a: action });
       const err = new Error('Error occurred');
+      const ops = TestBed.inject(EntityOperators);
+      const service: NgrxAutoEntityService = TestBed.inject(NgrxAutoEntityService);
 
       jest.spyOn(service, 'loadRange').mockReturnValue(
         hot(
