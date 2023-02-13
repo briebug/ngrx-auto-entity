@@ -132,7 +132,7 @@ export {
 /*
  * Reducer
  */
-export { autoEntityReducer} from './lib/reducer/reducer';
+export { autoEntityReducer } from './lib/reducer/reducer';
 export { stateNameFromAction } from './lib/reducer/reduction.utils';
 export { autoEntityMetaReducer } from './lib/reducer/meta-reducer';
 
@@ -188,4 +188,3 @@ export {
   UpsertManyEffect
 } from './lib/effects/effects-cud-discrete';
 export { NGRX_AUTO_ENTITY_APP_STORE } from './lib/effects/if-necessary-operator-utils';
-

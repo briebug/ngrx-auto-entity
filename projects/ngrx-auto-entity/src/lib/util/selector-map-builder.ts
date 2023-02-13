@@ -30,11 +30,13 @@ import {
   mapToUpdatedAt
 } from '../selectors/tracking.selectors';
 import { IEntityDictionary, IEntityEdits, IEntityPaging, IEntitySelections, IEntityState, IEntityTracking } from './entity-state';
+import { IModelClass } from './model-state';
 import { ISelectorMap } from './selector-map';
 
 // prettier-ignore
 export const buildSelectorMap = <TParentState, TState extends IEntityState<TModel>, TModel, TExtra>(
-  getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>
+  getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>,
+  type: IModelClass<TModel>,
 ): ISelectorMap<TParentState, TModel> => {
   class SelectorResolver implements ISelectorMap<TParentState, TModel> {
     // State Roots:
@@ -68,11 +70,11 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
     }
 
     get selectAllSorted() {
-      return createSelector(this.selectAll, mapToSortedEntityArray);
+      return createSelector(this.selectAll, mapToSortedEntityArray(type));
     }
 
     get selectCustomSorted() {
-      return createSelector(this.selectAll, mapToCustomSortedEntityArray);
+      return createSelector(this.selectAll, mapToCustomSortedEntityArray(type));
     }
 
     get selectTotal() {

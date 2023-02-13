@@ -9,7 +9,7 @@ import { EntityActionTypes } from './action-types';
 import { Update, UpdateFailure, UpdateMany, UpdateManyFailure, UpdateManySuccess, UpdateSuccess } from './update-actions';
 
 @Entity({
-  modelName: 'TestEntity',
+  modelName: 'TestEntity'
 })
 class TestEntity {
   @Key id: number;

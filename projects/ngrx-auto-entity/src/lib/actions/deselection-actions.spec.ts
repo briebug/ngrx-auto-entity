@@ -7,7 +7,7 @@ import { EntityActionTypes } from './action-types';
 import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, DeselectManyByKeys } from './deselection-actions';
 
 @Entity({
-  modelName: 'TestEntity',
+  modelName: 'TestEntity'
 })
 class TestEntity {
   @Key id: number;

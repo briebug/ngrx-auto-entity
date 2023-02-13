@@ -330,8 +330,8 @@ describe('NgRX Auto-Entity: Service', () => {
     beforeEach(() => {
       TestBed.resetTestEnvironment();
       TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-});
+        teardown: { destroyAfterEach: false }
+      });
       TestBed.configureTestingModule({
         imports: [HttpClientModule, CommonModule],
         providers: [{ provide: TestModel, useClass: TestModelService }, NgrxAutoEntityService]

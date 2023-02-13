@@ -1,3 +1,22 @@
+<a name="13.0.2"></a>
+
+# [13.0.2](https://github.com/briebug/ngrx-auto-entity/compare/13.0.1...13.0.2) Release (2023-02-13)
+
+Fix release to resolve issues with sorting, introduced by recent refactoring. 
+
+### Bug Fix
+
+- **selectors:** Update sorting entity selectors to support passage of entity model type to ensure
+  sorting logic is able to gain access to sorting metadata attached to entity type.
+
+<a name="13.0.1"></a>
+
+# [13.0.1](https://github.com/briebug/ngrx-auto-entity/compare/12.1.0...13.0.1) Release (2022-11-15)
+
+Official v13 release with support for Angular 13+. Resolved issues with previous release, reverting angular versions
+to 13.x. Resolved unit testing issues.
+
+
 <a name="12.1.0"></a>
 
 # [12.1.0](https://github.com/briebug/ngrx-auto-entity/compare/12.0.0...12.1.0) Release (2022-10-11)

@@ -7,10 +7,12 @@ import {
   LOAD_EFFECTS_EXCLUSION
 } from './effect-exclusions';
 
-export const except = (effects?) => (...actions: EntityActionTypes[]): IEffectExclusions => ({
-  ...(effects || {}),
-  ...actions.reduce((acc, action) => ({ ...acc, [action]: false }), {})
-});
+export const except =
+  (effects?) =>
+  (...actions: EntityActionTypes[]): IEffectExclusions => ({
+    ...(effects || {}),
+    ...actions.reduce((acc, action) => ({ ...acc, [action]: false }), {})
+  });
 
 export const matching = (...actions: EntityActionTypes[]): IEffectExclusions => ({
   ...actions.reduce((acc, action) => ({ ...acc, [action]: true }), {})

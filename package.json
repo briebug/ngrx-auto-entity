@@ -56,7 +56,7 @@
     "link": "ng build ngrx-auto-entity && npm link ./dist/ngrx-auto-entity && ng build ngrx-auto-entity-service && npm link ./dist/ngrx-auto-entity-service",
     "link:ci": "ng build ngrx-auto-entity && sudo npm link ./dist/ngrx-auto-entity && ng build ngrx-auto-entity-service && sudo npm link ./dist/ngrx-auto-entity-service",
     "postinstall": "if test \"$NODE_ENV\" = \"ci\" ; then npm run link:ci ; else npm run link ; fi",
-    "prettier": "prettier --write \"./**/*.ts\"",
+    "prettier": "prettier --write \"./projects/**/*.ts\"",
     "clean:ivy": "find ./dist/ngrx-auto-entity -type f -name \"*.__ivy_ngcc_bak\" -exec rm {} \\; && rm -rf ./dist/ngrx-auto-entity/__ivy_ngcc__"
   },
   "dependencies": {

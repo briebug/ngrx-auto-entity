@@ -11,7 +11,7 @@ export const loadManyReducer = ({ state, action, stateName, featureName, entityS
         ...entityState,
         tracking: {
           ...entityState.tracking,
-        isLoading: true
+          isLoading: true
         }
       };
 
@@ -23,7 +23,7 @@ export const loadManyReducer = ({ state, action, stateName, featureName, entityS
         ...entityState,
         tracking: {
           ...entityState.tracking,
-        isLoading: false
+          isLoading: false
         }
       };
 

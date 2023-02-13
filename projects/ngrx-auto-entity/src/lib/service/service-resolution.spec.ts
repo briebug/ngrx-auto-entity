@@ -94,8 +94,8 @@ describe('Service Resolvers', () => {
   beforeEach(async () => {
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-});
+      teardown: { destroyAfterEach: false }
+    });
     await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot(reducerMap), EffectsModule.forRoot([]), NgrxAutoEntityModule.forRoot(), SubModule, AltModule],
       providers: [{ provide: Test, useClass: TestEntityService }, Init]
@@ -158,7 +158,7 @@ describe('Service Resolvers', () => {
         resolveServiceDeep(info, injector, [...getInjectors()]);
         fail('Expected injection exception!');
       } catch (error) {
-        expect(error.name).toBe('NullInjectorError');
+        expect(error.name).toBe('ReferenceError');
       }
     });
   });

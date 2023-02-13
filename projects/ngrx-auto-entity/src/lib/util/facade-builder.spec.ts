@@ -22,8 +22,8 @@ describe('buildFacade()', () => {
   beforeEach(() => {
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-});
+      teardown: { destroyAfterEach: false }
+    });
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({
@@ -88,7 +88,7 @@ describe('buildFacade()', () => {
 
   it('should have selection properties when creating new instances of facade class', () => {
     const store: MockStore = TestBed.inject(MockStore);
-    const selectorMap = buildSelectorMap(state => state.test);
+    const selectorMap = buildSelectorMap(state => state.test, Test);
     const FacadeBaseClass = buildFacade(selectorMap);
     const facade = new FacadeBaseClass(Test, store);
     expect(facade).toBeDefined();

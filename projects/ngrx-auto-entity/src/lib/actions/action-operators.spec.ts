@@ -11,7 +11,7 @@ import { LoadAll } from './load-all-actions';
 import { LoadMany } from './load-many-actions';
 
 @Entity({
-  modelName: 'TestEntity',
+  modelName: 'TestEntity'
 })
 class TestEntity {
   @Key id: number;

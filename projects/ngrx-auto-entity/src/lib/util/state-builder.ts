@@ -138,7 +138,7 @@ export interface AppState {
     }
 
     get selectors() {
-      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(getState);
+      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(getState, type);
       return _selectors;
     }
 
@@ -244,7 +244,7 @@ export interface FeatureState {
     }
 
     get selectors() {
-      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState);
+      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState, type);
       return _selectors;
     }
 

@@ -12,28 +12,38 @@ export const getTransforms = (transform: IEntityTransformer[], prop: string): Tr
     ? transform.filter(tx => !!tx[prop]).map(tx => tx[prop]) // select custom transformations
     : [identity]; // provide identity transformation as default
 
-export const applyTransforms = (transforms: TransformFn[], criteria?: any) => (originalEntity: any): any =>
-  transforms.reduce((entity, transform) => transform(entity, criteria), { ...originalEntity });
+export const applyTransforms =
+  (transforms: TransformFn[], criteria?: any) =>
+  (originalEntity: any): any =>
+    transforms.reduce((entity, transform) => transform(entity, criteria), { ...originalEntity });
 
-export const transformSingleFromServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (entity: any): TModel => {
-  const transforms = getTransforms(entityInfo.transform, FROM);
-  return applyTransforms(transforms, criteria)(entity);
-};
+export const transformSingleFromServer =
+  <TModel>(entityInfo: IEntityInfo, criteria?: any) =>
+  (entity: any): TModel => {
+    const transforms = getTransforms(entityInfo.transform, FROM);
+    return applyTransforms(transforms, criteria)(entity);
+  };
 
-export const transformArrayFromServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (entities: TModel[]): TModel[] => {
-  const transforms = getTransforms(entityInfo.transform, FROM);
-  return entities.map(applyTransforms(transforms, criteria));
-};
+export const transformArrayFromServer =
+  <TModel>(entityInfo: IEntityInfo, criteria?: any) =>
+  (entities: TModel[]): TModel[] => {
+    const transforms = getTransforms(entityInfo.transform, FROM);
+    return entities.map(applyTransforms(transforms, criteria));
+  };
 
-export const transformSingleToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (originalEntity: TModel): any => {
-  const transforms = getTransforms(entityInfo.transform, TO).reverse();
-  return applyTransforms(transforms, criteria)(originalEntity);
-};
+export const transformSingleToServer =
+  <TModel>(entityInfo: IEntityInfo, criteria?: any) =>
+  (originalEntity: TModel): any => {
+    const transforms = getTransforms(entityInfo.transform, TO).reverse();
+    return applyTransforms(transforms, criteria)(originalEntity);
+  };
 
-export const transformArrayToServer = <TModel>(entityInfo: IEntityInfo, criteria?: any) => (entities: TModel[]): any[] => {
-  const transforms = getTransforms(entityInfo.transform, TO).reverse();
-  return entities.map(applyTransforms(transforms, criteria));
-};
+export const transformArrayToServer =
+  <TModel>(entityInfo: IEntityInfo, criteria?: any) =>
+  (entities: TModel[]): any[] => {
+    const transforms = getTransforms(entityInfo.transform, TO).reverse();
+    return entities.map(applyTransforms(transforms, criteria));
+  };
 
 // User utilities
 

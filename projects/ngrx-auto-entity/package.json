@@ -1,5 +1,5 @@
 {
-  "version": "13.0.1",
+  "version": "13.0.2",
   "name": "@briebug/ngrx-auto-entity",
   "description": "Automatic Entity State and Facades for NgRx. Simplifying reactive state!",
   "license": "SEE LICENSE IN LICENSE.md",
