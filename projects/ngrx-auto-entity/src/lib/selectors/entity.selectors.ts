@@ -1,6 +1,7 @@
 import { entityComparer } from '../decorators/entity-util';
 import { EntityIdentity } from '../types/entity-identity';
 import { IEntityDictionary } from '../util/entity-state';
+import { IModelClass } from '../util/model-state';
 
 // prettier-ignore
 export const mapToEntityArray =
@@ -9,13 +10,15 @@ export const mapToEntityArray =
 
 // prettier-ignore
 export const mapToSortedEntityArray =
-  <TModel>(all: TModel[]): TModel[] =>
-    !all ? [] : all.sort(entityComparer(all));
+  <TModel>(type: IModelClass<TModel>) =>
+  (all: TModel[]): TModel[] =>
+    !all ? [] : all.sort(entityComparer(type));
 
 // prettier-ignore
 export const mapToCustomSortedEntityArray =
-  <TModel>(all: TModel[], { name }): TModel[] =>
-    !all ? [] : all.sort(entityComparer(all, name));
+  <TModel>(type: IModelClass<TModel>) =>
+  (all: TModel[], { name }): TModel[] =>
+    !all ? [] : all.sort(entityComparer(type, name));
 
 // prettier-ignore
 export const mapToHasEntities =

@@ -63,8 +63,8 @@ describe('Utilities', () => {
   beforeEach(() => {
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-});
+      teardown: { destroyAfterEach: false }
+    });
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({
@@ -87,14 +87,14 @@ describe('Utilities', () => {
 
   describe('Function: buildSelectorMap', () => {
     it('should create a selector map for the specified state', () => {
-      const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
+      const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test, Test);
       expect(selectorMap).toSatisfy(testSelectorMap);
     });
   });
 
   describe('Function: buildFacade', () => {
     it('should create base facade class', () => {
-      const selectors = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
+      const selectors = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test, Test);
       const TestFacade = buildFacade<Test, ITestState>(selectors);
 
       expect(TestFacade.constructor).toBeTruthy();

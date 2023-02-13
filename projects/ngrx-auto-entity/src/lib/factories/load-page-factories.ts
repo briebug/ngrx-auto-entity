@@ -46,7 +46,8 @@ export const createLoadPageSuccessAction = <TModel, T extends string, P extends 
   cacheOnType(Type, EntityActionTypes.LoadPageSuccess, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadPageSuccess, Type),
-      ({ entities, pageInfo, criteria, correlationId }: LoadPageSuccessProps<TModel>) => new LoadPageSuccess(Type, entities, pageInfo, criteria, correlationId)
+      ({ entities, pageInfo, criteria, correlationId }: LoadPageSuccessProps<TModel>) =>
+        new LoadPageSuccess(Type, entities, pageInfo, criteria, correlationId)
     )
   );
 

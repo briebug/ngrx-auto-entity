@@ -8,7 +8,7 @@ import { Deselect, DeselectAll, Deselected, DeselectedMany, DeselectMany, Desele
 import { Select, SelectByKey, SelectMany, SelectManyByKeys, SelectMore, SelectMoreByKeys } from './selection-actions';
 
 @Entity({
-  modelName: 'TestEntity',
+  modelName: 'TestEntity'
 })
 class TestEntity {
   @Key id: number;

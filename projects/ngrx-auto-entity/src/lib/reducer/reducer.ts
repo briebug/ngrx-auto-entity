@@ -34,13 +34,15 @@ export const buildReducerParams = () => (params: ReductionBasis) => ({
   featureName: featureNameFromAction(params.action)
 });
 
-export const findEntityState = () => ({ state, action, stateName, featureName }: ReductionBasis) => ({
-  state,
-  action,
-  stateName,
-  featureName,
-  entityState: featureName ? state[featureName][stateName] : state[stateName]
-});
+export const findEntityState =
+  () =>
+  ({ state, action, stateName, featureName }: ReductionBasis) => ({
+    state,
+    action,
+    stateName,
+    featureName,
+    entityState: featureName ? state[featureName][stateName] : state[stateName]
+  });
 
 export const defaultReducer = ({ state }) => state;
 
@@ -55,4 +57,3 @@ export const autoEntityReducer = (reducer: ActionReducer<any>, state: any, actio
 
   return reducer(nextState, action);
 };
-

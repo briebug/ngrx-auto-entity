@@ -43,7 +43,7 @@ export const loadAllReducer = ({ state, action, stateName, featureName, entitySt
           isLoading: false,
           loadedAt: Date.now()
         },
-        paging: undefined,
+        paging: undefined
       };
 
       const next = setNewState(featureName, stateName, state, newState);

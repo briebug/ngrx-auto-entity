@@ -73,8 +73,8 @@ describe('buildSelectorMap()', () => {
   beforeEach(() => {
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-});
+      teardown: { destroyAfterEach: false }
+    });
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({
@@ -90,7 +90,7 @@ describe('buildSelectorMap()', () => {
   });
 
   it('should create a selector map for the specified state', () => {
-    const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test);
+    const selectorMap = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(state => state.test, Test);
     expect(selectorMap).toSatisfy(testSelectorMap);
   });
 
@@ -103,7 +103,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectAll } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectAll } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectAll);
       expect(entities).toBeObservable(hot('a', { a: [] }));
     });
@@ -121,7 +121,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectAll } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectAll } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectAll);
       expect(entities).toBeObservable(hot('a', { a: [] }));
     });
@@ -145,7 +145,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectAll } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectAll } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectAll);
       expect(entities).toBeObservable(hot('a', { a: [entity2, entity1] }));
     });
@@ -160,7 +160,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectAllSorted);
       expect(entities).toBeObservable(hot('a', { a: [] }));
     });
@@ -178,7 +178,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectAllSorted);
       expect(entities).toBeObservable(hot('a', { a: [] }));
     });
@@ -202,7 +202,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectAllSorted);
       expect(entities).toBeObservable(hot('a', { a: [entity1, entity2] }));
     });
@@ -230,7 +230,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.alt;
 
-      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Alt>, Alt, unknown>(getState);
+      const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Alt>, Alt, unknown>(getState, Alt);
       const entities = store.select(selectAllSorted);
       expect(entities).toBeObservable(hot('a', { a: [entity2, entity1] }));
     });
@@ -244,7 +244,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectCustomSorted, { name: 'test' });
       expect(entities).toBeObservable(hot('a', { a: [] }));
     });
@@ -261,7 +261,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectCustomSorted, { name: 'test' });
       expect(entities).toBeObservable(hot('a', { a: [] }));
     });
@@ -285,7 +285,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectCustomSorted, { name: 'test' });
       expect(entities).toBeObservable(hot('a', { a: [entity1, entity2] }));
     });
@@ -309,7 +309,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectCustomSorted, { name: 'nope' });
       expect(entities).toBeObservable(hot('a', { a: [entity2, entity1] }));
     });
@@ -324,7 +324,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectHasEntities);
       expect(entities).toBeObservable(hot('a', { a: false }));
     });
@@ -342,7 +342,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectHasEntities);
       expect(entities).toBeObservable(hot('a', { a: false }));
     });
@@ -366,7 +366,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectHasEntities);
       expect(entities).toBeObservable(hot('a', { a: true }));
     });
@@ -381,7 +381,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectHasNoEntities);
       expect(entities).toBeObservable(hot('a', { a: true }));
     });
@@ -399,7 +399,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectHasNoEntities);
       expect(entities).toBeObservable(hot('a', { a: true }));
     });
@@ -423,7 +423,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasNoEntities } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const entities = store.select(selectHasNoEntities);
       expect(entities).toBeObservable(hot('a', { a: false }));
     });
@@ -444,7 +444,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasBeenLoaded } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasBeenLoaded } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const hasBeen = store.select(selectHasBeenLoaded);
       expect(hasBeen).toBeObservable(hot('a', { a: true }));
     });
@@ -459,7 +459,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectHasBeenLoaded } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectHasBeenLoaded } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const hasBeen = store.select(selectHasBeenLoaded);
       expect(hasBeen).toBeObservable(hot('a', { a: false }));
     });
@@ -480,7 +480,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectLoadWasAttempted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectLoadWasAttempted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const hasBeen = store.select(selectLoadWasAttempted);
       expect(hasBeen).toBeObservable(hot('a', { a: true }));
     });
@@ -495,7 +495,7 @@ describe('buildSelectorMap()', () => {
 
       const getState = state => state.test;
 
-      const { selectLoadWasAttempted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState);
+      const { selectLoadWasAttempted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
       const hasBeen = store.select(selectLoadWasAttempted);
       expect(hasBeen).toBeObservable(hot('a', { a: false }));
     });

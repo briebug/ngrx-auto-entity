@@ -1,11 +1,4 @@
-import {
-  mapToCreatedAt,
-  mapToDeletedAt,
-  mapToLoadedAt,
-  mapToReplacedAt,
-  mapToSavedAt,
-  mapToUpdatedAt
-} from './tracking.selectors';
+import { mapToCreatedAt, mapToDeletedAt, mapToLoadedAt, mapToReplacedAt, mapToSavedAt, mapToUpdatedAt } from './tracking.selectors';
 
 describe('mapToLoadedAt()', () => {
   it('should return undefined if state falsy', () => {

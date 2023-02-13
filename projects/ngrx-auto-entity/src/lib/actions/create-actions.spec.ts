@@ -6,18 +6,11 @@ import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
 import { IEntityError } from '../service/wrapper-models';
 import { EntityActionTypes } from './action-types';
-import {
-  Create,
-  CreateFailure,
-  CreateMany,
-  CreateManyFailure,
-  CreateManySuccess,
-  CreateSuccess
-} from './create-actions';
+import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from './create-actions';
 import { Update, UpdateFailure, UpdateMany, UpdateManyFailure, UpdateManySuccess, UpdateSuccess } from './update-actions';
 
 @Entity({
-  modelName: 'TestEntity',
+  modelName: 'TestEntity'
 })
 class TestEntity {
   @Key id: number;

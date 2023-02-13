@@ -9,7 +9,7 @@ import { EntityActionTypes } from './action-types';
 import { Replace, ReplaceFailure, ReplaceMany, ReplaceManyFailure, ReplaceManySuccess, ReplaceSuccess } from './replace-actions';
 
 @Entity({
-  modelName: 'TestEntity',
+  modelName: 'TestEntity'
 })
 class TestEntity {
   @Key id: number;
@@ -40,8 +40,6 @@ const testError: IEntityError = {
 };
 
 const criteria = { criteria: 'test' };
-
-
 
 describe('NgRX Auto-Entity: Actions', () => {
   // eslint-disable-next-line prefer-const

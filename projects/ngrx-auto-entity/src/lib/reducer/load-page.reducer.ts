@@ -23,7 +23,7 @@ export const loadPageReducer = ({ state, action, stateName, featureName, entityS
         ...entityState,
         tracking: {
           ...entityState.tracking,
-        isLoading: false
+          isLoading: false
         }
       };
 

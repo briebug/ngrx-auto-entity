@@ -12,15 +12,17 @@ import { FEATURE_AFFINITY } from '../util/util-tokens';
 
 export const NGRX_AUTO_ENTITY_APP_STORE = new InjectionToken('@briebug/ngrx-auto-entity App Store');
 
-export const getEntityState = (info: IEntityInfo) => (state: any): IEntityState<any> =>
-  (info.modelType[FEATURE_AFFINITY]
-    ? state[info.modelType[FEATURE_AFFINITY]][entityStateName(info.modelName)]
-    : state[entityStateName(info.modelName)]) as IEntityState<any>;
+export const getEntityState =
+  (info: IEntityInfo) =>
+  (state: any): IEntityState<any> =>
+    (info.modelType[FEATURE_AFFINITY]
+      ? state[info.modelType[FEATURE_AFFINITY]][entityStateName(info.modelName)]
+      : state[entityStateName(info.modelName)]) as IEntityState<any>;
 export const getLoadedAt = (state: IEntityState<any>): number | undefined => state?.tracking?.loadedAt ?? undefined;
 export const getIsLoading = (state: IEntityState<any>): boolean => !!state.tracking?.isLoading;
 export const getCurrentPage = (state: IEntityState<any>): Page | undefined => state.paging?.currentPage ?? undefined;
 export const getCurrentRange = (state: IEntityState<any>): Range | undefined => state.paging?.currentRange ?? undefined;
-export const getEntityIds = (state: IEntityState<any>): EntityIdentity[] =>  state?.ids ?? [];
+export const getEntityIds = (state: IEntityState<any>): EntityIdentity[] => state?.ids ?? [];
 export const mapToHasEntities = (ids?: EntityIdentity[]): boolean => !!ids && !!ids.length;
 
 export const entityLoadedAt = (info: IEntityInfo) => fpipe(getEntityState(info), getLoadedAt);

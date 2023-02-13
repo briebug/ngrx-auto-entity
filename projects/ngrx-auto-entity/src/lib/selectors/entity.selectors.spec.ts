@@ -42,13 +42,13 @@ describe('mapToEntityArray()', () => {
 
 describe('mapToSortedEntityArray()', () => {
   it('should return empty array if all array is falsy', () => {
-    const entities = mapToSortedEntityArray(null);
+    const entities = mapToSortedEntityArray(Test)(null);
     expect(entities).toEqual([]);
   });
 
   it('should return sorted array of entity objects', () => {
     const all = [makeTestModel({ id: 2, name: 'test 2' }), makeTestModel({ id: 1, name: 'test 1' })];
-    const entities = mapToSortedEntityArray(all);
+    const entities = mapToSortedEntityArray(Test)(all);
     expect(entities).toEqual([
       { id: 1, name: 'test 1' },
       { id: 2, name: 'test 2' }
@@ -58,13 +58,13 @@ describe('mapToSortedEntityArray()', () => {
 
 describe('mapToCustomSortedEntityArray()', () => {
   it('should return empty array if all array is falsy', () => {
-    const entities = mapToCustomSortedEntityArray(null, { name: '' });
+    const entities = mapToCustomSortedEntityArray(Test)(null, { name: '' });
     expect(entities).toEqual([]);
   });
 
   it('should return sorted array of entity objects', () => {
     const all = [makeTestModel({ id: 2, name: 'test 2' }), makeTestModel({ id: 1, name: 'test 1' })];
-    const entities = mapToCustomSortedEntityArray(all, { name: 'test' });
+    const entities = mapToCustomSortedEntityArray(Test)(all, { name: 'test' });
     expect(entities).toEqual([
       { id: 1, name: 'test 1' },
       { id: 2, name: 'test 2' }
