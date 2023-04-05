@@ -22,14 +22,18 @@ export const buildJoinedArrayQueryParamSet = (criteria: EntityCriteria, param: s
   Array.isArray(criteria.query[param])
     ? renderJoinedArrayQueryParams(criteria.query[param] as any[], param.substring(1))
     : typeof criteria.query[param] === 'string'
-      ? renderJoinedArrayQueryParams((criteria.query[param] as string).split(','), param.substring(1))
-      : buildSimpleQueryParam(criteria, param.substring(1));
+    ? renderJoinedArrayQueryParams((criteria.query[param] as string).split(','), param.substring(1))
+    : buildSimpleQueryParam(criteria, param.substring(1));
 
 export const buildQueryString = (criteria: EntityCriteria): string =>
   criteria && criteria.query
-    ? Object.keys(criteria.query)
-      .map(param => (param.startsWith('&') ? buildJoinedArrayQueryParamSet(criteria, param) : buildSimpleQueryParam(criteria, param)))
-      .join('&')
+    ? typeof criteria.query === 'string'
+      ? criteria.query?.startsWith('?')
+        ? criteria.query.substring(1)
+        : criteria.query
+      : Object.keys(criteria.query)
+          .map(param => (param.startsWith('&') ? buildJoinedArrayQueryParamSet(criteria, param) : buildSimpleQueryParam(criteria, param)))
+          .join('&')
     : '';
 
 export const buildUrl = (host: string, info: IEntityInfo, criteria?: EntityCriteria, key: any = null): string => {
@@ -46,11 +50,11 @@ export const buildUrl = (host: string, info: IEntityInfo, criteria?: EntityCrite
 export const resolveRetryCriteria = <T>(obs: Observable<T>, retryCriteria: boolean | RetryCriteria, defaultCriteria?: RetryCriteria) =>
   retryCriteria
     ? typeof retryCriteria === 'boolean'
-      ? obs.pipe(retry({count: defaultCriteria?.maxRetries || 3, delay: defaultCriteria?.delay || 1000}))
+      ? obs.pipe(retry({ count: defaultCriteria?.maxRetries || 3, delay: defaultCriteria?.delay || 1000 }))
       : obs.pipe(
-        retry({
-          count: retryCriteria.maxRetries || defaultCriteria?.maxRetries || 3,
-          delay: retryCriteria.delay || defaultCriteria?.delay || 1000,
-        }),
-      )
+          retry({
+            count: retryCriteria.maxRetries || defaultCriteria?.maxRetries || 3,
+            delay: retryCriteria.delay || defaultCriteria?.delay || 1000
+          })
+        )
     : obs;

@@ -1,6 +1,6 @@
 export interface EntityCriteria {
   parents?: EntityParent;
-  query?: QueryCriteria;
+  query?: QueryCriteria | string;
   param?: string | number | string[] | number[];
   version?: number;
   // @Default false
