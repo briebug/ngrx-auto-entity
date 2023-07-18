@@ -1,3 +1,27 @@
+<a name="13.1.0"></a>
+
+# [13.1.0](https://github.com/briebug/ngrx-auto-entity/compare/13.0.3...13.1.0) Release (2023-07-18)
+
+Add additional name generators that coalese to empty string, rather than null or undefined.
+
+### Features
+
+- **util:** Add nameOfEntityOrEmpty function for getting entity name or empty string
+- **util:** Add pluralNameOfEntityOrEmpty function for getting plural name or empty string 
+- **util:** Add uriNameOfEntityOrEmpty function for getting uri name or empty string
+- **util:** Add stateNameOfEntityOrEmpty function for getting state name or empty string
+
+<a name="13.0.3"></a>
+
+# [13.0.3](https://github.com/briebug/ngrx-auto-entity/compare/13.0.2...13.0.3) Release (2023-07-07)
+
+Update peer dependency version specifiers to better support newer versions of npm peer dependency checker. 
+
+Switched from using `M.x` notation with a literal `x` character (i.e. 13.x) to `>= M.x.y` notation
+(i.e. >= 13.0.0), as newer versions of peer dependency checking do not seem to handle `M.x` properly 
+in all cases. This may be due to bugs that existed for a while in version 7 and 8 of NPM, that seem 
+to have been fixed in NPM 9.
+
 <a name="13.0.2"></a>
 
 # [13.0.2](https://github.com/briebug/ngrx-auto-entity/compare/13.0.1...13.0.2) Release (2023-02-13)

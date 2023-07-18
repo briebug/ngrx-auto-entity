@@ -32,6 +32,20 @@ export const pluralNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel):
 export const stateNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | null | undefined =>
   entityStateName(entityOptions(entityOrType).modelName);
 
+export const nameOfEntityOrEmpty = <TModel>(entityOrType: TNew<TModel> | TModel): string | '' =>
+  nameOfEntity(entityOrType) ?? '';
+
+export const uriNameOfEntityOrEmpty = <TModel>(entityOrType: TNew<TModel> | TModel): string | ''  =>
+  uriNameOfEntity(entityOrType) ?? '';
+
+export const pluralNameOfEntityOrEmpty = <TModel>(entityOrType: TNew<TModel> | TModel): string | '' =>
+  pluralNameOfEntity(entityOrType) ?? '';
+
+export const stateNameOfEntityOrEmpty = <TModel>(entityOrType: TNew<TModel> | TModel): string | '' =>
+  stateNameOfEntity(entityOrType) ?? '';
+
+
+
 export const mapComparer = (options: IEntityOptions, name: string): EntityComparer =>
   !!options.comparers
     ? typeof options.comparers[name] === 'string'

@@ -22,7 +22,9 @@ export {
 /*
  * Common models and types referenced throughout Auto-Entity
  */
-export { IPage, Page, IFirstLastRange, IRangeInfo, ISkipTakeRange, IStartEndRange, Range, RangeValue, IPageInfo } from './lib/models';
+export {
+  IPage, Page, IFirstLastRange, IRangeInfo, ISkipTakeRange, IStartEndRange, Range, RangeValue, IPageInfo
+} from './lib/models';
 export { EntityIdentity } from './lib/types/entity-identity';
 export { IEntityDictionary, IEntityState } from './lib/util/entity-state';
 export { IModelState, IModelClass } from './lib/util/model-state';
@@ -88,7 +90,9 @@ export {
   SelectMoreByKeys
 } from './lib/actions/selection-actions';
 export { Deselected, DeselectAll, DeselectManyByKeys, DeselectMany, Deselect } from './lib/actions/deselection-actions';
-export { EditEnded, EndEdit, Changed, Change, EditedByKey, Edited, EditByKey, Edit, EditNew } from './lib/actions/edit-actions';
+export {
+  EditEnded, EndEdit, Changed, Change, EditedByKey, Edited, EditByKey, Edit, EditNew
+} from './lib/actions/edit-actions';
 export { Clear } from './lib/actions/actions';
 
 /*
@@ -115,6 +119,10 @@ export {
   pluralNameOfEntity,
   uriNameOfEntity,
   stateNameOfEntity,
+  nameOfEntityOrEmpty,
+  pluralNameOfEntityOrEmpty,
+  uriNameOfEntityOrEmpty,
+  stateNameOfEntityOrEmpty,
   entityComparer,
   entityTransforms,
   entityMaxAge
@@ -142,7 +150,9 @@ export { autoEntityMetaReducer } from './lib/reducer/meta-reducer';
 export { NgrxAutoEntityService } from './lib/service/service';
 export { IAutoEntityService } from './lib/service/interface';
 
-export { IEntityRangeRef, IEntityPageRef, IEntityRef, IEntityIdentityRef, IEntityIdentitiesRef } from './lib/service/refs';
+export {
+  IEntityRangeRef, IEntityPageRef, IEntityRef, IEntityIdentityRef, IEntityIdentitiesRef
+} from './lib/service/refs';
 export { IEntityWithRangeInfo, IEntityWithPageInfo, IEntityError } from './lib/service/wrapper-models';
 
 /*
@@ -172,7 +182,9 @@ export { ExtraEffects } from './lib/effects/effects-extra';
 /*
  * Effects
  */
-export { LoadEffect, LoadAllEffect, LoadManyEffect, LoadPageEffect, LoadRangeEffect } from './lib/effects/effects-loads-discrete';
+export {
+  LoadEffect, LoadAllEffect, LoadManyEffect, LoadPageEffect, LoadRangeEffect
+} from './lib/effects/effects-loads-discrete';
 export {
   CreateEffect,
   CreateManyEffect,
