@@ -1,5 +1,5 @@
 {
-  "version": "15.0.0-alpha.1",
+  "version": "16.0.0-alpha.1",
   "name": "@briebug/ngrx-auto-entity-service",
   "description": "Prefabricated reusable Entity Service for NgRx Auto-Entity",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -36,9 +36,9 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/common": "15.x",
-    "@angular/core": "15.x",
+    "@angular/common": "16.x",
+    "@angular/core": "16.x",
     "rxjs": "7.x",
-    "@briebug/ngrx-auto-entity": "15.x"
+    "@briebug/ngrx-auto-entity": "16.x"
   }
 }
