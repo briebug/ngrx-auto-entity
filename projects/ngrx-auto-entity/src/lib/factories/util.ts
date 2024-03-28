@@ -1,5 +1,5 @@
 import { ActionCreator, Creator } from '@ngrx/store';
-import { EntityAction } from '../..';
+import { EntityAction } from '../actions/entity-action';
 import { TNew } from '../actions/model-constructor';
 
 export interface CorrelatedProps {
