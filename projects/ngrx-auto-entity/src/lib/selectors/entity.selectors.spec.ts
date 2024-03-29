@@ -1,4 +1,6 @@
-import { Entity, Key, makeEntity } from '../..';
+import { Entity } from '../decorators/entity-decorator';
+import { Key } from '../decorators/key-decorator';
+import { makeEntity } from '../util/make-entity';
 import { mapToCustomSortedEntityArray, mapToEntityArray, mapToSortedEntityArray } from './entity.selectors';
 
 @Entity({
