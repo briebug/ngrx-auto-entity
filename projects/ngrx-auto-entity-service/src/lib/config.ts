@@ -3,8 +3,6 @@ import { EntityCriteria, RetryCriteria } from './critera.model';
 import { IEntityInfo } from '@briebug/ngrx-auto-entity';
 import { Observable } from 'rxjs';
 
-export type DynamicAutoEntityServiceConfig = (...deps: any[]) => AutoEntityServiceConfig;
-
 export type APIPrefixResolver = (
   operation: string,
   info: IEntityInfo,
@@ -52,4 +50,4 @@ export interface AutoEntityServiceConfig {
   defaultRetry?: RetryCriteria;
 }
 
-export const AUTO_ENTITY_CONFIG = new InjectionToken<AutoEntityServiceConfig>('auto-entity-config');
+export const AUTO_ENTITY_CONFIG = new InjectionToken<AutoEntityServiceConfig>('@briebug/ngrx-auto-entity-service Config');
