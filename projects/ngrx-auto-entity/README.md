@@ -9,18 +9,6 @@
 
 Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
 
-**Announcing: ANGULAR 12 is now supported! NgRx Auto-Entity has been updated to support the latest
-versions of Angular, as well as NgRx through version 12. With this update, we have also dropped
-support for Angular 8, meaning the supported versions of angular are 9-12.**
-
-**NOTE: Angular 13 support is being researched. Starting with Ng 13, all View Engine support will
-be dropped from the platform completely. One of our goals with Auto-Entity has been to support
-older versions of angular as long as possible, given the often slower upgrade times for many
-companies. With Ng 13 putting the burden on library developers to support Ivy, that forces
-groups like ourselves to build our library to target specific instruction sets. That will
-increase the challenge of supporting older versions of Angular. As such, we are actively looking
-for ways to deal with that scenario, and hope to be prepared when the time comes.**
-
 ## What is it?
 
 NgRX Auto-Entity aims to provide a seamless means of dealing with standard entity actions and

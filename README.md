@@ -9,18 +9,6 @@
 
 Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
 
-**Announcing: ANGULAR 12 is now supported! NgRx Auto-Entity has been updated to support the latest
-versions of Angular, as well as NgRx through version 12. With this update, we have also dropped
-support for Angular 8, meaning the supported versions of angular are 9-12.**
-
-**NOTE: Angular 13 support is being researched. Starting with Ng 13, all View Engine support will
-be dropped from the platform completely. One of our goals with Auto-Entity has been to support
-older versions of angular as long as possible, given the often slower upgrade times for many
-companies. With Ng 13 putting the burden on library developers to support Ivy, that forces
-groups like ourselves to build our library to target specific instruction sets. That will
-increase the challenge of supporting older versions of Angular. As such, we are actively looking
-for ways to deal with that scenario, and hope to be prepared when the time comes.**
-
 **NOTE: NgRX Auto-Entity is currently a _beta_ library. It is in flux as we continue to refine and
 enhance it's functionality, identify and eliminate bugs, optimize it's performance. If you
 find any errors in this documentation, or bugs within the library, please let us know!**
@@ -49,23 +37,32 @@ custom reducers.
 
 # Dependencies
 
-NgRx Auto-Entity currently depends on Angular 9+, NgRx 9+ and RxJs 6.
+NgRx Auto-Entity is compatible with the following versions.
 
+| NgRx Auto Entity | Angular Core | NgRx        | RxJs |
+|------------------|--------------|-------------|------|
+| 17.x             | 17.x         | 17.x        | 7.x  |
+| 13.x             | 13.x - 16.x  | 13.x - 16.x | 7.x  |
+| 12.x             | 12.x         | 12.x        | 6.x  |
 
-[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E9.x-blue.svg)](https://github.com/angular/angular)
-[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E9.x-blue.svg)](https://github.com/angular/angular)
-[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E9.x-blue.svg)](https://github.com/ngrx/platform)
+[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E12.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E12.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E12.x-blue.svg)](https://github.com/ngrx/platform)
 [![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)](https://github.com/reactivex/rxjs)
 
 # Installation
 
 Install @briebug/ngrx-auto-entity from npm:
 
-`npm install @briebug/ngrx-auto-entity` or `yarn add @briebug/ngrx-auto-entity`
+- `npm install @briebug/ngrx-auto-entity`,
+- `yarn add @briebug/ngrx-auto-entity`, or
+- `pnpm add @briebug/ngrx-auto-entity`
 
 If you have not already, install the required peer dependencies as well:
 
-`npm install @ngrx/{effects,store,store-devtools}` or `yarn add @ngrx/{effects,store,store-devtools}`
+- `npm install @ngrx/{effects,store,store-devtools}`,
+- `yarn add @ngrx/{effects,store,store-devtools}`, or
+- `pnpm add @ngrx/{effects,store,store-devtools}`
 
 ## Quick Start
 
