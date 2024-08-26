@@ -20,7 +20,7 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   protected buildUrl(operation: string, info: IEntityInfo, criteria?: EntityCriteria, key?: string | number) {
-    return this.getUrlPrefix('load', info, criteria).pipe(
+    return this.getUrlPrefix(operation, info, criteria).pipe(
       first(),
       map(prefix => buildUrl(prefix, info, criteria, key))
     );
@@ -48,10 +48,18 @@ export class EntityService implements IAutoEntityService<any> {
     return this.buildUrl('create', entityInfo, criteria).pipe(switchMap(url => this.http.post<any>(url, entity)));
   }
 
+  createMany(entityInfo: IEntityInfo, entities: any[], criteria?: any, originalEntities?: any[]): Observable<any[]> {
+    return this.buildUrl('createMany', entityInfo, criteria).pipe(switchMap(url => this.http.post<any>(url, entities)));
+  }
+
   update(entityInfo: IEntityInfo, entity: any, criteria?: EntityCriteria, originalEntity?: any): Observable<any> {
     return this.buildUrl('update', entityInfo, criteria, getKeyFromModel(entityInfo.modelType, entity)).pipe(
       switchMap(url => this.http.patch<any>(url, entity))
     );
+  }
+
+  updateMany(entityInfo: IEntityInfo, entities: any[], criteria?: any, originalEntities?: any[]): Observable<any[]> {
+    return this.buildUrl('updateMany', entityInfo, criteria).pipe(switchMap(url => this.http.patch<any>(url, entities)));
   }
 
   replace(entityInfo: IEntityInfo, entity: any, criteria?: EntityCriteria, originalEntity?: any): Observable<any> {
@@ -60,13 +68,38 @@ export class EntityService implements IAutoEntityService<any> {
     );
   }
 
+  replaceMany(entityInfo: IEntityInfo, entities: any[], criteria?: any, originalEntities?: any[]): Observable<any[]> {
+    return this.buildUrl('replaceMany', entityInfo, criteria).pipe(switchMap(url => this.http.put<any>(url, entities)));
+  }
+
   delete(entityInfo: IEntityInfo, entity: any, criteria?: EntityCriteria, originalEntity?: any): Observable<any> {
     return this.buildUrl('delete', entityInfo, criteria, getKeyFromModel(entityInfo.modelType, entity)).pipe(
-      switchMap(url => this.http.delete<any>(url, entity).pipe(map(() => entity)))
+      switchMap(url =>
+        this.http.delete<any>(url, {
+          body: entity
+        })
+      ),
+      map(() => entity)
+    );
+  }
+
+  deleteMany(entityInfo: IEntityInfo, entities: any[], criteria?: any, originalEntities?: any[]): Observable<any[]> {
+    return this.buildUrl('deleteMany', entityInfo, criteria).pipe(
+      switchMap(url => this.http.delete<any>(url, { body: entities })),
+      map(() => entities)
     );
   }
 
   deleteByKey(entityInfo: IEntityInfo, key: EntityIdentity, criteria?: EntityCriteria): Observable<EntityIdentity> {
     return this.buildUrl('deleteByKey', entityInfo, criteria, key).pipe(switchMap(url => this.http.delete<any>(url).pipe(map(() => key))));
+  }
+
+  deleteManyByKeys(entityInfo: IEntityInfo, keys: EntityIdentity[], criteria?: any): Observable<any[]> {
+    // TODO: Is this the best way to handle this case?
+    //  This seems like a somewhat odd REST API pattern.
+    return this.buildUrl('deleteManyByKeys', entityInfo, criteria).pipe(
+      switchMap(url => this.http.delete<any>(url, { body: { keys } })),
+      map(() => keys)
+    );
   }
 }
