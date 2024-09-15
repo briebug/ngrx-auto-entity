@@ -5,5 +5,5 @@
     "types": ["jest"],
     "esModuleInterop": true
   },
-  "include": ["**/*.spec.ts", "**/*.d.ts", "./global.d.ts"]
+  "include": ["**/*.spec.ts", "**/*.d.ts", "./global.d.ts", "jest.config.ts", "src/test.ts"]
 }
