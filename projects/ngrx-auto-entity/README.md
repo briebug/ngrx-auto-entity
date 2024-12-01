@@ -3,8 +3,6 @@
 ![Downloads](https://img.shields.io/npm/dm/@briebug/ngrx-auto-entity.svg)
 [![Downloads](https://img.shields.io/npm/dt/@briebug/ngrx-auto-entity.svg)](https://www.npmjs.com/package/@briebug/ngrx-auto-entity)
 
-
-
 # NgRX Auto-Entity
 
 Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
@@ -121,4 +119,3 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [Alice Paquette](https://github.com/paquettealice): Implementation
 - [Patrice Paquette](https://github.com/patpaquette): Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
-

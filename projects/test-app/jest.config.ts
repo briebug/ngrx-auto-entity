@@ -1,8 +1,8 @@
 export default {
-  displayName: 'ngrx-auto-entity',
+  displayName: 'test-app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/projects/ngrx-auto-entity',
+  coverageDirectory: '../../coverage/apps/test-app',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

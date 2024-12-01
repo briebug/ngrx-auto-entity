@@ -3,7 +3,7 @@ import { IEntityInfo } from '../actions/entity-info';
 import { logErrorDetails, logServiceLocateFailure } from './error-handling';
 import { IAutoEntityService } from './interface';
 
-export const failResolution = (error: any, entityInfo: IEntityInfo): void => {
+export const failResolution = (error: any, entityInfo: IEntityInfo): never => {
   logServiceLocateFailure(entityInfo);
   logErrorDetails(error);
   throw error;
@@ -17,7 +17,7 @@ export const resolveServiceDeep = <TModel>(
   entityInfo: Readonly<IEntityInfo>,
   injector: Injector,
   remaining: Injector[]
-): IAutoEntityService<TModel> => {
+): IAutoEntityService<TModel> | never => {
   try {
     return resolveService(entityInfo, injector);
   } catch (err) {
@@ -25,7 +25,7 @@ export const resolveServiceDeep = <TModel>(
       const [first, ...rest] = remaining;
       return resolveServiceDeep(entityInfo, first, rest);
     } else {
-      failResolution(err, entityInfo);
+      throw failResolution(err, entityInfo);
     }
   }
 };

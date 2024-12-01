@@ -1,1 +1,9 @@
-projects/ngrx-auto-entity/src/lib/index.ts
+# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/.nx/cache
+/.nx/workspace-data
+.angular
+
+projects/ngrx-auto-entity/src/public_api.ts
+projects/ngrx-auto-entity-service/src/public_api.ts
