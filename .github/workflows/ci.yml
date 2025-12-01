@@ -33,6 +33,4 @@ jobs:
         run: npm run lint
 
       - name: Test
-        env:
-          JEST_JUNIT_OUTPUT: reports/junit/js-test-results.xml
-        run: npm run test:ci
+        run: npm run test
