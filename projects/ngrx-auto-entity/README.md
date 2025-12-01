@@ -1,4 +1,3 @@
-[![CircleCI](https://img.shields.io/circleci/build/github/briebug/ngrx-auto-entity/develop.svg)](https://circleci.com/gh/briebug/ngrx-auto-entity)
 [![Issues](https://img.shields.io/github/issues/briebug/ngrx-auto-entity.svg)](https://github.com/briebug/ngrx-auto-entity/issues)
 ![Version](https://img.shields.io/npm/v/@briebug/ngrx-auto-entity.svg)
 ![Downloads](https://img.shields.io/npm/dm/@briebug/ngrx-auto-entity.svg)
@@ -16,7 +15,7 @@ support for Angular 8, meaning the supported versions of angular are 9-12.**
 
 **NOTE: Angular 13 support is being researched. Starting with Ng 13, all View Engine support will
 be dropped from the platform completely. One of our goals with Auto-Entity has been to support
-older versions of angular as long as possible, given the often slower upgrade times for many 
+older versions of angular as long as possible, given the often slower upgrade times for many
 companies. With Ng 13 putting the burden on library developers to support Ivy, that forces
 groups like ourselves to build our library to target specific instruction sets. That will
 increase the challenge of supporting older versions of Angular. As such, we are actively looking
@@ -33,10 +32,10 @@ other NgRX application.
 What Auto-Entity does do is provide a set of ready-made actions, selectors, effects & a core
 metareducer for handling all of the standard CRUD functionality for entities, so you neither
 have to write nor generate any of that code yourself. Auto-Entity supports implementing applications
-with recommended best practices, including good action hygiene. Auto-Entity also generates 
+with recommended best practices, including good action hygiene. Auto-Entity also generates
 **pre-fabricated facades** around NgRx and the store/state, providing a cohesive, logical and
 simplified API into your state for those who prefer facades. Auto-Entity presents a flexible
-framework that you may use in its entirety for all of your entity needs, or use piecemeal as 
+framework that you may use in its entirety for all of your entity needs, or use piecemeal as
 necessary in order to achieve your specific goals.
 
 While it is not required and Auto-Entity is an entirely independent library that solely depends
@@ -68,7 +67,7 @@ NgRx Auto-Entity v13 beta is currently being developed. Upon release, we expect 
 ## Auto-Entity v14
 
 NgRx Auto-Entity v14 is currently being planned &amp; researched. We are hopeful that the next version of Auto-Entity
-will support both versions 13 and 14 of Angular & NgRx. 
+will support both versions 13 and 14 of Angular & NgRx.
 
 # Installation
 
@@ -131,7 +130,7 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [Kevin Schuchard](https://github.com/schuchard): Design & Implementation
 - [Brian Love](https://github.com/blove): Design & Implementation
 - [Jesse Wells](https://github.com/Wells-Codes): Implementation
-- [Alice Paquette](https://github.com/paquettealice): Implementation 
+- [Alice Paquette](https://github.com/paquettealice): Implementation
 - [Patrice Paquette](https://github.com/patpaquette): Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
 
