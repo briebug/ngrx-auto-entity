@@ -20,7 +20,7 @@
     "paths": {
       "@briebug/ngrx-auto-entity": ["projects/ngrx-auto-entity/src/public_api.ts"],
       "@briebug/ngrx-auto-entity-service": ["projects/ngrx-auto-entity-service/src/public_api.ts"]
-    },
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

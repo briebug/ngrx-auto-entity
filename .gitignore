@@ -27,6 +27,10 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# AI Agents
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
 # misc
 /.angular/cache
 /.sass-cache
