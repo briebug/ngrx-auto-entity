@@ -141,11 +141,7 @@
     "typescript-eslint": "8.50.0"
   },
   "lint-staged": {
-    "projects/test-app/**/*.ts": [
-      "tslint --config tslint.json --project tsconfig.json --fix"
-    ],
-    "projects/ngrx-auto-entity/src/lib/**/*.ts": [
-      "tslint --config tslint.json --project tsconfig.json --fix"
-    ]
+    "*.{ts,js,html}": "eslint --fix",
+    "*.{ts,js,css,md,html,css,scss,json,yml}": "prettier --write"
   }
 }
