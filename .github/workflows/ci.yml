@@ -4,22 +4,29 @@ on:
   push:
     branches:
       - develop
-      - main
+      - master
   pull_request:
     branches:
       - develop
-      - main
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      actions: read
+      contents: read
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
+        with:
+          filter: tree:0
+          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -29,7 +36,8 @@ jobs:
         env:
           NODE_ENV: ci
 
-      - uses: nrwl/nx-set-shas@v4
+      - name: Derive base and head SHAs
+        uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: 'master'
 
