@@ -44,7 +44,6 @@ describe('buildFacade()', () => {
 
     expect(Object.getOwnPropertyNames(FacadeBaseClass.prototype)).toEqual([
       'constructor',
-      'customSorted$',
       'select',
       'selectByKey',
       'selectMany',
@@ -127,7 +126,6 @@ describe('buildFacade()', () => {
 
     expect(Object.getOwnPropertyNames(Object.getPrototypeOf(facade))).toEqual([
       'constructor',
-      'customSorted$',
       'select',
       'selectByKey',
       'selectMany',

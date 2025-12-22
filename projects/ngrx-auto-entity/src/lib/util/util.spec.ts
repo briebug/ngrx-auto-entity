@@ -29,7 +29,6 @@ interface ITestFeatureState {
 const selectorProperties = [
   'selectAll',
   'selectAllSorted',
-  'selectCustomSorted',
   'selectEntities',
   'selectIds',
   'selectTotal',

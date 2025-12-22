@@ -1,13 +1,6 @@
 import { createSelector, MemoizedSelector, Selector } from '@ngrx/store';
 import { mapToEditedEntity, mapToIsDirty } from '../selectors/edits.selectors';
-import {
-  mapToCustomSortedEntityArray,
-  mapToEntityArray,
-  mapToHasEntities,
-  mapToHasNoEntities,
-  mapToSortedEntityArray,
-  mapToTotal
-} from '../selectors/entity.selectors';
+import { mapToEntityArray, mapToHasEntities, mapToHasNoEntities, mapToSortedEntityArray, mapToTotal } from '../selectors/entity.selectors';
 import { mapToCurrentPage, mapToCurrentRange, mapToTotalPageable } from '../selectors/paging.selectors';
 import { mapToEdits, mapToEntities, mapToIds, mapToPaging, mapToSelections, mapToTracking } from '../selectors/root.selectors';
 import {
@@ -71,10 +64,6 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
 
     get selectAllSorted() {
       return createSelector(this.selectAll, mapToSortedEntityArray(type));
-    }
-
-    get selectCustomSorted() {
-      return createSelector(this.selectAll, mapToCustomSortedEntityArray(type));
     }
 
     get selectTotal() {

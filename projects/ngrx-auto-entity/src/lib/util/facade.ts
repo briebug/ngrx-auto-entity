@@ -35,7 +35,6 @@ export interface IEntityFacade<TModel> {
   updatedAt$: Observable<Date>;
   replacedAt$: Observable<Date>;
   deletedAt$: Observable<Date>;
-  customSorted$(name: string): Observable<TModel[]>;
 
   select(entity: TModel, correlationId?: string): string;
   selectByKey(key: EntityIdentity, correlationId?: string): string;

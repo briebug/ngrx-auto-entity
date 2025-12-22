@@ -94,13 +94,6 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     replacedAt$: Observable<Date>;
     deletedAt$: Observable<Date>;
 
-    /**
-     * @deprecated customSorted$ relies on selectors with props, which has fallen out of practice. Will be removed
-     * in the next version of auto-entity.
-     */
-    customSorted$(name: string): Observable<TModel[]> {
-      return this.store.select(selectors.selectCustomSorted, { name });
-    }
     // endregion
 
     // region Activities

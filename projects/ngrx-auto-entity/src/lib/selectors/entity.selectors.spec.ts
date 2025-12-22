@@ -1,7 +1,7 @@
 import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
 import { makeEntity } from '../util/make-entity';
-import { mapToCustomSortedEntityArray, mapToEntityArray, mapToSortedEntityArray } from './entity.selectors';
+import { mapToEntityArray, mapToSortedEntityArray } from './entity.selectors';
 
 @Entity({
   modelName: 'Test',
@@ -51,22 +51,6 @@ describe('mapToSortedEntityArray()', () => {
   it('should return sorted array of entity objects', () => {
     const all = [makeTestModel({ id: 2, name: 'test 2' }), makeTestModel({ id: 1, name: 'test 1' })];
     const entities = mapToSortedEntityArray(Test)(all);
-    expect(entities).toEqual([
-      { id: 1, name: 'test 1' },
-      { id: 2, name: 'test 2' }
-    ]);
-  });
-});
-
-describe('mapToCustomSortedEntityArray()', () => {
-  it('should return empty array if all array is falsy', () => {
-    const entities = mapToCustomSortedEntityArray(Test)(null, { name: '' });
-    expect(entities).toEqual([]);
-  });
-
-  it('should return sorted array of entity objects', () => {
-    const all = [makeTestModel({ id: 2, name: 'test 2' }), makeTestModel({ id: 1, name: 'test 1' })];
-    const entities = mapToCustomSortedEntityArray(Test)(all, { name: 'test' });
     expect(entities).toEqual([
       { id: 1, name: 'test 1' },
       { id: 2, name: 'test 2' }

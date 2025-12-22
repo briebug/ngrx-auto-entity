@@ -39,7 +39,6 @@ interface ITestState {
 const selectorProperties = [
   'selectAll',
   'selectAllSorted',
-  'selectCustomSorted',
   'selectEntities',
   'selectIds',
   'selectTotal',
@@ -232,85 +231,6 @@ describe('buildSelectorMap()', () => {
 
       const { selectAllSorted } = buildSelectorMap<ITestState, IEntityState<Alt>, Alt, unknown>(getState, Alt);
       const entities = store.select(selectAllSorted);
-      expect(entities).toBeObservable(hot('a', { a: [entity2, entity1] }));
-    });
-  });
-
-  describe('selectCustomSorted', () => {
-    it('should return empty array if no state', () => {
-      const store: MockStore = TestBed.inject(MockStore);
-
-      store.setState({});
-
-      const getState = state => state.test;
-
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
-      const entities = store.select(selectCustomSorted, { name: 'test' });
-      expect(entities).toBeObservable(hot('a', { a: [] }));
-    });
-
-    it('should return empty array if no entities in state', () => {
-      const store: MockStore<ITestState> = TestBed.inject(MockStore);
-
-      store.setState({
-        test: {
-          entities: {},
-          ids: []
-        }
-      });
-
-      const getState = state => state.test;
-
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
-      const entities = store.select(selectCustomSorted, { name: 'test' });
-      expect(entities).toBeObservable(hot('a', { a: [] }));
-    });
-
-    it('should return entities in custom sorted order', () => {
-      const store: MockStore<ITestState> = TestBed.inject(MockStore);
-
-      const entity1 = makeTestModel({ id: 1, name: 'Test 1' });
-      const entity2 = makeTestModel({ id: 2, name: 'Test 2' });
-
-      store.resetSelectors();
-      store.setState({
-        test: {
-          entities: {
-            1: entity1,
-            2: entity2
-          },
-          ids: [2, 1]
-        }
-      });
-
-      const getState = state => state.test;
-
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
-      const entities = store.select(selectCustomSorted, { name: 'test' });
-      expect(entities).toBeObservable(hot('a', { a: [entity1, entity2] }));
-    });
-
-    it('should return entities in state order if named comparer does not exist', () => {
-      const store: MockStore<ITestState> = TestBed.inject(MockStore);
-
-      const entity1 = makeTestModel({ id: 1, name: 'Test 1' });
-      const entity2 = makeTestModel({ id: 2, name: 'Test 2' });
-
-      store.resetSelectors();
-      store.setState({
-        test: {
-          entities: {
-            1: entity1,
-            2: entity2
-          },
-          ids: [2, 1]
-        }
-      });
-
-      const getState = state => state.test;
-
-      const { selectCustomSorted } = buildSelectorMap<ITestState, IEntityState<Test>, Test, unknown>(getState, Test);
-      const entities = store.select(selectCustomSorted, { name: 'nope' });
       expect(entities).toBeObservable(hot('a', { a: [entity2, entity1] }));
     });
   });
