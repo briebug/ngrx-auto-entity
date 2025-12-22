@@ -30,7 +30,7 @@ jobs:
           NODE_ENV: ci
 
       - name: Lint
-        run: npm run lint
+        run: npx nx affected --target lint
 
-      - name: Test
-        run: npm run test
+      - name: Test Affected
+        run: npx nx affected --target test --configuration ci
