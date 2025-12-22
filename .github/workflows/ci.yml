@@ -41,8 +41,8 @@ jobs:
         with:
           main-branch-name: 'master'
 
-      - name: Lint Affected
-        run: npx nx affected --target lint
+      - name: Lint and Build Affected
+        run: npx nx affected --target lint,build
 
       - name: Test Affected
         run: npx nx affected --target test --configuration ci
