@@ -34,6 +34,6 @@ export const callService = <TModel, TModelObs, TResult>(
     const service = getService(entityInfo, injector);
     return invokeService(method, entityInfo, invoke, toResult, service);
   } catch (err) {
-    logAndThrow(method, err, entityInfo);
+    return logAndThrow(method, err, entityInfo);
   }
 };

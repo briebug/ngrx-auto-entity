@@ -1,10 +1,21 @@
-module.exports = {
-  preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/../../setup-jest.ts', 'jest-extended/all'],
-  globalSetup: 'jest-preset-angular/global-setup',
-  testPathIgnorePatterns: ['src/test.ts'],
-  moduleNameMapper: {
-    '^@briebug/ngrx-auto-entity$': '<rootDir>/src/public_api.ts',
-    '^@briebug/ngrx-auto-entity-service$': '<rootDir>/../ngrx-auto-entity-service/src/public_api.ts'
-  }
+export default {
+  displayName: 'ngrx-auto-entity',
+  preset: '../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  coverageDirectory: '../../coverage/projects/ngrx-auto-entity',
+  transform: {
+    '^.+\\.(ts|mjs|js|html)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
+  },
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  snapshotSerializers: [
+    'jest-preset-angular/build/serializers/no-ng-attributes',
+    'jest-preset-angular/build/serializers/ng-snapshot',
+    'jest-preset-angular/build/serializers/html-comment',
+  ],
 };

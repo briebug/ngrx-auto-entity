@@ -33,7 +33,7 @@ export const stateNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): 
   entityStateName(entityOptions(entityOrType).modelName);
 
 export const mapComparer = (options: IEntityOptions, name: string): EntityComparer =>
-  !!options.comparers
+  options.comparers != null
     ? typeof options.comparers[name] === 'string'
       ? (options.comparers[options.comparers[name] as string] as EntityComparer)
       : (options.comparers[name] as EntityComparer)
@@ -42,14 +42,14 @@ export const mapComparer = (options: IEntityOptions, name: string): EntityCompar
 export const defaultComparer = (options: IEntityOptions): EntityComparer => options.comparer || mapComparer(options, 'default');
 
 export const namedComparer = (options: IEntityOptions, name: string): EntityComparer =>
-  !!options.comparers
+  options.comparers != null
     ? (options.comparers[name] as EntityComparer) || mapComparer(options, name)
     : name === 'default'
     ? defaultComparer(options)
     : undefined;
 
 export const getComparer = (options: IEntityOptions, name?: string): EntityComparer =>
-  !!options ? (!!name ? namedComparer(options, name) : defaultComparer(options)) : undefined;
+  options != null ? (name != null ? namedComparer(options, name) : defaultComparer(options)) : undefined;
 
 export const entityComparer = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[], name?: string): EntityComparer | null | undefined =>
   getComparer(entityOptions(entityOrType), name);

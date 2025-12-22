@@ -1,0 +1,25 @@
+{
+  "name": "ngrx-auto-entity",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/ngrx-auto-entity/src",
+  "projectType": "library",
+  "prefix": "ae",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/ngrx-auto-entity/tsconfig.lib.prod.json",
+          "project": "projects/ngrx-auto-entity/ng-package.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/ngrx-auto-entity/tsconfig.lib.json",
+          "project": "projects/ngrx-auto-entity/ng-package.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

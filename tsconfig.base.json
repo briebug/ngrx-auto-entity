@@ -1,0 +1,26 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "es2022",
+    "lib": ["es2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "outDir": "./dist/out-tsc",
+    "downlevelIteration": true,
+    "useDefineForClassFields": false,
+    "paths": {
+      "@briebug/ngrx-auto-entity": ["projects/ngrx-auto-entity/src/public_api.ts"],
+      "@briebug/ngrx-auto-entity-service": ["projects/ngrx-auto-entity-service/src/public_api.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

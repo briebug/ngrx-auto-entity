@@ -9,9 +9,9 @@ describe('EntityService', () => {
       providers: [
         {
           provide: EntityService,
-          useValue: {},
-        },
-      ],
+          useValue: {}
+        }
+      ]
     });
     service = TestBed.inject(EntityService);
   });

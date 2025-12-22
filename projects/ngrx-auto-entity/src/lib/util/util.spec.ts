@@ -57,7 +57,7 @@ const selectorProperties = [
   'selectDeletedAt'
 ];
 
-const testSelectorMap = selectors => selectorProperties.every(prop => selectors.__proto__.hasOwnProperty(prop));
+const testSelectorMap = selectors => selectorProperties.every(prop => Object.hasOwn(Object.getPrototypeOf(selectors), prop));
 
 describe('Utilities', () => {
   beforeEach(() => {

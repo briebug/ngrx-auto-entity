@@ -5,7 +5,11 @@ import { Observable } from 'rxjs';
 
 export type DynamicAutoEntityServiceConfig = (...deps: any[]) => AutoEntityServiceConfig;
 
-export type APIPrefixResolver = (operation: string, info: IEntityInfo, criteria: EntityCriteria) => string | Promise<string> | Observable<string>
+export type APIPrefixResolver = (
+  operation: string,
+  info: IEntityInfo,
+  criteria: EntityCriteria
+) => string | Promise<string> | Observable<string>;
 
 export interface AutoEntityServiceConfig {
   /** API Host Endpoint. Entity url paths will be appended to the provided host.
@@ -48,5 +52,4 @@ export interface AutoEntityServiceConfig {
   defaultRetry?: RetryCriteria;
 }
 
-
-export const AUTO_ENTITY_CONFIG = new InjectionToken<AutoEntityServiceConfig>('auto-entity-config')
+export const AUTO_ENTITY_CONFIG = new InjectionToken<AutoEntityServiceConfig>('auto-entity-config');

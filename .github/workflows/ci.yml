@@ -2,26 +2,29 @@ name: CI
 
 on:
   push:
-    branches:
-      - develop
-      - main
+    branches: [main, develop]
   pull_request:
-    branches:
-      - develop
-      - main
+    branches: [main, develop]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      actions: read
+      contents: read
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
+        with:
+          filter: tree:0
+          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -29,8 +32,11 @@ jobs:
         env:
           NODE_ENV: ci
 
-      - name: Lint
-        run: npm run lint
+      - name: Derive base and head SHAs
+        uses: nrwl/nx-set-shas@v4
 
-      - name: Test
-        run: npm run test
+      - name: Lint and Build Affected
+        run: npx nx affected --target lint,build
+
+      - name: Test Affected
+        run: npx nx affected --target test --configuration ci
