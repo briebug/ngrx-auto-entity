@@ -1,3 +1,4 @@
+import { Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EntityIdentity } from '../types/entity-identity';
 
@@ -35,6 +36,34 @@ export interface IEntityFacade<TModel> {
   updatedAt$: Observable<Date>;
   replacedAt$: Observable<Date>;
   deletedAt$: Observable<Date>;
+
+  all: Signal<TModel[]>;
+  sorted: Signal<TModel[]>;
+  entities: Signal<IEntityDictionary<TModel>>;
+  ids: Signal<EntityIdentity[]>;
+  total: Signal<number>;
+  hasEntities: Signal<boolean>;
+  hasNoEntities: Signal<boolean>;
+  current: Signal<TModel>;
+  currentKey: Signal<EntityIdentity>;
+  currentSet: Signal<TModel[]>;
+  currentSetKeys: Signal<EntityIdentity[]>;
+  edited: Signal<Partial<TModel>>;
+  isDirty: Signal<boolean>;
+  currentPage: Signal<Page>;
+  currentRange: Signal<Range>;
+  totalPageable: Signal<number>;
+  hasBeenLoaded: Signal<boolean>;
+  loadWasAttempted: Signal<boolean>;
+  isLoading: Signal<boolean>;
+  isSaving: Signal<boolean>;
+  isDeleting: Signal<boolean>;
+  loadedAt: Signal<Date>;
+  savedAt: Signal<Date>;
+  createdAt: Signal<Date>;
+  updatedAt: Signal<Date>;
+  replacedAt: Signal<Date>;
+  deletedAt: Signal<Date>;
 
   select(entity: TModel, correlationId?: string): string;
   selectByKey(key: EntityIdentity, correlationId?: string): string;

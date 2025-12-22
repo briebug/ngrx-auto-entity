@@ -1,3 +1,4 @@
+import { Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -63,6 +64,35 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
       this.updatedAt$ = this.store.select(selectors.selectUpdatedAt);
       this.replacedAt$ = this.store.select(selectors.selectReplacedAt);
       this.deletedAt$ = this.store.select(selectors.selectDeletedAt);
+
+      this.all = this.store.selectSignal(selectors.selectAll);
+      this.sorted = this.store.selectSignal(selectors.selectAllSorted);
+      this.entities = this.store.selectSignal(selectors.selectEntities);
+      this.ids = this.store.selectSignal(selectors.selectIds);
+      this.total = this.store.selectSignal(selectors.selectTotal);
+      this.hasEntities = this.store.selectSignal(selectors.selectHasEntities);
+      this.hasNoEntities = this.store.selectSignal(selectors.selectHasNoEntities);
+      this.total = this.store.selectSignal(selectors.selectTotal);
+      this.current = this.store.selectSignal(selectors.selectCurrentEntity);
+      this.currentKey = this.store.selectSignal(selectors.selectCurrentEntityKey);
+      this.currentSet = this.store.selectSignal(selectors.selectCurrentEntities);
+      this.currentSetKeys = this.store.selectSignal(selectors.selectCurrentEntitiesKeys);
+      this.edited = this.store.selectSignal(selectors.selectEditedEntity);
+      this.isDirty = this.store.selectSignal(selectors.selectIsDirty);
+      this.currentPage = this.store.selectSignal(selectors.selectCurrentPage);
+      this.currentRange = this.store.selectSignal(selectors.selectCurrentRange);
+      this.totalPageable = this.store.selectSignal(selectors.selectTotalPageable);
+      this.hasBeenLoaded = this.store.selectSignal(selectors.selectHasBeenLoaded);
+      this.loadWasAttempted = this.store.selectSignal(selectors.selectLoadWasAttempted);
+      this.isLoading = this.store.selectSignal(selectors.selectIsLoading);
+      this.isSaving = this.store.selectSignal(selectors.selectIsSaving);
+      this.isDeleting = this.store.selectSignal(selectors.selectIsDeleting);
+      this.loadedAt = this.store.selectSignal(selectors.selectLoadedAt);
+      this.savedAt = this.store.selectSignal(selectors.selectSavedAt);
+      this.createdAt = this.store.selectSignal(selectors.selectCreatedAt);
+      this.updatedAt = this.store.selectSignal(selectors.selectUpdatedAt);
+      this.replacedAt = this.store.selectSignal(selectors.selectReplacedAt);
+      this.deletedAt = this.store.selectSignal(selectors.selectDeletedAt);
     }
 
     // region Selections
@@ -94,6 +124,33 @@ export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParen
     replacedAt$: Observable<Date>;
     deletedAt$: Observable<Date>;
 
+    all: Signal<TModel[]>;
+    sorted: Signal<TModel[]>;
+    entities: Signal<IEntityDictionary<TModel>>;
+    ids: Signal<EntityIdentity[]>;
+    total: Signal<number>;
+    hasEntities: Signal<boolean>;
+    hasNoEntities: Signal<boolean>;
+    current: Signal<TModel>;
+    currentKey: Signal<EntityIdentity>;
+    currentSet: Signal<TModel[]>;
+    currentSetKeys: Signal<EntityIdentity[]>;
+    edited: Signal<Partial<TModel>>;
+    isDirty: Signal<boolean>;
+    currentPage: Signal<Page>;
+    currentRange: Signal<Range>;
+    totalPageable: Signal<number>;
+    hasBeenLoaded: Signal<boolean>;
+    loadWasAttempted: Signal<boolean>;
+    isLoading: Signal<boolean>;
+    isSaving: Signal<boolean>;
+    isDeleting: Signal<boolean>;
+    loadedAt: Signal<Date>;
+    savedAt: Signal<Date>;
+    createdAt: Signal<Date>;
+    updatedAt: Signal<Date>;
+    replacedAt: Signal<Date>;
+    deletedAt: Signal<Date>;
     // endregion
 
     // region Activities
