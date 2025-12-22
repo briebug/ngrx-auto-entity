@@ -42,7 +42,7 @@
       "configurations": {
         "ci": {
           "ci": true,
-          "testResultsProcessor": "jest-junit",
+          "reporters": ["default", "jest-junit"],
           "coverage": true
         },
         "coverage": {
