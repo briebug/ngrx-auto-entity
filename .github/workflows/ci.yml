@@ -29,7 +29,9 @@ jobs:
         env:
           NODE_ENV: ci
 
-      - name: Lint
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Lint Affected
         run: npx nx affected --target lint
 
       - name: Test Affected
