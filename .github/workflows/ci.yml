@@ -2,13 +2,9 @@ name: CI
 
 on:
   push:
-    branches:
-      - develop
-      - master
+    branches: [main, develop]
   pull_request:
-    branches:
-      - develop
-      - master
+    branches: [main, develop]
 
 jobs:
   build:
@@ -38,8 +34,6 @@ jobs:
 
       - name: Derive base and head SHAs
         uses: nrwl/nx-set-shas@v4
-        with:
-          main-branch-name: 'master'
 
       - name: Lint and Build Affected
         run: npx nx affected --target lint,build

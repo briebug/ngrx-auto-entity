@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "defaultBase": "master",
+  "defaultBase": "main",
   "workspaceLayout": {
     "appsDir": "projects",
     "libsDir": "projects"
