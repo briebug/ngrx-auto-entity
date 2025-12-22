@@ -1,4 +1,4 @@
-import { Signal } from '@angular/core';
+import { inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -22,19 +22,25 @@ import { EntityIdentity } from '../types/entity-identity';
 import { IEntityDictionary } from './entity-state';
 import { IEntityFacade } from './facade';
 import { ISelectorMap } from './selector-map';
+import { TNew } from '../actions/model-constructor';
+import { NGRX_AUTO_ENTITY_APP_STORE } from '../effects/if-necessary-operator-utils';
 
 /**
  * Builds a new facade class for the specified entity model and parent state.
  * @param selectors - the selector map for the specified entity
+ * @param Type - the constructor for the specified entity
  */
-export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParentState, TModel>) => {
+export const buildFacade = <TModel, TParentState>(selectors: ISelectorMap<TParentState, TModel>, Type: TNew<TModel>) => {
   const BaseFacade = class Facade implements IEntityFacade<TModel> {
-    modelType: new () => TModel;
+    modelType: TNew<TModel>;
     store: Store<any>;
 
-    constructor(modelType: new () => TModel, store: Store<any>) {
-      this.modelType = modelType;
-      this.store = store;
+    /** @deprecated Use the empty constructor instead. The model type will be provided by `buildState`, and the store by `provideStore` or `withCustomStore`. */
+    constructor(modelType: new () => TModel, store: Store<any>);
+    constructor();
+    constructor(modelType?: TNew<TModel>, store?: Store<any>) {
+      this.modelType = modelType ?? Type;
+      this.store = store ?? inject(NGRX_AUTO_ENTITY_APP_STORE);
 
       this.all$ = this.store.select(selectors.selectAll);
       this.sorted$ = this.store.select(selectors.selectAllSorted);

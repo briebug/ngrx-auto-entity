@@ -39,7 +39,7 @@ describe('buildFacade()', () => {
   });
 
   it('should return a new dynamic class', () => {
-    const FacadeBaseClass = buildFacade({} as ISelectorMap<Test, any>);
+    const FacadeBaseClass = buildFacade({} as ISelectorMap<Test, any>, Test);
     expect(FacadeBaseClass.constructor).toBeDefined();
 
     expect(Object.getOwnPropertyNames(FacadeBaseClass.prototype)).toEqual([
@@ -88,8 +88,8 @@ describe('buildFacade()', () => {
   it('should have selection properties when creating new instances of facade class', () => {
     const store: MockStore = TestBed.inject(MockStore);
     const selectorMap = buildSelectorMap(state => state.test, Test);
-    const FacadeBaseClass = buildFacade(selectorMap);
-    const facade = new FacadeBaseClass(Test, store);
+    const FacadeBaseClass = buildFacade(selectorMap, Test);
+    const facade = TestBed.runInInjectionContext(() => new FacadeBaseClass(Test, store));
     expect(facade).toBeDefined();
 
     expect(Object.getOwnPropertyNames(facade)).toEqual([

@@ -1,14 +1,19 @@
 import { Signal } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { EntityIdentity } from '../types/entity-identity';
 
 import { Page, Range } from '../models';
 import { IEntityDictionary } from './entity-state';
+import { TNew } from '../actions/model-constructor';
 
 /**
  * The definition of an Auto-Entity facade class
  */
 export interface IEntityFacade<TModel> {
+  readonly modelType: TNew<TModel>;
+  readonly store: Store<any>;
+
   all$: Observable<TModel[]>;
   sorted$: Observable<TModel[]>;
   entities$: Observable<IEntityDictionary<TModel>>;
