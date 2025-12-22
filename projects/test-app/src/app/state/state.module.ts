@@ -21,7 +21,7 @@ import { CustomRouterStateSerializer } from './shared/utils';
       }
     }),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument(),
+    StoreDevtoolsModule.instrument({connectInZone: true}),
     NgrxAutoEntityModule.forRoot()
   ]
 })

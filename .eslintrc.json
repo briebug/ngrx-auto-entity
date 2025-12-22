@@ -1,5 +1,6 @@
 {
   "root": true,
+  "plugins": ["@typescript-eslint"],
   "ignorePatterns": [
     "projects/**/*"
   ],

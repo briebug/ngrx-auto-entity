@@ -1,4 +1,4 @@
-import { EntityActionTypes } from '../..';
+import { EntityActionTypes } from '../actions/action-types';
 import { Load } from '../actions/load-actions';
 import { setActionType } from '../actions/util';
 import { Entity } from '../decorators/entity-decorator';

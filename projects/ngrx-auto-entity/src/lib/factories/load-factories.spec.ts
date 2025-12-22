@@ -2,7 +2,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { createReducer, on } from '@ngrx/store';
 import { hot } from 'jasmine-marbles';
 import { map } from 'rxjs/operators';
-import { Entity, Key } from '../..';
+import { Entity } from '../decorators/entity-decorator';
+import { Key } from '../decorators/key-decorator';
 import { createLoadAction } from './load-factories';
 
 @Entity('Test')

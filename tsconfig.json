@@ -10,9 +10,14 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "baseUrl": "./",
     "paths": {
       "@briebug/ngrx-auto-entity": [
@@ -21,6 +26,7 @@
       "@briebug/ngrx-auto-entity-service": [
         "dist/ngrx-auto-entity-service"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }
