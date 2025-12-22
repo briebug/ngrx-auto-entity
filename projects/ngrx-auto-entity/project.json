@@ -20,22 +20,6 @@
         }
       },
       "defaultConfiguration": "production"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "projects/ngrx-auto-entity/jest.config.ts"
-      },
-      "configurations": {
-        "coverage": {
-          "collectCoverage": true
-        },
-        "ci": {
-          "ci": true,
-          "testResultsProcessor": "jest-junit"
-        }
-      }
     }
   }
 }

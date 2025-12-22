@@ -26,16 +26,27 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "@nx/jest:jest": {
+    "test": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js",
+        "{workspaceRoot}/jest.config.js",
+        { "externalDependencies": ["jest"] }
+      ],
       "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
         "ci": {
           "ci": true,
-          "codeCoverage": true
+          "testResultsProcessor": "jest-junit",
+          "coverage": true
+        },
+        "coverage": {
+          "coverage": true
         }
       }
     },
@@ -67,6 +78,12 @@
       "plugin": "@nx/eslint/plugin",
       "options": {
         "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
       }
     }
   ]
