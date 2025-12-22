@@ -5,7 +5,7 @@ export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
-  jestExtended.configs['flat/all'],
+  jestExtended.configs['flat/recommended'],
   {
     ignores: ['**/dist']
   },
@@ -44,6 +44,13 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
     // Override or add rules here
-    rules: {}
+    rules: {
+      '@typescript-eslint/no-inferrable-types': [
+        'error',
+        {
+          ignoreParameters: true
+        }
+      ]
+    }
   }
 ];

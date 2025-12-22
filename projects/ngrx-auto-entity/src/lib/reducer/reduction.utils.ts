@@ -27,16 +27,16 @@ export const safeGetKey = <TModel>(action: IEntityAction, entity: TModel): Entit
     iif(
       isUndefined,
       throwError(
-        // eslint-disable-next-line max-len
-        `[NGRX-AE] ! Entity key for \'${action.info.modelName}\' could not be found on this entity instance! Make sure your entity is properly decorated with the necessary key metadata. State will NOT be updated due to misconfiguration of your entity.`
+         
+        `[NGRX-AE] ! Entity key for '${action.info.modelName}' could not be found on this entity instance! Make sure your entity is properly decorated with the necessary key metadata. State will NOT be updated due to misconfiguration of your entity.`
       ),
       key => key
     )
   )(null);
 
-export const cloneEntities = (original: any | null) => (!!original ? { ...original } : {});
+export const cloneEntities = (original: any | null) => (original != null ? { ...original } : {});
 
-export const cloneIds = (ids: EntityIdentity[] | null) => (!!ids ? [...ids] : []);
+export const cloneIds = (ids: EntityIdentity[] | null) => (ids != null ? [...ids] : []);
 
 export const mergeSingle = (currentEntities, entityKey, newEntity) => ((currentEntities[entityKey] = newEntity), currentEntities);
 
@@ -52,16 +52,12 @@ export const deleteMany = (currentEntities, entityKeys) => (
 export const pushSingle = (currentIds, entityKey) => (currentIds.push(entityKey), currentIds);
 
 export const pushMany = (currentIds, newEntities, action) => (
-  currentIds.push.apply(
-    currentIds,
-    newEntities.map(entity => safeGetKey(action, entity))
-  ),
-  currentIds
+  currentIds.push(...newEntities.map(entity => safeGetKey(action, entity))), currentIds
 );
 
 export const combineUnique = (currentIds, currentEntities, modifiedEntities, action) => {
   const newIds = modifiedEntities.map(entity => safeGetKey(action, entity)).filter(key => !(key in currentEntities));
-  currentIds.push.apply(currentIds, newIds);
+  currentIds.push(...newIds);
   return currentIds;
 };
 
@@ -78,12 +74,12 @@ export const pushManyUnique = (currentEntities, currentIds, entityKeys) => (
 
 export const warnMissingPageInfo = (action: IEntityAction) =>
   console.log(
-    // eslint-disable-next-line max-len
+     
     `[NGRX-AE] Page information for '${action.info.modelName}' was not provided! Page info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );
 
 export const warnMissingRangeInfo = (action: IEntityAction) =>
   console.log(
-    // eslint-disable-next-line max-len
+     
     `[NGRX-AE] Range information for '${action.info.modelName}' was not provided! Range info should be returned from your entity service's loadPage() method. State WILL be updated, however the current page and total entity count information will be incorrect.`
   );

@@ -35,7 +35,7 @@ describe('buildState()', () => {
     expect(() => buildState(NoModelName)).toThrow(NO_MODEL_NAME_MSG);
   });
 
-  // eslint-disable-next-line max-len
+   
   it('should return an object with initial state, selectors, the root entity state, a makeEntity function, a reducer and a base facade class', () => {
     const built = buildState(Test);
 
@@ -43,45 +43,45 @@ describe('buildState()', () => {
       entities: {},
       ids: []
     });
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectAll'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectAllSorted'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCustomSorted'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectEntities'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIds'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectTotal'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectHasEntities'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectHasNoEntities'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntity'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntityKey'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntities'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentEntitiesKeys'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectEditedEntity'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsDirty'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentPage'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCurrentRange'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectTotalPageable'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectHasBeenLoaded'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectLoadWasAttempted'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsLoading'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsSaving'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectIsDeleting'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectLoadedAt'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectSavedAt'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectCreatedAt'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectUpdatedAt'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectReplacedAt'));
-    expect(built.selectors).toSatisfy(selectors => selectors.__proto__.hasOwnProperty('selectDeletedAt'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectAll'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectAllSorted'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCustomSorted'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectEntities'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectIds'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectTotal'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectHasEntities'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectHasNoEntities'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCurrentEntity'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCurrentEntityKey'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCurrentEntities'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCurrentEntitiesKeys'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectEditedEntity'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectIsDirty'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCurrentPage'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCurrentRange'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectTotalPageable'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectHasBeenLoaded'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectLoadWasAttempted'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectIsLoading'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectIsSaving'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectIsDeleting'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectLoadedAt'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectSavedAt'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCreatedAt'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectUpdatedAt'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectReplacedAt'));
+    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectDeletedAt'));
 
-    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('reducer'));
+    expect(built).toSatisfy(build => Object.hasOwn(Object.getPrototypeOf(build), 'reducer'));
     expect(built.reducer).toEqual(expect.any(Function));
 
-    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('entityState'));
+    expect(built).toSatisfy(build => Object.hasOwn(Object.getPrototypeOf(build), 'entityState'));
     expect(built.entityState).toEqual(expect.any(Function));
 
-    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('makeEntity'));
+    expect(built).toSatisfy(build => Object.hasOwn(Object.getPrototypeOf(build), 'makeEntity'));
     expect(built.makeEntity).toEqual(expect.any(Function));
 
-    expect(built).toSatisfy(build => build.__proto__.hasOwnProperty('facade'));
+    expect(built).toSatisfy(build => Object.hasOwn(Object.getPrototypeOf(build), 'facade'));
     expect(built.facade).toBeTruthy();
   });
 
@@ -104,7 +104,7 @@ describe('buildState()', () => {
       const state = buildState(Test);
       expect(() => state.entityState({})).toThrow(
         // prettier-ignore
-        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.' // eslint-disable-line
+        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.'  
       );
     });
   });

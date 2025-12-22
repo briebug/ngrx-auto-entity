@@ -67,7 +67,7 @@ const selectorProperties = [
   'selectDeletedAt'
 ];
 
-const testSelectorMap = selectors => selectorProperties.every(prop => selectors.__proto__.hasOwnProperty(prop));
+const testSelectorMap = selectors => selectorProperties.every(prop => Object.hasOwn(Object.getPrototypeOf(selectors), prop));
 
 describe('buildSelectorMap()', () => {
   beforeEach(() => {
@@ -96,7 +96,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectAll', () => {
     it('should return empty array if no state', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({});
@@ -153,7 +153,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectAllSorted', () => {
     it('should return empty array if no state', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({});
@@ -238,7 +238,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectCustomSorted', () => {
     it('should return empty array if no state', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.setState({});
 
@@ -317,7 +317,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectHasEntities', () => {
     it('should return false if no state', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({});
@@ -374,7 +374,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectHasNoEntities', () => {
     it('should return true if no state', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({});
@@ -431,7 +431,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectHasBeenLoaded', () => {
     it('should return true if the loadedAt date is non-nullish', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({
@@ -450,7 +450,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return false if the loadedAt date is nullish', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({
@@ -467,7 +467,7 @@ describe('buildSelectorMap()', () => {
 
   describe('selectLoadWasAttempted', () => {
     it('should return true if the isLoading tracking flag is non-nullish', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({
@@ -486,7 +486,7 @@ describe('buildSelectorMap()', () => {
     });
 
     it('should return false if the isLoading tracking flag is nullish', () => {
-      const store: MockStore<{}> = TestBed.inject(MockStore);
+      const store: MockStore = TestBed.inject(MockStore);
 
       store.resetSelectors();
       store.setState({

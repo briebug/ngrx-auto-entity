@@ -108,6 +108,7 @@ describe('NgRX Auto-Entity: Reducer (Integration)', () => {
 
   describe('autoEntityMetaReducer', () => {
     it(`should return the autoEntityReducer`, () => {
+      // eslint-disable-next-line no-empty-pattern,@typescript-eslint/no-empty-function
       const metaReducer = autoEntityMetaReducer(({}, {}) => {});
       expect(metaReducer).toBeDefined();
     });

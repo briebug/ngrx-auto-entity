@@ -78,7 +78,7 @@ export class TestModelService implements IAutoEntityService<TestModel> {
       return throwError({ message: 'Service not found' });
     }
 
-    // @ts-ignore
+    // @ts-expect-error TS2339
     if ((range.start <= 1234 && range.end >= 1234) || (range.first <= 1234 && range.last >= 1234)) {
       return of({
         entities: [
@@ -223,9 +223,8 @@ describe('NgRX Auto-Entity: Service', () => {
           modelName: 'TestModel',
           modelType: TestModel
         }
-      ).subscribe(
-        () => {},
-        thrown => {
+      ).subscribe({
+        error: thrown => {
           expect(thrown).toEqual({
             info: { modelName: 'TestModel', modelType: TestModel },
             err: { message: 'StaticInjector error' }
@@ -234,7 +233,7 @@ describe('NgRX Auto-Entity: Service', () => {
           expect(consoleMsgs[0]).toBe('[NGRX-AE] ! Service error: load(). (Entity: TestModel)');
           expect(consoleMsgs[1]).toBe('{ message: "StaticInjector error" }');
         }
-      );
+      });
     });
   });
 
