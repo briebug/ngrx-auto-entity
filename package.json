@@ -64,7 +64,8 @@
     "lint:lib:aes": "nx run ngrx-auto-entity-service:lint",
     "lint:lib:aes:fix": "nx run ngrx-auto-entity-service:lint --fix",
     "json-server": "json-server --watch data/db.json --routes data/routes.json",
-    "prettier": "prettier --write \"./projects/**/*.ts\""
+    "prettier": "prettier --write \"./projects/**/*.ts\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@angular-devkit/core": "~17.3.2",
@@ -115,7 +116,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-jest-extended": "^2.4.0",
     "faker": "^5.5.3",
-    "husky": "^0.14.3",
+    "husky": "^9.1.7",
     "jasmine-marbles": "^0.9.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -125,6 +126,7 @@
     "jest-preset-angular": "14.4.2",
     "json-server": "^0.17.0",
     "jsonc-eslint-parser": "^2.1.0",
+    "lint-staged": "^16.2.7",
     "ng-packagr": "^17.3.0",
     "nx": "21.1.0",
     "postcss": "^8.4.5",
@@ -139,12 +141,10 @@
   },
   "lint-staged": {
     "projects/test-app/**/*.ts": [
-      "tslint --config tslint.json --project tsconfig.json --fix",
-      "git add"
+      "tslint --config tslint.json --project tsconfig.json --fix"
     ],
     "projects/ngrx-auto-entity/src/lib/**/*.ts": [
-      "tslint --config tslint.json --project tsconfig.json --fix",
-      "git add"
+      "tslint --config tslint.json --project tsconfig.json --fix"
     ]
   }
 }
