@@ -1,8 +1,22 @@
-const nx = require('@nx/eslint-plugin');
-const baseConfig = require('../../eslint.config.js');
+import nx from '@nx/eslint-plugin';
+import baseConfig from '../../eslint.config.mjs';
 
-module.exports = [
+export default [
   ...baseConfig,
+  {
+    files: ['**/*.json'],
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        {
+          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
+        },
+      ],
+    },
+    languageOptions: {
+      parser: await import('jsonc-eslint-parser'),
+    },
+  },
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
   {
@@ -20,7 +34,7 @@ module.exports = [
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: 'ae',
           style: 'kebab-case',
         },
       ],

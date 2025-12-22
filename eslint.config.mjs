@@ -1,13 +1,13 @@
-const nx = require('@nx/eslint-plugin');
-const jestExtended = require('eslint-plugin-jest-extended');
+import nx from '@nx/eslint-plugin';
+import jestExtended from 'eslint-plugin-jest-extended';
 
-module.exports = [
+export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
-  ...jestExtended.configs['flat/all'],
+  jestExtended.configs['flat/all'],
   {
-    ignores: ['**/dist'],
+    ignores: ['**/dist']
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -20,17 +20,12 @@ module.exports = [
           depConstraints: [
             {
               sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
+              onlyDependOnLibsWithTags: ['*']
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     files: ['**/*.json'],
@@ -38,12 +33,17 @@ module.exports = [
       '@nx/dependency-checks': [
         'error',
         {
-          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
-        },
-      ],
+          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}']
+        }
+      ]
     },
     languageOptions: {
-      parser: require('jsonc-eslint-parser'),
-    },
+      parser: await import('jsonc-eslint-parser')
+    }
   },
+  {
+    files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
+    // Override or add rules here
+    rules: {}
+  }
 ];
