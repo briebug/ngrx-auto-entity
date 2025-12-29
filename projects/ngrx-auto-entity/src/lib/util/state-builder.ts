@@ -12,6 +12,7 @@ import { IModelClass, IModelState } from './model-state';
 import { ISelectorMap } from './selector-map';
 import { buildSelectorMap } from './selector-map-builder';
 import { FEATURE_AFFINITY } from './util-tokens';
+import { IEntityFacadeBase } from './facade';
 
 const sortAlpha = (aKey: string, bKey: string): number => aKey.localeCompare(bKey);
 
@@ -111,7 +112,7 @@ export interface AppState {
 
   let _actions: IActionMap<TModel>;
   let _selectors: ISelectorMap<TParentState, TModel>;
-  let _facade;
+  let _facade: IEntityFacadeBase<TModel>;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = getState as (state: TParentState) => TState & TExtra;
@@ -214,7 +215,7 @@ export interface FeatureState {
 
   let _actions: IActionMap<TModel>;
   let _selectors: ISelectorMap<TParentState, TModel>;
-  let _facade;
+  let _facade: IEntityFacadeBase<TModel>;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = selectState as MemoizedSelector<TParentState, TState & TExtra>;

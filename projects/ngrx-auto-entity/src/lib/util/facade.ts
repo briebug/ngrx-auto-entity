@@ -7,6 +7,12 @@ import { Page, Range } from '../models';
 import { IEntityDictionary } from './entity-state';
 import { TNew } from '../actions/model-constructor';
 
+export interface IEntityFacadeBase<TModel> {
+  /** @deprecated Use the empty constructor instead. The model type will be provided by `buildState`, and the store by `provideStore` or `withCustomStore`. */
+  new (type: new () => TModel, store: Store<any>): IEntityFacade<TModel>;
+  new (): IEntityFacade<TModel>;
+}
+
 /**
  * The definition of an Auto-Entity facade class
  */
