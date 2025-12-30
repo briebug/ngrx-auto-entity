@@ -4,10 +4,13 @@ import { _provideAutoEntityService } from './ngrx-auto-entity-service.provider';
 
 @NgModule({})
 export class NgrxAutoEntityServiceModule {
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(config: AutoEntityServiceConfig): ModuleWithProviders<NgrxAutoEntityServiceModule>;
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(config: () => AutoEntityServiceConfig): ModuleWithProviders<NgrxAutoEntityServiceModule>;
-  /** @deprecated use `inject` to provide dependencies */
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(config: (...deps: any[]) => AutoEntityServiceConfig, deps: any[]): ModuleWithProviders<NgrxAutoEntityServiceModule>;
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(
     config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig),
     deps?: any[]
