@@ -1,20 +1,18 @@
-import { IEntityState } from '@briebug/ngrx-auto-entity';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { CUSTOMER_STATE_NAME, customerReducer, ICustomerState } from './customer';
+import { ACCOUNT_STATE_NAME, accountReducer, IAccountState } from './account';
 import { environment } from '../../environments/environment';
-import { Account } from '../models/account.model';
-import { accountReducer } from './account.state';
-import { customerReducer, ICustomerState } from './customer.state';
 
 export interface IAppState {
-  account: IEntityState<Account>;
-  customer: ICustomerState;
+  [ACCOUNT_STATE_NAME]: IAccountState;
+  [CUSTOMER_STATE_NAME]: ICustomerState;
 }
 
 export type AppState = IAppState;
 
 export const appReducer: ActionReducerMap<AppState> = {
-  account: accountReducer,
-  customer: customerReducer
+  [ACCOUNT_STATE_NAME]: accountReducer,
+  [CUSTOMER_STATE_NAME]: customerReducer
 };
 
 export const appMetaReducers: Array<MetaReducer<AppState>> = !environment.production ? [] : [];

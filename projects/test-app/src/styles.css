@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-around {
+  justify-content: space-around;
+}
+
+.form-group {
+  margin: 0.5rem 0;
+}
+
+.form-group > * {
+  display: block;
+}
+
+.form-group label {
+  font-size: 10pt;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+}

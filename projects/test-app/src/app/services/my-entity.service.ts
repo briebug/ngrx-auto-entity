@@ -6,29 +6,27 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class EntityService implements IAutoEntityService<any> {
+export class MyEntityService implements IAutoEntityService<any> {
   constructor(private http: HttpClient) {}
 
   load(entityInfo: IEntityInfo, keys: any): Observable<any> {
-    return this.http.get<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${keys}`);
+    return this.http.get<any>(`${environment.API_BASE_URL}/${entityInfo.uriName}/${keys}`);
   }
 
   loadAll(entityInfo: IEntityInfo): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`);
+    return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.uriName}`);
   }
 
   loadMany(entityInfo: IEntityInfo): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`);
+    return this.http.get<any[]>(`${environment.API_BASE_URL}/${entityInfo.uriName}`);
   }
 
   create(entityInfo: IEntityInfo, entity: any): Observable<any> {
-    return this.http.post<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s`, entity);
+    return this.http.post<any>(`${environment.API_BASE_URL}/${entityInfo.uriName}`, entity);
   }
 
   update(entityInfo: IEntityInfo, entity: any, criteria?: any, originalEntity?: any): Observable<any> {
-    return this.http
-      .patch<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`, entity)
-      .pipe(map(() => entity));
+    return this.http.patch<any>(`${environment.API_BASE_URL}/${entityInfo.uriName}/${entity.id}`, entity).pipe(map(() => entity));
   }
 
   updateMany(entityInfo: IEntityInfo, entities: any[], criteria?: any): Observable<any[]> {
@@ -36,12 +34,10 @@ export class EntityService implements IAutoEntityService<any> {
   }
 
   replace(entityInfo: IEntityInfo, entity: any): Observable<any> {
-    return this.http
-      .put<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`, entity)
-      .pipe(map(() => entity));
+    return this.http.put<any>(`${environment.API_BASE_URL}/${entityInfo.uriName}/${entity.id}`, entity).pipe(map(() => entity));
   }
 
   delete(entityInfo: IEntityInfo, entity: any): Observable<any> {
-    return this.http.delete<any>(`${environment.API_BASE_URL}/${entityInfo.modelName.toLowerCase()}s/${entity.id}`).pipe(map(() => entity));
+    return this.http.delete<any>(`${environment.API_BASE_URL}/${entityInfo.uriName}/${entity.id}`).pipe(map(() => entity));
   }
 }

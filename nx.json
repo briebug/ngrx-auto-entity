@@ -22,7 +22,7 @@
     "sharedGlobals": ["{workspaceRoot}/.circleci/config.yml"]
   },
   "targetDefaults": {
-    "@angular-devkit/build-angular:browser": {
+    "@angular-devkit/build-angular:application": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
@@ -34,7 +34,9 @@
         "^production",
         "{workspaceRoot}/jest.preset.js",
         "{workspaceRoot}/jest.config.js",
-        { "externalDependencies": ["jest"] }
+        {
+          "externalDependencies": ["jest"]
+        }
       ],
       "options": {
         "jestConfig": "{projectRoot}/jest.config.ts",

@@ -15,14 +15,7 @@
         "browser": "projects/test-app/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "projects/test-app/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "projects/test-app/src/assets",
-            "output": "assets"
-          }
-        ],
+        "assets": ["projects/test-app/src/favicon.ico", "projects/test-app/src/assets"],
         "styles": ["projects/test-app/src/styles.css"],
         "scripts": []
       },
@@ -36,8 +29,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -51,6 +44,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
+      "continuous": true,
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
@@ -60,8 +54,7 @@
           "buildTarget": "test-app:build:development"
         }
       },
-      "defaultConfiguration": "development",
-      "continuous": true
+      "defaultConfiguration": "development"
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -69,7 +62,18 @@
         "buildTarget": "test-app:build"
       }
     },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "projects/test-app/jest.config.ts"
+      }
+    },
     "serve-static": {
+      "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "test-app:build",

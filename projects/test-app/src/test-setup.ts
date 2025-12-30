@@ -4,6 +4,3 @@ setupZoneTestEnv({
   errorOnUnknownElements: true,
   errorOnUnknownProperties: true
 });
-
-import * as jestExtendedMatchers from 'jest-extended';
-expect.extend(jestExtendedMatchers);

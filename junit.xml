@@ -257,7 +257,7 @@
     </testcase>
     <testcase classname="NgRX Auto-Entity: Service Function: logServiceLocateFailure Should log &quot;[NGRX-AE] ! Error: Unable to locate service &quot;TestModelService&quot; using model name of &quot;TestModel&quot;" name="NgRX Auto-Entity: Service Function: logServiceLocateFailure Should log &quot;[NGRX-AE] ! Error: Unable to locate service &quot;TestModelService&quot; using model name of &quot;TestModel&quot;" time="0">
     </testcase>
-    <testcase classname="NgRX Auto-Entity: Service Function: logErrorDetails Should log &quot;[NGRX-AE] ! Error Details:" name="NgRX Auto-Entity: Service Function: logErrorDetails Should log &quot;[NGRX-AE] ! Error Details:" time="0">
+    <testcase classname="NgRX Auto-Entity: Service Function: logErrorDetails Should log &quot;[NGRX-AE] ! Error DetailsPage:" name="NgRX Auto-Entity: Service Function: logErrorDetails Should log &quot;[NGRX-AE] ! Error DetailsPage:" time="0">
     </testcase>
     <testcase classname="NgRX Auto-Entity: Service Function: failResolution Should throw and console log error message and detail" name="NgRX Auto-Entity: Service Function: failResolution Should throw and console log error message and detail" time="0.001">
     </testcase>
