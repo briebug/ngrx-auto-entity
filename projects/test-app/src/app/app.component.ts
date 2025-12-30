@@ -4,6 +4,8 @@ import { allAccounts, manyAccountsLoading } from './state/account.state';
 import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoadingIfNecessary } from './state/feature/customer.state';
 
 @Component({
+  /* eslint-disable-next-line @angular-eslint/prefer-standalone */
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
