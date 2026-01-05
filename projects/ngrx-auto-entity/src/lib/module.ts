@@ -8,7 +8,7 @@ import {
   withoutExtraEffects
 } from './provider';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+ 
 export interface NgRxAutoEntityModuleConfig {
   excludeEffects?: boolean;
 }
@@ -27,6 +27,7 @@ export class NgRxAutoEntityFeatureModule {}
 
 @NgModule({})
 export class NgrxAutoEntityModule {
+  /** @deprecated use {@link provideAutoEntityStore} */
   static forRoot(): ModuleWithProviders<NgRxAutoEntityRootModuleWithEffects> {
     return {
       ngModule: NgRxAutoEntityRootModuleWithEffects,
@@ -34,6 +35,7 @@ export class NgrxAutoEntityModule {
     };
   }
 
+  /** @deprecated use {@link provideAutoEntityStore} passing in {@link withoutEntityEffects} */
   static forRootNoEntityEffects(): ModuleWithProviders<NgRxAutoEntityRootModuleNoEntityEffects> {
     return {
       ngModule: NgRxAutoEntityRootModuleNoEntityEffects,
@@ -41,6 +43,7 @@ export class NgrxAutoEntityModule {
     };
   }
 
+  /** @deprecated use {@link provideAutoEntityStore} passing in {@link withoutEntityEffects} and {@link withoutExtraEffects} */
   static forRootNoEffects(): ModuleWithProviders<NgRxAutoEntityRootModuleNoEffects> {
     return {
       ngModule: NgRxAutoEntityRootModuleNoEffects,
@@ -48,6 +51,7 @@ export class NgrxAutoEntityModule {
     };
   }
 
+  /** @deprecated use {@link provideAutoEntityState} */
   static forFeature(): ModuleWithProviders<NgRxAutoEntityFeatureModule> {
     return {
       ngModule: NgRxAutoEntityFeatureModule,

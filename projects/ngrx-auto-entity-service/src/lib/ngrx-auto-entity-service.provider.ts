@@ -7,22 +7,33 @@ import { noop } from 'rxjs';
 declare const ngDevMode: unknown;
 
 /** @internal */
+export function _assertHttpClientProvided(): () => void {
+  const http = inject(HttpClient, { optional: true });
+  if (http == null) {
+    console.error("[NGRX-AES] ! No provider for HttpClient. Make sure `provideHttpClient()` is included in your application's providers.");
+  }
+  return noop;
+}
+
+/** @internal */
 export function _provideAutoEntityService(config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig), deps?: any[]): Provider[] {
+  const providers: Provider[] = [];
+
+  if (typeof ngDevMode !== 'undefined' && ngDevMode) {
+    providers.push({
+      provide: APP_INITIALIZER,
+      useFactory: _assertHttpClientProvided,
+      multi: true
+    });
+  }
+
   return [
+    ...providers,
     EntityService,
     typeof config === 'function'
       ? { provide: AUTO_ENTITY_CONFIG, useFactory: config, deps }
       : { provide: AUTO_ENTITY_CONFIG, useValue: config }
   ];
-}
-
-/** @internal */
-export function _assertHttpClientProvided(): () => void {
-  const http = inject(HttpClient, { optional: true });
-  if (http == null) {
-    console.error("[NGRX-AES] ! No provider for HttpClient. Make sure `provideHttpClient()` is included in you application's providers.");
-  }
-  return noop;
 }
 
 /**
@@ -66,15 +77,5 @@ export function _assertHttpClientProvided(): () => void {
  * @returns A set of providers to set up an Auto-Entity Service.
  */
 export function provideAutoEntityService(config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig)): EnvironmentProviders {
-  const providers: Provider[] = [];
-
-  if (typeof ngDevMode !== 'undefined' && ngDevMode) {
-    providers.push({
-      provide: APP_INITIALIZER,
-      useFactory: _assertHttpClientProvided,
-      multi: true
-    });
-  }
-
-  return makeEnvironmentProviders([...providers, ..._provideAutoEntityService(config)]);
+  return makeEnvironmentProviders(_provideAutoEntityService(config));
 }

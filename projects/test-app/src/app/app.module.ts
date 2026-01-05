@@ -24,6 +24,7 @@ export class ConfigService {
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -37,7 +38,6 @@ export class ConfigService {
     { provide: Customer, useClass: EntityService },
     { provide: Account, useClass: EntityService },
     { provide: NGRX_AUTO_ENTITY_APP_STORE, useFactory: provideAppStore, deps: [Store] }
-  ],
-  bootstrap: [AppComponent]
+  ]
 })
 export class AppModule {}

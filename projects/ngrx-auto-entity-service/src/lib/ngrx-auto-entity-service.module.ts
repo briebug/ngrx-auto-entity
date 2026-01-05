@@ -1,20 +1,23 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { AutoEntityServiceConfig } from './config';
 import { _provideAutoEntityService } from './ngrx-auto-entity-service.provider';
 
-@NgModule({
-  imports: [HttpClientModule]
-})
+@NgModule({})
 export class NgrxAutoEntityServiceModule {
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(config: AutoEntityServiceConfig): ModuleWithProviders<NgrxAutoEntityServiceModule>;
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(config: () => AutoEntityServiceConfig): ModuleWithProviders<NgrxAutoEntityServiceModule>;
-  /** @deprecated use `inject` to provide dependencies */
+  /** @deprecated use {@link provideAutoEntityService} */
   static forRoot(config: (...deps: any[]) => AutoEntityServiceConfig, deps: any[]): ModuleWithProviders<NgrxAutoEntityServiceModule>;
-  static forRoot(config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig)): ModuleWithProviders<NgrxAutoEntityServiceModule> {
+  /** @deprecated use {@link provideAutoEntityService} */
+  static forRoot(
+    config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig),
+    deps?: any[]
+  ): ModuleWithProviders<NgrxAutoEntityServiceModule> {
     return {
       ngModule: NgrxAutoEntityServiceModule,
-      providers: [..._provideAutoEntityService(config)]
+      providers: _provideAutoEntityService(config, deps)
     };
   }
 }
