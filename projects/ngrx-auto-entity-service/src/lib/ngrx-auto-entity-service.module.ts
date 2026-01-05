@@ -1,11 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { AutoEntityServiceConfig } from './config';
 import { _provideAutoEntityService } from './ngrx-auto-entity-service.provider';
 
-@NgModule({
-  imports: [HttpClientModule]
-})
+@NgModule({})
 export class NgrxAutoEntityServiceModule {
   static forRoot(config: AutoEntityServiceConfig): ModuleWithProviders<NgrxAutoEntityServiceModule>;
   static forRoot(config: () => AutoEntityServiceConfig): ModuleWithProviders<NgrxAutoEntityServiceModule>;
@@ -14,7 +11,7 @@ export class NgrxAutoEntityServiceModule {
   static forRoot(config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig)): ModuleWithProviders<NgrxAutoEntityServiceModule> {
     return {
       ngModule: NgrxAutoEntityServiceModule,
-      providers: [..._provideAutoEntityService(config)]
+      providers: _provideAutoEntityService(config)
     };
   }
 }
