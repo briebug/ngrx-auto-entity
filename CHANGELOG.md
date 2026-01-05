@@ -1,8 +1,36 @@
+<a name="17.0.0"></a>
+
+# [17.0.0](https://github.com/briebug/ngrx-auto-entity/compare/13.0.2...17.0.0) Release (CHANGEME)
+
+### Features
+
+- **library:** Adds support for Angular 17.
+- **module:** Adds `provideAutoEntityStore` to provide auto entity at the root of an application.
+- **module:** Adds `provideAutoEntityState` to provide auto entity at the state level of an application.
+- **module:** Adds `provideAutoEntityService` to provide auto entity service.
+- **module:** Adds `provideEntityService` to provide a service for a given entity.
+- **facades:** Adds signals for each selector.
+- **entity service:** Adds support for `createMany`, `updateMany`, `replaceMany`, `deleteMany`, and `deleteManyByKeys`.
+
+### Changes
+
+- **facades:** Updates the base facade class constructor's arguments to be optional.
+- **module:** Deprecates `NgrxAutoEntityModule` in favor of `provideAutoEntityStore` and `provideAutoEntityState` instead.
+- **module:** Deprecates `NgrxAutoEntityServiceModule` in favor of `provideAutoEntityService`
+
+### Breaking Changes !!
+
+- **selectors:** Removes `selectCustomSorted`. Users should instead use the `entityComparer` function in a custom selector.
+
+### Bug Fix
+
+- **entity service:** Fixes issue with the operation not being passed to the url prefix resolver
+
 <a name="13.0.2"></a>
 
 # [13.0.2](https://github.com/briebug/ngrx-auto-entity/compare/13.0.1...13.0.2) Release (2023-02-13)
 
-Fix release to resolve issues with sorting, introduced by recent refactoring. 
+Fix release to resolve issues with sorting, introduced by recent refactoring.
 
 ### Bug Fix
 
@@ -15,7 +43,6 @@ Fix release to resolve issues with sorting, introduced by recent refactoring.
 
 Official v13 release with support for Angular 13+. Resolved issues with previous release, reverting angular versions
 to 13.x. Resolved unit testing issues.
-
 
 <a name="12.1.0"></a>
 
@@ -49,9 +76,8 @@ Minor bug fixes.
 ### Bug Fix
 
 - **selectors:** Resolved issue with mapToCurrentEntities returning undefined values in entries that do not map
-                 to known entities. Should only be an issue when stale keys are still tracked in a selection,
-                 after those entities have been removed from state.
-
+  to known entities. Should only be an issue when stale keys are still tracked in a selection,
+  after those entities have been removed from state.
 
 <a name="0.8.1"></a>
 
@@ -59,9 +85,9 @@ Minor bug fixes.
 
 Added two new loading related selectors: hasBeenLoaded and loadWasAttempted. These selectors allow
 end developers to determine if a load has ever been attempted before, which is sometimes necessary
-to display the correct information in a UI component. Until a load has at least been attempted, it 
+to display the correct information in a UI component. Until a load has at least been attempted, it
 would generally be inappropriate to display to the user that there are no Entities X, however as
-the current state of each entity currently stands, there is no way to determine that particular 
+the current state of each entity currently stands, there is no way to determine that particular
 state of an entity. You can determine if an entity is loading or not, which is useful for displaying
 a spinner, but other messaging requires more information.
 
@@ -69,7 +95,6 @@ a spinner, but other messaging requires more information.
 
 - **selectors:** Added selectHasBeenLoaded to selector map
 - **selectors:** Added selectLoadWasAttempted to selector map
-
 
 <a name="0.8.0-beta.1"></a>
 
@@ -79,33 +104,32 @@ Updated state builders to build all state functionality "on-demand" to limit mem
 lots of entities are used. This aligns selectors, facades, etc. with the way actions were implemented
 when they were introduced to the state builder. Selectors for any given entity are only created
 if they are accessed (i.e. destructured from the object returned by `buildState`), and the same goes
-for facades. 
+for facades.
 
 Performed a major internal refactor of the auto-entity reducer in order to break down the single monolithic
 reducer into a more modular design. Each set of related actions, such as loadAll, create, editing, selections,
-etc. have their own corresponding reducer. Actions are now mapped to the appropriate reducer through a 
+etc. have their own corresponding reducer. Actions are now mapped to the appropriate reducer through a
 centralized mapping for action-to-reducer routing.
 
 These changes are internal, and should not present any breaking changes to the public API. That said,
-the changes are fairly extensive, and care should be used until 0.8 is officially released. 
+the changes are fairly extensive, and care should be used until 0.8 is officially released.
 
 ### Internal
 
 - **util:** Renamed internal functional `pipe` function to `compose`
 - **reducer:** Refactored monolithic reducer into modular design
-- **state:** Modified internal state structure to use nested objects (#111) 
+- **state:** Modified internal state structure to use nested objects (#111)
 - **selectors:** Adjusted selectors to utilize more nested state structure (#111)
 - **selectors:** Updated selector builder to create selectors on-demand (#162)
 - **facades:** Updated facade builder to create new facade on-demand (#162)
-
 
 <a name="0.7.2"></a>
 
 # [0.7.2](https://github.com/briebug/ngrx-auto-entity/compare/0.7.1...0.7.2) Beta (2022-01-24)
 
-Resolved a discrepancy in optional loading, where if the entity were a part of feature state, 
+Resolved a discrepancy in optional loading, where if the entity were a part of feature state,
 and its state properties were nested underneath a feature state property on root state, the
-correct entity state property could not be found. 
+correct entity state property could not be found.
 
 ### Bug Fixes
 
@@ -122,16 +146,16 @@ correct entity state property could not be found.
 # [0.7.1](https://github.com/briebug/ngrx-auto-entity/compare/0.7.0...0.7.1) Beta (2021-11-05)
 
 Resolve license field issues in package.json. Update packages based on security alerts. No other
-or breaking changes in this release. 
+or breaking changes in this release.
 
 <a name="0.7.0"></a>
 
 # [0.7.0](https://github.com/briebug/ngrx-auto-entity/compare/0.6.1...0.7.0) Beta (2021-08-02)
 
-This release officially adds support for Angular 12 and NgRx 12! With the advent of Ivy, and its 
+This release officially adds support for Angular 12 and NgRx 12! With the advent of Ivy, and its
 continued progress towards replacing View Engine, supporting Angular 12 required a bit more active
 work to support. Currently, the library is built with `enableIvy` set to false, which allows the
-library to be built with support for View Engine versions of Angular. 
+library to be built with support for View Engine versions of Angular.
 
 Research and planning has begun on supporting Angular 13, however this will be a
 more challenging task than supporting Angular 12 due to the fact that View Engine will be dropped
@@ -139,26 +163,25 @@ entirely from Ng 13, which will affect our ability to build a library that suppo
 of Angular. We hope to have a plan in place for this scenario soon.
 
 This release also updates some internal usage of NgRx to drop use of legacy or fully deprecated
-features, such as the `@Entity` decorator. 
+features, such as the `@Entity` decorator.
 
 ### Internal
 
 - **effects:** All effects have dropped use of the legacy `@Effect()` decorator, and are now using
-the current and recommended `createEffect()` function. This is to ensure support with NgRx 12+.
+  the current and recommended `createEffect()` function. This is to ensure support with NgRx 12+.
 - **actions:** Action factories have been updated with more explicit typing. Increased type strictness
-that comes with Ng 12 revealed cases where types were not specified, or insufficiently specified. These
-types have been strengthened to be more accurate and clear. These changes should not impact
-normal use of action factories. 
-
+  that comes with Ng 12 revealed cases where types were not specified, or insufficiently specified. These
+  types have been strengthened to be more accurate and clear. These changes should not impact
+  normal use of action factories.
 
 ### Breaking Changes !!
 
 - **library:** Support for Angular 8 has been dropped! While the library may still work with Angular
-8 applications, due to changes in Angular 12 build tools, as well as changes in NgRx 8, there are
-no guarantees that Auto-Entity will continue to work in Angular 8 applications.  
+  8 applications, due to changes in Angular 12 build tools, as well as changes in NgRx 8, there are
+  no guarantees that Auto-Entity will continue to work in Angular 8 applications.
 - **build:** Library is now being built with TypeScript 4. While we are not yet explicitly using
-any TypeScript 4.x features, and thus should still support TypeScript 3.x, this change in underlying
-build tools for the library may have impacts on builds for dependent projects. 
+  any TypeScript 4.x features, and thus should still support TypeScript 3.x, this change in underlying
+  build tools for the library may have impacts on builds for dependent projects.
 
 <a name="0.6.1"></a>
 
@@ -192,7 +215,7 @@ export const {
     update: updateCustomer,
     delete: deleteCustomer,
     select: selectCustomer,
-    deselect: deselectCustomer,
+    deselect: deselectCustomer
     // ... many more!
   }
 } = buildState(Customer);
@@ -202,15 +225,16 @@ Actions introduce a new mechanism for building auto-entity state. Only the actio
 used (i.e. destructured) are actually created for the specified entity. This should limit the amount
 of memory used for auto-entity related functionality. This mechanism will be expanded
 to the rest of the state related functionality that can be generated by the build state calls
-in the future. 
+in the future.
 
 The breaking changes this release should be minimally breaking, and mostly backwards compatible except
 in fringe cases covering more unusual use cases. Conversion of selection properties from read only getters
-to simple fields should improve the unit testability of facades by allowing simpler mocks, stubs, and fakes, 
+to simple fields should improve the unit testability of facades by allowing simpler mocks, stubs, and fakes,
 easier spying, etc. This may also improve support for more custom use cases and extensions in concrete
-facade classes.  
+facade classes.
 
-### Features 
+### Features
+
 - **actions:** Add NgRx 8+ style action factory functions (#76)
 - **util:** Add support for NgRx 8+ style action factory generation (#76)
 - **actions:** Add "bare edit" support with `EditNew` action (#161)
@@ -219,14 +243,14 @@ facade classes.
 - **facades:** Add new `hasEntities$` and `hasNoEntities$` selections to facades (#149)
 
 ### Bug Fix
+
 - **reducer:** Fix issue with meta reducer not calling next reducer with next state (#170)
 - **decorators:** Fix @Key decorator to only try to attach NAE_KEYS internal property if it has not yet been set
 - **reducer:** Add missing `updatedAt` and `replacedAt` timestamps in state for each entity
 
 ### Breaking Changes !!
+
 - **facades:** Convert getter properties to fields to improve unit testability/mocking/spying (#150)
-
-
 
 <a name="0.5.0"></a>
 
@@ -242,34 +266,35 @@ by skipping the actual load, if the data has already been loaded and is in state
 access to entity state, which necessitated the addition of a new configuration provider injection token,
 NGRX_AUTO_ENTITY_APP_STORE, that must be configured by the app to allow auto-entity to check state in
 *IfNecessary effects. Without proper configuration of the app store injection token, the *IfNecessary
-effects will fail to function properly. Graceful fallback to descriptive errors will occur if the 
-necessary config has not been performed by the developer. 
+effects will fail to function properly. Graceful fallback to descriptive errors will occur if the
+necessary config has not been performed by the developer.
 
 A range of new utility functions have been added to support the developer's utilization of entity meta-
 data that is configured via the `@Entity` and `@Key` directives. This includes functions to retrieve the
-various entity names, comparers, transformers, and other metadata. 
+various entity names, comparers, transformers, and other metadata.
 
 Several enhancements to the internal reducer have been made to improve reliability, enhance performance, and
 provide richer error messaging to the developer. When the reducer cannot perform its job due to mis-configuration
 of any automatic entity, additional errors will be reported to the browser console. These enhancements extend
 to additional error reporting by the `buildState` functions as well, in an attempt to identify mis-configuration
 as early as possible. Any misconfiguration that can be detected will now be reported to the browser console,
-along with instructions to fix (with example code) whenever possible. 
+along with instructions to fix (with example code) whenever possible.
 
 Internal code cleanup and restructuring has been performed to achieve better organization and support long-term
 maintenance of the project as well. Internal re-org breaks previously very large code files into much smaller
-files, such as actions, operators, decorators and support code, utility functions, etc. 
+files, such as actions, operators, decorators and support code, utility functions, etc.
 
-NOTE: Internal restructuring may potentially be **breaking** to consumers of NgRx Auto-Entity if they are by 
+NOTE: Internal restructuring may potentially be **breaking** to consumers of NgRx Auto-Entity if they are by
 chance importing anything from internal (non public-api) paths in the library!
 
 NgRx Auto-Entity has been verified to work with Angular 8 and 9. Angular 10 may work, depending on the use
-cases and exact configuration of Angular. Further testing will be performed for Angular 10 support, and 
+cases and exact configuration of Angular. Further testing will be performed for Angular 10 support, and
 updates may be forthcoming to add deeper support for Angular 10.
 
 NgRx Auto-Entity is now properly licensed under the MIT Open Source License!
 
 ### Features
+
 - **actions:** Add `Upsert`/`UpsertMany` actions to support upsert style changes (#109)
 - **service:** Add `upsert`/`upsertMany` handlers to entity service (#109)
 - **reducer:** Add support for upsert style changes (#109)
@@ -277,8 +302,8 @@ NgRx Auto-Entity is now properly licensed under the MIT Open Source License!
 - **actions:** Add optional `key` params for load actions (#99)
 - **facades:** Add optional `key` params for load methods on facades (#99)
 - **facades:** Correlation Id passed to/created by facade methods now returned (#124)
-- **decorators:** Add utility functions for retrieving metadata configured by `@Entity` decorator (#107) 
-- **decorators:** Add utility functions for retrieving entity key directly from properly prototyped entity object (#140) 
+- **decorators:** Add utility functions for retrieving metadata configured by `@Entity` decorator (#107)
+- **decorators:** Add utility functions for retrieving entity key directly from properly prototyped entity object (#140)
 - **service:** Add utility functions for applying entity transformations by developer (#95)
 - **decorators:** Add support for named comparers for custom sorting (#138)
 - **selectors:** Add parameterized selectors for custom sorted entities (#138)
@@ -292,12 +317,14 @@ NgRx Auto-Entity is now properly licensed under the MIT Open Source License!
 - **decorators:** Add support for "simplified" `@Entity` decorator usage of passing model name as string only (#141)
 
 ### Enhancements
+
 - **service:** Will now pass `criteria` as optional parameter to all data transformers (#93)
 - **selectors:** Clarified return types on selectors where `null` was a possibility for stronger typing
 - **reducer:** Refactored reductions to use local (non-observable) mutations for significant performance improvements (#94)
 - **actions:** Success & Failure actions now include all relevant original params & criteria passed to initiation actions (#115, #129)
 
 ### Internal
+
 - **all:** Clean up internal imports to avoid `../..` reference
 - **selectors:** Extracted all selector projection mappers to discrete functions
 - **actions:** Break out all actions into discrete files for each set of initiating/result actions
@@ -306,6 +333,7 @@ NgRx Auto-Entity is now properly licensed under the MIT Open Source License!
 - **decorators:** Break out support types, utils, etc. for decorators into their own files
 
 ### Bug Fix
+
 - **state:** Convert all timestamps in state to unix times (`number`) to resolve serialization issues (#98)
 - **reducer:** Resolved issues where reducer attempted to modify immutable entity and ids (#94)
 - **selectors:** Update selectors to convert unix times to `Date` to maintain public API (#98)
@@ -318,8 +346,8 @@ NgRx Auto-Entity is now properly licensed under the MIT Open Source License!
 - **actions:** Resolve issue where some result actions were not properly correlating to their initiating actions (#153)
 
 ### Breaking Changes !!
-- **all:** Major internal code restructuring may break consumers that import from anywhere other than public api
 
+- **all:** Major internal code restructuring may break consumers that import from anywhere other than public api
 
 <a name="0.4.2"></a>
 
@@ -330,8 +358,8 @@ the `transform` property on the `@Entity` decorator. Each transformation may opt
 and/or `toServer`. When a transformation is implemented for a given direction, it will be applied to data
 flowing in that direction. If transformations are present, they will be applied in the order specified.
 
-Data transformations may be used to convert things such as dates from UTC strings on the server, to actual 
-`Date` objects in the client during loads, and back again during saves. Transform implementations are 
+Data transformations may be used to convert things such as dates from UTC strings on the server, to actual
+`Date` objects in the client during loads, and back again during saves. Transform implementations are
 type-free, allowing any form of data to be handled as input, and any form of data to be returned as output.
 This allows transformations to be highly composable if necessary.
 
@@ -341,37 +369,38 @@ original data is required by an entity service implementation.
 
 Transforms must be configured for each entity. No global transformations are supported at the current time.
 
-Resolves #59 
+Resolves #59
 
 ### Features
+
 - **actions:** Includes `transform` in `IEntityInfo` attached to every auto-entity action
 - **service:** Refactored to handle transformation of all data, to and from server, for all entities, if configured via `@Entity`
 - **service:** Extended `IAutoEntityService` interface to include support for `originalEntity` (pre-transformation)
 - **decorators:** Add new, optional `transform` property that accepts an array of `IEntityTransformation` implementations
-
 
 <a name="0.4.1"></a>
 
 # [0.4.1](https://github.com/briebug/ngrx-auto-entity/compare/0.4.0...0.4.1) Beta (2020-02-09)
 
 Introduces the ability to delete entities just by their key, or many entities by their keys. This allows
-the deletion of entities without actually having the entity objects on hand. 
+the deletion of entities without actually having the entity objects on hand.
 
 Also resolves an issue with clearing state, which would also clear custom developer-defined extra state
-included alongside auto-entity managed state. 
+included alongside auto-entity managed state.
 
 ### Features
-- **actions**:** Add `DeleteByKey`, `DeleteManyByKeys` and related result actions (#85)
+
+- **actions**:\*\* Add `DeleteByKey`, `DeleteManyByKeys` and related result actions (#85)
 - **service:** Add support for `deleteByKey` and `deleteManyByKeys` methods in entity services (#85)
 - **reducer:** Handles new delete by keys result actions to rmeove deleted entities and update deleting flags/timestamps (#85)
 - **decorators:** Add support for new delete by keys actions in effect exclusion of `@Entity` decorator (#85)
 - **facades:** Add `deleteByKey` and `deleteManyByKeys` methods to generated facades (#85)
-- **effects:** Add operators and effects to handle delete by keys actions (#85)  
+- **effects:** Add operators and effects to handle delete by keys actions (#85)
 
 ### Bug Fix
+
 - **reducer:** No longer removes custom state when clearing auto-entity managed state with `Clear` action (#86)
 - **util:** Fix `buildState` and `buildFeatureState` and related types to support custom properties in extra state under TS 3.x (#88)
-
 
 <a name="0.4.0"></a>
 
@@ -382,19 +411,21 @@ the ability to filter which auto-entity pre-fab effects handle each model, as we
 comparer for sorting entities retrieved with a new .sorted$ stream on pre-fab facades.
 
 ### Features
+
 - **decorators:** Add `@Entity` decorator for models with modelName, pluralName, uriName properties (#70)
 - **decorators:** Add `excludeEffects` functionality to `@Entity` decorator for filtering which effects handle entity
 - **decorators:** Add `comparer` property to `@Entity` decorator to support selecting sorted entities (#58)
 - **selectors:** Add `selectAllSorted` selector that uses entity comparer to sort on selection (#58)
-- **facades:** Add `sorted$` stream to return all entities in sorted order from `selectAllSorted` selector (#58)  
+- **facades:** Add `sorted$` stream to return all entities in sorted order from `selectAllSorted` selector (#58)
 
-### Internal 
+### Internal
 
 - **decorators:** Moved all decorators into internal /lib/decorators directory (will break direct imports, use public api!)
 
 ### Bug Fix
+
 - **selectors:** Added additional falsy checks to all selectors to limit frequency of hard failures (#81)
-- **decorators:** Added `modelName` to `@Entity` decorator to allow explicit definition of model name immune to mangling by code minifiers (#81) 
+- **decorators:** Added `modelName` to `@Entity` decorator to allow explicit definition of model name immune to mangling by code minifiers (#81)
 
 <a name="0.3.1"></a>
 
@@ -410,7 +441,8 @@ We have replaced uuidv4 with internal code. Fast, small uuid function acquired f
 https://gist.github.com/LeverOne/1308368
 
 ### Bug Fix
-- **[uuidv4](https://www.npmjs.com/package/uuidv4):** Removed in favor of small, fast built in function 
+
+- **[uuidv4](https://www.npmjs.com/package/uuidv4):** Removed in favor of small, fast built in function
 
 <a name="0.3.0"></a>
 
@@ -435,7 +467,6 @@ Correlated actions are usually sets of request/success/failure actions, such as 
 
 - [handlebars](https://github.com/briebug/ngrx-auto-entity/pull/82) bumped to 4.5.3
 
-
 <a name="0.2.8"></a>
 
 # [0.2.8](https://github.com/briebug/ngrx-auto-entity/compare/0.2.7...0.2.8) Beta (2019-11-19)
@@ -445,7 +476,6 @@ This release restores a missing action to the library public interface index.
 ### Bug Fixes
 
 - **actions:** Add clear action to exported actions of public interface
-
 
 <a name="0.2.7"></a>
 
@@ -462,8 +492,6 @@ custom effects creation.
 
 - **selectors:** Add createdAt facade getter and corresponding selectors (#65)
 
-
-
 <a name="0.2.6"></a>
 
 # [0.2.6](https://github.com/briebug/ngrx-auto-entity/compare/0.2.5...0.2.6) Beta (2019-09-05)
@@ -477,8 +505,6 @@ reduction of deselectMany and deselectAll.
 - **reducer:** Fix issue with potential undefined in selection related reductions #62
 - **reducer:** Fix issue with calls to Array.prototype.some on certain arrays being implemented incorrectly #60
 
-
-
 <a name="0.2.5"></a>
 
 # [0.2.5](https://github.com/briebug/ngrx-auto-entity/compare/0.2.2...0.2.5) Beta (2019-08-12)
@@ -489,8 +515,7 @@ edit and change tracking as well as adding more entities to the current set sele
 ### Features
 
 - **edit:** Add new `Edit`, `Change`, `EndEdit` actions and related functionality
-- **selection:** Added new `selectMore` and `selectMoreByKeys`  actions and related functionality
-
+- **selection:** Added new `selectMore` and `selectMoreByKeys` actions and related functionality
 
 <a name="0.2.2"></a>
 
@@ -529,7 +554,6 @@ you are importing from @briebug/ngrx-auto-entity and not from child paths within
 
 - **service:** Remove legacy reference to Ramda
 
-
 <a name="0.2.0"></a>
 
 # [0.2.0](https://github.com/briebug/ngrx-auto-entity/compare/0.1.1...0.2.0) Beta (2019-07-25)
@@ -549,31 +573,32 @@ updated functionality from both libraries, as well as begin phasing in improved 
 have been updated to the 8.x versions. We apologize for any inconvenience this may cause, however we do believe
 the changes and future improvements allowed by making this change will be welcome.
 
- - **angular:** The required version of @angular has been bumped up to 8.0
- - **ngrx:** The required version of @ngrx has been bumped uop to 8.0
+- **angular:** The required version of @angular has been bumped up to 8.0
+- **ngrx:** The required version of @ngrx has been bumped uop to 8.0
 
 ### Features
- - **actions:** Added multiple entity selection and deselection actions
- - **effects:** Added new `ExtraEffects` class containing selection and clearing related effects
- - **operators:** Added new operators to handle selection and clearing related actions
- - **reducer:** Updated meta reducer to handle new multiple entity selection and deselection
- - **facade:** Updated facade base class to include support for multiple entity selections
- - **module:** `NgrxAutoEntityModule` will now automatically provide `autoEntityMetaReducer` in `META_REDUCERS`
- - **module:** `NgrxAutoEntityModule` will now automatically provide `EntityEffects` and `ExtraEffects`
- - **module** Must now call `.forRoot(()` or `.forFeature()` as appropriate to import module
- - **module:** A new `.forRootNoEntityEffects()` can be used instead of `.forRoot()` to disable auto-provisioning of entity effects (keeps extra effects)
- - **module:** A new `.forRootNoEffects()` can be used instead of `.forRoot()` to disable auto-provisioning of all effects
+
+- **actions:** Added multiple entity selection and deselection actions
+- **effects:** Added new `ExtraEffects` class containing selection and clearing related effects
+- **operators:** Added new operators to handle selection and clearing related actions
+- **reducer:** Updated meta reducer to handle new multiple entity selection and deselection
+- **facade:** Updated facade base class to include support for multiple entity selections
+- **module:** `NgrxAutoEntityModule` will now automatically provide `autoEntityMetaReducer` in `META_REDUCERS`
+- **module:** `NgrxAutoEntityModule` will now automatically provide `EntityEffects` and `ExtraEffects`
+- **module** Must now call `.forRoot(()` or `.forFeature()` as appropriate to import module
+- **module:** A new `.forRootNoEntityEffects()` can be used instead of `.forRoot()` to disable auto-provisioning of entity effects (keeps extra effects)
+- **module:** A new `.forRootNoEffects()` can be used instead of `.forRoot()` to disable auto-provisioning of all effects
 
 ### Bug Fixes
- - **module:** Implemented `.forRoot()` and `.forFeature()` calls on `NgrxAutoEntityModule` to fix broken support for lazy loaded modules
- - **effects:** Added missing effects for select/deselect actions to dispatch selected/deselected counterparts
- - **service:** Updated `NgrxAutoEntityService` to support aggregate Injector tree so that models/entity services in lazy loaded modules will be found by root entity service
- - **util:** Changed `interface ITModelType<TModel>` to a `type IModelType<TModel>` to better conform to TypeScript best practices
 
- ### Breaking Changes !!
-  - **facade:** Updated facade base class to include a $ postfix on all streaming properties
+- **module:** Implemented `.forRoot()` and `.forFeature()` calls on `NgrxAutoEntityModule` to fix broken support for lazy loaded modules
+- **effects:** Added missing effects for select/deselect actions to dispatch selected/deselected counterparts
+- **service:** Updated `NgrxAutoEntityService` to support aggregate Injector tree so that models/entity services in lazy loaded modules will be found by root entity service
+- **util:** Changed `interface ITModelType<TModel>` to a `type IModelType<TModel>` to better conform to TypeScript best practices
 
+### Breaking Changes !!
 
+- **facade:** Updated facade base class to include a $ postfix on all streaming properties
 
 <a name="0.1.1"></a>
 
