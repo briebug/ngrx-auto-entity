@@ -3,8 +3,6 @@
 ![Downloads](https://img.shields.io/npm/dm/@briebug/ngrx-auto-entity.svg)
 [![Downloads](https://img.shields.io/npm/dt/@briebug/ngrx-auto-entity.svg)](https://www.npmjs.com/package/@briebug/ngrx-auto-entity)
 
-
-
 # NgRX Auto-Entity
 
 Automatic entities for [@ngrx](https://github.com/ngrx/platform)! Simplifying reactive state!
@@ -40,7 +38,8 @@ custom reducers.
 NgRx Auto-Entity is compatible with the following versions.
 
 | NgRx Auto Entity | Angular Core | NgRx        | RxJs |
-|------------------|--------------|-------------|------|
+| ---------------- | ------------ | ----------- | ---- |
+| 18.x             | 18.x         | 18.x        | 7.x  |
 | 17.x             | 17.x         | 17.x        | 7.x  |
 | 13.x             | 13.x - 16.x  | 13.x - 16.x | 7.x  |
 | 12.x             | 12.x         | 12.x        | 6.x  |
@@ -118,4 +117,3 @@ If you wish to learn more about how Auto-Entity works, you may jump to the
 - [Alice Paquette](https://github.com/paquettealice): Implementation
 - [Patrice Paquette](https://github.com/patpaquette): Implementation
 - [Anthony Jones](https://github.com/anthonymjones): Implementation
-
