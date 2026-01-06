@@ -52,6 +52,10 @@ import { UpdateFailureProps, UpdateManyFailureProps, UpdateManyProps, UpdateProp
 import { UpsertFailureProps, UpsertManyFailureProps, UpsertManyProps, UpsertProps } from '../factories/upsert-factories';
 import { CorrelatedProps, StandardProps } from '../factories/util';
 
+/**
+ * Structure of an Action Map defining all action creators that may
+ * be used to create actions handled by Auto-Entity
+ */
 export interface IActionMap<TModel> {
   loadIfNecessary: ActionCreator<string, (props?: LoadIfNecessaryProps) => LoadIfNecessary<TModel>>;
   load: ActionCreator<string, (props?: LoadProps) => Load<TModel>>;

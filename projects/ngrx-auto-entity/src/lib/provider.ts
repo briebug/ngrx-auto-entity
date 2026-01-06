@@ -118,8 +118,7 @@ export function _provideAutoEntityStore(features: NgRxAutoEntityFeatures[] = [])
 /**
  * Provides the global Auto-Entity providers.
  *
- * @usageNotes
- *
+ * @remarks
  * ### Providing Auto-Entity
  *
  * ```
@@ -131,8 +130,7 @@ export function _provideAutoEntityStore(features: NgRxAutoEntityFeatures[] = [])
  * })
  * ```
  *
- * @publicApi
- * @param features A list of Auto-Entity features to include.
+ * @param features - A list of Auto-Entity features to include.
  * @returns A set of providers to set up the Auto-Entity global state.
  */
 export function provideAutoEntityStore(...features: NgRxAutoEntityFeatures[]): EnvironmentProviders {
@@ -176,8 +174,7 @@ export function _provideAutoEntityState(): Provider[] {
 /**
  * Provides the feature level Auto-Entity providers.
  *
- * @usageNotes
- *
+ * @remarks
  * ### Providing an Auto-Entity Feature State
  *
  * ```
@@ -185,7 +182,6 @@ export function _provideAutoEntityState(): Provider[] {
  * provideAutoEntityState()
  * ```
  *
- * @publicApi
  * @returns A set of providers to set up an Auto-Entity feature state.
  */
 export function provideAutoEntityState(): EnvironmentProviders {
@@ -204,17 +200,15 @@ export function _resetProvidedServices() {
  *
  * This will reuse existing services when possible.
  *
- * @usageNotes
- *
+ * @remarks
  * ### Providing an Entity's Service
  *
  * ```
  * provideEntityService(Products, ProductsService)
  * ```
  *
- * @publicApi
- * @param modelType The entity model to provide a service for.
- * @param service The service to provide.
+ * @param modelType - The entity model to provide a service for.
+ * @param service - The service to provide.
  * @returns A set of providers to set up an entity's service.
  */
 export function provideEntityService(modelType: Type<any>, service: Type<any>): EnvironmentProviders {
@@ -232,7 +226,7 @@ export type CustomStoreFeature = NgRxAutoEntityFeature<NgRxAutoEntityFeatureKind
 
 /**
  * Customize the provided Auto-Entity Store.
- * @param storeProvider
+ * @param storeProvider - The token to use when injecting the store.
  */
 export function withCustomStore(storeProvider: Type<Store> | InjectionToken<Store>): CustomStoreFeature {
   const providers = [{ provide: NGRX_AUTO_ENTITY_APP_STORE, useExisting: storeProvider }];

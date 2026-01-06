@@ -110,6 +110,14 @@ import {
 } from '../factories/upsert-factories';
 import { IActionMap } from './action-map';
 
+/**
+ * Builds an action map for the specified entity model.
+ *
+ * @remarks
+ * All action creators are lazily created.
+ *
+ * @param Type - The model class for the entity
+ */
 export const buildActionMap = <TModel>(Type: TNew<TModel>): IActionMap<TModel> => {
   class ActionFactoryResolver implements IActionMap<TModel> {
     get load() {

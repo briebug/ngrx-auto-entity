@@ -1,0 +1,20 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPointStrategy": "packages",
+  "entryPoints": ["projects/*"],
+  "packageOptions": {
+    "entryPoints": ["src/public_api.ts"],
+    "projectDocuments": ["docs/**/*.md"]
+  },
+  "projectDocuments": ["docs/**/*.md"],
+  "outputs": [
+    {
+      "name": "html",
+      "path": "./dist/docs"
+    },
+    {
+      "name": "json",
+      "path": "./dist/docs.json"
+    }
+  ]
+}

@@ -6,10 +6,16 @@ import { IEntityInfo } from './entity-info';
 import { TNew } from './model-constructor';
 import { setInfo, setType } from './util';
 
+/**
+ * Represents an action with a correlationId payload
+ */
 export interface ICorrelatedAction {
   correlationId: string;
 }
 
+/**
+ * Interface for all of this library's actions
+ */
 export interface IEntityAction extends Action, ICorrelatedAction {
   actionType: EntityActionTypes;
   info: IEntityInfo;

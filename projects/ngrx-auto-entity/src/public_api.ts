@@ -11,7 +11,7 @@ export {
   NgRxAutoEntityRootModuleNoEntityEffects,
   NgRxAutoEntityRootModuleNoEffects,
   NgRxAutoEntityFeatureModule,
-  NgRxAutoEntityModuleConfig,
+  NgRxAutoEntityModuleConfig
 } from './lib/module';
 export {
   CustomStoreFeature,
@@ -40,6 +40,7 @@ export { IEntityDictionary, IEntityState } from './lib/util/entity-state';
 export { IModelState, IModelClass } from './lib/util/model-state';
 export { IEntityFacade } from './lib/util/facade';
 export { ISelectorMap } from './lib/util/selector-map';
+export { IActionMap } from './lib/util/action-map';
 
 /*
  * Builders

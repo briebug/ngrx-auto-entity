@@ -39,11 +39,10 @@ export function _provideAutoEntityService(config: AutoEntityServiceConfig | (() 
 /**
  * Sets up providers for the auto-entity entity service.
  *
- * @usageNotes
+ * @example
+ * ### Basic configuration
  *
- * ### Providing Auto-Entity Service
- *
- * Basic example of using the Auto-Entity Entity Service with your entities:
+ * Basic example of providing the Auto-Entity Entity Service:
  * ```
  * bootstrapApplication(AppComponent, {
  *   providers: [
@@ -55,6 +54,7 @@ export function _provideAutoEntityService(config: AutoEntityServiceConfig | (() 
  * });
  * ```
  *
+ * @example
  * ### Dynamic configuration
  *
  * You can also provide the Auto-Entity Entity Service configuration dynamically:
@@ -72,8 +72,7 @@ export function _provideAutoEntityService(config: AutoEntityServiceConfig | (() 
  * });
  * ```
  *
- * @publicApi
- * @param config An Auto-Entity Entity Service configuration object or a function that returns an Auto-Entity Entity Service configuration object.
+ * @param config - An Auto-Entity Entity Service configuration object or a function that returns an Auto-Entity Entity Service configuration object.
  * @returns A set of providers to set up an Auto-Entity Service.
  */
 export function provideAutoEntityService(config: AutoEntityServiceConfig | (() => AutoEntityServiceConfig)): EnvironmentProviders {

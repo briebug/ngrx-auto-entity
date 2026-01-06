@@ -8,7 +8,6 @@ import {
   withoutExtraEffects
 } from './provider';
 
- 
 export interface NgRxAutoEntityModuleConfig {
   excludeEffects?: boolean;
 }
@@ -27,7 +26,12 @@ export class NgRxAutoEntityFeatureModule {}
 
 @NgModule({})
 export class NgrxAutoEntityModule {
-  /** @deprecated use {@link provideAutoEntityStore} */
+  /**
+   * @deprecated use {@link provideAutoEntityStore}
+   * ```typescript
+   * provideAutoEntityStore()
+   * ```
+   */
   static forRoot(): ModuleWithProviders<NgRxAutoEntityRootModuleWithEffects> {
     return {
       ngModule: NgRxAutoEntityRootModuleWithEffects,
@@ -35,7 +39,12 @@ export class NgrxAutoEntityModule {
     };
   }
 
-  /** @deprecated use {@link provideAutoEntityStore} passing in {@link withoutEntityEffects} */
+  /**
+   * @deprecated use {@link provideAutoEntityStore} with {@link withoutEntityEffects}
+   * ```typescript
+   * provideAutoEntityStore(withoutEntityEffects())
+   * ```
+   */
   static forRootNoEntityEffects(): ModuleWithProviders<NgRxAutoEntityRootModuleNoEntityEffects> {
     return {
       ngModule: NgRxAutoEntityRootModuleNoEntityEffects,
@@ -43,7 +52,12 @@ export class NgrxAutoEntityModule {
     };
   }
 
-  /** @deprecated use {@link provideAutoEntityStore} passing in {@link withoutEntityEffects} and {@link withoutExtraEffects} */
+  /**
+   * @deprecated use {@link provideAutoEntityStore} with {@link withoutEntityEffects} and {@link withoutExtraEffects}
+   * ```typescript
+   * provideAutoEntityStore(withoutEntityEffects(), withoutExtraEffects())
+   * ```
+   */
   static forRootNoEffects(): ModuleWithProviders<NgRxAutoEntityRootModuleNoEffects> {
     return {
       ngModule: NgRxAutoEntityRootModuleNoEffects,

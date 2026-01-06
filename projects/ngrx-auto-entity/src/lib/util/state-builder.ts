@@ -72,8 +72,8 @@ export class Test {
 /**
  * Builds the initial Ngrx state for an entity
  *
- * @param type - the entity class
- * @param extraInitialState - the (optional) initial state
+ * @param type - The entity class
+ * @param extraInitialState - The (optional) initial state
  */
 export const buildState = <TState extends IEntityState<TModel>, TParentState, TModel, TExtra>(
   type: IModelClass<TModel>,
@@ -164,10 +164,10 @@ export interface AppState {
 /**
  * Builds the Ngrx state for an entity that is part of a feature module
  *
- * @param type the entity class
- * @param featureStateName the name of the feature state
- * @param selectParentState a selector for the entity's parent state
- * @param extraInitialState the (optional) initial feature state
+ * @param type - The entity class
+ * @param featureStateName - The name of the feature state
+ * @param selectParentState - A selector for the entity's parent state
+ * @param extraInitialState - The (optional) initial feature state
  */
 export const buildFeatureState = <TState extends IEntityState<TModel>, TParentState, TModel, TExtra>(
   type: IModelClass<TModel>,

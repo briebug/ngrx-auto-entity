@@ -3,12 +3,23 @@ import { EntityCriteria, RetryCriteria } from './critera.model';
 import { IEntityInfo } from '@briebug/ngrx-auto-entity';
 import { Observable } from 'rxjs';
 
+/**
+ * Function to resolve the API Prefix for a given request.
+ *
+ * @param operation - The operation being performed.
+ * @param info - The entity information.
+ * @param criteria - The request criteria.
+ * @returns The API Prefix for the request.
+ */
 export type APIPrefixResolver = (
   operation: string,
   info: IEntityInfo,
   criteria: EntityCriteria
 ) => string | Promise<string> | Observable<string>;
 
+/**
+ * Configuration for the auto entity service.
+ */
 export interface AutoEntityServiceConfig {
   /** API Host Endpoint. Entity url paths will be appended to the provided host.
    *
@@ -30,7 +41,7 @@ export interface AutoEntityServiceConfig {
    *    actions: { loadAll: loadAllUsers, load: loadUser }
    *  } = buildState(User)
    *
-   *  // Applicaiton
+   *  // Application
    *  someEffect$ = createEffect(() => this.actions$.pipe(
    *    ofType(someAction),
    *    map(() => loadAllUsers()) // Will trigger HTTP GET 'http://localhost:3000/api/users'
@@ -45,8 +56,11 @@ export interface AutoEntityServiceConfig {
    * ```
    */
   urlPrefix: string | APIPrefixResolver;
-  // Default retry to use when setting `retry: true` in action criteria.
-  // Defaults to { count: 3, delay: 1000 }
+
+  /**
+   * Default retry to use when setting `retry: true` in action criteria.
+   * @default `{ delay: 1000, maxRetries: 3 }`
+   */
   defaultRetry?: RetryCriteria;
 }
 

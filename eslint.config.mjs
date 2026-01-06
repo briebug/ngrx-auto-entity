@@ -1,10 +1,12 @@
 import nx from '@nx/eslint-plugin';
 import jestExtended from 'eslint-plugin-jest-extended';
+import tsdocPlugin from 'eslint-plugin-tsdoc';
 
 export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
+  { plugins: { 'tsdoc': tsdocPlugin } },
   jestExtended.configs['flat/recommended'],
   {
     ignores: ['**/dist']

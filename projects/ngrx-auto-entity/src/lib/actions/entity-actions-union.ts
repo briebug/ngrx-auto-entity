@@ -105,6 +105,10 @@ export type EntityActions<TModel> =
   | EndEdit<TModel>
   | EditEnded<TModel>;
 
+/**
+ * Predicates if the action is an instance of an entity action class
+ * @param action - The action to check
+ */
 export const isEntityActionInstance = (action: IEntityAction): boolean =>
   action instanceof Load ||
   action instanceof LoadIfNecessary ||

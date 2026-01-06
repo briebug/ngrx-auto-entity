@@ -38,7 +38,8 @@ export default [
           prefix: 'ae',
           style: 'kebab-case'
         }
-      ]
+      ],
+      'tsdoc/syntax': 'warn'
     }
   },
   {

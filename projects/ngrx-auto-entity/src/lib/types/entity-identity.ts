@@ -1,4 +1,4 @@
-/*
+/**
  * Represents an entity identity
  *
  * @remarks

@@ -6,6 +6,11 @@ import { EntityAction } from './entity-action';
  * Selects a single entity in the store by the entity model
  */
 export class Select<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entity - The entity to select
+   * @param correlationId - A custom correlation id for this action
+   */
   constructor(type: new () => TModel, public entity: TModel, correlationId?: string) {
     super(type, EntityActionTypes.Select, correlationId);
 
@@ -19,6 +24,11 @@ export class Select<TModel> extends EntityAction<TModel> {
  * Selects a single entity in the store by the entity key
  */
 export class SelectByKey<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entityKey - The key of the entity to select
+   * @param correlationId - A custom correlation id for this action
+   */
   constructor(type: new () => TModel, public entityKey: EntityIdentity, correlationId?: string) {
     super(type, EntityActionTypes.SelectByKey, correlationId);
 
@@ -32,6 +42,11 @@ export class SelectByKey<TModel> extends EntityAction<TModel> {
  * Selects many entities in the store by the entity models
  */
 export class SelectMany<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entities - The entities to select
+   * @param correlationId - A custom correlation id for this action
+   */
   constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
     super(type, EntityActionTypes.SelectMany, correlationId);
 
@@ -45,6 +60,11 @@ export class SelectMany<TModel> extends EntityAction<TModel> {
  * Selects more entities in the store by the entity models
  */
 export class SelectMore<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entities - The additional entities to select
+   * @param correlationId - A custom correlation id for this action
+   */
   constructor(type: new () => TModel, public entities: TModel[], correlationId?: string) {
     super(type, EntityActionTypes.SelectMore, correlationId);
 
@@ -58,6 +78,11 @@ export class SelectMore<TModel> extends EntityAction<TModel> {
  * Selects many entities in the store by the entity keys
  */
 export class SelectManyByKeys<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entitiesKeys - The entity keys to select
+   * @param correlationId - A custom correlation id for this action
+   */
   constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[], correlationId?: string) {
     super(type, EntityActionTypes.SelectManyByKeys, correlationId);
 
@@ -71,6 +96,11 @@ export class SelectManyByKeys<TModel> extends EntityAction<TModel> {
  * Selects more entities in the store by the entity keys
  */
 export class SelectMoreByKeys<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entitiesKeys - The additional entity keys to select
+   * @param correlationId - A custom correlation id for this action
+   */
   constructor(type: new () => TModel, public entitiesKeys: EntityIdentity[], correlationId?: string) {
     super(type, EntityActionTypes.SelectMoreByKeys, correlationId);
 
@@ -84,6 +114,11 @@ export class SelectMoreByKeys<TModel> extends EntityAction<TModel> {
  * Indicates the selection of a single entity in the store
  */
 export class Selected<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entity - The entity or key that was selected
+   * @param correlationId - The correlation id for this action; correlates to the initial select action
+   */
   constructor(type: new () => TModel, public entity: TModel | EntityIdentity, correlationId?: string) {
     super(type, EntityActionTypes.Selected, correlationId);
   }
@@ -93,6 +128,11 @@ export class Selected<TModel> extends EntityAction<TModel> {
  * Indicates the selection of many entities in the store
  */
 export class SelectedMany<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entities - The entities or keys that were selected
+   * @param correlationId - The correlation id for this action; correlates to the initial selected action
+   */
   constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>, correlationId?: string) {
     super(type, EntityActionTypes.SelectedMany, correlationId);
 
@@ -106,6 +146,11 @@ export class SelectedMany<TModel> extends EntityAction<TModel> {
  * Indicates the selection of more entities in the store
  */
 export class SelectedMore<TModel> extends EntityAction<TModel> {
+  /**
+   * @param type - The entity model decorated with @Entity
+   * @param entities - The entities or keys that were added to the selection
+   * @param correlationId - The correlation id for this action; correlates to the initial select-more action
+   */
   constructor(type: new () => TModel, public entities: Array<TModel | EntityIdentity>, correlationId?: string) {
     super(type, EntityActionTypes.SelectedMore, correlationId);
 

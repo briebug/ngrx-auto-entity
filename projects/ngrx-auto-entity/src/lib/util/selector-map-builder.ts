@@ -26,6 +26,15 @@ import { IEntityDictionary, IEntityEdits, IEntityPaging, IEntitySelections, IEnt
 import { IModelClass } from './model-state';
 import { ISelectorMap } from './selector-map';
 
+/**
+ * Builds a selector map for the specified entity model.
+ *
+ * @remarks
+ * All selectors are lazily created.
+ *
+ * @param getState - A selector that returns the root of the entity's state
+ * @param type - The model class for the entity
+ */
 // prettier-ignore
 export const buildSelectorMap = <TParentState, TState extends IEntityState<TModel>, TModel, TExtra>(
   getState: Selector<TParentState, TState & TExtra> | MemoizedSelector<object | TParentState, TState & TExtra>,

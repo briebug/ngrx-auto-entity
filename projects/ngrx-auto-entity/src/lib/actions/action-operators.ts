@@ -11,7 +11,7 @@ import { setType } from './util';
 /**
  * Operator to filter actions by an entity action type or multiple action types.
  *
- * @param allowedActionTypes One or more action type string constants
+ * @param allowedActionTypes - One or more action type string constants
  */
 export function ofEntityAction<T extends IEntityAction>(...allowedActionTypes: EntityActionTypes[]): OperatorFunction<Action, T> {
   return filter((action: IEntityAction): action is T => {
@@ -22,8 +22,8 @@ export function ofEntityAction<T extends IEntityAction>(...allowedActionTypes: E
 /**
  * Operator to filter actions by an entity and action type or multiple action types.
  *
- * @param entity The entity class
- * @param allowedActionTypes One or more action type string constants
+ * @param entity - The entity model class
+ * @param allowedActionTypes - One or more action type string constants
  */
 export function ofEntityType<TModel, T extends EntityAction<TModel>>(
   entity: new () => TModel,
@@ -39,9 +39,9 @@ export function ofEntityType<TModel, T extends EntityAction<TModel>>(
 /**
  * Operator to filter many actions by entity type and entity action types.
  *
- * @param actions$ The NgRx effects Actions stream
- * @param entity The entity types to filter for
- * @param allowedActionTypes The entity actions to filter for
+ * @param actions$ - The NgRx effects Actions stream
+ * @param entity - The entity types to filter for
+ * @param allowedActionTypes - The entity actions to filter for
  */
 export function fromEntityActions<T extends EntityAction<any>>(
   actions$: Actions,
