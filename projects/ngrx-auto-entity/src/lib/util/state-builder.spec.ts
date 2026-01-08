@@ -35,7 +35,6 @@ describe('buildState()', () => {
     expect(() => buildState(NoModelName)).toThrow(NO_MODEL_NAME_MSG);
   });
 
-   
   it('should return an object with initial state, selectors, the root entity state, a makeEntity function, a reducer and a base facade class', () => {
     const built = buildState(Test);
 
@@ -45,7 +44,6 @@ describe('buildState()', () => {
     });
     expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectAll'));
     expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectAllSorted'));
-    expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectCustomSorted'));
     expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectEntities'));
     expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectIds'));
     expect(built.selectors).toSatisfy(selectors => Object.hasOwn(Object.getPrototypeOf(selectors), 'selectTotal'));
@@ -104,7 +102,7 @@ describe('buildState()', () => {
       const state = buildState(Test);
       expect(() => state.entityState({})).toThrow(
         // prettier-ignore
-        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.'  
+        'State for model Test could not be found! Make sure you add your entity state to the parent state with a property named exactly \'test\'.'
       );
     });
   });

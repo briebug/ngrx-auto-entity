@@ -12,6 +12,7 @@ import { IModelClass, IModelState } from './model-state';
 import { ISelectorMap } from './selector-map';
 import { buildSelectorMap } from './selector-map-builder';
 import { FEATURE_AFFINITY } from './util-tokens';
+import { IEntityFacadeBase } from './facade';
 
 const sortAlpha = (aKey: string, bKey: string): number => aKey.localeCompare(bKey);
 
@@ -21,7 +22,6 @@ const defaultSort = (aKey: EntityIdentity, bKey: EntityIdentity): number =>
   typeof aKey === 'string' ? sortAlpha(aKey, bKey as string) : sortNumeric(aKey, bKey as number);
 
 export const NO_ENTITY_DECORATOR_MSG =
-   
   'Specified model is not decorated with @Entity. All automatic entities must be decorated with a modelName specified. Building of state aborted!';
 const ensureEntityDecorator = <TModel>(type: IModelClass<TModel>): void => {
   if (!type[ENTITY_OPTS_PROP]) {
@@ -38,7 +38,6 @@ export class Test {
 };
 
 export const NO_ENTITY_KEY_MSG =
-   
   'Specified model has no properties decorated with @Key. All automatic entities must have at least one property identified as the entity key. Building of state aborted!';
 const ensureEntityKey = <TModel>(type: IModelClass<TModel>): void => {
   if (!type.prototype[NAE_KEY_NAMES] || !type.prototype[NAE_KEYS]) {
@@ -55,7 +54,6 @@ export class ${type[ENTITY_OPTS_PROP].modelName} {
 };
 
 export const NO_MODEL_NAME_MSG =
-   
   'Specified model is decorated with @Entity but does not specify a modelName, which is required for proper production execution. Building of state aborted!';
 const ensureModelName = (opts: IEntityOptions) => {
   if (!opts.modelName) {
@@ -92,7 +90,6 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   const getState = (state: TParentState): TState & TExtra => {
     const modelState = state[stateName];
     if (!modelState) {
-       
       const message = `State for model ${opts.modelName} could not be found! Make sure you add your entity state to the parent state with a property named exactly '${stateName}'.`;
       const example = ` Example app state:
 
@@ -113,15 +110,13 @@ export interface AppState {
     ...extraInitialState
   } as TState & TExtra;
 
-   
   let _actions: IActionMap<TModel>;
   let _selectors: ISelectorMap<TParentState, TModel>;
-  let _facade;
+  let _facade: IEntityFacadeBase<TModel>;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = getState as (state: TParentState) => TState & TExtra;
   let _makeEntity: (obj: any) => TModel;
-   
 
   class StateBuilder {
     get entityState() {
@@ -157,7 +152,7 @@ export interface AppState {
     }
 
     get facade() {
-      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors);
+      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors, type);
       return _facade;
     }
   }
@@ -192,7 +187,6 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
 
   const selectState = createSelector(selectParentState, (state: TParentState) => {
     if (!state) {
-       
       const message = `Could not retrieve feature state ${featureStateName} for model ${opts.modelName}! Make sure you add your entity state to the feature state with a property named exactly '${stateName}'.`;
       const example = ` Example app state:
 
@@ -219,15 +213,13 @@ export interface FeatureState {
     ...extraInitialState
   } as TState & TExtra;
 
-   
   let _actions: IActionMap<TModel>;
   let _selectors: ISelectorMap<TParentState, TModel>;
-  let _facade;
+  let _facade: IEntityFacadeBase<TModel>;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
   const entityState = selectState as MemoizedSelector<TParentState, TState & TExtra>;
   let _makeEntity: (obj: any) => TModel;
-   
 
   class StateBuilder {
     get entityState() {
@@ -263,7 +255,7 @@ export interface FeatureState {
     }
 
     get facade() {
-      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors);
+      _facade = _facade || buildFacade<TModel, TParentState>(this.selectors, type);
       return _facade;
     }
   }

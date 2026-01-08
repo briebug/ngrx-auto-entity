@@ -12,11 +12,6 @@ export interface ISelectorMap<TParentState, TModel> {
   selectEntities: MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
   selectAll: MemoizedSelector<object | TParentState, TModel[]>;
   selectAllSorted: MemoizedSelector<object | TParentState, TModel[]>;
-  /**
-   * @deprecated selectCustomSorted relies on selectors with props, which has fallen out of practice. Will be removed
-   * in the next version of auto-entity.
-   */
-  selectCustomSorted: MemoizedSelectorWithProps<object | TParentState, { readonly name?: any }, TModel[]>;
   selectTotal: MemoizedSelector<object | TParentState, number>;
   selectHasEntities: MemoizedSelector<object | TParentState, boolean>;
   selectHasNoEntities: MemoizedSelector<object | TParentState, boolean>;

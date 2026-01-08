@@ -15,12 +15,6 @@ export const mapToSortedEntityArray =
     !all ? [] : all.sort(entityComparer(type));
 
 // prettier-ignore
-export const mapToCustomSortedEntityArray =
-  <TModel>(type: IModelClass<TModel>) =>
-  (all: TModel[], { name }): TModel[] =>
-    !all ? [] : all.sort(entityComparer(type, name));
-
-// prettier-ignore
 export const mapToHasEntities =
   (ids: EntityIdentity[]): boolean =>
     !!ids && !!ids.length;

@@ -1,7 +1,7 @@
-import { MemoizedSelector, Store } from '@ngrx/store';
+import { MemoizedSelector } from '@ngrx/store';
 import { IActionMap } from './action-map';
 import { IEntityState } from './entity-state';
-import { IEntityFacade } from './facade';
+import { IEntityFacadeBase } from './facade';
 
 import { ISelectorMap } from './selector-map';
 
@@ -13,7 +13,7 @@ export interface IModelState<TParentState, TState, TModel, TExtra> {
   actions: IActionMap<TModel>;
   selectors: ISelectorMap<TParentState, TModel>;
   reducer: (state: TState & TExtra) => IEntityState<TModel> & TExtra;
-  facade: new (type: new () => TModel, store: Store<any>) => IEntityFacade<TModel>;
+  facade: IEntityFacadeBase<TModel>;
   entityState: ((state: TParentState) => TState & TExtra) | MemoizedSelector<TParentState, TState & TExtra>;
   makeEntity: (obj: any) => TModel;
 }
