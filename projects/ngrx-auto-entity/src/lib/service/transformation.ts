@@ -1,15 +1,14 @@
 import { IEntityInfo } from '../actions/entity-info';
-import { IEntityTransformer } from '../decorators/entity-options';
+import { IEntityTransformer, TransformFn } from '../decorators/entity-options';
 
 const FROM = 'fromServer';
 const TO = 'toServer';
 
-type TransformFn = (value: any, criteria?: any) => any;
-const identity = value => value;
+const identity = <T>(value: T): T => value;
 
-export const getTransforms = (transform: IEntityTransformer[], prop: string): TransformFn[] =>
+export const getTransforms = (transform: IEntityTransformer[] | undefined, prop: string): TransformFn[] =>
   !!transform && !!transform.length
-    ? transform.filter(tx => !!tx[prop]).map(tx => tx[prop]) // select custom transformations
+    ? transform.filter(tx => tx[prop] != null).map(tx => tx[prop]) // select custom transformations
     : [identity]; // provide identity transformation as default
 
 export const applyTransforms =

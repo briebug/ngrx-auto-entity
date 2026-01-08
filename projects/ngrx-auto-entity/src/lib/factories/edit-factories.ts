@@ -90,7 +90,7 @@ export const createChangedAction = <TModel, T extends string, P extends EditProp
 
 export const createEndEditAction = <TModel, T extends string, P extends CorrelatedProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: CorrelatedProps) => EndEdit<TModel>> =>
+): ActionCreator<T, (props?: CorrelatedProps) => EndEdit<TModel>> =>
   cacheOnType(Type, EntityActionTypes.EndEdit, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.EndEdit, Type),
@@ -100,7 +100,7 @@ export const createEndEditAction = <TModel, T extends string, P extends Correlat
 
 export const createEditEndedAction = <TModel, T extends string, P extends CorrelatedProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: CorrelatedProps) => EditEnded<TModel>> =>
+): ActionCreator<T, (props?: CorrelatedProps) => EditEnded<TModel>> =>
   cacheOnType(Type, EntityActionTypes.EditEnded, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.EditEnded, Type),

@@ -16,8 +16,12 @@ export const cacheOnType = <TModel, TAction extends EntityAction<TModel>, T exte
   actionName: string,
   creatorCallback: () => ActionCreator<T, (props: object) => TAction>
 ) => (
+  // TODO: Use Reflect API instead of a dunder property
+  // @ts-expect-error TS7053
   (Type[NAE_TYPE_ACTION_CACHE] = Type[NAE_TYPE_ACTION_CACHE] || Object.create(null)),
+  // @ts-expect-error TS7053
   (Type[NAE_TYPE_ACTION_CACHE][actionName] = Type[NAE_TYPE_ACTION_CACHE][actionName] || creatorCallback()),
+  // @ts-expect-error TS7053
   Type[NAE_TYPE_ACTION_CACHE][actionName]
 );
 

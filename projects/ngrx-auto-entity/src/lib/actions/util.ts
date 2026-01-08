@@ -12,6 +12,7 @@ import { TNew } from './model-constructor';
  */
 export const setInfo = (type: any): IEntityInfo => {
   const instance = new type();
+  // TODO: Use Reflect API instead of a dunder property
   const opts = (type[ENTITY_OPTS_PROP] || { modelName: instance.constructor.name }) as IEntityOptions;
   const modelName = opts.modelName;
   checkKeyName(type, modelName);

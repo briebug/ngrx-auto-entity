@@ -9,7 +9,7 @@ export const getInjectors = () => INJECTORS;
 
 export const resetInjectors = () => (INJECTORS = Object.freeze([]));
 
-export const getService = <TModel>(entityInfo: IEntityInfo, injector: Injector): IAutoEntityService<TModel> =>
+export const getService = <TModel>(entityInfo: IEntityInfo<TModel>, injector: Injector): IAutoEntityService<TModel> =>
   resolveServiceDeep(entityInfo, injector, [...INJECTORS]);
 
 export const prepend = <T>(first: T, rest: ReadonlyArray<T>): ReadonlyArray<T> => Object.freeze([first, ...rest]);

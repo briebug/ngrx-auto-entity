@@ -8,7 +8,7 @@ import { cacheOnType, CorrelatedProps, defineTypedFactoryFunction } from './util
 
 export const createDeselectAction = <TModel, T extends string, P extends CorrelatedProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: CorrelatedProps) => Deselect<TModel>> =>
+): ActionCreator<T, (props?: CorrelatedProps) => Deselect<TModel>> =>
   cacheOnType(Type, EntityActionTypes.Deselect, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Deselect, Type),
@@ -46,7 +46,7 @@ export const createDeselectManyByKeysAction = <TModel, T extends string, P exten
 
 export const createDeselectAllAction = <TModel, T extends string, P extends CorrelatedProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: CorrelatedProps) => DeselectAll<TModel>> =>
+): ActionCreator<T, (props?: CorrelatedProps) => DeselectAll<TModel>> =>
   cacheOnType(Type, EntityActionTypes.DeselectAll, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.DeselectAll, Type),
@@ -56,7 +56,7 @@ export const createDeselectAllAction = <TModel, T extends string, P extends Corr
 
 export const createDeselectedAction = <TModel, T extends string, P extends CorrelatedProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: CorrelatedProps) => Deselected<TModel>> =>
+): ActionCreator<T, (props?: CorrelatedProps) => Deselected<TModel>> =>
   cacheOnType(Type, EntityActionTypes.Deselected, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Deselected, Type),

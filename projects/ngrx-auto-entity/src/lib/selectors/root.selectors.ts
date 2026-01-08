@@ -13,20 +13,20 @@ export const mapToIds =
 
 // prettier-ignore
 export const mapToSelections =
-  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntitySelections =>
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntitySelections | undefined =>
     (!state || !state.selections ? undefined : state.selections);
 
 // prettier-ignore
 export const mapToEdits =
-  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntityEdits<TModel> =>
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntityEdits<TModel> | undefined =>
     (!state || !state.edits ? undefined : state.edits);
 
 // prettier-ignore
 export const mapToPaging =
-  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntityPaging =>
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntityPaging | undefined =>
     (!state || !state.paging ? undefined : state.paging);
 
 // prettier-ignore
 export const mapToTracking =
-  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntityTracking =>
+  <TState extends IEntityState<TModel>, TModel, TExtra>(state: TState & TExtra): IEntityTracking | undefined =>
     (!state || !state.tracking ? undefined : state.tracking);

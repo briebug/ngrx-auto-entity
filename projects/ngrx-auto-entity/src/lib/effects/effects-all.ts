@@ -2,11 +2,21 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import { ofEntityAction } from '../actions/action-operators';
 import { EntityActionTypes } from '../actions/action-types';
 import { EntityIfNecessaryOperators } from './if-necessary-operators';
 import { EntityOperators } from './operators';
+import { DeleteByKey, DeleteManyByKeys } from '../actions/delete-by-key-actions';
+import { Load, LoadIfNecessary } from '../actions/load-actions';
+import { LoadAll, LoadAllIfNecessary } from '../actions/load-all-actions';
+import { LoadMany, LoadManyIfNecessary } from '../actions/load-many-actions';
+import { LoadPage, LoadPageIfNecessary } from '../actions/load-page-actions';
+import { LoadRange, LoadRangeIfNecessary } from '../actions/load-range-actions';
+import { Create, CreateMany } from '../actions/create-actions';
+import { Update, UpdateMany } from '../actions/update-actions';
+import { Upsert, UpsertMany } from '../actions/upsert-actions';
+import { Replace, ReplaceMany } from '../actions/replace-actions';
+import { Delete, DeleteMany } from '../actions/delete-actions';
 
 /**
  * Fully-featured entity effects class that provides all standard
@@ -18,61 +28,84 @@ export class EntityEffects {
   private readonly ops = inject(EntityOperators);
   private readonly ifnOps = inject(EntityIfNecessaryOperators);
 
-  load$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Load), this.ops.load()));
+  load$ = createEffect(() => this.actions$.pipe(ofEntityAction<Load<unknown>>(EntityActionTypes.Load), this.ops.load()));
 
   loadIfNecessary$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadIfNecessary), this.ifnOps.loadIfNecessary())
+    this.actions$.pipe(ofEntityAction<LoadIfNecessary<unknown>>(EntityActionTypes.LoadIfNecessary), this.ifnOps.loadIfNecessary())
   );
 
-  loadAll$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadAll), this.ops.loadAll()));
+  loadAll$ = createEffect(() => this.actions$.pipe(ofEntityAction<LoadAll<unknown>>(EntityActionTypes.LoadAll), this.ops.loadAll()));
 
   loadAllIfNecessary$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadAllIfNecessary), this.ifnOps.loadAllIfNecessary())
+    this.actions$.pipe(ofEntityAction<LoadAllIfNecessary<unknown>>(EntityActionTypes.LoadAllIfNecessary), this.ifnOps.loadAllIfNecessary())
   );
 
-  loadMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadMany), this.ops.loadMany()));
+  loadMany$ = createEffect(() => this.actions$.pipe(ofEntityAction<LoadMany<unknown>>(EntityActionTypes.LoadMany), this.ops.loadMany()));
 
   loadManyIfNecessary$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadManyIfNecessary), this.ifnOps.loadManyIfNecessary())
+    this.actions$.pipe(
+      ofEntityAction<LoadManyIfNecessary<unknown>>(EntityActionTypes.LoadManyIfNecessary),
+      this.ifnOps.loadManyIfNecessary()
+    )
   );
 
-  loadPage$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadPage), this.ops.loadPage()));
+  loadPage$ = createEffect(() => this.actions$.pipe(ofEntityAction<LoadPage<unknown>>(EntityActionTypes.LoadPage), this.ops.loadPage()));
 
   loadPageIfNecessary$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadPageIfNecessary), this.ifnOps.loadPageIfNecessary())
+    this.actions$.pipe(
+      ofEntityAction<LoadPageIfNecessary<unknown>>(EntityActionTypes.LoadPageIfNecessary),
+      this.ifnOps.loadPageIfNecessary()
+    )
   );
 
-  loadRange$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadRange), this.ops.loadRange()));
+  loadRange$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<LoadRange<unknown>>(EntityActionTypes.LoadRange), this.ops.loadRange())
+  );
 
   loadRangeIfNecessary$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadRangeIfNecessary), this.ifnOps.loadRangeIfNecessary())
+    this.actions$.pipe(
+      ofEntityAction<LoadRangeIfNecessary<unknown>>(EntityActionTypes.LoadRangeIfNecessary),
+      this.ifnOps.loadRangeIfNecessary()
+    )
   );
 
-  create$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Create), this.ops.create()));
+  create$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<Create<unknown>>(EntityActionTypes.Create), this.ops.create())
+  );
 
   createMany$: Observable<Action> = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.CreateMany), this.ops.createMany())
+    this.actions$.pipe(ofEntityAction<CreateMany<unknown>>(EntityActionTypes.CreateMany), this.ops.createMany())
   );
 
-  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Update), this.ops.update()));
+  update$ = createEffect(() => this.actions$.pipe(ofEntityAction<Update<unknown>>(EntityActionTypes.Update), this.ops.update()));
 
-  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpdateMany), this.ops.updateMany()));
+  updateMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<UpdateMany<unknown>>(EntityActionTypes.UpdateMany), this.ops.updateMany())
+  );
 
-  upsert$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Upsert), this.ops.upsert()));
+  upsert$ = createEffect(() => this.actions$.pipe(ofEntityAction<Upsert<unknown>>(EntityActionTypes.Upsert), this.ops.upsert()));
 
-  upsertMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpsertMany), this.ops.upsertMany()));
+  upsertMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<UpsertMany<unknown>>(EntityActionTypes.UpsertMany), this.ops.upsertMany())
+  );
 
-  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Replace), this.ops.replace()));
+  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction<Replace<unknown>>(EntityActionTypes.Replace), this.ops.replace()));
 
-  replaceMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.ReplaceMany), this.ops.replaceMany()));
+  replaceMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<ReplaceMany<unknown>>(EntityActionTypes.ReplaceMany), this.ops.replaceMany())
+  );
 
-  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Delete), this.ops.delete()));
+  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction<Delete<unknown>>(EntityActionTypes.Delete), this.ops.delete()));
 
-  deleteMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteMany), this.ops.deleteMany()));
+  deleteMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<DeleteMany<unknown>>(EntityActionTypes.DeleteMany), this.ops.deleteMany())
+  );
 
-  deleteByKey$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteByKey), this.ops.deleteByKey()));
+  deleteByKey$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<DeleteByKey<unknown>>(EntityActionTypes.DeleteByKey), this.ops.deleteByKey())
+  );
 
   deleteManyByKeys$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
+    this.actions$.pipe(ofEntityAction<DeleteManyByKeys<unknown>>(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
   );
 }

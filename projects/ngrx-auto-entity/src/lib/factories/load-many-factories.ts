@@ -7,7 +7,7 @@ import { LoadMany, LoadManyFailure, LoadManyIfNecessary, LoadManySuccess } from 
 
 export const createLoadManyAction = <TModel, T extends string, P extends StandardProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: StandardProps) => LoadMany<TModel>> =>
+): ActionCreator<T, (props?: StandardProps) => LoadMany<TModel>> =>
   cacheOnType(Type, EntityActionTypes.LoadMany, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadMany, Type),
@@ -21,7 +21,7 @@ export interface LoadManyIfNecessaryProps extends StandardProps {
 
 export const createLoadManyIfNecessaryAction = <TModel, T extends string, P extends LoadManyIfNecessaryProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: LoadManyIfNecessaryProps) => LoadManyIfNecessary<TModel>> =>
+): ActionCreator<T, (props?: LoadManyIfNecessaryProps) => LoadManyIfNecessary<TModel>> =>
   cacheOnType(Type, EntityActionTypes.LoadManyIfNecessary, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadManyIfNecessary, Type),

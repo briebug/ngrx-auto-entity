@@ -3,6 +3,7 @@ import { EntityIdentity } from '../types/entity-identity';
 import { NAE_KEYS } from './entity-tokens';
 
 export function checkKeyName(type: any, modelName: string): boolean {
+  // TODO: Use Reflect API instead of a dunder property
   const keys = type.prototype[NAE_KEYS];
   if (keys === undefined) {
     console.error(`[NGRX-AE] Entity model '${modelName}' does not have a key specified!`);
@@ -12,6 +13,7 @@ export function checkKeyName(type: any, modelName: string): boolean {
 }
 
 export function getKeyNames(action: IEntityAction): string[] {
+  // TODO: Use Reflect API instead of a dunder property
   const keys = action && action.info && action.info.modelType.prototype[NAE_KEYS];
   if (keys === undefined) {
     console.error(
@@ -37,18 +39,24 @@ export function getKeyNamesFromEntity<TModel>(entity: TModel): string[] {
     return [];
   }
 
+  // TODO: Use Reflect API instead of a dunder property
+  // @ts-expect-error TS7053
   const keys = entity[NAE_KEYS] || Object.getPrototypeOf(entity)[NAE_KEYS];
   return keys || [];
 }
 
 function _getKey(entity: any, keyNames: string[]): EntityIdentity {
   if (!entity) {
+    // TODO: Throw an error instead of returning undefined
     console.error(`[NGRX-AE] Specified entity does not exist! Please provide a valid auto-entity entity object.`);
+    // @ts-expect-error TS2322
     return undefined;
   }
 
   if (!keyNames || !keyNames.length) {
+    // TODO: Throw an error instead of returning undefined
     console.error(`[NGRX-AE] Specified entity does not have any properties decorated as keys.`);
+    // @ts-expect-error TS2322
     return undefined;
   }
 

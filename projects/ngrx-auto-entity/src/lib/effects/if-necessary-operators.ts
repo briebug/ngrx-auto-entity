@@ -46,7 +46,7 @@ export class EntityIfNecessaryOperators {
             })),
             filter(
               ({ isLoading, missing, checkAge, loadedAt, defaultMaxAge }) =>
-                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt!), maxAge || defaultMaxAge!)) : missing))
             ),
             map(() => new Load(info.modelType, keys, criteria, correlationId))
           )
@@ -75,8 +75,7 @@ export class EntityIfNecessaryOperators {
             })),
             filter(
               ({ isLoading, missing, checkAge, loadedAt, defaultMaxAge }) =>
-                !isLoading &&
-                (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt as number), maxAge || defaultMaxAge)) : missing))
+                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt!), maxAge || defaultMaxAge!)) : missing))
             ),
             map(() => new LoadAll(info.modelType, criteria, correlationId))
           )
@@ -105,7 +104,7 @@ export class EntityIfNecessaryOperators {
             })),
             filter(
               ({ isLoading, missing, checkAge, loadedAt, defaultMaxAge }) =>
-                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                !isLoading && (missing || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt!), maxAge || defaultMaxAge!)) : missing))
             ),
             map(() => new LoadMany(info.modelType, criteria, correlationId))
           )
@@ -131,13 +130,13 @@ export class EntityIfNecessaryOperators {
               hasEntities,
               defaultMaxAge,
               missing: !loadedAt || !hasEntities,
-              samePage: page.page === currentPage.page,
+              samePage: page.page === currentPage!.page,
               checkAge: !!defaultMaxAge || !!maxAge
             })),
             filter(
               ({ isLoading, missing, samePage, checkAge, loadedAt, defaultMaxAge }) =>
                 !isLoading &&
-                (missing || !samePage || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                (missing || !samePage || (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt!), maxAge || defaultMaxAge!)) : missing))
             ),
             map(() => new LoadPage(info.modelType, page, criteria, correlationId))
           )
@@ -171,7 +170,7 @@ export class EntityIfNecessaryOperators {
                 !isLoading &&
                 (missing ||
                   !nonFollowingRange ||
-                  (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt), maxAge || defaultMaxAge)) : missing))
+                  (checkAge ? nowAfterExpiry(addSeconds(new Date(loadedAt!), maxAge || defaultMaxAge!)) : missing))
             ),
             map(() => new LoadRange(info.modelType, range, criteria, correlationId))
           )

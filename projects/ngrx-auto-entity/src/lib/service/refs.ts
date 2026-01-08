@@ -3,8 +3,13 @@ import { IPageInfo, IRangeInfo } from '../models';
 import { EntityIdentity } from '../types/entity-identity';
 
 export interface IEntityRef<TModel> {
-  info: IEntityInfo;
+  info: IEntityInfo<TModel>;
   entity: TModel;
+}
+
+export interface IEntitiesRef<TModel> {
+  info: IEntityInfo<TModel>;
+  entity: TModel[];
 }
 
 export interface IEntityIdentityRef {
@@ -17,10 +22,10 @@ export interface IEntityIdentitiesRef {
   entityIdentities: EntityIdentity[];
 }
 
-export interface IEntityPageRef<TModel> extends IEntityRef<TModel[]> {
+export interface IEntityPageRef<TModel> extends IEntitiesRef<TModel> {
   pageInfo: IPageInfo;
 }
 
-export interface IEntityRangeRef<TModel> extends IEntityRef<TModel[]> {
+export interface IEntityRangeRef<TModel> extends IEntitiesRef<TModel> {
   rangeInfo: IRangeInfo;
 }

@@ -8,15 +8,23 @@ export interface IEffectExcept {
   except?: (...actions: EntityActionTypes[]) => IEffectExclusions;
 }
 
-/**
- * Defines an entity data transformer capable of transforming data to and from the server.
- */
-export interface IEntityTransformer {
+export type TransformFn = (value: any, criteria?: any) => any;
+
+export interface IServerEntityTransformer {
   fromServer?: (data: any, criteria?: any) => any;
   toServer?: (entity: any, criteria?: any) => any;
 }
 
-export type EntityComparer = (a, b) => number;
+export interface IEntityTransformerMap {
+  [name: string]: TransformFn;
+}
+
+/**
+ * Defines an entity data transformer capable of transforming data to and from the server.
+ */
+export type IEntityTransformer = IServerEntityTransformer & IEntityTransformerMap;
+
+export type EntityComparer = (a: any, b: any) => number;
 
 export interface IEntityComparerMap {
   [key: string]: EntityComparer | string;

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IEntityInfo } from '../actions/entity-info';
 import { Page, Range } from '../models';
 import { EntityIdentity } from '../types/entity-identity';
-import { IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from './refs';
+import { IEntitiesRef, IEntityIdentitiesRef, IEntityIdentityRef, IEntityPageRef, IEntityRangeRef, IEntityRef } from './refs';
 import { callService } from './service-invocation';
 import { transformArrayFromServer, transformArrayToServer, transformSingleFromServer, transformSingleToServer } from './transformation';
 import { IEntityWithPageInfo, IEntityWithRangeInfo } from './wrapper-models';
@@ -17,8 +17,8 @@ import { IEntityWithPageInfo, IEntityWithRangeInfo } from './wrapper-models';
 export class NgrxAutoEntityService {
   private readonly injector = inject(Injector);
 
-  load<TModel>(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<IEntityRef<TModel>> {
-    return callService<TModel, TModel, IEntityRef<TModel>>(
+  load<TModel>(entityInfo: IEntityInfo<TModel>, keys: any, criteria?: any): Observable<IEntityRef<TModel>> {
+    return callService<TModel, TModel, IEntityRef<TModel>, 'load'>(
       'load',
       entityInfo,
       this.injector,
@@ -27,8 +27,8 @@ export class NgrxAutoEntityService {
     );
   }
 
-  loadAll<TModel>(entityInfo: IEntityInfo, criteria?: any): Observable<IEntityRef<TModel[]>> {
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+  loadAll<TModel>(entityInfo: IEntityInfo<TModel>, criteria?: any): Observable<IEntitiesRef<TModel>> {
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'loadAll'>(
       'loadAll',
       entityInfo,
       this.injector,
@@ -37,8 +37,8 @@ export class NgrxAutoEntityService {
     );
   }
 
-  loadMany<TModel>(entityInfo: IEntityInfo, criteria?: any): Observable<IEntityRef<TModel[]>> {
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+  loadMany<TModel>(entityInfo: IEntityInfo<TModel>, criteria?: any): Observable<IEntitiesRef<TModel>> {
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'loadMany'>(
       'loadMany',
       entityInfo,
       this.injector,
@@ -47,8 +47,8 @@ export class NgrxAutoEntityService {
     );
   }
 
-  loadPage<TModel>(entityInfo: IEntityInfo, page: Page, criteria?: any): Observable<IEntityPageRef<TModel>> {
-    return callService<TModel, IEntityWithPageInfo<TModel>, IEntityPageRef<TModel>>(
+  loadPage<TModel>(entityInfo: IEntityInfo<TModel>, page: Page, criteria?: any): Observable<IEntityPageRef<TModel>> {
+    return callService<TModel, IEntityWithPageInfo<TModel>, IEntityPageRef<TModel>, 'loadPage'>(
       'loadPage',
       entityInfo,
       this.injector,
@@ -61,8 +61,8 @@ export class NgrxAutoEntityService {
     );
   }
 
-  loadRange<TModel>(entityInfo: IEntityInfo, range: Range, criteria?: any): Observable<IEntityRangeRef<TModel>> {
-    return callService<TModel, IEntityWithRangeInfo<TModel>, IEntityRangeRef<TModel>>(
+  loadRange<TModel>(entityInfo: IEntityInfo<TModel>, range: Range, criteria?: any): Observable<IEntityRangeRef<TModel>> {
+    return callService<TModel, IEntityWithRangeInfo<TModel>, IEntityRangeRef<TModel>, 'loadRange'>(
       'loadRange',
       entityInfo,
       this.injector,
@@ -75,9 +75,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  create<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
+  create<TModel>(entityInfo: IEntityInfo<TModel>, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     const transformed = transformSingleToServer(entityInfo, criteria)(entity);
-    return callService<TModel, TModel, IEntityRef<TModel>>(
+    return callService<TModel, TModel, IEntityRef<TModel>, 'create'>(
       'create',
       entityInfo,
       this.injector,
@@ -86,9 +86,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  createMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+  createMany<TModel>(entityInfo: IEntityInfo<TModel>, entities: TModel[], criteria?: any): Observable<IEntitiesRef<TModel>> {
     const transformed = transformArrayToServer(entityInfo, criteria)(entities);
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'createMany'>(
       'createMany',
       entityInfo,
       this.injector,
@@ -97,9 +97,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  update<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
+  update<TModel>(entityInfo: IEntityInfo<TModel>, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     const transformed = transformSingleToServer(entityInfo, criteria)(entity);
-    return callService<TModel, TModel, IEntityRef<TModel>>(
+    return callService<TModel, TModel, IEntityRef<TModel>, 'update'>(
       'update',
       entityInfo,
       this.injector,
@@ -108,9 +108,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  updateMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+  updateMany<TModel>(entityInfo: IEntityInfo<TModel>, entities: TModel[], criteria?: any): Observable<IEntitiesRef<TModel>> {
     const transformed = transformArrayToServer(entityInfo, criteria)(entities);
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'updateMany'>(
       'updateMany',
       entityInfo,
       this.injector,
@@ -122,9 +122,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  upsert<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
+  upsert<TModel>(entityInfo: IEntityInfo<TModel>, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     const transformed = transformSingleToServer(entityInfo, criteria)(entity);
-    return callService<TModel, TModel, IEntityRef<TModel>>(
+    return callService<TModel, TModel, IEntityRef<TModel>, 'upsert'>(
       'upsert',
       entityInfo,
       this.injector,
@@ -133,9 +133,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  upsertMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+  upsertMany<TModel>(entityInfo: IEntityInfo<TModel>, entities: TModel[], criteria?: any): Observable<IEntitiesRef<TModel>> {
     const transformed = transformArrayToServer(entityInfo, criteria)(entities);
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'upsertMany'>(
       'upsertMany',
       entityInfo,
       this.injector,
@@ -147,9 +147,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  replace<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
+  replace<TModel>(entityInfo: IEntityInfo<TModel>, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     const transformed = transformSingleToServer(entityInfo, criteria)(entity);
-    return callService<TModel, TModel, IEntityRef<TModel>>(
+    return callService<TModel, TModel, IEntityRef<TModel>, 'replace'>(
       'replace',
       entityInfo,
       this.injector,
@@ -158,9 +158,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  replaceMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+  replaceMany<TModel>(entityInfo: IEntityInfo<TModel>, entities: TModel[], criteria?: any): Observable<IEntitiesRef<TModel>> {
     const transformed = transformArrayToServer(entityInfo, criteria)(entities);
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'replaceMany'>(
       'replaceMany',
       entityInfo,
       this.injector,
@@ -169,9 +169,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  delete<TModel>(entityInfo: IEntityInfo, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
+  delete<TModel>(entityInfo: IEntityInfo<TModel>, entity: TModel, criteria?: any): Observable<IEntityRef<TModel>> {
     const transformed = transformSingleToServer(entityInfo, criteria)(entity);
-    return callService<TModel, TModel, IEntityRef<TModel>>(
+    return callService<TModel, TModel, IEntityRef<TModel>, 'delete'>(
       'delete',
       entityInfo,
       this.injector,
@@ -180,9 +180,9 @@ export class NgrxAutoEntityService {
     );
   }
 
-  deleteMany<TModel>(entityInfo: IEntityInfo, entities: TModel[], criteria?: any): Observable<IEntityRef<TModel[]>> {
+  deleteMany<TModel>(entityInfo: IEntityInfo<TModel>, entities: TModel[], criteria?: any): Observable<IEntitiesRef<TModel>> {
     const transformed = transformArrayToServer(entityInfo, criteria)(entities);
-    return callService<TModel, TModel[], IEntityRef<TModel[]>>(
+    return callService<TModel, TModel[], IEntitiesRef<TModel>, 'deleteMany'>(
       'deleteMany',
       entityInfo,
       this.injector,
@@ -191,8 +191,8 @@ export class NgrxAutoEntityService {
     );
   }
 
-  deleteByKey<TModel>(entityInfo: IEntityInfo, key: EntityIdentity, criteria?: any): Observable<IEntityIdentityRef> {
-    return callService<TModel, EntityIdentity, IEntityIdentityRef>(
+  deleteByKey<TModel>(entityInfo: IEntityInfo<TModel>, key: EntityIdentity, criteria?: any): Observable<IEntityIdentityRef> {
+    return callService<TModel, EntityIdentity, IEntityIdentityRef, 'deleteByKey'>(
       'deleteByKey',
       entityInfo,
       this.injector,
@@ -201,8 +201,8 @@ export class NgrxAutoEntityService {
     );
   }
 
-  deleteManyByKey<TModel>(entityInfo: IEntityInfo, keys: EntityIdentity[], criteria?: any): Observable<IEntityIdentitiesRef> {
-    return callService<TModel, EntityIdentity[], IEntityIdentitiesRef>(
+  deleteManyByKey<TModel>(entityInfo: IEntityInfo<TModel>, keys: EntityIdentity[], criteria?: any): Observable<IEntityIdentitiesRef> {
+    return callService<TModel, EntityIdentity[], IEntityIdentitiesRef, 'deleteManyByKeys'>(
       'deleteManyByKeys',
       entityInfo,
       this.injector,

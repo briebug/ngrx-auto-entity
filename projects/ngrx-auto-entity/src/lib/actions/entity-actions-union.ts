@@ -21,6 +21,8 @@ import { Replace, ReplaceFailure, ReplaceMany, ReplaceManyFailure, ReplaceManySu
 import { Select, SelectByKey, Selected, SelectedMany, SelectMany, SelectManyByKeys } from './selection-actions';
 import { Update, UpdateFailure, UpdateMany, UpdateManyFailure, UpdateManySuccess, UpdateSuccess } from './update-actions';
 import { Upsert, UpsertFailure, UpsertMany, UpsertManyFailure, UpsertManySuccess, UpsertSuccess } from './upsert-actions';
+import { Action } from '@ngrx/store';
+import { EntityActionTypes } from './action-types';
 
 /**
  * Union of all known entity action types
@@ -105,7 +107,7 @@ export type EntityActions<TModel> =
   | EndEdit<TModel>
   | EditEnded<TModel>;
 
-export const isEntityActionInstance = (action: IEntityAction): boolean =>
+export const isEntityActionInstance = (action: Action): action is EntityActions<any> =>
   action instanceof Load ||
   action instanceof LoadIfNecessary ||
   action instanceof LoadSuccess ||

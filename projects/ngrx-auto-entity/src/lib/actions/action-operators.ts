@@ -8,13 +8,17 @@ import { EntityAction, IEntityAction } from './entity-action';
 import { isEntityActionInstance } from './entity-actions-union';
 import { setType } from './util';
 
+// TODO: Change the generic on ofEntityAction
+//   They should infer the return type using allowedActionTypes
+//   This most likely needs EntityAction to be updated to include its EntityActionTypes value
+//   as part of its type parameters.
 /**
  * Operator to filter actions by an entity action type or multiple action types.
  *
  * @param allowedActionTypes One or more action type string constants
  */
 export function ofEntityAction<T extends IEntityAction>(...allowedActionTypes: EntityActionTypes[]): OperatorFunction<Action, T> {
-  return filter((action: IEntityAction): action is T => {
+  return filter((action: Action): action is T => {
     return isEntityActionInstance(action) ? allowedActionTypes.some(type => setType(type, action.info) === action.type) : false;
   });
 }
@@ -29,7 +33,7 @@ export function ofEntityType<TModel, T extends EntityAction<TModel>>(
   entity: new () => TModel,
   ...allowedActionTypes: EntityActionTypes[]
 ): OperatorFunction<Action, T> {
-  return filter((action: EntityAction<TModel>): action is T => {
+  return filter((action: Action): action is T => {
     return isEntityActionInstance(action)
       ? action.info.modelType === entity && allowedActionTypes.some(type => setType(type, action.info) === action.type)
       : false;

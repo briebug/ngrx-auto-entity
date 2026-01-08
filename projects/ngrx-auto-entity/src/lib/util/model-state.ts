@@ -1,4 +1,4 @@
-import { MemoizedSelector } from '@ngrx/store';
+import { MemoizedSelector, Selector } from '@ngrx/store';
 import { IActionMap } from './action-map';
 import { IEntityState } from './entity-state';
 import { IEntityFacadeBase } from './facade';
@@ -14,7 +14,7 @@ export interface IModelState<TParentState, TState, TModel, TExtra> {
   selectors: ISelectorMap<TParentState, TModel>;
   reducer: (state: TState & TExtra) => IEntityState<TModel> & TExtra;
   facade: IEntityFacadeBase<TModel>;
-  entityState: ((state: TParentState) => TState & TExtra) | MemoizedSelector<TParentState, TState & TExtra>;
+  entityState: Selector<TParentState, TState & TExtra> | MemoizedSelector<TParentState, TState & TExtra>;
   makeEntity: (obj: any) => TModel;
 }
 

@@ -7,7 +7,7 @@ import { cacheOnType, CorrelatedProps, defineTypedFactoryFunction } from './util
 
 export const createClearAction = <TModel, T extends string, P extends CorrelatedProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: CorrelatedProps) => Clear<TModel>> =>
+): ActionCreator<T, (props?: CorrelatedProps) => Clear<TModel>> =>
   cacheOnType(Type, EntityActionTypes.Clear, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Clear, Type),

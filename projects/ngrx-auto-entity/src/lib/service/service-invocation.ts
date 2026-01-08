@@ -7,10 +7,10 @@ import { logAndThrow, notAFunction, notImplemented } from './error-handling';
 import { IAutoEntityService } from './interface';
 import { getService } from './service-injection';
 
-export const invokeService = <TModel, TModelObs, TResult>(
-  method: string,
-  entityInfo: IEntityInfo,
-  invoke: (service: IAutoEntityService<TModel>) => Observable<TModelObs>,
+export const invokeService = <TModel, TModelObs, TResult, TMethod extends keyof IAutoEntityService<TModel>>(
+  method: TMethod,
+  entityInfo: IEntityInfo<TModel>,
+  invoke: (service: Pick<Required<IAutoEntityService<TModel>>, TMethod>) => Observable<TModelObs>,
   toResult: (entity: TModelObs) => TResult,
   service: IAutoEntityService<TModel>
 ) =>
@@ -18,20 +18,21 @@ export const invokeService = <TModel, TModelObs, TResult>(
     ? throwError({ info: entityInfo, message: notImplemented(method, entityInfo) })
     : typeof service[method] !== 'function'
     ? throwError({ info: entityInfo, message: notAFunction(method, entityInfo) })
-    : invoke(service).pipe(
+    : // TODO: remove cast
+      invoke(service as Pick<Required<IAutoEntityService<TModel>>, TMethod>).pipe(
         map(toResult),
         catchError(err => throwError({ info: entityInfo, err }))
       );
 
-export const callService = <TModel, TModelObs, TResult>(
-  method: keyof IAutoEntityService<TModel>,
-  entityInfo: IEntityInfo,
+export const callService = <TModel, TModelObs, TResult, TMethod extends keyof IAutoEntityService<TModel>>(
+  method: TMethod,
+  entityInfo: IEntityInfo<TModel>,
   injector: Injector,
-  invoke: (service: IAutoEntityService<TModel>) => Observable<TModelObs>,
+  invoke: (service: Pick<Required<IAutoEntityService<TModel>>, TMethod>) => Observable<TModelObs>,
   toResult: (entity: TModelObs) => TResult
 ): Observable<TResult> => {
   try {
-    const service = getService(entityInfo, injector);
+    const service = getService<TModel>(entityInfo, injector);
     return invokeService(method, entityInfo, invoke, toResult, service);
   } catch (err) {
     return logAndThrow(method, err, entityInfo);

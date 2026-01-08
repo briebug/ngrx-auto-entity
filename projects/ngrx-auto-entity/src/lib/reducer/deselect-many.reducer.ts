@@ -10,7 +10,7 @@ export const deselectManyReducer = ({ state, action, stateName, featureName, ent
       const deselectManyEntities = (action as DeselectMany<any>).entities || [];
       const deselectingEntities = Array.isArray(deselectManyEntities) ? deselectManyEntities : [];
       const deselectManyEntityKeys = deselectingEntities.map(entity => safeGetKey(action, entity));
-      const deselectManyCurrentKeys = entityState.selections.currentEntitiesKeys || [];
+      const deselectManyCurrentKeys = entityState.selections?.currentEntitiesKeys || [];
       const newState: IEntityState<any> = {
         ...entityState,
         selections: {
@@ -25,7 +25,7 @@ export const deselectManyReducer = ({ state, action, stateName, featureName, ent
     case EntityActionTypes.DeselectManyByKeys: {
       const deselectManyByKeysKeys = (action as DeselectManyByKeys<any>).entitiesKeys || [];
       const deselectManyByKeysGuaranteedKeys = Array.isArray(deselectManyByKeysKeys) ? deselectManyByKeysKeys : [];
-      const deselectManyByKeysCurrentKeys = entityState.selections.currentEntitiesKeys || [];
+      const deselectManyByKeysCurrentKeys = entityState.selections?.currentEntitiesKeys || [];
 
       const newState: IEntityState<any> = {
         ...entityState,

@@ -10,4 +10,6 @@ import { ENTITY_OPTS_PROP } from './entity-tokens';
 export const shouldApplyEffect =
   <TModel, TAction extends EntityAction<TModel>>() =>
   (source: Observable<TAction>) =>
+    // TODO: Use Reflect API instead of a dunder property
+    // @ts-expect-error TS7053
     source.pipe(filter(({ actionType, info }) => !((info.modelType[ENTITY_OPTS_PROP] || {}).excludeEffects || {})[actionType]));

@@ -11,7 +11,7 @@ export interface LoadProps extends StandardProps {
 
 export const createLoadAction = <TModel, T extends string, P extends LoadProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: LoadProps) => Load<TModel>> =>
+): ActionCreator<T, (props?: LoadProps) => Load<TModel>> =>
   cacheOnType(Type, EntityActionTypes.Load, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.Load, Type),
@@ -25,7 +25,7 @@ export interface LoadIfNecessaryProps extends LoadProps {
 
 export const createLoadIfNecessaryAction = <TModel, T extends string, P extends LoadIfNecessaryProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: LoadIfNecessaryProps) => LoadIfNecessary<TModel>> =>
+): ActionCreator<T, (props?: LoadIfNecessaryProps) => LoadIfNecessary<TModel>> =>
   cacheOnType(Type, EntityActionTypes.LoadIfNecessary, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadIfNecessary, Type),

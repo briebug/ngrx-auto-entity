@@ -6,37 +6,55 @@ import { Observable } from 'rxjs';
 import { ofEntityAction } from '../actions/action-operators';
 import { EntityActionTypes } from '../actions/action-types';
 import { EntityOperators } from './operators';
+import { Create, CreateMany } from '../actions/create-actions';
+import { Update, UpdateMany } from '../actions/update-actions';
+import { Upsert, UpsertMany } from '../actions/upsert-actions';
+import { Replace, ReplaceMany } from '../actions/replace-actions';
+import { Delete, DeleteMany } from '../actions/delete-actions';
+import { DeleteByKey, DeleteManyByKeys } from '../actions/delete-by-key-actions';
 
 @Injectable()
 export class CUDEffects {
   private readonly actions$ = inject(Actions);
   private readonly ops = inject(EntityOperators);
 
-  create$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Create), this.ops.create()));
-
-  createMany$: Observable<Action> = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.CreateMany), this.ops.createMany())
+  create$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<Create<unknown>>(EntityActionTypes.Create), this.ops.create())
   );
 
-  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Update), this.ops.update()));
+  createMany$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<CreateMany<unknown>>(EntityActionTypes.CreateMany), this.ops.createMany())
+  );
 
-  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpdateMany), this.ops.updateMany()));
+  update$ = createEffect(() => this.actions$.pipe(ofEntityAction<Update<unknown>>(EntityActionTypes.Update), this.ops.update()));
 
-  upsert$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Upsert), this.ops.upsert()));
+  updateMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<UpdateMany<unknown>>(EntityActionTypes.UpdateMany), this.ops.updateMany())
+  );
 
-  upsertMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpsertMany), this.ops.upsertMany()));
+  upsert$ = createEffect(() => this.actions$.pipe(ofEntityAction<Upsert<unknown>>(EntityActionTypes.Upsert), this.ops.upsert()));
 
-  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Replace), this.ops.replace()));
+  upsertMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<UpsertMany<unknown>>(EntityActionTypes.UpsertMany), this.ops.upsertMany())
+  );
 
-  replaceMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.ReplaceMany), this.ops.replaceMany()));
+  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction<Replace<unknown>>(EntityActionTypes.Replace), this.ops.replace()));
 
-  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Delete), this.ops.delete()));
+  replaceMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<ReplaceMany<unknown>>(EntityActionTypes.ReplaceMany), this.ops.replaceMany())
+  );
 
-  deleteMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteMany), this.ops.deleteMany()));
+  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction<Delete<unknown>>(EntityActionTypes.Delete), this.ops.delete()));
 
-  deleteByKey$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteByKey), this.ops.deleteByKey()));
+  deleteMany$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<DeleteMany<unknown>>(EntityActionTypes.DeleteMany), this.ops.deleteMany())
+  );
+
+  deleteByKey$ = createEffect(() =>
+    this.actions$.pipe(ofEntityAction<DeleteByKey<unknown>>(EntityActionTypes.DeleteByKey), this.ops.deleteByKey())
+  );
 
   deleteManyByKeys$ = createEffect(() =>
-    this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
+    this.actions$.pipe(ofEntityAction<DeleteManyByKeys<unknown>>(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
   );
 }

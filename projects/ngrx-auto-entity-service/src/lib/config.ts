@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export type APIPrefixResolver = (
   operation: string,
   info: IEntityInfo,
-  criteria: EntityCriteria
+  criteria?: EntityCriteria
 ) => string | Promise<string> | Observable<string>;
 
 export interface AutoEntityServiceConfig {

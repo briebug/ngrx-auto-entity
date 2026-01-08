@@ -14,7 +14,7 @@ export const EXTRA_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.DeselectManyByKeys]: true,
   [EntityActionTypes.DeselectAll]: true,
   [EntityActionTypes.Clear]: true
-});
+} satisfies IEffectExclusions);
 
 export const CURD_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.Create]: true,
@@ -29,7 +29,7 @@ export const CURD_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.DeleteMany]: true,
   [EntityActionTypes.DeleteByKey]: true,
   [EntityActionTypes.DeleteManyByKeys]: true
-});
+} satisfies IEffectExclusions);
 
 export const LOAD_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.Load]: true,
@@ -37,10 +37,10 @@ export const LOAD_EFFECTS_EXCLUSION = Object.freeze({
   [EntityActionTypes.LoadMany]: true,
   [EntityActionTypes.LoadPage]: true,
   [EntityActionTypes.LoadRange]: true
-});
+} satisfies IEffectExclusions);
 
 export const ALL_EFFECTS_EXCLUSION = Object.freeze({
   ...LOAD_EFFECTS_EXCLUSION,
   ...CURD_EFFECTS_EXCLUSION,
   ...EXTRA_EFFECTS_EXCLUSION
-});
+} satisfies IEffectExclusions);

@@ -7,7 +7,7 @@ import { LoadAll, LoadAllFailure, LoadAllIfNecessary, LoadAllSuccess } from '../
 
 export const createLoadAllAction = <TModel, T extends string, P extends StandardProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: StandardProps) => LoadAll<TModel>> =>
+): ActionCreator<T, (props?: StandardProps) => LoadAll<TModel>> =>
   cacheOnType(Type, EntityActionTypes.LoadAll, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadAll, Type),
@@ -21,7 +21,7 @@ export interface LoadAllIfNecessaryProps extends StandardProps {
 
 export const createLoadAllIfNecessaryAction = <TModel, T extends string, P extends LoadAllIfNecessaryProps>(
   Type: TNew<TModel>
-): ActionCreator<T, (props: LoadAllIfNecessaryProps) => LoadAllIfNecessary<TModel>> =>
+): ActionCreator<T, (props?: LoadAllIfNecessaryProps) => LoadAllIfNecessary<TModel>> =>
   cacheOnType(Type, EntityActionTypes.LoadAllIfNecessary, () =>
     defineTypedFactoryFunction(
       setActionType(EntityActionTypes.LoadAllIfNecessary, Type),

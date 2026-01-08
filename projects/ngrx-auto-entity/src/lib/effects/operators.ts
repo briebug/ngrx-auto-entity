@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, withLatestFrom } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from '../actions/create-actions';
 import { Delete, DeleteFailure, DeleteMany, DeleteManyFailure, DeleteManySuccess, DeleteSuccess } from '../actions/delete-actions';
@@ -75,8 +75,8 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         mergeMap(({ info, keys, criteria, correlationId }) => {
-          return this.entityService.load(info, keys, criteria).pipe(
-            map((ref: IEntityRef<TModel>) => new LoadSuccess<TModel>(ref.info.modelType, ref.entity, keys, criteria, correlationId)),
+          return this.entityService.load<TModel>(info, keys, criteria).pipe(
+            map(ref => new LoadSuccess<TModel>(ref.info.modelType, ref.entity, keys, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new LoadFailure<TModel>(error.info.modelType, error.err, keys, criteria, correlationId), 'load')
             )
@@ -90,8 +90,8 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         mergeMap(({ info, criteria, correlationId }) => {
-          return this.entityService.loadMany(info, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new LoadManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+          return this.entityService.loadMany<TModel>(info, criteria).pipe(
+            map(ref => new LoadManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new LoadManyFailure<TModel>(error.info.modelType, error.err, criteria, correlationId), 'loadMany')
             )
@@ -105,8 +105,8 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         mergeMap(({ info, criteria, correlationId }) => {
-          return this.entityService.loadAll(info, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new LoadAllSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+          return this.entityService.loadAll<TModel>(info, criteria).pipe(
+            map(ref => new LoadAllSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new LoadAllFailure<TModel>(error.info.modelType, error.err, criteria, correlationId), 'loadAll')
             )
@@ -120,11 +120,8 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         mergeMap(({ info, page, criteria, correlationId }) => {
-          return this.entityService.loadPage(info, page, criteria).pipe(
-            map(
-              (ref: IEntityPageRef<TModel>) =>
-                new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo, criteria, correlationId)
-            ),
+          return this.entityService.loadPage<TModel>(info, page, criteria).pipe(
+            map(ref => new LoadPageSuccess<TModel>(ref.info.modelType, ref.entity, ref.pageInfo, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new LoadPageFailure<TModel>(error.info.modelType, error.err, page, criteria, correlationId), 'loadPage')
             )
@@ -138,11 +135,8 @@ export class EntityOperators {
       source.pipe(
         shouldApplyEffect(),
         mergeMap(({ info, range, criteria, correlationId }) => {
-          return this.entityService.loadRange(info, range, criteria).pipe(
-            map(
-              (ref: IEntityRangeRef<TModel>) =>
-                new LoadRangeSuccess<TModel>(ref.info.modelType, ref.entity, ref.rangeInfo, criteria, correlationId)
-            ),
+          return this.entityService.loadRange<TModel>(info, range, criteria).pipe(
+            map(ref => new LoadRangeSuccess<TModel>(ref.info.modelType, ref.entity, ref.rangeInfo, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new LoadRangeFailure<TModel>(error.info.modelType, error.err, range, criteria, correlationId), 'loadRange')
             )
@@ -157,7 +151,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.create<TModel>(info, entity, criteria).pipe(
-            map((ref: IEntityRef<TModel>) => new CreateSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new CreateSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new CreateFailure<TModel>(error.info.modelType, error.err, entity, criteria, correlationId), 'create')
             )
@@ -172,7 +166,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.createMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new CreateManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new CreateManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -191,7 +185,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.update<TModel>(info, entity, criteria).pipe(
-            map((ref: IEntityRef<TModel>) => new UpdateSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new UpdateSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new UpdateFailure<TModel>(error.info.modelType, error.err, entity, criteria, correlationId), 'update')
             )
@@ -206,7 +200,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.updateMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new UpdateManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new UpdateManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -225,7 +219,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.upsert<TModel>(info, entity, criteria).pipe(
-            map((ref: IEntityRef<TModel>) => new UpsertSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new UpsertSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new UpsertFailure<TModel>(error.info.modelType, error.err, entity, criteria, correlationId), 'upsert')
             )
@@ -240,7 +234,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.upsertMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new UpsertManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new UpsertManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -259,7 +253,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.replace<TModel>(info, entity, criteria).pipe(
-            map((ref: IEntityRef<TModel>) => new ReplaceSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new ReplaceSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new ReplaceFailure<TModel>(error.info.modelType, error.err, entity, criteria, correlationId), 'replace')
             )
@@ -274,7 +268,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.replaceMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new ReplaceManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new ReplaceManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -293,7 +287,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entity, criteria, correlationId }) => {
           return this.entityService.delete(info, entity, criteria).pipe(
-            map((ref: IEntityRef<TModel>) => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new DeleteSuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(error, new DeleteFailure<TModel>(error.info.modelType, error.err, entity, criteria, correlationId), 'delete')
             )
@@ -308,7 +302,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, entities, criteria, correlationId }) => {
           return this.entityService.deleteMany<TModel>(info, entities, criteria).pipe(
-            map((ref: IEntityRef<TModel[]>) => new DeleteManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
+            map(ref => new DeleteManySuccess<TModel>(ref.info.modelType, ref.entity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -327,9 +321,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, key, criteria, correlationId }) => {
           return this.entityService.deleteByKey<TModel>(info, key, criteria).pipe(
-            map(
-              (ref: IEntityIdentityRef) => new DeleteByKeySuccess<TModel>(ref.info.modelType, ref.entityIdentity, criteria, correlationId)
-            ),
+            map(ref => new DeleteByKeySuccess<TModel>(ref.info.modelType, ref.entityIdentity, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -348,10 +340,7 @@ export class EntityOperators {
         shouldApplyEffect(),
         mergeMap(({ info, keys, criteria, correlationId }) => {
           return this.entityService.deleteManyByKey<TModel>(info, keys, criteria).pipe(
-            map(
-              (ref: IEntityIdentitiesRef) =>
-                new DeleteManyByKeysSuccess<TModel>(ref.info.modelType, ref.entityIdentities, criteria, correlationId)
-            ),
+            map(ref => new DeleteManyByKeysSuccess<TModel>(ref.info.modelType, ref.entityIdentities, criteria, correlationId)),
             catchError((error: IEntityError) =>
               handleError(
                 error,
@@ -448,7 +437,7 @@ export class EntityOperators {
     return (source: Observable<EditNew<TModel>>) =>
       source.pipe(
         shouldApplyEffect(),
-        map(({ info, entity, correlationId }) => new Edited<TModel>(info.modelType, entity, correlationId))
+        map(({ info, entity, correlationId }) => new Edited<TModel>(info.modelType, entity!, correlationId))
       );
   }
 

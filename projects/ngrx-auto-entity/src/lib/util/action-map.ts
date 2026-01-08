@@ -47,7 +47,14 @@ import { LoadManyFailureProps, LoadManyIfNecessaryProps, LoadManySuccessProps } 
 import { LoadPageFailureProps, LoadPageIfNecessaryProps, LoadPageProps, LoadPageSuccessProps } from '../factories/load-page-factories';
 import { LoadRangeFailureProps, LoadRangeIfNecessaryProps, LoadRangeProps, LoadRangeSuccessProps } from '../factories/load-range-factories';
 import { ReplaceFailureProps, ReplaceManyFailureProps, ReplaceManyProps, ReplaceProps } from '../factories/replace-factories';
-import { SelectByKeyProps, SelectedManyProps, SelectManyByKeysProps, SelectManyProps, SelectProps } from '../factories/selection-factories';
+import {
+  SelectByKeyProps,
+  SelectedManyProps,
+  SelectedProps,
+  SelectManyByKeysProps,
+  SelectManyProps,
+  SelectProps
+} from '../factories/selection-factories';
 import { UpdateFailureProps, UpdateManyFailureProps, UpdateManyProps, UpdateProps } from '../factories/update-factories';
 import { UpsertFailureProps, UpsertManyFailureProps, UpsertManyProps, UpsertProps } from '../factories/upsert-factories';
 import { CorrelatedProps, StandardProps } from '../factories/util';
@@ -136,7 +143,7 @@ export interface IActionMap<TModel> {
   selectMore: ActionCreator<string, (props: SelectManyProps<TModel>) => SelectMore<TModel>>;
   selectManyByKeys: ActionCreator<string, (props: SelectManyByKeysProps) => SelectManyByKeys<TModel>>;
   selectMoreByKeys: ActionCreator<string, (props: SelectManyByKeysProps) => SelectMoreByKeys<TModel>>;
-  selected: ActionCreator<string, (props?: CorrelatedProps) => Selected<TModel>>;
+  selected: ActionCreator<string, (props: SelectedProps<TModel>) => Selected<TModel>>;
   selectedMany: ActionCreator<string, (props: SelectedManyProps<TModel>) => SelectedMany<TModel>>;
   selectedMore: ActionCreator<string, (props: SelectedManyProps<TModel>) => SelectedMore<TModel>>;
 

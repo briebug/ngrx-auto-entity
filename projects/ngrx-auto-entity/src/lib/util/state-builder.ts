@@ -1,4 +1,4 @@
-import { Action, createSelector, MemoizedSelector } from '@ngrx/store';
+import { Action, createSelector, MemoizedSelector, Selector } from '@ngrx/store';
 import { IEntityOptions } from '../decorators/entity-options';
 import { ENTITY_OPTS_PROP, NAE_KEY_NAMES, NAE_KEYS } from '../decorators/entity-tokens';
 import { entityStateName } from '../decorators/entity-util';
@@ -24,6 +24,8 @@ const defaultSort = (aKey: EntityIdentity, bKey: EntityIdentity): number =>
 export const NO_ENTITY_DECORATOR_MSG =
   'Specified model is not decorated with @Entity. All automatic entities must be decorated with a modelName specified. Building of state aborted!';
 const ensureEntityDecorator = <TModel>(type: IModelClass<TModel>): void => {
+  // TODO: Use Reflect API instead of a dunder property
+  // @ts-expect-error TS7053
   if (!type[ENTITY_OPTS_PROP]) {
     const example = ` Example model with proper decoration:
 
@@ -40,11 +42,15 @@ export class Test {
 export const NO_ENTITY_KEY_MSG =
   'Specified model has no properties decorated with @Key. All automatic entities must have at least one property identified as the entity key. Building of state aborted!';
 const ensureEntityKey = <TModel>(type: IModelClass<TModel>): void => {
+  // TODO: Use Reflect API instead of a dunder property
   if (!type.prototype[NAE_KEY_NAMES] || !type.prototype[NAE_KEYS]) {
+    // TODO: Use Reflect API instead of a dunder property
+    /* @ts-expect-error TS7053 */
+    const modelName = type[ENTITY_OPTS_PROP].modelName;
     const example = ` Example model with proper decoration:
 
-@Entity({modelName: '${type[ENTITY_OPTS_PROP].modelName}'})
-export class ${type[ENTITY_OPTS_PROP].modelName} {
+@Entity({modelName: '${modelName}'})
+export class ${modelName} {
   @Key yourKey: number | string;
   // ... other properties ...
 }`;
@@ -82,12 +88,16 @@ export const buildState = <TState extends IEntityState<TModel>, TParentState, TM
   ensureEntityDecorator(type);
   ensureEntityKey(type);
 
+  // TODO: Use Reflect API instead of a dunder property
+  /* @ts-expect-error TS7053 */
   const opts = type[ENTITY_OPTS_PROP];
   ensureModelName(opts);
 
   const stateName = entityStateName(opts.modelName);
 
   const getState = (state: TParentState): TState & TExtra => {
+    // TODO: Fix TParentState and stateName typing to allow this
+    // @ts-expect-error TS7053
     const modelState = state[stateName];
     if (!modelState) {
       const message = `State for model ${opts.modelName} could not be found! Make sure you add your entity state to the parent state with a property named exactly '${stateName}'.`;
@@ -115,7 +125,7 @@ export interface AppState {
   let _facade: IEntityFacadeBase<TModel>;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
-  const entityState = getState as (state: TParentState) => TState & TExtra;
+  const entityState = getState;
   let _makeEntity: (obj: any) => TModel;
 
   class StateBuilder {
@@ -178,6 +188,8 @@ export const buildFeatureState = <TState extends IEntityState<TModel>, TParentSt
   ensureEntityDecorator(type);
   ensureEntityKey(type);
 
+  // TODO: Use Reflect API instead of a dunder property
+  /* @ts-expect-error TS7053 */
   const opts = type[ENTITY_OPTS_PROP];
   ensureModelName(opts);
 
@@ -198,6 +210,8 @@ export interface FeatureState {
       console.error('[NGRX-AE] ! ' + message + example);
       throw new Error(message);
     }
+    // TODO: Fix TParentState and stateName typing to allow this
+    // @ts-expect-error TS7053
     const modelState = state[stateName];
     if (!modelState) {
       const message = `State for model ${opts.modelName} in feature ${featureStateName} could not be found!`;
@@ -218,6 +232,8 @@ export interface FeatureState {
   let _facade: IEntityFacadeBase<TModel>;
   let _reducer: (state: IEntityState<TModel> & TExtra) => IEntityState<TModel> & TExtra;
 
+  // TODO: Update buildFeatureState to require a TRootState type parameter,
+  //  that type should be used for the root state for entity and buildSelectorMap
   const entityState = selectState as MemoizedSelector<TParentState, TState & TExtra>;
   let _makeEntity: (obj: any) => TModel;
 
@@ -236,7 +252,8 @@ export interface FeatureState {
     }
 
     get selectors() {
-      _selectors = _selectors || buildSelectorMap<TParentState, TState, TModel, TExtra>(selectState, type);
+      // TODO: Change object to TRootState
+      _selectors = _selectors || buildSelectorMap<object, TState, TModel, TExtra>(selectState, type);
       return _selectors;
     }
 

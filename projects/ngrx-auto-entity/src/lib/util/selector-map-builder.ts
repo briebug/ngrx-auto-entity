@@ -34,27 +34,27 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
   class SelectorResolver implements ISelectorMap<TParentState, TModel> {
     // State Roots:
     get selectEntities() {
-      return createSelector(getState, mapToEntities) as MemoizedSelector<object | TParentState, IEntityDictionary<TModel>>;
+      return createSelector(getState, mapToEntities<TState, TModel, TExtra>);
     }
 
     get selectIds() {
-      return createSelector(getState, mapToIds);
+      return createSelector(getState, mapToIds<TState, TModel, TExtra>);
     }
 
     get selectSelections() {
-      return createSelector(getState, mapToSelections) as MemoizedSelector<object | TParentState, IEntitySelections>;
+      return createSelector(getState, mapToSelections<TState, TModel, TExtra>);
     }
 
     get selectEdits() {
-      return createSelector(getState, mapToEdits) as MemoizedSelector<object | TParentState, IEntityEdits<TModel>>;
+      return createSelector(getState, mapToEdits<TState, TModel, TExtra>);
     }
 
     get selectPaging() {
-      return createSelector(getState, mapToPaging) as MemoizedSelector<object | TParentState, IEntityPaging>;
+      return createSelector(getState, mapToPaging<TState, TModel, TExtra>);
     }
 
     get selectTracking() {
-      return createSelector(getState, mapToTracking) as MemoizedSelector<object | TParentState, IEntityTracking>;
+      return createSelector(getState, mapToTracking<TState, TModel, TExtra>);
     }
 
     // Entity:
@@ -84,7 +84,7 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
         this.selectSelections,
         this.selectEntities,
         mapToCurrentEntity
-      ) as MemoizedSelector<object | TParentState, TModel | null>;
+      );
     }
 
     get selectCurrentEntityKey() {
@@ -96,7 +96,7 @@ export const buildSelectorMap = <TParentState, TState extends IEntityState<TMode
         this.selectSelections,
         this.selectEntities,
         mapToCurrentEntities
-      ) as MemoizedSelector<object | TParentState, TModel[]>;
+      );
     }
 
     get selectCurrentEntitiesKeys() {

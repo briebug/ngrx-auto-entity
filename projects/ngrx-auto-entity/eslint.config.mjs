@@ -38,7 +38,9 @@ export default [
           prefix: 'ae',
           style: 'kebab-case'
         }
-      ]
+      ],
+      //TODO: Remove this once all injections use `inject`
+      '@angular-eslint/prefer-inject': 'warn'
     }
   },
   {

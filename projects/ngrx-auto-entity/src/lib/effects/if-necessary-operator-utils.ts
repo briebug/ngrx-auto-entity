@@ -1,6 +1,6 @@
 import { InjectionToken, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { of, pipe } from 'rxjs';
+import { of, OperatorFunction, pipe } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
 import { compose as fpipe } from '../../util/func';
 import { IEntityInfo } from '../actions/entity-info';
@@ -15,8 +15,12 @@ export const NGRX_AUTO_ENTITY_APP_STORE = new InjectionToken<Store>('@briebug/ng
 export const getEntityState =
   (info: IEntityInfo) =>
   (state: any): IEntityState<any> =>
+    // TODO: Use Reflect API instead of a dunder property
+    /* @ts-expect-error TS7053 */
     (info.modelType[FEATURE_AFFINITY]
-      ? state[info.modelType[FEATURE_AFFINITY]][entityStateName(info.modelName)]
+      ? // TODO: Use Reflect API instead of a dunder property
+        /* @ts-expect-error TS7053 */
+        state[info.modelType[FEATURE_AFFINITY]][entityStateName(info.modelName)]
       : state[entityStateName(info.modelName)]) as IEntityState<any>;
 export const getLoadedAt = (state: IEntityState<any>): number | undefined => state?.tracking?.loadedAt ?? undefined;
 export const getIsLoading = (state: IEntityState<any>): boolean => !!state.tracking?.isLoading;
@@ -47,7 +51,6 @@ export const isSubsequentRange = (a: any, b: any) => (a.start || a.first || a.sk
 export const warnIfMissingStore: (() => void) & { lastWarnTime?: number } = () =>
   !warnIfMissingStore.lastWarnTime || Math.abs(new Date(warnIfMissingStore.lastWarnTime).valueOf() - new Date(Date.now()).valueOf()) > 15000
     ? (console.warn(
-         
         '[NGRX-AE] Warning! The NGRX_AUTO_ENTITY_APP_STORE provider has not been configured! *IfNecessary actions require accessing your store in order to function properly!'
       ),
       (warnIfMissingStore.lastWarnTime = Date.now()),
@@ -61,11 +64,11 @@ export const getAppStore = <TAction>(injector: Injector) =>
     mergeMap((action: TAction) => {
       try {
         const store = injector.get(NGRX_AUTO_ENTITY_APP_STORE);
-        return of({ action, store } as { action: TAction; store: Store<any> });
+        return of({ action, store });
       } catch {
         warnIfMissingStore();
-        return of({ action, store: undefined } as { action: TAction; store: Store<any> });
+        return of({ action, store: undefined });
       }
     }),
-    filter(({ store }) => !!store)
+    filter((value): value is { action: TAction; store: Store<any> } => !!value.store)
   );

@@ -9,10 +9,14 @@ export const EMPTY_OBJECT = {};
 export const getEntity = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): TNew<TModel> | TModel =>
   Array.isArray(entityOrType) ? entityOrType[0] : entityOrType;
 
-export const ensureObject = value => value || EMPTY_OBJECT;
+export const ensureObject = <T>(value: T): T | typeof EMPTY_OBJECT => value || EMPTY_OBJECT;
 
 export const getEntityOptions = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): IEntityOptions =>
+  // TODO: Use Reflect API instead of a dunder property
+  // TODO: Check if entityOrType of type TNew<TModel> using a type predicate function
+  // @ts-expect-error TS7053
   (entityOrType[ENTITY_OPTS_PROP] ||
+    // @ts-expect-error TS2339
     (entityOrType.constructor ? entityOrType.constructor[ENTITY_OPTS_PROP] : EMPTY_OBJECT) ||
     EMPTY_OBJECT) as IEntityOptions;
 
@@ -32,29 +36,30 @@ export const pluralNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel):
 export const stateNameOfEntity = <TModel>(entityOrType: TNew<TModel> | TModel): string | null | undefined =>
   entityStateName(entityOptions(entityOrType).modelName);
 
-export const mapComparer = (options: IEntityOptions, name: string): EntityComparer =>
+export const mapComparer = (options: IEntityOptions, name: string): EntityComparer | undefined =>
   options.comparers != null
     ? typeof options.comparers[name] === 'string'
       ? (options.comparers[options.comparers[name] as string] as EntityComparer)
       : (options.comparers[name] as EntityComparer)
     : undefined;
 
-export const defaultComparer = (options: IEntityOptions): EntityComparer => options.comparer || mapComparer(options, 'default');
+export const defaultComparer = (options: IEntityOptions): EntityComparer | undefined => options.comparer || mapComparer(options, 'default');
 
-export const namedComparer = (options: IEntityOptions, name: string): EntityComparer =>
+export const namedComparer = (options: IEntityOptions, name: string): EntityComparer | undefined =>
   options.comparers != null
     ? (options.comparers[name] as EntityComparer) || mapComparer(options, name)
     : name === 'default'
     ? defaultComparer(options)
     : undefined;
 
-export const getComparer = (options: IEntityOptions, name?: string): EntityComparer =>
+export const getComparer = (options: IEntityOptions, name?: string): EntityComparer | undefined =>
   options != null ? (name != null ? namedComparer(options, name) : defaultComparer(options)) : undefined;
 
-export const entityComparer = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[], name?: string): EntityComparer | null | undefined =>
+export const entityComparer = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[], name?: string): EntityComparer | undefined =>
   getComparer(entityOptions(entityOrType), name);
 
 export const entityTransforms = <TModel>(entityOrType: TNew<TModel> | TModel): IEntityTransformer[] | null | undefined =>
   entityOptions(entityOrType).transform;
 
-export const entityMaxAge = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): number => entityOptions(entityOrType).defaultMaxAge;
+export const entityMaxAge = <TModel>(entityOrType: TNew<TModel> | TModel | TModel[]): number | undefined =>
+  entityOptions(entityOrType).defaultMaxAge;

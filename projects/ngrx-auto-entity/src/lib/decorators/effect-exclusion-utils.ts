@@ -8,7 +8,7 @@ import {
 } from './effect-exclusions';
 
 export const except =
-  (effects?) =>
+  (effects?: IEffectExclusions) =>
   (...actions: EntityActionTypes[]): IEffectExclusions => ({
     ...(effects || {}),
     ...actions.reduce((acc, action) => ({ ...acc, [action]: false }), {})
