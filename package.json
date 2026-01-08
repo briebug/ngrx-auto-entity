@@ -83,8 +83,7 @@
     "rxjs": "~7.8.1",
     "tslib": "^2.3.0",
     "uuidv4": "^5.0.1",
-    "zone.js": "~0.15.1",
-    "@ngrx/operators": "^18.0.0"
+    "zone.js": "~0.15.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~19.2.19",
