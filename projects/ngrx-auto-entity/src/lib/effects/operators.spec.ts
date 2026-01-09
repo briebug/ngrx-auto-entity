@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { hot } from 'jasmine-marbles';
 import { Load, LoadFailure, LoadSuccess } from '../actions/load-actions';
 import { LoadAll, LoadAllFailure, LoadAllSuccess } from '../actions/load-all-actions';
@@ -20,7 +20,7 @@ class TestEntity {
 describe('EntityOperators', () => {
   beforeEach(() => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
       teardown: { destroyAfterEach: false }
     });
     TestBed.configureTestingModule({

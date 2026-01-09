@@ -19,7 +19,7 @@
       "!{projectRoot}/eslint.config.mjs",
       "!{projectRoot}/lint-staged.config.[mc]?[jt]s"
     ],
-    "sharedGlobals": ["{workspaceRoot}/.circleci/config.yml"]
+    "sharedGlobals": []
   },
   "targetDefaults": {
     "@angular-devkit/build-angular:browser": {
@@ -29,15 +29,11 @@
     },
     "test": {
       "cache": true,
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/jest.preset.js",
-        "{workspaceRoot}/jest.config.js",
-        { "externalDependencies": ["jest"] }
-      ],
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js", { "externalDependencies": ["jest"] }],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "{projectRoot}/jest.config.ts",
+        "jestConfig": "{projectRoot}/jest.config.cts",
+        "tsConfig": "{projectRoot}/tsconfig.spec.json",
         "passWithNoTests": true
       },
       "configurations": {
