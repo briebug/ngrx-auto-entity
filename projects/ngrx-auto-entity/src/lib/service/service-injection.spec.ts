@@ -1,6 +1,6 @@
 import { Injector, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { createReducer, StoreModule } from '@ngrx/store';
 import { setInfo } from '../actions/util';
@@ -99,7 +99,7 @@ export class AltModule {}
 describe('Service Injection', () => {
   beforeEach(async () => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
       teardown: { destroyAfterEach: false }
     });
     await TestBed.configureTestingModule({
