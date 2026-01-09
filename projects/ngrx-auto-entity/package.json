@@ -54,9 +54,9 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "^19.0.0",
-    "@ngrx/effects": "^19.0.0",
-    "@ngrx/store": "^19.0.0",
+    "@angular/core": "^21.0.0",
+    "@ngrx/effects": "^21.0.0",
+    "@ngrx/store": "^21.0.0",
     "rxjs": "^7.0.0"
   },
   "sideEffects": false

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -9,35 +9,40 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class LoadEffect {
-  load$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Load), this.ops.load()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  load$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Load), this.ops.load()));
 }
 
 @Injectable()
 export class LoadAllEffect {
-  loadAll$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadAll), this.ops.loadAll()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  loadAll$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadAll), this.ops.loadAll()));
 }
 
 @Injectable()
 export class LoadManyEffect {
-  loadMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadMany), this.ops.loadMany()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  loadMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadMany), this.ops.loadMany()));
 }
 
 @Injectable()
 export class LoadPageEffect {
-  loadPage$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadPage), this.ops.loadPage()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  loadPage$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadPage), this.ops.loadPage()));
 }
 
 @Injectable()
 export class LoadRangeEffect {
-  loadRange$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadRange), this.ops.loadRange()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  loadRange$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadRange), this.ops.loadRange()));
 }

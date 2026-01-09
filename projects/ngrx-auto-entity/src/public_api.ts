@@ -11,14 +11,14 @@ export {
   NgRxAutoEntityRootModuleNoEntityEffects,
   NgRxAutoEntityRootModuleNoEffects,
   NgRxAutoEntityFeatureModule,
-  NgRxAutoEntityModuleConfig,
+  type NgRxAutoEntityModuleConfig
 } from './lib/module';
 export {
-  CustomStoreFeature,
-  EntityEffectsFeature,
-  ExtraEffectsFeature,
+  type CustomStoreFeature,
+  type EntityEffectsFeature,
+  type ExtraEffectsFeature,
   getNgRxAutoEntityMetaReducer,
-  NgRxAutoEntityFeatures,
+  type NgRxAutoEntityFeatures,
   provideAutoEntityState,
   provideAutoEntityStore,
   provideEntityService,
@@ -34,12 +34,12 @@ export {
 /*
  * Common models and types referenced throughout Auto-Entity
  */
-export { IPage, Page, IFirstLastRange, IRangeInfo, ISkipTakeRange, IStartEndRange, Range, RangeValue, IPageInfo } from './lib/models';
-export { EntityIdentity } from './lib/types/entity-identity';
-export { IEntityDictionary, IEntityState } from './lib/util/entity-state';
-export { IModelState, IModelClass } from './lib/util/model-state';
-export { IEntityFacade } from './lib/util/facade';
-export { ISelectorMap } from './lib/util/selector-map';
+export type { IPage, Page, IFirstLastRange, IRangeInfo, ISkipTakeRange, IStartEndRange, Range, RangeValue, IPageInfo } from './lib/models';
+export type { EntityIdentity } from './lib/types/entity-identity';
+export type { IEntityDictionary, IEntityState } from './lib/util/entity-state';
+export type { IModelState, IModelClass } from './lib/util/model-state';
+export type { IEntityFacade } from './lib/util/facade';
+export type { ISelectorMap } from './lib/util/selector-map';
 
 /*
  * Builders
@@ -53,13 +53,13 @@ export { buildFeatureState, buildState } from './lib/util/state-builder';
  * Action Support
  */
 export { EntityActionTypes } from './lib/actions/action-types';
-export { IEntityInfo } from './lib/actions/entity-info';
+export type { IEntityInfo } from './lib/actions/entity-info';
 export { EntityAction } from './lib/actions/entity-action';
-export { ICorrelatedAction } from './lib/actions/entity-action';
+export type { ICorrelatedAction } from './lib/actions/entity-action';
 export { fromEntityActions } from './lib/actions/action-operators';
 export { ofEntityType } from './lib/actions/action-operators';
 export { ofEntityAction } from './lib/actions/action-operators';
-export { isEntityActionInstance, EntityActions } from './lib/actions/entity-actions-union';
+export { isEntityActionInstance, type EntityActions } from './lib/actions/entity-actions-union';
 
 /*
  * Actions
@@ -114,8 +114,8 @@ export { Key } from './lib/decorators/key-decorator';
  */
 export { NAE_TYPE_ACTION_CACHE } from './lib/factories/util';
 export { ENTITY_OPTS_PROP } from './lib/decorators/entity-tokens';
-export { IEffectExcept, IEntityOptions, IEntityTransformer, EntityAge } from './lib/decorators/entity-options';
-export { IEffectExclusions } from './lib/decorators/effect-exclusions';
+export type { IEffectExcept, IEntityOptions, IEntityTransformer, EntityAge } from './lib/decorators/entity-options';
+export type { IEffectExclusions } from './lib/decorators/effect-exclusions';
 export { curd, loads, extra, all, matching, except } from './lib/decorators/effect-exclusion-utils';
 
 /*
@@ -152,10 +152,10 @@ export { autoEntityMetaReducer } from './lib/reducer/meta-reducer';
  * Entity Service
  */
 export { NgrxAutoEntityService } from './lib/service/service';
-export { IAutoEntityService } from './lib/service/interface';
+export type { IAutoEntityService } from './lib/service/interface';
 
-export { IEntityRangeRef, IEntityPageRef, IEntityRef, IEntityIdentityRef, IEntityIdentitiesRef } from './lib/service/refs';
-export { IEntityWithRangeInfo, IEntityWithPageInfo, IEntityError } from './lib/service/wrapper-models';
+export type { IEntityRangeRef, IEntityPageRef, IEntityRef, IEntityIdentityRef, IEntityIdentitiesRef } from './lib/service/refs';
+export type { IEntityWithRangeInfo, IEntityWithPageInfo, IEntityError } from './lib/service/wrapper-models';
 
 /*
  * Transformation utilities

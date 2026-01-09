@@ -8,7 +8,8 @@ import { AppState } from './app.state';
   providedIn: 'root'
 })
 export class AccountFacade extends AccountFacadeBase {
-  constructor(private store: Store<AppState>) {
+  // eslint-disable-next-line @angular-eslint/prefer-inject
+  constructor(store: Store<AppState>) {
     super(Account, store);
   }
 }

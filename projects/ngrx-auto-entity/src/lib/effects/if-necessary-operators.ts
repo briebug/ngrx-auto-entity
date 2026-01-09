@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { select } from '@ngrx/store';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, take } from 'rxjs/operators';
@@ -22,7 +22,7 @@ import {
 
 @Injectable()
 export class EntityIfNecessaryOperators {
-  constructor(private injector: Injector) {}
+  private readonly injector = inject(Injector);
 
   loadIfNecessary<TModel>() {
     return (source: Observable<LoadIfNecessary<TModel>>) =>

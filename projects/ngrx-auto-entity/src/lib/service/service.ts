@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { IEntityInfo } from '../actions/entity-info';
@@ -15,7 +15,7 @@ import { IEntityWithPageInfo, IEntityWithRangeInfo } from './wrapper-models';
  */
 @Injectable()
 export class NgrxAutoEntityService {
-  constructor(private injector: Injector) {}
+  private readonly injector = inject(Injector);
 
   load<TModel>(entityInfo: IEntityInfo, keys: any, criteria?: any): Observable<IEntityRef<TModel>> {
     return callService<TModel, TModel, IEntityRef<TModel>>(

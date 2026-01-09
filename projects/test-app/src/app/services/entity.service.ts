@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class EntityService implements IAutoEntityService<any> {
+  // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private http: HttpClient) {}
 
   load(entityInfo: IEntityInfo, keys: any): Observable<any> {
