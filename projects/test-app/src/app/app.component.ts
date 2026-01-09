@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { allAccounts, manyAccountsLoading } from './state/account.state';
 import { allCustomers, customerEditedById, customerEditEnded, manyCustomersLoadingIfNecessary } from './state/feature/customer.state';
@@ -14,6 +14,7 @@ export class AppComponent {
   allCustomers$ = this.store.select(allCustomers);
   allAccounts$ = this.store.select(allAccounts);
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private store: Store) {
     // accounts.loadAll();
     // customers.loadMany();

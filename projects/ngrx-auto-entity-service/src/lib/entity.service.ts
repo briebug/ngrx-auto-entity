@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntityIdentity, getKeyFromModel, IAutoEntityService, IEntityInfo } from '@briebug/ngrx-auto-entity';
 import { first, from, Observable, of, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,11 +9,8 @@ import { EntityCriteria } from './critera.model';
 
 @Injectable()
 export class EntityService implements IAutoEntityService<any> {
-  constructor(
-    private readonly http: HttpClient,
-    @Inject(AUTO_ENTITY_CONFIG)
-    private readonly config: AutoEntityServiceConfig
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly config = inject<AutoEntityServiceConfig>(AUTO_ENTITY_CONFIG);
 
   protected getUrlPrefix(operation: string, info: IEntityInfo, criteria?: EntityCriteria): Observable<string> {
     return typeof this.config.urlPrefix === 'string' ? of(this.config.urlPrefix) : from(this.config.urlPrefix(operation, info, criteria));

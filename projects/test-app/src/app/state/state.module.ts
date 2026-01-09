@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { ModuleWithProviders, NgModule, inject } from '@angular/core';
 import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer } from '@ngrx/router-store';
@@ -33,7 +33,12 @@ export class StateModule {
     };
   }
 
-  constructor(@Optional() @SkipSelf() parentModule: StateModule) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const parentModule = inject(StateModule, { optional: true, skipSelf: true });
+
     if (parentModule) {
       throw new Error('StateModule is already loaded. Import it in the AppModule only');
     }

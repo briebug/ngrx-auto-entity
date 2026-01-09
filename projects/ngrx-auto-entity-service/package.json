@@ -36,8 +36,8 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
     "rxjs": "^7.0.0",
     "@briebug/ngrx-auto-entity": "^19.0.0"
   },

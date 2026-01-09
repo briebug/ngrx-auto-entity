@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -14,6 +14,10 @@ import { EntityOperators } from './operators';
  */
 @Injectable()
 export class EntityEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
+  private readonly ifnOps = inject(EntityIfNecessaryOperators);
+
   load$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Load), this.ops.load()));
 
   loadIfNecessary$ = createEffect(() =>
@@ -71,6 +75,4 @@ export class EntityEffects {
   deleteManyByKeys$ = createEffect(() =>
     this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
   );
-
-  constructor(private actions$: Actions, private ops: EntityOperators, private ifnOps: EntityIfNecessaryOperators) {}
 }
