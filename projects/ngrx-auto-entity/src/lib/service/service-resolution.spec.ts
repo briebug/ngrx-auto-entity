@@ -1,6 +1,6 @@
 import { Injector, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { createReducer, StoreModule } from '@ngrx/store';
@@ -93,7 +93,7 @@ export class AltModule {}
 describe('Service Resolvers', () => {
   beforeEach(async () => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
       teardown: { destroyAfterEach: false }
     });
     await TestBed.configureTestingModule({
@@ -158,7 +158,7 @@ describe('Service Resolvers', () => {
         resolveServiceDeep(info, injector, [...getInjectors()]);
         fail('Expected injection exception!');
       } catch (error) {
-        expect(error.name).toBe('NullInjectorError');
+        expect(error.name).toBe('ɵNotFound');
       }
     });
   });

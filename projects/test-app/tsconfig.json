@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
+    "isolatedModules": true,
+    "emitDecoratorMetadata": false,
     "target": "es2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": false,

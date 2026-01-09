@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EntityIdentity } from '../types/entity-identity';
@@ -328,7 +328,7 @@ describe('NgRX Auto-Entity: Service', () => {
   describe('Angular Dependent', () => {
     beforeEach(() => {
       TestBed.resetTestEnvironment();
-      TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+      TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
         teardown: { destroyAfterEach: false }
       });
       TestBed.configureTestingModule({
