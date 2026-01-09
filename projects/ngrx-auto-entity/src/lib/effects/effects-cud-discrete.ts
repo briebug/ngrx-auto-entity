@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -9,88 +9,100 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class CreateEffect {
-  create$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Create), this.ops.create()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  create$: Observable<Action> = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Create), this.ops.create()));
 }
 
 @Injectable()
 export class CreateManyEffect {
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
+
   createMany$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(ofEntityAction(EntityActionTypes.CreateMany), this.ops.createMany())
   );
-
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
 }
 
 @Injectable()
 export class UpdateEffect {
-  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Update), this.ops.update()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Update), this.ops.update()));
 }
 
 @Injectable()
 export class UpdateManyEffect {
-  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpdateMany), this.ops.updateMany()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpdateMany), this.ops.updateMany()));
 }
 
 @Injectable()
 export class UpsertEffect {
-  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Upsert), this.ops.upsert()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  update$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Upsert), this.ops.upsert()));
 }
 
 @Injectable()
 export class UpsertManyEffect {
-  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpsertMany), this.ops.upsertMany()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  updateMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.UpsertMany), this.ops.upsertMany()));
 }
 
 @Injectable()
 export class ReplaceEffect {
-  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Replace), this.ops.replace()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  replace$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Replace), this.ops.replace()));
 }
 
 @Injectable()
 export class ReplaceManyEffect {
-  replaceMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.ReplaceMany), this.ops.replaceMany()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  replaceMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.ReplaceMany), this.ops.replaceMany()));
 }
 
 @Injectable()
 export class DeleteEffect {
-  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Delete), this.ops.delete()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  delete$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Delete), this.ops.delete()));
 }
 
 @Injectable()
 export class DeleteManyEffect {
-  deleteMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteMany), this.ops.deleteMany()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  deleteMany$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteMany), this.ops.deleteMany()));
 }
 
 @Injectable()
 export class DeleteByKeyEffect {
-  deleteByKey$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteByKey), this.ops.deleteByKey()));
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
 
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
+  deleteByKey$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteByKey), this.ops.deleteByKey()));
 }
 
 @Injectable()
 export class DeleteManyByKeysEffect {
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
+
   deleteManyByKeys$ = createEffect(() =>
     this.actions$.pipe(ofEntityAction(EntityActionTypes.DeleteManyByKeys), this.ops.deleteManyByKey())
   );
-
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
 }
