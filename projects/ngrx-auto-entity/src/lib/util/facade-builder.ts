@@ -1,7 +1,6 @@
-import { Signal, inject } from '@angular/core';
+import { Inject, inject, InjectionToken, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-
 import { Clear } from '../actions/actions';
 import { Create, CreateMany } from '../actions/create-actions';
 import { Delete, DeleteMany } from '../actions/delete-actions';
@@ -26,6 +25,10 @@ import { NGRX_AUTO_ENTITY_APP_STORE } from '../effects/if-necessary-operator-uti
 import { Observable } from 'rxjs';
 import { IEntityDictionary } from './entity-state';
 
+const NAE_UNDEFINED = new InjectionToken<TNew<any>>('@briebug/ngrx-auto-entity Undefined', {
+  factory: () => undefined
+});
+
 /**
  * Builds a new facade class for the specified entity model and parent state.
  * @param selectors - the selector map for the specified entity
@@ -42,7 +45,7 @@ export const buildFacade = <TModel, TParentState>(
     /** @deprecated Use the empty constructor instead. The model type will be provided by `buildState`, and the store by `provideStore` or `withCustomStore`. */
     constructor(modelType: TNew<TModel>, store: Store<any>);
     constructor();
-    constructor(modelType?: TNew<TModel>, store?: Store<any>) {
+    constructor(@Inject(NAE_UNDEFINED) modelType?: TNew<TModel>, @Inject(NAE_UNDEFINED) store?: Store<any>) {
       this.modelType = modelType ?? Type;
       this.store = store ?? inject(NGRX_AUTO_ENTITY_APP_STORE);
 
