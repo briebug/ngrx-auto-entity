@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 
 import { ofEntityAction } from '../actions/action-operators';
@@ -7,6 +7,9 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class LoadEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
+
   load$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Load), this.ops.load()));
 
   loadAll$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadAll), this.ops.loadAll()));
@@ -16,6 +19,4 @@ export class LoadEffects {
   loadPage$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadPage), this.ops.loadPage()));
 
   loadRange$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.LoadRange), this.ops.loadRange()));
-
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
 }

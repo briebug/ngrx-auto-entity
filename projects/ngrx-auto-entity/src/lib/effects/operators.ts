@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Create, CreateFailure, CreateMany, CreateManyFailure, CreateManySuccess, CreateSuccess } from '../actions/create-actions';
@@ -68,7 +68,7 @@ export const handleError = <TModel, TErrorAction>(
  */
 @Injectable()
 export class EntityOperators {
-  constructor(private entityService: NgrxAutoEntityService) {}
+  private readonly entityService = inject(NgrxAutoEntityService);
 
   load<TModel>() {
     return (source: Observable<Load<TModel>>) =>

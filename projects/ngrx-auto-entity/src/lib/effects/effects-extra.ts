@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 
 import { ofEntityAction } from '../actions/action-operators';
@@ -7,6 +7,9 @@ import { EntityOperators } from './operators';
 
 @Injectable()
 export class ExtraEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly ops = inject(EntityOperators);
+
   select$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Select), this.ops.select()));
 
   selectByKey$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.SelectByKey), this.ops.selectByKey()));
@@ -42,6 +45,4 @@ export class ExtraEffects {
   change$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.Change), this.ops.change()));
 
   endEdit$ = createEffect(() => this.actions$.pipe(ofEntityAction(EntityActionTypes.EndEdit), this.ops.endEdit()));
-
-  constructor(private actions$: Actions, private ops: EntityOperators) {}
 }

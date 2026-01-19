@@ -1,6 +1,6 @@
 import { isSignal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Entity } from '../decorators/entity-decorator';
 import { Key } from '../decorators/key-decorator';
@@ -25,7 +25,7 @@ const makeTestModel = makeEntity(Test);
 describe('buildFacade()', () => {
   beforeEach(() => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
       teardown: { destroyAfterEach: false }
     });
     TestBed.configureTestingModule({
