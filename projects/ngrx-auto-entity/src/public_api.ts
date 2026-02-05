@@ -200,3 +200,6 @@ export {
   UpsertManyEffect
 } from './lib/effects/effects-cud-discrete';
 export { NGRX_AUTO_ENTITY_APP_STORE } from './lib/effects/if-necessary-operator-utils';
+
+/* internal */
+export { NAE_UNDEFINED as ɵNAE_UNDEFINED } from './lib/util/util-di';

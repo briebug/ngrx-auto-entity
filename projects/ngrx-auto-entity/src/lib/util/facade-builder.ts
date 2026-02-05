@@ -24,10 +24,7 @@ import { TNew } from '../actions/model-constructor';
 import { NGRX_AUTO_ENTITY_APP_STORE } from '../effects/if-necessary-operator-utils';
 import { Observable } from 'rxjs';
 import { IEntityDictionary } from './entity-state';
-
-const NAE_UNDEFINED = new InjectionToken<TNew<any>>('@briebug/ngrx-auto-entity Undefined', {
-  factory: () => undefined
-});
+import { NAE_UNDEFINED } from './util-di';
 
 /**
  * Builds a new facade class for the specified entity model and parent state.
