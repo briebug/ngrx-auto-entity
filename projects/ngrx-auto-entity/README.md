@@ -35,16 +35,17 @@ NgRx Auto-Entity is compatible with the following versions.
 
 | NgRx Auto Entity | Angular Core | NgRx        | RxJs |
 | ---------------- | ------------ | ----------- | ---- |
+| 20.x             | 20.x         | 20.x        | 7.x  |
 | 19.x             | 19.x         | 19.x        | 7.x  |
 | 18.x             | 18.x         | 18.x        | 7.x  |
 | 17.x             | 17.x         | 17.x        | 7.x  |
 | 13.x             | 13.x - 16.x  | 13.x - 16.x | 7.x  |
 | 12.x             | 12.x         | 12.x        | 6.x  |
 
-[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E12.x-blue.svg)](https://github.com/angular/angular)
-[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E12.x-blue.svg)](https://github.com/angular/angular)
-[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E12.x-blue.svg)](https://github.com/ngrx/platform)
-[![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E6.x-blue.svg)](https://github.com/reactivex/rxjs)
+[![Deps-AngularCore](https://img.shields.io/badge/@angular/core-%5E20.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-AngularCommon](https://img.shields.io/badge/@angular/common-%5E20.x-blue.svg)](https://github.com/angular/angular)
+[![Deps-NgRxStore](https://img.shields.io/badge/@ngrx/store-%5E20.x-blue.svg)](https://github.com/ngrx/platform)
+[![Deps-RxJs](https://img.shields.io/badge/rxjs-%5E7.x-blue.svg)](https://github.com/reactivex/rxjs)
 
 # Installation
 
