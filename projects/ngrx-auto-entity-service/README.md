@@ -20,6 +20,7 @@ NgRx Auto-Entity is compatible with the following versions.
 | NgRx Auto Entity Service | NgRx Auto Entity | Angular Core | NgRx        | RxJs |
 | ------------------------ | ---------------- | ------------ | ----------- | ---- |
 | 21.x                     | 21.x             | 21.x         | 21.x        | 7.x  |
+| 20.x                     | 20.x             | 20.x         | 20.x        | 7.x  |
 | 19.x                     | 19.x             | 19.x         | 19.x        | 7.x  |
 | 18.x                     | 18.x             | 18.x         | 18.x        | 7.x  |
 | 17.x                     | 17.x             | 17.x         | 17.x        | 7.x  |
