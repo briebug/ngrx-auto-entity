@@ -95,7 +95,7 @@
     "@eslint/eslintrc": "^2.1.4",
     "@eslint/js": "^9.39.4",
     "@ngrx/store-devtools": "^21.0.1",
-    "@nx/angular": "^22.5.4",
+    "@nx/angular": "^22.6.0",
     "@nx/eslint": "^22.5.4",
     "@nx/eslint-plugin": "^22.5.4",
     "@nx/jest": "^22.5.4",
