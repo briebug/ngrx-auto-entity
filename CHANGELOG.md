@@ -1,3 +1,31 @@
+<a name="17.0.0"></a>
+
+# [17.0.0](https://github.com/briebug/ngrx-auto-entity/compare/13.0.2...17.0.0) Release (CHANGEME)
+
+### Features
+
+- **library:** Adds support for Angular 17.
+- **module:** Adds `provideAutoEntityStore` to provide auto entity at the root of an application.
+- **module:** Adds `provideAutoEntityState` to provide auto entity at the state level of an application.
+- **module:** Adds `provideAutoEntityService` to provide auto entity service.
+- **module:** Adds `provideEntityService` to provide a service for a given entity.
+- **facades:** Adds signals for each selector.
+- **entity service:** Adds support for `createMany`, `updateMany`, `replaceMany`, `deleteMany`, and `deleteManyByKeys`.
+
+### Changes
+
+- **facades:** Updates the base facade class constructor's arguments to be optional.
+- **module:** Deprecates `NgrxAutoEntityModule` in favor of `provideAutoEntityStore` and `provideAutoEntityState` instead.
+- **module:** Deprecates `NgrxAutoEntityServiceModule` in favor of `provideAutoEntityService`
+
+### Breaking Changes !!
+
+- **selectors:** Removes `selectCustomSorted`. Users should instead use the `entityComparer` function in a custom selector.
+
+### Bug Fix
+
+- **entity service:** Fixes issue with the operation not being passed to the url prefix resolver
+
 <a name="13.0.2"></a>
 
 # [17.0.0]() Release
