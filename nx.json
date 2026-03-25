@@ -29,7 +29,14 @@
     },
     "test": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js", { "externalDependencies": ["jest"] }],
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js",
+        {
+          "externalDependencies": ["jest"]
+        }
+      ],
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "{projectRoot}/jest.config.cts",
@@ -83,5 +90,6 @@
         "targetName": "test"
       }
     }
-  ]
+  ],
+  "analytics": false
 }
