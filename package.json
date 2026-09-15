@@ -121,7 +121,7 @@
     "jest-environment-jsdom": "^30.3.0",
     "jest-extended": "^7.0.0",
     "jest-jasmine2": "^30.3.0",
-    "jest-junit": "^16.0.0",
+    "jest-junit": "^17.0.0",
     "jest-preset-angular": "^16.1.1",
     "jest-util": "^30.3.0",
     "json-server": "^0.17.4",
