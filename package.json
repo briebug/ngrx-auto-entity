@@ -82,7 +82,6 @@
     "@ngrx/store": "^21.0.1",
     "rxjs": "~7.8.2",
     "tslib": "^2.3.1",
-    "uuidv4": "^5.0.1",
     "zone.js": "~0.16.1"
   },
   "devDependencies": {
