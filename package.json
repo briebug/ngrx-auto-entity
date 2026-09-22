@@ -137,5 +137,9 @@
     "ts-node": "~10.9.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "8.57.0"
+  },
+  "overrides": {
+    "http-proxy-middleware": "^3.0.7",
+    "uuid": "^14.0.2"
   }
 }
