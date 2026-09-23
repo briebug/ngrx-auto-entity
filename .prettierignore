@@ -7,3 +7,5 @@
 
 projects/ngrx-auto-entity/src/public_api.ts
 projects/ngrx-auto-entity-service/src/public_api.ts
+
+.nx/self-healing

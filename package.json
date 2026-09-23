@@ -82,7 +82,6 @@
     "@ngrx/store": "^21.0.1",
     "rxjs": "~7.8.2",
     "tslib": "^2.3.1",
-    "uuidv4": "^5.0.1",
     "zone.js": "~0.16.1"
   },
   "devDependencies": {
@@ -95,13 +94,13 @@
     "@eslint/eslintrc": "^2.1.4",
     "@eslint/js": "^9.39.4",
     "@ngrx/store-devtools": "^21.0.1",
-    "@nx/angular": "~22.6.0",
-    "@nx/eslint": "~22.6.0",
-    "@nx/eslint-plugin": "~22.6.0",
-    "@nx/jest": "~22.6.0",
-    "@nx/js": "~22.6.0",
-    "@nx/web": "~22.6.0",
-    "@nx/workspace": "~22.6.0",
+    "@nx/angular": "22.7.12",
+    "@nx/eslint": "22.7.12",
+    "@nx/eslint-plugin": "22.7.12",
+    "@nx/jest": "22.7.12",
+    "@nx/js": "22.7.12",
+    "@nx/web": "22.7.12",
+    "@nx/workspace": "22.7.12",
     "@schematics/angular": "^21.2.2",
     "@swc-node/register": "~1.11.1",
     "@swc/core": "~1.15.18",
@@ -122,14 +121,14 @@
     "jest-environment-jsdom": "^30.3.0",
     "jest-extended": "^7.0.0",
     "jest-jasmine2": "^30.3.0",
-    "jest-junit": "^16.0.0",
+    "jest-junit": "^17.0.0",
     "jest-preset-angular": "^16.1.1",
     "jest-util": "^30.3.0",
     "json-server": "^0.17.4",
     "jsonc-eslint-parser": "^2.4.2",
     "lint-staged": "^16.4.0",
     "ng-packagr": "^21.2.0",
-    "nx": "~22.6.0",
+    "nx": "22.7.12",
     "postcss": "^8.5.14",
     "postcss-url": "~10.1.4",
     "prettier": "^2.8.8",
@@ -138,5 +137,9 @@
     "ts-node": "~10.9.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "8.57.0"
+  },
+  "overrides": {
+    "http-proxy-middleware": "^3.0.7",
+    "uuid": "^14.0.2"
   }
 }
